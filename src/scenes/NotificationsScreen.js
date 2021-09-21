@@ -10,7 +10,6 @@ import NotificationIcon from '_atoms/NotificationIcon'
 import { Colors, Spacing, Typography } from '_styles'
 import { scaleSize } from '_styles/mixins'
 import NotificationCard from '_molecules/NotificationCard'
-import BellSlashIcon from '_assets/images/bell-slash.svg'
 
 const NotificationsScreen = (props) => {
     const {user} = React.useContext(AuthStoreContext);
@@ -29,7 +28,6 @@ const NotificationsScreen = (props) => {
           columns={1}
           noDataText={"You don't have notifications"}
           noDataComponent={() => <View style={styles.noDataWrapper}>
-              <BellSlashIcon fill={Colors.GRAY_DARK + '70'} width={scaleSize(78)} height={scaleSize(78)}/>
               <Text style={styles.noDataText}>You don't have any notifications at the moment. Make a donation, buy a ticket, or add your favorite organizations to receive notifications.</Text>
           </View>}
           _renderLoader={(notification, index) => <NotificationCardLoader style={{width: '100%'}} key={index}/>}

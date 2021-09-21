@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { Colors, Typography } from '../../styles'
-import BellIcon from '_assets/images/bell.svg'
 import { scaleSize } from '_styles/mixins'
 import { useNavigation } from '@react-navigation/native';
 import { AuthStoreContext } from '_stores'
@@ -13,7 +12,6 @@ const NotificationIcon = observer((props) => {
 
     return (
       <Pressable onPress={() => props.active ? navigation.navigate('Home.Dashboard') : navigation.navigate('Notifications')} style={styles.container}>
-          <BellIcon height={scaleSize(25)} width={scaleSize(25)} fill="#ffffff"/>
           {notificationsCount > 0 ? (
               <View style={styles.bubble}>
                   <Text style={styles.bubbleText}>{notificationsCount}</Text>

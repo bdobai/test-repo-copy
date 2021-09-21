@@ -88,7 +88,7 @@ const AppNavigator = observer(() => {
         return <Spinner visible={true}/>
     }
     return (
-      !authStore.user.id && false ?
+      !authStore.user.id ?
         <AuthNavigator/>
         : (
           <RootStack.Navigator headerMode={'none'}>
