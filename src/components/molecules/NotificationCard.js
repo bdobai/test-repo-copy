@@ -5,9 +5,6 @@ import { Colors, Spacing, Typography } from '../../styles/index.js'
 import Card from '_atoms/Card'
 import { scaleSize } from '_styles/mixins'
 import { beautify, dateFormat } from '_utils/helpers'
-import DonationIcon from '_assets/images/notifications/donation.svg'
-import TicketIcon from '_assets/images/account/ticket.svg'
-import BellIcon from '_assets/images/bell.svg'
 import { getImage } from '_utils/image'
 import { useNavigation } from '@react-navigation/native'
 
@@ -17,18 +14,6 @@ const NotificationCard = (props) => {
     const getNotificationImage = () => {
         if (props.notification.image) {
             return <Image style={styles.image} source={{uri: getImage(props.notification.image, 50, 50, false)}}/>
-        }
-
-        switch (props.notification.type) {
-            case 'BUY_TICKETS': {
-                return <TicketIcon fill={'#D0DCE3'} height={scaleSize(25)} width={scaleSize(25)}/>
-            }
-            case 'NEW_DONATION': {
-                return <DonationIcon fill={'#D0DCE3'} height={scaleSize(50)}/>
-            }
-            case 'NEW_EVENT': case 'NEW_ORGANIZATION': case 'NEW_FUNDRAISER': {
-                return <BellIcon fill={'#D0DCE3'} height={scaleSize(50)}/>
-            }
         }
         return null;
     }
