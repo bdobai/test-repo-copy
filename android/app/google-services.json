@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "885571467822",
+    "project_id": "costa-ac52e",
+    "storage_bucket": "costa-ac52e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885571467822:android:24446b61169f591bc97dbf",
+        "android_client_info": {
+          "package_name": "com.spoonity.costacoffee3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885571467822-p2tj8nc39htbk7bqqakrnk9g264inom1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKjv-rdJoCY8TPkbwz1lvu2G_uLojZnRk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885571467822-p2tj8nc39htbk7bqqakrnk9g264inom1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "885571467822-jaq2l5m5n17v9vj1jsklh5rktjs27pvm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.spoonity.costacoffee2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
