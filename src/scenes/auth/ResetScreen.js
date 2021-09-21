@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { scaleSize } from '_styles/mixins'
 
 const ResetScreen = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
     const { email } = props.route.params;
 
     const codeRef = React.useRef()
@@ -50,7 +50,7 @@ const ResetScreen = (props) => {
                         <Controller
                           control={control}
                           onFocus={() => {codeRef.current.focus()}}
-                          render={({ onChange, onBlur, value }) => (
+                          render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                               onBlur={onBlur}
                               onChangeText={value => onChange(value)}
@@ -67,7 +67,7 @@ const ResetScreen = (props) => {
                         <Controller
                           control={control}
                           onFocus={() => {codeRef.current.focus()}}
-                          render={({ onChange, onBlur, value }) => (
+                          render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                               onBlur={onBlur}
                               onChangeText={value => onChange(value)}

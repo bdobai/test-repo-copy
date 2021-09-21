@@ -132,7 +132,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {firstNameRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             onBlur={onBlur}
@@ -149,7 +149,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {lastNameRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             onBlur={onBlur}
@@ -166,7 +166,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {emailRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             autoCapitalize={'none'}
@@ -185,7 +185,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {passwordRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             autoCapitalize={'none'}
@@ -205,7 +205,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {countryRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
@@ -223,7 +223,7 @@ const AccountInfoScreen = observer((props) => {
                     <Controller
                         control={control}
                         onFocus={() => {phoneRef.current.focus()}}
-                        render={({ onChange, onBlur, value }) => (
+                        render={({ field: { onChange, onBlur, value } }) => (
                         <TextField
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
@@ -243,7 +243,7 @@ const AccountInfoScreen = observer((props) => {
                             <Controller
                                 control={control}
                                 onFocus={() => {dayRef.current.focus()}}
-                                render={({ onChange, onBlur, value }) => (
+                                render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}
@@ -261,7 +261,7 @@ const AccountInfoScreen = observer((props) => {
                             <Controller
                                 control={control}
                                 onFocus={() => {monthRef.current.focus()}}
-                                render={({ onChange, onBlur, value }) => {
+                                render={({ field: { onChange, onBlur, value } }) => {
                                     return <TextField
                                     type={'select'}
                                     items={states}
@@ -278,7 +278,7 @@ const AccountInfoScreen = observer((props) => {
                             <Controller
                                 control={control}
                                 onFocus={() => {yearRef.current.focus()}}
-                                render={({ onChange, onBlur, value }) => (
+                                render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                     onBlur={onBlur}
                                     onChangeText={value => onChange(value)}

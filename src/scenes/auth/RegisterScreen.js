@@ -14,7 +14,7 @@ import { scaleSize } from '_styles/mixins'
 import CheckBox from '_components/atoms/CheckBox'
 
 const RegisterScreen = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
     const nameRef = React.useRef()
     const emailRef = React.useRef()
@@ -57,7 +57,7 @@ const RegisterScreen = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {emailRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
@@ -77,7 +77,7 @@ const RegisterScreen = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {passwordRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
@@ -102,7 +102,7 @@ const RegisterScreen = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {confirmPasswordRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, Pressable, View, Dimensions, ScrollView, StatusBar } from 'react-native';
+import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView } from 'react-native';
 import Header from '_components/molecules/Header'
 import Logo from '_assets/images/logo.svg'
 import { Colors, Spacing, Typography } from '_styles'
@@ -9,7 +9,6 @@ import { useForm, Controller } from "react-hook-form";
 import { request } from '_utils/request'
 import { emailValidator } from '_utils/validators'
 import { AuthStoreContext, NotificationsStoreContext } from '_stores'
-import DeviceInfo from 'react-native-device-info'
 import { scaleSize } from '_styles/mixins'
 // import analytics from '@react-native-firebase/analytics'
 
@@ -26,16 +25,19 @@ const LoginScreen = (props) => {
     const notificationsStore = React.useContext(NotificationsStoreContext);
 
     const onSubmit = data => {
-        let deviceId = DeviceInfo.getDeviceId();
-
         setLoading(true)
-        request('/auth/login', {
+        request('/user/authenticate.json', {
             method: 'POST',
-            data: {...data, ...{app_device_id: deviceId}},
+            data: {
+                "email_address": data.email,
+                "password": data.password,
+                "vendor": 107430
+              },
             withToken: false,
             success: function (response) {
+                console.log(response)
                 setLoading(false)
-                authStore.getUser()
+                // authStore.getUser()
             },
             error: () => {
                 setLoading(false)

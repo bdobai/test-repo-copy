@@ -12,7 +12,7 @@ import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_2.svg'
 
 const ContactScreen = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
     const titleRef = React.useRef()
     const messageRef = React.useRef()
     const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ const ContactScreen = (props) => {
                         <Controller
                             control={control}
                             onFocus={() => {titleRef.current.focus()}}
-                            render={({ onChange, onBlur, value }) => (                          
+                            render={({ field: { onChange, onBlur, value } }) => (                          
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -61,7 +61,7 @@ const ContactScreen = (props) => {
                         <Controller
                             control={control}
                             onFocus={() => {messageRef.current.focus()}}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onChange, onBlur, value } }) => (
                                 <View style={styles.textAreaContainer} >
                                 <TextInput
                                     style={styles.textArea}

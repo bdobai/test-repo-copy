@@ -13,7 +13,7 @@ import DeviceInfo from 'react-native-device-info';
 import { scaleSize } from '_styles/mixins'
 
 const RegisterScreen_2 = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
     const nameRef = React.useRef()
     const countryRef = React.useRef()
@@ -57,7 +57,7 @@ const RegisterScreen_2 = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {nameRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
@@ -76,7 +76,7 @@ const RegisterScreen_2 = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {countryRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
@@ -93,7 +93,7 @@ const RegisterScreen_2 = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {phoneRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}

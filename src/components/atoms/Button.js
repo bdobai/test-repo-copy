@@ -99,7 +99,7 @@ class Button extends Component {
     render () {
         return (
           <Pressable
-            android_ripple={{color: Colors.SECONDARY + 40}}
+            android_ripple={{color: this.props.type === 'secondary' ? Colors.PRIMARY + 40 : Colors.SECONDARY + 40}}
 
             disabled={this.props.disabled || this.props.loading}
             style={({pressed}) => pressed ? this.getBodyPressedStyle() : this.getBodyStyle()}

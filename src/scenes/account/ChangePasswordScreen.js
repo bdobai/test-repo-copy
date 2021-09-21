@@ -12,7 +12,7 @@ import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_2.svg'
 
 const ChangePasswordScreen = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
     const currentPasswordRef = React.useRef()
     const newPasswordRef = React.useRef()
     const repeatPasswordRef = React.useRef()
@@ -42,7 +42,7 @@ const ChangePasswordScreen = (props) => {
                         <Controller
                             control={control}
                             onFocus={() => {passwordRef.current.focus()}}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -69,7 +69,7 @@ const ChangePasswordScreen = (props) => {
                         <Controller
                             control={control}
                             onFocus={() => {passwordRef.current.focus()}}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -96,7 +96,7 @@ const ChangePasswordScreen = (props) => {
                         <Controller
                             control={control}
                             onFocus={() => {passwordRef.current.focus()}}
-                            render={({ onChange, onBlur, value }) => (
+                            render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}

@@ -110,7 +110,7 @@ const AddCreditCardScreen = (props) => {
                         <Controller
                           control={control}
                           onFocus={() => {nameRef.current.focus()}}
-                          render={({ onChange, onBlur, value }) => (
+                          render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                               autoCompleteType={'off'}
                               autoCorrect={false}
@@ -129,7 +129,7 @@ const AddCreditCardScreen = (props) => {
                         <Controller
                           control={control}
                           onFocus={() => {cardRef.current.focus()}}
-                          render={({ onChange, onBlur, value }) => (
+                          render={({ field: { onChange, onBlur, value } }) => (
                             <TextField
                               autoCompleteType={'off'}
                               autoCorrect={false}
@@ -155,7 +155,7 @@ const AddCreditCardScreen = (props) => {
                                 <Controller
                                   control={control}
                                   onFocus={() => {dateRef.current.focus()}}
-                                  render={({ onChange, onBlur, value }) => (
+                                  render={({ field: { onChange, onBlur, value } }) => (
                                     <TextField
                                       autoCompleteType={'off'}
                                       autoCorrect={false}
@@ -179,7 +179,7 @@ const AddCreditCardScreen = (props) => {
                                 <Controller
                                   control={control}
                                   onFocus={() => {cvcRef.current.focus()}}
-                                  render={({ onChange, onBlur, value }) => (
+                                  render={({ field: { onChange, onBlur, value } }) => (
                                       <TextField
                                         autoCompleteType={'off'}
                                         autoCorrect={false}
@@ -203,7 +203,7 @@ const AddCreditCardScreen = (props) => {
                                 <Controller
                                   control={control}
                                   onFocus={() => {zipRef.current.focus()}}
-                                  render={({ onChange, onBlur, value }) => (
+                                  render={({ field: { onChange, onBlur, value } }) => (
                                     <TextField
                                       autoCompleteType={'off'}
                                       autoCorrect={false}

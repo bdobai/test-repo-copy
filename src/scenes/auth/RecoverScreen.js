@@ -12,16 +12,19 @@ import { Controller, useForm } from 'react-hook-form'
 import { scaleSize } from '_styles/mixins'
 
 const RecoverScreen = (props) => {
-    const { control, handleSubmit, errors } = useForm();
+    const { control, handleSubmit, formState: { errors } } = useForm();
 
     const emailRef = React.useRef()
     const [loading, setLoading] = useState(false);
 
     function onSubmit(data) {
         setLoading(true)
-        request('/auth/recover', {
+        request('/user/password-reset/reset', {
             method: 'POST',
-            data: data,
+            data: {
+                "email_address": data.email,
+                "vendor": 107430
+              },
             withToken: false,
             success: function (response) {
                 props.navigation.navigate('Reset', {email: data.email})
@@ -45,7 +48,7 @@ const RecoverScreen = (props) => {
                             <Controller
                               control={control}
                               onFocus={() => {emailRef.current.focus()}}
-                              render={({ onChange, onBlur, value }) => (
+                              render={({ field: { onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
