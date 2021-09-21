@@ -1,4 +1,4 @@
-import { baseurl } from '../config/settings'
+import { baseurl, vendor } from '../config/settings'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import React from 'react'
 import { AuthStoreContext, NotificationsStoreContext } from '_stores'
@@ -51,25 +51,37 @@ export async function request (url, options) {
         'Cache-Control': 'no-cache',
     }
 
-    if (options.withToken !== false) {
-        try {
-            const value = await AsyncStorage.getItem('JWTToken')
-            if (value !== null) {
-                headers['Authorization'] = 'Bearer ' + value
-            }
-        } catch (error) {
-        }
-    }
     if(options.headers) {
         for(let header in options.headers) {
             headers[header] = options.headers[header]
         }
     }
+    if (options.withToken) {
+        options.data.vendor = vendor;
+    }
+
+    if (options.withToken !== false) {
+        try {
+            const value = await AsyncStorage.getItem('session_key')
+            if (value !== null) {
+                if (url.indexOf('?') > -1) {
+                    url = url + '&session_key=' + value
+                } else {
+                    url = url + '?session_key=' + value
+                }
+            }
+        } catch (error) {
+
+        }
+    }else{
+        options.data.vendor = vendor;
+    }
 
     if (method === 'GET' && options.data) {
         // let query = Object.entries(options.data).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(options.data[k]))
         //   .join('&')
-        let query = encodeQueryData(options.data)
+
+        let query = encodeQueryData(options.data);
 
         if (url.indexOf('?') > -1) {
             url = url + '&' + query
@@ -87,45 +99,34 @@ export async function request (url, options) {
     }
 
     console.log({
-        baseurl: baseurl + '/api',
+        baseurl: baseurl,
         url: url,
         headers: headers,
         method: method,
         body: method === 'POST' ? body : undefined,
     });
 
-    fetch(baseurl + '/api' + url, {
+    fetch(baseurl + url, {
         method: method,
         headers: headers,
         body: method === 'POST' ? body : undefined,
     })
       .then(response => {
-          if (url.indexOf('refresh-token') > -1 && response.headers.map['authorization']) {
-              let token = response.headers.map['authorization'].replace('Bearer ', '')
-              AsyncStorage.setItem('JWTToken', token)
-              // console.log('set JWTToken', token)
-          }
-          if (response.headers.map['token']) {
-              AsyncStorage.setItem('JWTToken', response.headers.map['token'])
-              // console.log('set JWTToken', response.headers.map['token'])
-          }
+          // if (url.indexOf('refresh-token') > -1 && response.headers.map['authorization']) {
+          //     let token = response.headers.map['authorization'].replace('Bearer ', '')
+          //     AsyncStorage.setItem('session_key', token)
+          // }
+          // if (response.headers.map['token']) {
+          //     AsyncStorage.setItem('session_key', response.headers.map['token'])
+          // }
           httpCode = response.status
           return response.json()
       })
       .then(function (response) {
           console.log(response, httpCode)
           if (response.error === 'token_invalid') {
-              AsyncStorage.removeItem('JWTToken')
+              AsyncStorage.removeItem('session_key')
               AuthStoreContext._currentValue.logout()
-          }
-          if (response.blocked) {
-              AsyncStorage.removeItem('JWTToken')
-              AuthStoreContext._currentValue.logout()
-              NotificationsStoreContext._currentValue.addNotification({
-                  title: response.message,
-                  description: 'Contact support to reactivate your account.',
-                  type: 'error'
-              })
           }
           if (httpCode === 401 && (response.message === 'token_expired')) {
               if(allowRefresh) {
@@ -169,39 +170,21 @@ export async function request (url, options) {
                   options.success(response)
               }
           } else {
-              if (!options.noAlertSystem && [400, 422].indexOf(httpCode) > -1) {
-                  if (httpCode === 422) {
-                      if (typeof response === 'object') {
-                          if (typeof response.errors !== 'undefined') {
-                              for (var key in response.errors) {
-                                  NotificationsStoreContext._currentValue.addNotification({
-                                      title: 'Error',
-                                      description: response.errors[key],
-                                      type: 'error'
-                                  })
-                              }
-                          }else{
-                              for (var key in response) {
-                                  NotificationsStoreContext._currentValue.addNotification({
-                                      title: 'Error',
-                                      description: response.error,
-                                      type: 'error'
-                                  })
-                              }
-                          }
-                      }
-                  } else if (response.message) {
+              if (!options.noAlertSystem) {
+                 if (response.message) {
                       NotificationsStoreContext._currentValue.addNotification({
                           title: 'Error',
                           description: response.message,
                           type: 'error'
                       })
                   } else if (response.error) {
-                      NotificationsStoreContext._currentValue.addNotification({
-                          title: 'Error',
-                          description: response.error,
-                          type: 'error'
-                      })
+                     response.error.errors.forEach(error => {
+                         NotificationsStoreContext._currentValue.addNotification({
+                             title: 'Error',
+                             description: error.message,
+                             type: 'error'
+                         })
+                     })
                   } else if (typeof response === 'object') {
                       for (var key in response) {
                           if (response.hasOwnProperty(key)) {
@@ -230,9 +213,9 @@ export async function request (url, options) {
           //     }
       })
       .catch((response) => {
-          console.log(response)
+          console.log('catch', response)
           if (response.error === 'token_invalid') {
-              AsyncStorage.removeItem('JWTToken')
+              AsyncStorage.removeItem('session_key')
               AuthStoreContext._currentValue.logout()
           }
           if (httpCode === 401 && (response.message === 'token_expired')) {
@@ -258,19 +241,12 @@ export async function request (url, options) {
           if (options.error) {
               options.error(response)
           }
-          if (!options.noAlertSystem && [400, 422].indexOf(httpCode) > -1) {
-              if (response.message) {
-                  NotificationsStoreContext._currentValue.addNotification({
-                      title: 'Error',
-                      description: response.message,
-                      type: 'error'
-                  })
-              }
-              if (response.errors) {
-                  response.errors.map(error => {
+          if (!options.noAlertSystem) {
+              if (response.error) {
+                  response.error.errors.forEach(error => {
                       NotificationsStoreContext._currentValue.addNotification({
                           title: 'Error',
-                          description: error,
+                          description: error.message,
                           type: 'error'
                       })
                   })

@@ -10,6 +10,7 @@ import { request } from '_utils/request'
 import { emailValidator } from '_utils/validators'
 import { AuthStoreContext, NotificationsStoreContext } from '_stores'
 import { scaleSize } from '_styles/mixins'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import analytics from '@react-native-firebase/analytics'
 
 const LoginScreen = (props) => {
@@ -31,13 +32,14 @@ const LoginScreen = (props) => {
             data: {
                 "email_address": data.email,
                 "password": data.password,
-                "vendor": 107430
               },
             withToken: false,
             success: function (response) {
                 console.log(response)
+                AsyncStorage.setItem('online_order_token', response.online_order_token)
+                AsyncStorage.setItem('session_key', response.session_identifier)
                 setLoading(false)
-                // authStore.getUser()
+                authStore.getUser()
             },
             error: () => {
                 setLoading(false)
