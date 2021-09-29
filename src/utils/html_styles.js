@@ -1,15 +1,14 @@
 import { Colors, Spacing, Typography } from '_styles'
 
 export const HTMLStyles = {
-    ignoredStyles: ['display', 'width', 'height', 'font-family', 'padding', 'text-style'],
+    ignoredStyles: ['display', 'width', 'height', 'fontFamily', 'padding', 'textStyle'],
     baseFontStyle: {
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_10,
-        lineHeight: Typography.LINE_HEIGHT_10,
-        color: Colors.GRAY_DARK,
+        fontSize: Typography.FONT_SIZE_14,
+        lineHeight: Typography.LINE_HEIGHT_20,
+        color: Colors.WHITE,
     },
     classesStyles:{
-
     },
     tagsStyles: {
         body: {
@@ -20,7 +19,7 @@ export const HTMLStyles = {
             fontFamily: Typography.FONT_PRIMARY_BOLD,
             fontWeight: 'normal',
             textDecorationLine: 'none',
-            color: Colors.PRIMARY
+            color: Colors.WHITE
         },
         p: {
             textAlign: 'justify',
@@ -45,7 +44,7 @@ export const HTMLStyles = {
             fontFamily: Typography.FONT_PRIMARY_BOLD,
             // fontWeight: 'normal',
             paddingBottom: Spacing.SPACING_3,
-            color: Colors.SECONDARY,
+            color: Colors.WHITE,
             fontSize: Typography.FONT_SIZE_16,
             lineHeight: Typography.LINE_HEIGHT_16,
         },
@@ -53,7 +52,7 @@ export const HTMLStyles = {
             fontFamily: Typography.FONT_PRIMARY_BOLD,
             // fontWeight: 'normal',
             paddingBottom: Spacing.SPACING_3,
-            color: Colors.SECONDARY,
+            color: Colors.WHITE,
             fontSize: Typography.FONT_SIZE_12,
             lineHeight: Typography.LINE_HEIGHT_12,
         },
@@ -63,19 +62,19 @@ export const HTMLStyles = {
             fontSize: Typography.FONT_SIZE_16,
             lineHeight: Typography.LINE_HEIGHT_16,
             paddingBottom: Spacing.SPACING_2,
-            color: Colors.SECONDARY
+            color: Colors.WHITE
         },
         h4: {
             fontFamily: Typography.FONT_PRIMARY_BOLD,
             // fontWeight: 'normal',
             paddingBottom: Spacing.SPACING_2,
-            color: Colors.SECONDARY
+            color: Colors.WHITE
         },
         h5: {
             fontFamily: Typography.FONT_PRIMARY_BOLD,
             // fontWeight: 'normal',
             paddingBottom: Spacing.SPACING_2,
-            color: Colors.SECONDARY
+            color: Colors.WHITE
         },
         img: {maxWidth: '100%'},
     }

@@ -10,6 +10,7 @@ import { scaleSize } from '_styles/mixins'
 import { AuthStoreContext } from '_stores'
 import Logo from '_assets/images/logo_2.svg'
 import BackButton from '_atoms/BackButton'
+import {Linking} from 'react-native'
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -29,6 +30,11 @@ const AccountSettingsScreen = (props) => {
               },
           ],
         );
+    }
+
+    const email = 'support_cc@cc.com';
+    const sendEmail = () => {
+        Linking.openURL('mailto:'+{email})
     }
 
     return <View style={ styles.settingsScreen }>
@@ -62,7 +68,7 @@ const AccountSettingsScreen = (props) => {
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
                             </>
                         </Pressable>
-                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Support')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
+                        <Pressable onPress={() => sendEmail()} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
                             <>
                                 <Text style={styles.listItemText}>Support</Text>
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>

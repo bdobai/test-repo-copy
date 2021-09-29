@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text } from 'react-native'
 import Header from '_components/molecules/Header'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -7,23 +7,44 @@ import BackButton from '_atoms/BackButton'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_2.svg'
-
-const terms = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-+ 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit'
-+ 'in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt'
-+ ' mollit anim id est laborum.'
-+ 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit'
-+ 'in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt'
-+ ' mollit anim id est laborum.'
+import HTMLView from '_components/atoms/HTMLView';
 
 const TermsScreen = (props) => {
+    const [title, setTitle] = React.useState([])
+    const [content, setContent] = React.useState([])
+    const [loading, setLoading] = useState(false);
+
+    const getTerms = () => {
+        setLoading(true);
+        request('/vendor/content/terms-of-service.json', {
+            method: 'GET',
+            data: {
+                "vendor": 107430
+            },
+            withToken: false,
+            success: function (response) {
+                setTitle(response.title);
+                setContent(response.content);
+                setLoading(false);
+            },
+            error: (error) => {
+                console.log(error);
+                setLoading(false);
+            }
+        });
+    }
+    
+    useEffect(() => {
+        getTerms();
+    }, []);
+
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.privacyScreen}>
         <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
-        <Text style={styles.title}>TERMS OF SERVICE</Text>
+        <Text style={styles.title}>{title}</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
                 <Container style={ styles.container }>
-                    <Text style={styles.text}>{terms}</Text>
+                    <HTMLView loading={loading} html={content}></HTMLView>
                 </Container>
             </SafeAreaView>
         </ScrollView>        
@@ -38,12 +59,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    text: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_14,
-        lineHeight: Typography.LINE_HEIGHT_20,
-    },
     title: {
+        textTransform: 'uppercase',
         color: Colors.SECONDARY_LIGHT,
         fontSize: Typography.FONT_SIZE_13,
         lineHeight: Typography.LINE_HEIGHT_13,

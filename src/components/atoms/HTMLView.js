@@ -10,7 +10,7 @@ const HTMLView = props => {
     }
     return <HTML source={{ html: props.html }}
         imagesMaxWidth={Dimensions.get('window').width}
-        onLinkPress={(evt, href) => this.handleUrl(href)}
+        onPress={(evt, href) => this.handleUrl(href)}
         classesStyles={HTMLStyles.classesStyles}
         baseFontStyle={HTMLStyles.baseFontStyle}
         ignoredStyles={HTMLStyles.ignoredStyles}
