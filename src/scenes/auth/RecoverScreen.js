@@ -10,6 +10,7 @@ import { request } from '_utils/request'
 import { emailValidator } from '_utils/validators'
 import { Controller, useForm } from 'react-hook-form'
 import { scaleSize } from '_styles/mixins'
+import BackButton from '_atoms/BackButton'
 
 const RecoverScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -37,6 +38,9 @@ const RecoverScreen = (props) => {
     }
 
     return <View style={{ flex: 1 }}>
+        <Header
+          left={<BackButton/>}
+        />
         <SafeAreaView style={ styles.recoverScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
