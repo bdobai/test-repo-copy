@@ -91,10 +91,10 @@ export async function request (url, options) {
     }
 
     let body = null;
-    if(options.files === true) {
+    if (options.files === true) {
         headers['Content-Type'] = 'multipart/form-data';
         body = options.data
-    }else{
+    } else {
         body = JSON.stringify(options.data)
     }
 
@@ -103,13 +103,13 @@ export async function request (url, options) {
         url: url,
         headers: headers,
         method: method,
-        body: method === 'POST' ? body : undefined,
+        body: method !== 'GET' ? body : undefined,
     });
 
     fetch(baseurl + url, {
         method: method,
         headers: headers,
-        body: method === 'POST' ? body : undefined,
+        body: method !== 'GET' ? body : undefined,
     })
       .then(response => {
           // if (url.indexOf('refresh-token') > -1 && response.headers.map['authorization']) {

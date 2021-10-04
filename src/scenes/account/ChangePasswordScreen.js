@@ -10,9 +10,11 @@ import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_2.svg'
+import { AuthStoreContext } from '_stores'
 
 const ChangePasswordScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const authStore = React.useContext(AuthStoreContext);
     const currentPasswordRef = React.useRef()
     const newPasswordRef = React.useRef()
     const repeatPasswordRef = React.useRef()
@@ -20,11 +22,15 @@ const ChangePasswordScreen = (props) => {
 
     const onSubmit = data => {
         setLoading(true)
-        request('/account/change-password', {
-            method: 'POST',
-            data: data,
+        request('/user/profile.json', {
+            method: 'PUT',
+            data: {
+                current_password: data.old_password,
+                password: data.new_password,
+            },
             success: function (response) {
-                setLoading(false)
+                setLoading(false);
+                authStore.logout();
                 props.navigation.navigate('AccountSettings')
             },
             error: () => {
