@@ -1,15 +1,13 @@
 import React, { Component, useState, useEffect } from 'react'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, View, Image, Pressable, Text, Keyboard } from 'react-native'
 import Header from '_components/molecules/Header'
-import PageTitle from '_components/atoms/PageTitle'
-import Card from '_components/atoms/Card'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { AuthStoreContext } from '_stores'
-import { cityValidator, emailValidator, phoneValidator, zipCodeValidator } from '_utils/validators'
+import { emailValidator, phoneValidator } from '_utils/validators'
 import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
 import BackButton from '_atoms/BackButton'
@@ -17,7 +15,7 @@ import Logo from '_assets/images/logo_2.svg'
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
-    const { control, handleSubmit, errors } = useForm({
+    const { control, handleSubmit, formState: { errors } } = useForm({
         defaultValues: authStore.user
     });
 
@@ -32,7 +30,6 @@ const AccountInfoScreen = observer((props) => {
     const yearRef = React.useRef()
 
     const [loading, setLoading] = useState(false);
-    const [newPhoto, setNewPhoto] = useState(null);
     const [states, setStates] = useState([]);
 
     const getCounties = () => {
@@ -51,7 +48,7 @@ const AccountInfoScreen = observer((props) => {
     }
 
     useEffect(() => {
-        getCounties();
+        // getCounties();
     }, []);
 
     const onSubmit = data => {
@@ -59,23 +56,16 @@ const AccountInfoScreen = observer((props) => {
         setLoading(true)
 
         let formData = new FormData()
-        // if (newPhoto) {
-        //     formData.append("new_photo", {
-        //         name: newPhoto.fileName,
-        //         type: newPhoto.type,
-        //         uri: Platform.OS === "android" ? newPhoto.uri : newPhoto.uri.replace("file://", "")
-        //     });
-        // }
         Object.keys(data).forEach(key => {
             formData.append(key, data[key]);
         });
-        request('/account/save-info', {
-            method: 'POST',
-            files: true,
+   
+        request('/user/profile.json', {
+            method: 'PUT',
             data: formData,
             success: function (response) {
-                setLoading(false)
-                authStore.getUser()
+                setLoading(false);
+                authStore.getUser();
             },
             error: () => {
                 setLoading(false)
@@ -83,35 +73,7 @@ const AccountInfoScreen = observer((props) => {
         });
     };
 
-    // const openPicker = () => {
-    //     launchImageLibrary({
-    //         noData: true,
-
-    //     }, (response) => {
-    //         if (response.uri) {
-    //             setNewPhoto(response)
-    //             actionSheetRef.current?.setModalVisible(false)
-    //         }
-    //     })
-    // }
-
-    // const openCamera = () => {
-    //     launchCamera({
-    //         mediaType: 'photo',
-    //     }, (response) => {
-    //         if (response.uri) {
-    //             setNewPhoto(response)
-    //             actionSheetRef.current?.setModalVisible(false)
-    //         }
-    //     })
-    // }
-
     const actionSheetRef = React.useRef();
-
-    // const openActionSheet = () => {
-    //     // Keyboard.dismiss();
-    //     actionSheetRef.current?.setModalVisible()
-    // }
 
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.accountInfoScreen}>
@@ -123,12 +85,6 @@ const AccountInfoScreen = observer((props) => {
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
             <SafeAreaView style={{ flex: 1 }}>
                 <Container style={ styles.container }>
-                    {/* <Pressable style={styles.avatarWrapper} onPress={() => openActionSheet()}>
-                        {newPhoto || authStore.user.image ? <Image style={styles.image} source={{uri: newPhoto ? newPhoto.uri : getImage(authStore.user.image, 100, 100, false)}}/> : <UserIcon height={42} width={42} fill={'#ffffff'}/>}
-                        <View style={styles.imageBtn}>
-                            <CameraIcon fill={Colors.GRAY_DARK} height={scaleSize(16)} width={scaleSize(16)}/>
-                        </View>
-                    </Pressable> */}
                     <Controller
                         control={control}
                         onFocus={() => {firstNameRef.current.focus()}}
@@ -143,7 +99,7 @@ const AccountInfoScreen = observer((props) => {
                             error={errors.firstName?.message}
                             containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='First name'/>
                         )}
-                        name="firstName"
+                        name="first_name"
                         rules={{ required: 'First name is required'}}
                     />
                     <Controller
@@ -160,7 +116,7 @@ const AccountInfoScreen = observer((props) => {
                             error={errors.lastName?.message}
                             containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Last name'/>
                         )}
-                        name="lastName"
+                        name="last_name"
                         rules={{ required: 'Last name is required'}}
                     />
                     <Controller
@@ -179,7 +135,7 @@ const AccountInfoScreen = observer((props) => {
                             error={errors.email?.message}
                             containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='E-mail address'/>
                         )}
-                        name="email"
+                        name="email_address"
                         rules={{ required: 'Email is required', pattern: emailValidator}}
                     />
                     <Controller
@@ -216,7 +172,7 @@ const AccountInfoScreen = observer((props) => {
                             mask={"(+###)"}
                             containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Country*'/>
                         )}
-                        name="country"
+                        name="address.country.name"
                         rules={{ required: 'Country is required'}}
                         defaultValue={''}
                     />
@@ -235,64 +191,24 @@ const AccountInfoScreen = observer((props) => {
                             mask={"+1 (###) ###-####"}
                             containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Phone no.'/>
                         )}
-                        name="phone"
+                        name="phone_number"
                         rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
                     />
-                    <View style={styles.row}>
-                        <View style={styles.col1}>
-                            <Controller
-                                control={control}
-                                onFocus={() => {dayRef.current.focus()}}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                <TextField
-                                    onBlur={onBlur}
-                                    onChangeText={value => onChange(value)}
-                                    value={value}
-                                    onSubmitEditing={() => monthRef.current.focus()}
-                                    ref={dayRef}
-                                    error={errors.city?.message}
-                                    containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Day'/>
-                                )}
-                                name="day"
-                                rules={{ pattern: cityValidator}}
-                            />
-                        </View>
-                        <View style={styles.col2}>
-                            <Controller
-                                control={control}
-                                onFocus={() => {monthRef.current.focus()}}
-                                render={({ field: { onChange, onBlur, value } }) => {
-                                    return <TextField
-                                    type={'select'}
-                                    items={states}
-                                    onBlur={onBlur}
-                                    onChange={onChange}
-                                    value={value}
-                                    ref={monthRef}
-                                    containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Month'/>
-                                }}
-                                name="month"
-                            />
-                        </View>
-                        <View style={styles.col3}>
-                            <Controller
-                                control={control}
-                                onFocus={() => {yearRef.current.focus()}}
-                                render={({ field: { onChange, onBlur, value } }) => (
-                                <TextField
-                                    onBlur={onBlur}
-                                    onChangeText={value => onChange(value)}
-                                    value={value}
-                                    onSubmitEditing={() => handleSubmit(onSubmit)}
-                                    ref={yearRef}
-                                    error={errors.zip_code?.message}
-                                    containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Year'/>
-                                )}
-                                name="year"
-                                rules={{ pattern: zipCodeValidator}}
-                            />
-                        </View>
-                    </View>
+                    <Controller
+                        control={control}
+                        onFocus={() => {dayRef.current.focus()}}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                        <TextField
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            onSubmitEditing={() => monthRef.current.focus()}
+                            ref={dayRef}
+                            error={errors.city?.message}
+                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Date of birth'/>
+                        )}
+                        name="birthdate"
+                    />
                 </Container>
             </SafeAreaView>
         </ScrollView>
@@ -303,16 +219,6 @@ const AccountInfoScreen = observer((props) => {
                 <Text style={{color: Colors.SECONDARY}}>Change password</Text>
             </Pressable>
         </View>
-        {/* <ActionSheet containerStyle={{overflow: 'hidden'}} ref={actionSheetRef}>
-            <SafeAreaView>
-                <Pressable android_ripple={{color: Colors.SECONDARY + 40}} onPress={() => openPicker()} style={({pressed}) => pressed ? styles.actionSheetButtonPressed : styles.actionSheetButton}>
-                    <Text style={styles.actionSheetButtonText}>Select from library</Text>
-                </Pressable>
-                <Pressable android_ripple={{color: Colors.SECONDARY + 40}} onPress={() => openCamera()} style={({pressed}) => pressed ? styles.actionSheetButtonPressed : styles.actionSheetButton}>
-                    <Text style={styles.actionSheetButtonText}>Open camera</Text>
-                </Pressable>
-            </SafeAreaView>
-        </ActionSheet> */}
     </KeyboardAvoidingView>
 
 });
@@ -354,60 +260,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-    // avatarWrapper: {
-    //     width: scaleSize(100),
-    //     height: scaleSize(100),
-    //     position: 'absolute',
-    //     left: '50%',
-    //     top: scaleSize(-50),
-    //     marginLeft: scaleSize(-25),
-    //     borderRadius: scaleSize(50),
-    //     backgroundColor: '#DDF6FE',
-    //     borderWidth: 3,
-    //     borderColor: Colors.WHITE,
-    //     alignItems: 'center',
-    //     justifyContent: 'center',
-    // },
-    // imageBtn: {
-    //     width: scaleSize(40),
-    //     height: scaleSize(40),
-    //     position: 'absolute',
-    //     left: scaleSize(30),
-    //     bottom: scaleSize(-20),
-    //     borderRadius: scaleSize(20),
-    //     backgroundColor: Colors.GRAY_MEDIUM,
-    //     borderWidth: 3,
-    //     borderColor: Colors.WHITE,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-    // },
-    // image: {
-    //     width: '100%',
-    //     height: '100%',
-    //     borderRadius: scaleSize(50),
-    // },
-    // actionSheetButton: {
-    //     paddingVertical: Spacing.SPACING_3,
-    //     paddingHorizontal: Spacing.SPACING_5,
-    //     borderBottomWidth: 1,
-    //     borderBottomColor: Colors.GRAY_LIGHT,
-    //     overflow: 'hidden'
-    // },
-    // actionSheetButtonPressed: {
-    //     paddingVertical: Spacing.SPACING_3,
-    //     paddingHorizontal: Spacing.SPACING_5,
-    //     borderBottomWidth: 1,
-    //     borderBottomColor: Colors.SECONDARY,
-    //     overflow: 'hidden',
-    //     backgroundColor: Colors.MUTED + '50'
-    // },
-    // actionSheetButtonText: {
-    //     fontFamily: Typography.FONT_PRIMARY_REGULAR,
-    //     fontSize: Typography.FONT_SIZE_20,
-    //     lineHeight: Typography.LINE_HEIGHT_20,
-    //     color: Colors.SECONDARY,
-    //     textAlign: 'center',
-    // },
     title: {
         color: Colors.SECONDARY_LIGHT,
         fontSize: Typography.FONT_SIZE_13,

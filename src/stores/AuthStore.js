@@ -35,7 +35,7 @@ export default class AuthStore {
             this.user.id = user.id;
             this.user.first_name = user.first_name;
             this.user.last_name = user.last_name;
-            this.user.email = user.email;
+            this.user.email_address = user.email_address;
             this.user.phone_number = user.phone_number;
             this.user.address = user.address;
             this.user.status = user.status;
