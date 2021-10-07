@@ -30,17 +30,18 @@ const AccountInfoScreen = observer((props) => {
     const yearRef = React.useRef()
 
     const [loading, setLoading] = useState(false);
-    const [states, setStates] = useState([]);
+    const [country, setCountry] = useState([]);
 
     const getCounties = () => {
-        request('/get-states', {
-            method: 'POST',
+        request('/country/list.json', {
+            method: 'GET',
             success: function (response) {
-                setStates(response.map((item) => {
+                setCountry(response.map((item) => {
                     return {
-                        key: item.id,
-                        value: item.id,
+                        key: item.country_id,
+                        value: item.phone_code,
                         label: item.name,
+                        flag: item.flag_url
                     }
                 }))
             }
@@ -48,7 +49,7 @@ const AccountInfoScreen = observer((props) => {
     }
 
     useEffect(() => {
-        // getCounties();
+        getCounties();
     }, []);
 
     const onSubmit = data => {
