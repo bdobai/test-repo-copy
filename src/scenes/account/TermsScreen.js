@@ -6,7 +6,7 @@ import Container from '_components/atoms/Container'
 import BackButton from '_atoms/BackButton'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 import HTMLView from '_components/atoms/HTMLView';
 
 const TermsScreen = (props) => {

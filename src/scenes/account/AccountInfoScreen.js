@@ -11,7 +11,7 @@ import { emailValidator, phoneValidator } from '_utils/validators'
 import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
 import BackButton from '_atoms/BackButton'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);

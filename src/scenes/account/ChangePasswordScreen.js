@@ -9,7 +9,7 @@ import BackButton from '_atoms/BackButton'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 import { AuthStoreContext } from '_stores'
 
 const ChangePasswordScreen = (props) => {

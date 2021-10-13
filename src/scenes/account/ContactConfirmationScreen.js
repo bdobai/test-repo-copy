@@ -6,7 +6,7 @@ import Container from '_components/atoms/Container'
 import Button from '_atoms/Button'
 import BackButton from '_atoms/BackButton'
 import { request } from '_utils/request'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 import EmailIcon from '_assets/images/account/email-icon.svg'
 import { scaleSize } from '_styles/mixins'
 

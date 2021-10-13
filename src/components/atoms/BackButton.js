@@ -19,7 +19,7 @@ const BackButton = props => {
     }
 
     return <Pressable style={{width: scaleSize(20), height: scaleSize(20), alignItems: 'flex-start', justifyContent: 'center'}}  onPress={() => onPress()}>
-        <LeftChevron fill='#ffffff' height={18} width={20}/>
+        <LeftChevron fill= {props.color ? props.color : '#ffffff'} height={18} width={20}/>
     </Pressable>
 }
 

@@ -9,11 +9,11 @@ import BackButton from '_atoms/BackButton'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 
 const ContactScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
-    const titleRef = React.useRef()
+    const nameRef = React.useRef()
     const messageRef = React.useRef()
     const [loading, setLoading] = useState(false);
 
@@ -35,13 +35,13 @@ const ContactScreen = (props) => {
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.changePasswordScreen}>
         <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
-        <Text style={styles.title}>CONTACT</Text>
+        <Text style={styles.title}>HOW CAN WE IMPROVE?</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
                     <Container style={ styles.container }>
                         <Controller
                             control={control}
-                            onFocus={() => {titleRef.current.focus()}}
+                            onFocus={() => {nameRef.current.focus()}}
                             render={({ field: { onChange, onBlur, value } }) => (                          
                             <TextField
                                 autoCorrect={false}
@@ -50,12 +50,12 @@ const ContactScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 onSubmitEditing={() => messageRef.current.focus()}
-                                ref={titleRef}
-                                error={errors.title?.message}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Title'/>
+                                ref={nameRef}
+                                error={errors.name?.message}
+                                containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Your name'/>
                             )}
-                            name="title"
-                            rules={{ required: 'Title is required'}}
+                            name="name"
+                            rules={{ required: 'Name is required'}}
                             defaultValue={''}
                         />
                         <Controller
@@ -74,8 +74,8 @@ const ContactScreen = (props) => {
                                     onChangeText={value => onChange(value)}
                                     onBlur={onBlur}
                                     onSubmitEditing={() => handleSubmit(onSubmit)}
-                                    ref={titleRef}
-                                    error={errors.title?.message}
+                                    ref={nameRef}
+                                    error={errors.name?.message}
                                 />
                                 </View>
                             )}

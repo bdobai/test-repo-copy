@@ -10,8 +10,10 @@ export const FONT_SECONDARY_BOLD = 'BrandonGrotesque-Bold'
 
 // FONT SIZE
 export const FONT_SIZE_46 = scaleFont(46)
+export const FONT_SIZE_40 = scaleFont(40)
 export const FONT_SIZE_30 = scaleFont(30)
 export const FONT_SIZE_24 = scaleFont(24)
+export const FONT_SIZE_22 = scaleFont(22)
 export const FONT_SIZE_20 = scaleFont(20)
 export const FONT_SIZE_18 = scaleFont(18)
 export const FONT_SIZE_16 = scaleFont(16)

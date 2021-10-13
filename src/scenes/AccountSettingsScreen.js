@@ -8,7 +8,7 @@ import ChevronIcon from '_assets/images/right-chevron.svg'
 import LogoutIcon from '_assets/images/account/logout.svg'
 import { scaleSize } from '_styles/mixins'
 import { AuthStoreContext } from '_stores'
-import Logo from '_assets/images/logo_2.svg'
+import Logo from '_assets/images/logo_small_primary.svg'
 import BackButton from '_atoms/BackButton'
 import {Linking} from 'react-native'
 
@@ -62,19 +62,19 @@ const AccountSettingsScreen = (props) => {
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
                             </>
                         </Pressable> : null}
-                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.MyDonations')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
+                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
                             <>
                                 <Text style={styles.listItemText}>Gift cards</Text>
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
                             </>
                         </Pressable>
-                        <Pressable onPress={() => sendEmail()} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
+                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Contact', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
                             <>
-                                <Text style={styles.listItemText}>Support</Text>
+                                <Text style={styles.listItemText}>How can we improve?</Text>
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
                             </>
                         </Pressable>
-                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Contact', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
+                        <Pressable onPress={() => sendEmail()} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
                             <>
                                 <Text style={styles.listItemText}>Contact Us</Text>
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
@@ -89,6 +89,12 @@ const AccountSettingsScreen = (props) => {
                         <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.PrivacyPolicy', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
                             <>
                                 <Text style={styles.listItemText}>Privacy Policy</Text>
+                                <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
+                            </>
+                        </Pressable>
+                        <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Faq', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
+                            <>
+                                <Text style={styles.listItemText}>FAQ</Text>
                                 <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
                             </>
                         </Pressable>

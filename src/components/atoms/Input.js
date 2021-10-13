@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { Image, StyleSheet, Text, TextInput, Pressable, View, } from 'react-native'
 import { Colors, Radius, Spacing, Typography } from '../../styles'
 import PropTypes from 'prop-types'
+import { scaleSize } from '../../styles/mixins'
 
 const showPassword = null
 const hidePassword = null
@@ -110,12 +111,7 @@ Input.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 46,
-        borderRadius: Radius.RADIUS_1,
-        borderWidth: 0,
+        flex: 1,
     },
     focus: {},
     error: {
@@ -124,19 +120,24 @@ const styles = StyleSheet.create({
     passwordImage: {
         marginLeft: Spacing.SPACING_1,
         marginRight: Spacing.SPACING_1,
-        height: 22,
-        width: 22,
+        height: scaleSize(22),
+        width: scaleSize(22),
         resizeMode: 'stretch',
         alignItems: 'center',
     },
     inputStyle: {
         paddingTop: Spacing.SPACING_1,
         paddingBottom: Spacing.SPACING_1,
-        fontSize: 14,
+        fontSize: Typography.FONT_SIZE_13,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
         flex: 1,
-        paddingLeft: Spacing.SPACING_5,
+        paddingLeft: Spacing.SPACING_4,
         paddingRight: Spacing.SPACING_5,
+        borderRadius: Radius.RADIUS_1,
+        borderWidth: 1,
+        borderColor: Colors.LIGHT_GREY,
+        height: scaleSize(59),
+
     },
     disabled: {
         backgroundColor: Colors.GRAY_LIGHT,
@@ -145,23 +146,24 @@ const styles = StyleSheet.create({
     notes: {
         marginTop: 2,
         color: Colors.GRAY_DARK,
-        fontSize: 12,
-        minHeight: 16,
+        fontSize: Typography.FONT_SIZE_12,
+        minHeight: scaleSize(16),
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
     },
     labelStyle: {
-        fontSize: 13,
+        fontSize: Typography.FONT_SIZE_13,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
         flex: 1,
-        lineHeight: 18,
-        marginBottom: 6,
-        color: Colors.PRIMARY,
+        lineHeight: Typography.LINE_HEIGHT_12,
+        marginVertical: scaleSize(13),
+        color: Colors.WARM_GREY,
+        paddingLeft: scaleSize(3)
     },
     formGroupText: {
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
         fontSize: 11,
         color: Colors.GRAY_DARK,
-        lineHeight: 16,
+        lineHeight: Typography.LINE_HEIGHT_10,
     }
 })
 

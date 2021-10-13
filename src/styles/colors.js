@@ -4,6 +4,8 @@ export const SECONDARY = '#C9B17B'
 export const SECONDARY_LIGHT = '#CCB073'
 export const WHITE = '#FFFFFF'
 export const BLACK = '#000000'
+export const LIGHT_GREY = '#dddddd'
+export const WARM_GREY = '#7b7b7b'
 
 export const SUCCESS = '#3adb76'
 export const WARNING = '#ffae00'

@@ -82,7 +82,7 @@ const RegisterScreen_3 = (props) => {
                             {/* <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Next'}/> */}
                             <Button loading={loading} onPress={() => props.navigation.navigate('Verification')} block={true} type={'secondary'} text={'Next'}/>
                             <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Don't have an account? </Text>
+                                <Text style={styles.footerText}>Already have an account? </Text>
                                 <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
                             </View>
                         </View>

@@ -105,7 +105,7 @@ const LoginScreen = (props) => {
                             />
                             <View style={ styles.forgot }>
                                 {/* <CheckBox onPress={() => setKeepLogin(!keepLogin)} checked={keepLogin} label={'Stay logged in?'}/> */}
-                                <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={styles.forgotText}>Forgot ?</Text></Pressable>
+                                <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={styles.forgotText}>Forgot your password ?</Text></Pressable>
                             </View>
                         </View>
                         <View style={styles.footer}>
@@ -123,9 +123,6 @@ const LoginScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
-    forgot: {
-        alignItems: 'flex-end'
-    },
     footer: {
         flex: 1,
         alignItems: 'center',
@@ -144,16 +141,19 @@ const styles = StyleSheet.create({
         lineHeight: Typography.LINE_HEIGHT_14,
         color: Colors.SECONDARY
     },
-    forgotText: {
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        color: Colors.SECONDARY,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_14,
-    },
     footerTextView: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: Spacing.SPACING_4
+    },
+    forgot: {
+        alignItems: 'flex-end',
+    },
+    forgotText: {
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        color: Colors.SECONDARY,
+        fontSize: Typography.FONT_SIZE_12,
+        lineHeight: Typography.LINE_HEIGHT_14,
     },
     login: {
         flex: 3,

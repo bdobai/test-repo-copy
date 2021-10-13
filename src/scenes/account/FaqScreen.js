@@ -7,24 +7,24 @@ import BackButton from '_atoms/BackButton'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_small_white.svg'
+import { scaleSize } from '../../styles/mixins'
 import HTMLView from '_components/atoms/HTMLView';
 
-const PrivacyPolicyScreen = (props) => {
-    const [title, setTitle] = React.useState([])
-    const [content, setContent] = React.useState([])
+const FaqScreen = (props) => {
+    const [data, setData] = React.useState([])
     const [loading, setLoading] = useState(false);
 
-    const getPolicy = () => {
+    const getFaq = () => {
         setLoading(true);
-        request('/vendor/content/privacy-policy.json', {
+        request('/vendor/content/help-topics.json', {
             method: 'GET',
             data: {
-                "vendor": 107430
+                "vendor": 107430,
+                "limit" : 1000
             },
             withToken: false,
             success: function (response) {
-                setTitle(response.title);
-                setContent(response.content);
+                setData(response.data);
                 setLoading(false);
             },
             error: (error) => {
@@ -35,29 +35,48 @@ const PrivacyPolicyScreen = (props) => {
     }
     
     useEffect(() => {
-        getPolicy();
+        getFaq();
     }, []);
 
-    return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.privacyScreen}>
+    return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.faqScreen}>
         <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
-        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.title}>FAQ</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
+            {data.map(function(d, id) {
+                return (
                 <Container style={ styles.container }>
-                    <HTMLView loading={loading} html={content}></HTMLView>
+                    <Text style={styles.faqTitle}>{d.title}</Text>
+                    <HTMLView loading={loading} html={d.content}></HTMLView>
+                    <View style={styles.bottomLine}></View>
                 </Container>
+                )
+            })}
             </SafeAreaView>
         </ScrollView>        
     </KeyboardAvoidingView>
 }
 
 const styles = StyleSheet.create({
-    privacyScreen: {
-        flex: 1,
-        backgroundColor: Colors.PRIMARY
+    bottomLine: {
+        borderWidth: scaleSize(1),
+        borderColor: Colors.PRIMARY_LIGHT,
     },
     container: {
         flex: 1,
+        marginBottom: Spacing.SPACING_3,
+    },
+    faqScreen: {
+        flex: 1,
+        backgroundColor: Colors.PRIMARY
+    },
+    faqTitle: {
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontWeight: 'bold',
+        fontSize: Typography.FONT_SIZE_18,
+        lineHeight: Typography.LINE_HEIGHT_16,
+        marginTop: Spacing.SPACING_3,
     },
     title: {
         textTransform: 'uppercase',
@@ -69,4 +88,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default PrivacyPolicyScreen
+export default FaqScreen

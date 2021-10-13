@@ -18,6 +18,7 @@ const RegisterScreen_2 = (props) => {
     const nameRef = React.useRef()
     const countryRef = React.useRef()
     const phoneRef = React.useRef()
+    const birthdateRef = React.useRef()
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
@@ -99,7 +100,7 @@ const RegisterScreen_2 = (props) => {
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   keyboardType={'phone-pad'}
-                                  onSubmitEditing={() => handleSubmit(onSubmit)}
+                                  onSubmitEditing={() => birthdateRef.current.focus()}
                                   ref={phoneRef}
                                   error={errors.phone?.message}
                                   mask={"+1 (###) ###-####"}
@@ -107,6 +108,22 @@ const RegisterScreen_2 = (props) => {
                               )}
                               name="phone"
                               rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
+                              defaultValue={''}
+                            />
+                            <Controller
+                              control={control}
+                              onFocus={() => {birthdateRef.current.focus()}}
+                              render={({ field: { onChange, onBlur, value } }) => (
+                                <TextField
+                                  onBlur={onBlur}
+                                  onChangeText={value => onChange(value)}
+                                  value={value}
+                                  onSubmitEditing={() => handleSubmit(onSubmit)}
+                                  ref={birthdateRef}
+                                  error={errors.phone?.message}
+                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Date of birth'/>
+                              )}
+                              name="birthdate"
                               defaultValue={''}
                             />
                         </View>
@@ -118,7 +135,7 @@ const RegisterScreen_2 = (props) => {
                                 onPress={() => props.navigation.navigate('Register_3')}
                             />
                             <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Don't have an account? </Text>
+                                <Text style={styles.footerText}>Already have an account? </Text>
                                 <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
                             </View>
                         </View>

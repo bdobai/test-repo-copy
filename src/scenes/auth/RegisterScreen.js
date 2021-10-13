@@ -143,7 +143,7 @@ const RegisterScreen = (props) => {
                                 onPress={() => props.navigation.navigate('Register_2')}
                             />
                             <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Don't have an account? </Text>
+                                <Text style={styles.footerText}>Already have an account? </Text>
                                 <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
                             </View>
                         </View>
