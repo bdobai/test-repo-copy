@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, } from 'react-native'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View, } from 'react-native'
 import Header from '_components/molecules/Header'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -8,10 +8,10 @@ import Button from '_components/atoms/Button'
 import { request } from '_utils/request'
 import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_small_primary.svg'
-import GiftCard from '_assets/images/gift_cards/gift_card_simple.svg'
+import GiftCard from '_assets/images/gift_cards/gift.svg'
 import { scaleSize } from '../../styles/mixins'
 
-const GiftCardsScreen = (props) => {
+const GiftScreen = (props) => {
     const [loading, setLoading] = useState(false);
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.giftCardScreen}>
@@ -19,35 +19,34 @@ const GiftCardsScreen = (props) => {
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
                 <Container style={ styles.container }>
-                    <Text style={ styles.title }>Your gift card balance</Text>
-                    <Text style={ styles.amount }>100 AED</Text>
                     <GiftCard></GiftCard>
+                    <Text style={ styles.amount }>1000</Text>
+                    <Text style={ styles.title }>We have got a birthday gift for you!</Text>
                 </Container>
             </SafeAreaView>
         </ScrollView>
         <View style={styles.footer}>
-            <Button loading={loading} onPress={() => props.navigation.navigate('AccountSettings.GiftCardAdd')} block={true} type={'secondary'} text={"Let's order"}/>
+            <Button loading={loading} onPress={() => props.navigation.navigate('#')} block={true} type={'secondary'} text={"Choose your gift"}/>
         </View>
     </KeyboardAvoidingView>
 }
 
 const styles = StyleSheet.create({
     amount: {
-        flex: 1,
-        color: Colors.SECONDARY,
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_40,
-        lineHeight: Typography.LINE_HEIGHT_40,
-        marginBottom: scaleSize(55)
+        color: Colors.PRIMARY,
+        fontFamily: Typography.FONT_SECONDARY_REGULAR, //need to update font
+        fontSize: scaleSize(65),
+        position: 'absolute',
+        top: scaleSize(100),
+        left: scaleSize(160)
     },
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     footer: {
         alignItems: 'center',
-        justifyContent: 'flex-end',
         marginBottom: Spacing.SPACING_4,
         paddingHorizontal: Spacing.SPACING_5
     },
@@ -61,8 +60,10 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_22,
         lineHeight: Typography.LINE_HEIGHT_18,
-        marginBottom: Spacing.SPACING_3,
+        marginBottom: scaleSize(26),
+        marginTop: scaleSize(50),
+        textAlign: 'center',
     },
 })
 
-export default GiftCardsScreen
+export default GiftScreen

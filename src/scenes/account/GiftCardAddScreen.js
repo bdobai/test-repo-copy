@@ -20,7 +20,7 @@ const GiftCardAddScreen = (props) => {
     const pinRef = React.useRef()
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.giftCardScreen}>
-        <Header left={<BackButton color={Colors.PRIMARY}/>} style={styles.logo} center={<Logo style={ styles.logo }/>}/>
+        <Header left={<BackButton color={Colors.PRIMARY}/>} center={<Logo/>}/>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
                 <Container style={ styles.container }>
@@ -101,9 +101,6 @@ const styles = StyleSheet.create({
     },
     label: {
         marginBottom: scaleSize(2)
-    },
-    logo: {
-        color: Colors.PRIMARY
     },
     title: {
         flex: 1,

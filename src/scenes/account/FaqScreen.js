@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     },
     faqTitle: {
         color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontWeight: 'bold',
         fontSize: Typography.FONT_SIZE_18,
         lineHeight: Typography.LINE_HEIGHT_16,

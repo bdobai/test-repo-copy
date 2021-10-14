@@ -9,6 +9,7 @@ export const FONT_SECONDARY_REGULAR = 'BrandonGrotesque-Regular'
 export const FONT_SECONDARY_BOLD = 'BrandonGrotesque-Bold'
 
 // FONT SIZE
+export const FONT_SIZE_72 = scaleFont(72)
 export const FONT_SIZE_46 = scaleFont(46)
 export const FONT_SIZE_40 = scaleFont(40)
 export const FONT_SIZE_30 = scaleFont(30)
@@ -25,6 +26,7 @@ export const FONT_SIZE_8 = scaleFont(8)
 
 // LINE HEIGHT
 export const LINE_HEIGHT_46 = scaleFont(52)
+export const LINE_HEIGHT_40 = scaleFont(40)
 export const LINE_HEIGHT_30 = scaleFont(36)
 export const LINE_HEIGHT_24 = scaleFont(30)
 export const LINE_HEIGHT_20 = scaleFont(28)

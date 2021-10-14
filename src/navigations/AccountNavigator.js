@@ -6,6 +6,7 @@ import ChangePasswordScreen from '_scenes/account/ChangePasswordScreen'
 import MyPaymentsScreen from '_scenes/account/MyPaymentsScreen'
 import GiftCardBalanceScreen from '_scenes/account/GiftCardBalanceScreen'
 import GiftCardAddScreen from '_scenes/account/GiftCardAddScreen'
+import GiftScreen from '_scenes/account/GiftScreen'
 import ContactScreen from '_scenes/account/ContactScreen'
 import PrivacyPolicyScreen from '_scenes/account/PrivacyPolicyScreen'
 import TermsScreen from '_scenes/account/TermsScreen'
@@ -42,6 +43,7 @@ function AccountNavigator () {
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.MyPayments" component={MyPaymentsScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.GiftCards" component={GiftCardBalanceScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.GiftCardAdd" component={GiftCardAddScreen}/>
+          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Gift" component={GiftScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Contact" component={ContactScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Terms" component={TermsScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.PrivacyPolicy" component={PrivacyPolicyScreen}/>
