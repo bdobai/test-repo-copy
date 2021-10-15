@@ -158,7 +158,6 @@ const RegisterScreen_2 = (props) => {
                                   onSubmitEditing={() => setFocus('birthdate')}
                                   ref={ref}
                                   error={errors.phone?.message}
-                                  mask={"+1 (###) ###-####"}
                                   label='Phone number*'/>
                               )}
                               name="phone"
@@ -184,7 +183,7 @@ const RegisterScreen_2 = (props) => {
                         </View>
                         <View style={styles.footer}>
                             <Button type={'secondary'}
-                                    // loading={loading}
+                                    loading={loading}
                                     text={'Verify phone number'}
                                     onPress={handleSubmit(onSubmit)}
                             />

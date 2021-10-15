@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { View, Text, StatusBar, Alert, Linking, Platform } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import NotificationsSystem from './partials/NotificationsSystem'
-import AppNavigator, { navigationRef, isReadyRef } from './navigations/AppNavigator'
-import { Colors } from '_styles'
+import AppNavigator, { navigationRef, isReadyRef } from './navigations/AppNavigator_bk'
+import { Colors, Typography } from '_styles';
 import { AuthStoreContext, NotificationsStoreContext } from '_stores'
 import { observer } from 'mobx-react-lite'
 import { reaction } from 'mobx'
@@ -25,6 +25,9 @@ const Index: () => React$Node = observer(() => {
 
     if (Text.defaultProps == null) Text.defaultProps = {};
     Text.defaultProps.allowFontScaling = false;
+    // Text.defaultProps.style = {
+    //     fontFamily: Typography.FONT_PRIMARY_BOLD
+    // };
 
     async function getUrlAsync () {
         const initialUrl = await Linking.getInitialURL();

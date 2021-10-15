@@ -28,7 +28,7 @@ const SupportScreen = (props) => {
     }
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.supportScreen}>
-        <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
+        {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
         <Text style={styles.title}>SUPPORT</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     phone: {
         flexDirection: 'row',
         alignItems: 'center',
-    }, 
+    },
     supportScreen: {
         flex: 1,
         backgroundColor: Colors.PRIMARY

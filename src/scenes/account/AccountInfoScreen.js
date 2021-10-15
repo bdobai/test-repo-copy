@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite'
 import BackButton from '_atoms/BackButton'
 import Logo from '_assets/images/logo_small_white.svg'
 import countries from '_utils/countries.json';
+import SectionTitle from '_atoms/SectionTitle';
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -48,147 +49,139 @@ const AccountInfoScreen = observer((props) => {
 
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.accountInfoScreen}>
-        <Header
-          left={<BackButton/>}
-          center={<Logo style={ styles.logo }/>}
-        />
-        <Text style={styles.title}>PERSONAL INFORMATION</Text>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
-            <SafeAreaView style={{ flex: 1 }}>
-                <Container style={ styles.container }>
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            autoCorrect={false}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            onSubmitEditing={() => setFocus('last_name')}
-                            ref={ref}
-                            error={errors.firstName?.message}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='First name'/>
-                        )}
-                        name="first_name"
-                        rules={{ required: 'First name is required'}}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            autoCorrect={false}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            onSubmitEditing={() => setFocus('email_address')}
-                            ref={ref}
-                            error={errors.lastName?.message}
-                            label='Last name'/>
-                        )}
-                        name="last_name"
-                        rules={{ required: 'Last name is required'}}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            autoCorrect={false}
-                            autoCapitalize={'none'}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            keyboardType={'email-address'}
-                            onSubmitEditing={() => passwordRef.current.focus()}
-                            ref={ref}
-                            error={errors.email?.message}
-                            label='E-mail address'/>
-                        )}
-                        name="email_address"
-                        rules={{ required: 'Email is required', pattern: emailValidator}}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            autoCorrect={false}
-                            autoCapitalize={'none'}
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            secure={true}
-                            ref={ref}
-                            error={errors.password?.message}
-                            onSubmitEditing={() => setFocus('address.country.name')}
-                            label='Password*'/>
-                        )}
-                        name="password"
-                        rules={{required: true}}
-                        defaultValue=""
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            type={'select'}
-                            items={countries}
-                            itemKey={'country_id'}
-                            onSubmitEditing={() => setFocus('phone_number')}
-                            ref={ref}
-                            error={errors.phone?.message}
-                            mask={"(+###)"}
-                            label='Country*'
-                            renderRightAccessory={() => {
-                                return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
-                            }}
-                            />
-                        )}
-                        name="address.country.name"
-                        rules={{ required: 'Country is required'}}
-                        defaultValue={''}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            keyboardType={'phone-pad'}
-                            onSubmitEditing={() => setFocus('birthdate')}
-                            ref={ref}
-                            error={errors.phone?.message}
-                            // mask={"+1 (###) ###-####"}
-                            label='Phone no.'/>
-                        )}
-                        name="phone_number"
-                        rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                            onBlur={onBlur}
-                            onChangeText={value => onChange(value)}
-                            value={value}
-                            onSubmitEditing={() => monthRef.current.focus()}
-                            ref={ref}
-                            error={errors.city?.message}
-                            label='Date of birth'/>
-                        )}
-                        name="birthdate"
-                    />
-                </Container>
-            </SafeAreaView>
+            <Container style={ styles.container }>
+                <SectionTitle>PERSONAL INFORMATION</SectionTitle>
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        autoCorrect={false}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        onSubmitEditing={() => setFocus('last_name')}
+                        ref={ref}
+                        error={errors.firstName?.message}
+                        label='First name'/>
+                    )}
+                    name="first_name"
+                    rules={{ required: 'First name is required'}}
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        autoCorrect={false}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        onSubmitEditing={() => setFocus('email_address')}
+                        ref={ref}
+                        error={errors.lastName?.message}
+                        label='Last name'/>
+                    )}
+                    name="last_name"
+                    rules={{ required: 'Last name is required'}}
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        autoCorrect={false}
+                        autoCapitalize={'none'}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        keyboardType={'email-address'}
+                        onSubmitEditing={() => passwordRef.current.focus()}
+                        ref={ref}
+                        error={errors.email?.message}
+                        label='E-mail address'/>
+                    )}
+                    name="email_address"
+                    rules={{ required: 'Email is required', pattern: emailValidator}}
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        autoCorrect={false}
+                        autoCapitalize={'none'}
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        secure={true}
+                        renderRightAccessory={() => <Pressable onPress={() => props.navigation.navigate('AccountSettings.ChangePassword')}>
+                            <Text style={styles.inputLinkText}>Change password</Text>
+                        </Pressable>}
+                        ref={ref}
+                        error={errors.password?.message}
+                        onSubmitEditing={() => setFocus('address.country.name')}
+                        label='Password*'/>
+                    )}
+                    name="password"
+                    rules={{required: true}}
+                    defaultValue=""
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        type={'select'}
+                        items={countries}
+                        itemKey={'country_id'}
+                        onSubmitEditing={() => setFocus('phone_number')}
+                        ref={ref}
+                        error={errors.phone?.message}
+                        mask={"(+###)"}
+                        label='Country*'
+                        renderRightAccessory={() => {
+                            return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
+                        }}
+                        />
+                    )}
+                    name="address.country.name"
+                    rules={{ required: 'Country is required'}}
+                    defaultValue={''}
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        keyboardType={'phone-pad'}
+                        onSubmitEditing={() => setFocus('birthdate')}
+                        ref={ref}
+                        error={errors.phone?.message}
+                        label='Phone no.'/>
+                    )}
+                    name="phone_number"
+                    rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
+                />
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                        onBlur={onBlur}
+                        onChangeText={value => onChange(value)}
+                        value={value}
+                        onSubmitEditing={() => monthRef.current.focus()}
+                        ref={ref}
+                        error={errors.city?.message}
+                        label='Date of birth'/>
+                    )}
+                    name="birthdate"
+                />
+            </Container>
         </ScrollView>
         <View style={styles.footer}>
             <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Save'}/>
-            {/* This needs to be moved inside password input */}
-            <Pressable onPress={() => props.navigation.navigate('AccountSettings.ChangePassword')}>
-                <Text style={{color: Colors.SECONDARY}}>Change password</Text>
-            </Pressable>
         </View>
     </KeyboardAvoidingView>
 
@@ -201,6 +194,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+        paddingTop: Spacing.SPACING_6,
+        paddingBottom: Spacing.SPACING_5,
     },
     col1: {
         position: 'relative',
@@ -238,6 +233,12 @@ const styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_5,
         marginTop: Spacing.SPACING_3,
     },
+    inputLinkText: {
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontSize: Typography.FONT_SIZE_13,
+        lineHeight: Typography.LINE_HEIGHT_13,
+        color: Colors.SECONDARY_LIGHT,
+    }
 })
 
 export default AccountInfoScreen

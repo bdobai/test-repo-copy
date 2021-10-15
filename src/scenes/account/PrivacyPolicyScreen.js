@@ -33,13 +33,13 @@ const PrivacyPolicyScreen = (props) => {
             }
         });
     }
-    
+
     useEffect(() => {
         getPolicy();
     }, []);
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.privacyScreen}>
-        <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
+        {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
         <Text style={styles.title}>{title}</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
@@ -47,7 +47,7 @@ const PrivacyPolicyScreen = (props) => {
                     <HTMLView loading={loading} html={content}></HTMLView>
                 </Container>
             </SafeAreaView>
-        </ScrollView>        
+        </ScrollView>
     </KeyboardAvoidingView>
 }
 

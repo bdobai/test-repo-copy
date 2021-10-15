@@ -18,7 +18,7 @@ const GiftCardAddScreen = (props) => {
     const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.giftCardScreen}>
-        <Header left={<BackButton color={Colors.PRIMARY}/>} center={<Logo/>}/>
+        {/*<Header left={<BackButton color={Colors.PRIMARY}/>} center={<Logo/>}/>*/}
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
                 <Container style={ styles.container }>

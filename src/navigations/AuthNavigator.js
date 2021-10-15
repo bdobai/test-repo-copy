@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from '_scenes/auth/LoginScreen'
 import RegisterScreen from '_scenes/auth/RegisterScreen'
 import RegisterScreen_2 from '_scenes/auth/RegisterScreen_2'
-import RegisterScreen_3 from '_scenes/auth/RegisterScreen_3'
+import ConfirmSmsScreen from '_scenes/auth/ConfirmSmsScreen'
 import VerificationScreen from '_scenes/auth/VerificationScreen'
 import { StyleSheet } from 'react-native'
 import RecoverScreen from '_scenes/auth/RecoverScreen'
@@ -52,7 +52,7 @@ function AuthNavigator (props) {
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Login" component={LoginScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Register" component={RegisterScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Register_2" component={RegisterScreen_2}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Register_3" component={RegisterScreen_3}/>
+          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Register_3" component={ConfirmSmsScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Recover" component={RecoverScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Reset" component={ResetScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Verification" component={VerificationScreen}/>

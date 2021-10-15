@@ -11,8 +11,8 @@ const HeaderTouchable = props => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        minWidth: scaleSize(50),
-        minHeight: scaleSize(50),
+        minWidth: scaleSize(48),
+        minHeight: scaleSize(48),
         alignItems: 'center',
         justifyContent: 'center',
     }

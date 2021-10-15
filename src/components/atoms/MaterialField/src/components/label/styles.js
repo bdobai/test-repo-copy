@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { Typography } from '_styles';
 
 export default StyleSheet.create({
     container: {
@@ -13,5 +14,6 @@ export default StyleSheet.create({
         textAlign: 'left',
         includeFontPadding: false,
         textAlignVertical: 'top',
+        fontFamily: Typography.FONT_PRIMARY_REGULAR
     },
 })

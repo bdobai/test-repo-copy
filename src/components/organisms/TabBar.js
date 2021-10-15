@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Animated, Dimensions, Keyboard, SafeAreaView, StyleSheet, TouchableHighlight, View } from 'react-native'
+import { Animated, Dimensions, Keyboard, SafeAreaView, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { scaleSize } from '_styles/mixins'
-import { Colors } from '_styles'
+import { Colors, Typography } from '_styles';
 
 const TabBar = ({ state, descriptors, navigation }) => {
     const totalWidth = Dimensions.get('window').width
@@ -35,15 +35,24 @@ const TabBar = ({ state, descriptors, navigation }) => {
               {state.routes.map((route, index) => {
                   const { options } = descriptors[route.key]
                   const icon = options.tabBarIcon !== undefined ? options.tabBarIcon : null
+                  const focus_color = options.tabBarActiveTintColor !== undefined ? options.tabBarActiveTintColor : Colors.PRIMARY
                   const isFocused = state.index === index
+                  const label = options.tabBarLabel !== undefined
+                      ? options.tabBarLabel
+                      : options.title !== undefined
+                        ? options.title
+                        : route.name;
 
                   const onPress = () => {
                       animateBar()
-
+                      if (route.name === 'AccountSettings') {
+                          navigation.navigate('Account')
+                          return;
+                      }
                       const event = navigation.emit({
                           type: 'tabPress',
                           target: route.key,
-                      })
+                      });
 
                       Keyboard.dismiss();
 
@@ -79,7 +88,10 @@ const TabBar = ({ state, descriptors, navigation }) => {
                       onLongPress={onLongPress}
                       style={styles.tabIcon}
                     >
-                        {icon({ focused: isFocused })}
+                        <>
+                            {icon({ focused: isFocused })}
+                            <Text style={[styles.labelText, { color: isFocused ? focus_color : Colors.GRAY_DARK2, fontFamily: isFocused ? Typography.FONT_PRIMARY_BOLD : Typography.FONT_PRIMARY_REGULAR }]}>{label}</Text>
+                        </>
                     </TouchableHighlight>
                   )
               })}
@@ -95,7 +107,7 @@ const styles = StyleSheet.create({
     bar: {
         flexDirection: 'row',
         backgroundColor: 'white',
-        height: scaleSize(80),
+        minHeight: scaleSize(80),
         justifyContent: 'center',
         alignItems: 'flex-end',
         paddingBottom: scaleSize(15),
@@ -113,6 +125,10 @@ const styles = StyleSheet.create({
         left: 10,
         borderRadius: 10,
     },
+    labelText: {
+        fontSize: Typography.FONT_SIZE_12,
+        lineHeight: Typography.LINE_HEIGHT_12
+    }
 })
 
 export default TabBar

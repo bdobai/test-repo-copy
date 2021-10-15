@@ -11,7 +11,7 @@ import { AuthStoreContext } from '_stores'
 import { scaleSize } from '_styles/mixins'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const RegisterScreen_3 = (props) => {
+const ConfirmSmsScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
 
     const [loading, setLoading] = useState(false);
@@ -149,4 +149,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default RegisterScreen_3
+export default ConfirmSmsScreen

@@ -33,13 +33,13 @@ const FaqScreen = (props) => {
             }
         });
     }
-    
+
     useEffect(() => {
         getFaq();
     }, []);
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.faqScreen}>
-        <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
+        {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
         <Text style={styles.title}>FAQ</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
@@ -53,7 +53,7 @@ const FaqScreen = (props) => {
                 )
             })}
             </SafeAreaView>
-        </ScrollView>        
+        </ScrollView>
     </KeyboardAvoidingView>
 }
 

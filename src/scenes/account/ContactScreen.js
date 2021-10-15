@@ -34,7 +34,7 @@ const ContactScreen = (props) => {
     };
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.changePasswordScreen}>
-        <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
+        {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
         <Text style={styles.title}>HOW CAN WE IMPROVE?</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>

@@ -16,43 +16,57 @@ import FaqScreen from '_scenes/account/FaqScreen'
 import AddCreditCardScreen from '_scenes/account/AddCreditCardScreen'
 import PageScreen from '_scenes/account/PageScreen'
 import { StyleSheet } from 'react-native'
-import { Colors } from '_styles'
+import { Colors, Spacing } from '_styles';
+import Logo from '_assets/images/logo_small_white.svg';
+import { scaleSize } from '_styles/mixins';
+import LeftChevron from '_assets/images/left-chevron.svg';
 
 const Stack = createStackNavigator()
 
 const styles = StyleSheet.create({
     cardStyle: {
-        backgroundColor: Colors.GRAY_MEDIUM
+        backgroundColor: Colors.PRIMARY
     }
 })
 
-const forFade = ({ current }) => ({
-    cardStyle: {
-        opacity: current.progress,
-    },
-});
+// const forFade = ({ current }) => ({
+//     cardStyle: {
+//         opacity: current.progress,
+//     },
+// });
 
 function AccountNavigator () {
     return (
       <Stack.Navigator initialRouteName="AccountSettings" screenOptions={{
-          headerShown: false,
-          cardStyleInterpolator: forFade,
+          headerMode: 'float',
+          headerTitle: (props) => <Logo height={scaleSize(22)}/>,
+          headerBackImage: () => <LeftChevron fill={'#ffffff'} height={scaleSize(18)} width={scaleSize(52)}/>,
+          headerBackTitleVisible: false,
+          headerStyle: {
+              backgroundColor: Colors.PRIMARY,
+              borderBottomWidth: 0,
+              shadowOpacity: 0,
+          },
+          headerBackTitleStyle: {
+              paddingLeft: 20
+          },
+          cardStyle: styles.cardStyle
       }}>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings" component={AccountSettingsScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Info" component={AccountInfoScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.MyPayments" component={MyPaymentsScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.GiftCards" component={GiftCardBalanceScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.GiftCardAdd" component={GiftCardAddScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Gift" component={GiftScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Contact" component={ContactScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Terms" component={TermsScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.PrivacyPolicy" component={PrivacyPolicyScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Faq" component={FaqScreen}/>
+          <Stack.Screen name="AccountSettings" component={AccountSettingsScreen}/>
+          <Stack.Screen name="AccountSettings.Info" component={AccountInfoScreen}/>
+          <Stack.Screen name="AccountSettings.MyPayments" component={MyPaymentsScreen}/>
+          <Stack.Screen name="AccountSettings.GiftCards" component={GiftCardBalanceScreen}/>
+          <Stack.Screen name="AccountSettings.GiftCardAdd" component={GiftCardAddScreen}/>
+          <Stack.Screen name="AccountSettings.Gift" component={GiftScreen}/>
+          <Stack.Screen name="AccountSettings.Contact" component={ContactScreen}/>
+          <Stack.Screen name="AccountSettings.Terms" component={TermsScreen}/>
+          <Stack.Screen name="AccountSettings.PrivacyPolicy" component={PrivacyPolicyScreen}/>
+          <Stack.Screen name="AccountSettings.Faq" component={FaqScreen}/>
 
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.AddCreditCard" component={AddCreditCardScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.ChangePassword" component={ChangePasswordScreen}/>
+          <Stack.Screen name="AccountSettings.AddCreditCard" component={AddCreditCardScreen}/>
+          <Stack.Screen name="AccountSettings.ChangePassword" component={ChangePasswordScreen}/>
 
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="AccountSettings.Page" component={PageScreen}/>
+          <Stack.Screen name="AccountSettings.Page" component={PageScreen}/>
 
       </Stack.Navigator>
     )

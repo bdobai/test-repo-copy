@@ -11,6 +11,7 @@ import { emailValidator } from '_utils/validators'
 import { AuthStoreContext, NotificationsStoreContext } from '_stores'
 import { scaleSize } from '_styles/mixins'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SectionTitle from '_atoms/SectionTitle';
 // import analytics from '@react-native-firebase/analytics'
 
 const LoginScreen = (props) => {
@@ -49,7 +50,7 @@ const LoginScreen = (props) => {
                     <SafeAreaView style={ styles.loginScreen }>
                         <Header bg={false} center={<Logo style={ styles.logo }/>} style={{marginTop: scaleSize(50)}}/>
                         <View style={ styles.login } title={'Enter your credentials'}>
-                            <Text style={styles.loginText}>LOG IN</Text>
+                            <SectionTitle>LOG IN</SectionTitle>
                             <Controller
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -153,14 +154,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.PRIMARY,
         paddingHorizontal: Spacing.SPACING_5,
-    },
-    loginText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_14,
-        lineHeight: Typography.LINE_HEIGHT_16,
-        color: Colors.SECONDARY,
-        marginBottom: scaleSize(34)
-    },
+    }
 })
 
 export default LoginScreen

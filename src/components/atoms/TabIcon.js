@@ -7,17 +7,17 @@ import { Animated } from 'react-native'
 const TabIcon = (props) => {
     const [translateValue] = useState(new Animated.Value(0))
 
-    useEffect(() => {
-        animateIcon(props.focused)
-    }, [props.focused])
-
-    const animateIcon = (value) =>{
-        Animated.timing(translateValue, {
-            toValue: value ? scaleSize(-4) : 0,
-            duration: 300,
-            useNativeDriver: true
-        }).start()
-    }
+    // useEffect(() => {
+    //     animateIcon(props.focused)
+    // }, [props.focused])
+    //
+    // const animateIcon = (value) =>{
+    //     Animated.timing(translateValue, {
+    //         toValue: value ? scaleSize(-4) : 0,
+    //         duration: 300,
+    //         useNativeDriver: true
+    //     }).start()
+    // }
 
     return <View style={styles.container}>
         <Animated.View style={[styles.iconContainer, props.containerStyle, {

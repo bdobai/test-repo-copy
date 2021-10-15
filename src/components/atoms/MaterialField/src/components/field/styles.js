@@ -1,4 +1,5 @@
 import { I18nManager, StyleSheet } from 'react-native'
+import { Typography } from '_styles';
 
 export default StyleSheet.create({
     inputContainer: {
@@ -21,6 +22,7 @@ export default StyleSheet.create({
 
         includeFontPadding: false,
         textAlignVertical: 'top',
+        fontFamily: Typography.FONT_PRIMARY_REGULAR
     },
 
     selectInput: {
@@ -34,6 +36,7 @@ export default StyleSheet.create({
         flex: 1,
         // borderWidth: 1,
         // borderColor: 'black'
+        fontFamily: Typography.FONT_PRIMARY_REGULAR
     },
 
     selectViewContainer: {

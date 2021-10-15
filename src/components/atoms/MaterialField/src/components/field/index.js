@@ -48,7 +48,7 @@ export default class TextField extends PureComponent {
         animationDuration: 225,
 
         fontSize: Typography.FONT_SIZE_18,
-        labelFontSize: Typography.FONT_SIZE_10,
+        labelFontSize: Typography.FONT_SIZE_13,
 
         tintColor: Colors.SECONDARY,
         textColor: Colors.WHITE,
@@ -927,7 +927,7 @@ export default class TextField extends PureComponent {
                           {this.renderAffix('suffix')}
                       </View>
                   </View>
-                  {this.props.secure ? this.renderEye() : this.renderAccessory('renderRightAccessory')}
+                  {this.props.renderRightAccessory ? this.renderAccessory('renderRightAccessory') : (this.props.secure ? this.renderEye() : null)}
               </Animated.View>
 
               {this.renderHelper()}

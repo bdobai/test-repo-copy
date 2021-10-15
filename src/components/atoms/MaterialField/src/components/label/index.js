@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react'
 import { Animated } from 'react-native'
 
 import styles from './styles'
+import { Typography } from '_styles';
 
 export default class Label extends PureComponent {
     static defaultProps = {
@@ -45,6 +46,15 @@ export default class Label extends PureComponent {
 
         // style: Text.propTypes.style,
         label: PropTypes.string,
+    }
+
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            active: false
+        }
+
     }
 
     render () {
@@ -110,9 +120,17 @@ export default class Label extends PureComponent {
             }],
         }
 
+        labelAnimation.addListener(({value}) => {
+            if (value === 0) {
+                this.setState({ active: false })
+            }else if (value === 1){
+                this.setState({ active: true })
+            }
+        });
+
         return (
           <Animated.View style={[styles.container, containerStyle]}>
-              <Animated.Text style={[styles.text, style, textStyle]} {...props}>
+              <Animated.Text style={[styles.text, style, textStyle, [this.state.active ? {fontFamily: Typography.FONT_PRIMARY_BOLD} : null]]} {...props}>
                   {label}
               </Animated.Text>
           </Animated.View>

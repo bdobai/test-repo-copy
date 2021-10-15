@@ -428,6 +428,8 @@ PODS:
     - React-Core
   - RNCPicker (2.1.0):
     - React-Core
+  - RNDateTimePicker (3.5.2):
+    - React-Core
   - RNDeviceInfo (8.3.3):
     - React-Core
   - RNFBAnalytics (12.8.0):
@@ -506,6 +508,7 @@ DEPENDENCIES:
   - RNBootSplash (from `../node_modules/react-native-bootsplash`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
@@ -611,6 +614,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
   RNFBAnalytics:
@@ -685,6 +690,7 @@ SPEC CHECKSUMS:
   RNBootSplash: 75faf048f66eebe1650e91afdb8c2205fefc1870
   RNCAsyncStorage: e8b8d6320a0dd90eb610fb0d0b1ef90596697c69
   RNCPicker: f7a40b21b915b7a187624d52f52b7bc2f73ea413
+  RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
   RNFBAnalytics: 3e6402bfe53d5c41abc7f36b1aa50ec71c6e1c89
   RNFBApp: b97d6654509a5852d49f0abf93be76b300fd2e2c
@@ -696,4 +702,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 630f2b3ce61801700ec75c5341fc4c6130ab44b0
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

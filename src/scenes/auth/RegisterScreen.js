@@ -59,7 +59,10 @@ const RegisterScreen = (props) => {
                               name="password"
                               rules={{
                                   required: true,
-                                  pattern: /^[A-Za-z0-9]+$/i,
+                                  pattern: {
+                                      value: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/i,
+                                      message: 'Password must include 1 lowercase, 1 capital, 1 number'
+                                  },
                                   minLength: {
                                       value: 6,
                                       message: 'password must be at least 6'

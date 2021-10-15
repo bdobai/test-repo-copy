@@ -54,7 +54,7 @@ const ChangePasswordScreen = (props) => {
     }, [])
 
     return <View style={{flex: 1}}>
-        <Header left={<BackButton/>} center={<PageTitle size={'small'} title={data.name}/>} right={<IconPlaceholder/>}/>
+        {/*<Header left={<BackButton/>} center={<PageTitle size={'small'} title={data.name}/>} right={<IconPlaceholder/>}/>*/}
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <Container style={{ flex: 1, paddingBottom: Spacing.SPACING_5 }}>
                 <Card>

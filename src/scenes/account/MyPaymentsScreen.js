@@ -59,7 +59,7 @@ const MyPaymentsScreen = (props) => {
     };
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.paymentsScreen }>
-        <Header left={<BackButton/>} center={<Logo/>}/>
+        {/*<Header left={<BackButton/>} center={<Logo/>}/>*/}
         <Text style={styles.title}>PAYMENTS</Text>
         <ScrollView
           showsVerticalScrollIndicator={false}

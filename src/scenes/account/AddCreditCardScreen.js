@@ -14,6 +14,7 @@ import { creditCardValidator, zipCodeValidator } from '_utils/validators'
 import { dispatch } from 'use-bus'
 import { NotificationsStoreContext } from '_stores'
 import Logo from '_assets/images/logo_small_white.svg'
+import SectionTitle from '_atoms/SectionTitle';
 
 const AddCreditCardScreen = (props) => {
     const { control, handleSubmit, setFocus, formState: { errors } } = useForm({
@@ -95,99 +96,97 @@ const AddCreditCardScreen = (props) => {
     }
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1, backgroundColor: Colors.PRIMARY }}>
-        <Header left={<BackButton/>} center={<Logo/>}/>
-        <Text style={styles.title}>ADD NEW CREDIT CARD</Text>
+        {/*<Header left={<BackButton/>} center={<Logo/>}/>*/}
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1}}>
-            <SafeAreaView style={{ flex: 1 }}>
-                <Container>
-                    <Controller
-                      control={control}
-                      render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                          autoCompleteType={'off'}
-                          autoCorrect={false}
-                          autoCapitalize={'none'}
-                          onBlur={onBlur}
-                          onChangeText={value => onChange(value)}
-                          value={value}
-                          onSubmitEditing={() => setFocus('number')}
-                          ref={ref}
-                          error={errors.name?.message}
-                          containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='Name on card'/>
-                      )}
-                      name="name"
-                      rules={{ required: 'Cardholder name is required'}}
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                          autoCompleteType={'off'}
-                          autoCorrect={false}
-                          autoCapitalize={'none'}
-                          onBlur={onBlur}
-                          submitOnFull={true}
-                          onChangeText={value => onChange(value)}
-                          value={value}
-                          onSubmitEditing={() => setFocus('expire_date')}
-                          ref={ref}
-                          mask={"#### #### #### ####"}
-                          keyboardType={'decimal-pad'}
-                          error={errors.number?.message}
-                          label='Credit card number'/>
-                      )}
-                      name="number"
-                      rules={{ required: 'Card number is required'}}
-                      // rules={{ required: 'Card number is required', pattern: creditCardValidator}}
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { ref, onChange, onBlur, value } }) => (
-                        <TextField
-                          autoCompleteType={'off'}
-                          autoCorrect={false}
-                          autoCapitalize={'none'}
-                          onBlur={onBlur}
-                          submitOnFull={true}
-                          onChangeText={value => onChange(value)}
-                          value={value}
-                          keyboardType={'decimal-pad'}
-                          onSubmitEditing={() => setFocus('cvc')}
-                          ref={ref}
-                          error={errors.cvv?.message}
-                          />
-                      )}
-                      name="cvv"
-                      rules={{ required: 'CVV is required'}}
-                    />
-                    <Text style={ styles.expirationText }>Expiration date</Text>
-                    <View style={styles.row}>
-                        <View style={styles.col1}>
-                            <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                  <TextField
-                                    autoCompleteType={'off'}
-                                    autoCorrect={false}
-                                    autoCapitalize={'none'}
-                                    onBlur={onBlur}
-                                    submitOnFull={true}
-                                    onChangeText={value => onChange(value)}
-                                    value={value}
-                                    keyboardType={'decimal-pad'}
-                                    onSubmitEditing={() => handleSubmit(onSubmit)}
-                                    ref={ref}
-                                    mask={"##/##"}
-                                    error={errors.expire_date?.message}
-                                    label='CVC'/>
-                              )}
-                              name="expire_date"
-                              rules={{ required: 'Expiration date is required'}}
-                            />
-                        </View>
+            <Container style={{ flex: 1 }}>
+                <SectionTitle>ADD NEW CREDIT CARD</SectionTitle>
+                <Controller
+                  control={control}
+                  render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      autoCapitalize={'none'}
+                      onBlur={onBlur}
+                      onChangeText={value => onChange(value)}
+                      value={value}
+                      onSubmitEditing={() => setFocus('number')}
+                      ref={ref}
+                      error={errors.name?.message}
+                      containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='Name on card'/>
+                  )}
+                  name="name"
+                  rules={{ required: 'Cardholder name is required'}}
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      autoCapitalize={'none'}
+                      onBlur={onBlur}
+                      submitOnFull={true}
+                      onChangeText={value => onChange(value)}
+                      value={value}
+                      onSubmitEditing={() => setFocus('expire_date')}
+                      ref={ref}
+                      mask={"#### #### #### ####"}
+                      keyboardType={'decimal-pad'}
+                      error={errors.number?.message}
+                      label='Credit card number'/>
+                  )}
+                  name="number"
+                  rules={{ required: 'Card number is required'}}
+                  // rules={{ required: 'Card number is required', pattern: creditCardValidator}}
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <TextField
+                      autoCompleteType={'off'}
+                      autoCorrect={false}
+                      autoCapitalize={'none'}
+                      onBlur={onBlur}
+                      submitOnFull={true}
+                      onChangeText={value => onChange(value)}
+                      value={value}
+                      keyboardType={'decimal-pad'}
+                      onSubmitEditing={() => setFocus('cvc')}
+                      ref={ref}
+                      error={errors.cvv?.message}
+                      />
+                  )}
+                  name="cvv"
+                  rules={{ required: 'CVV is required'}}
+                />
+                <Text style={ styles.expirationText }>Expiration date</Text>
+                <View style={styles.row}>
+                    <View style={styles.col1}>
+                        <Controller
+                          control={control}
+                          render={({ field: { ref, onChange, onBlur, value } }) => (
+                              <TextField
+                                autoCompleteType={'off'}
+                                autoCorrect={false}
+                                autoCapitalize={'none'}
+                                onBlur={onBlur}
+                                submitOnFull={true}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                keyboardType={'decimal-pad'}
+                                onSubmitEditing={() => handleSubmit(onSubmit)}
+                                ref={ref}
+                                mask={"##/##"}
+                                error={errors.expire_date?.message}
+                                label='CVC'/>
+                          )}
+                          name="expire_date"
+                          rules={{ required: 'Expiration date is required'}}
+                        />
                     </View>
-                </Container>
-            </SafeAreaView>
+                </View>
+            </Container>
             <View style={styles.footer}>
                 <Pressable onPress={() => props.navigation.navigate('AccountSettings.MyPayments')} style={ styles.cancelBtnWrapper}>
                     <Text style={styles.cancelBtn}>Cancel</Text>

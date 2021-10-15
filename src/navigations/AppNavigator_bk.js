@@ -5,16 +5,18 @@ import AccountNavigator from '_navigations/AccountNavigator'
 import AuthNavigator from '_navigations/AuthNavigator'
 import HomeNavigator from '_navigations/HomeNavigator'
 import HistoryScreen from '_scenes/HistoryScreen'
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native'
 import { Colors } from '_styles'
 import OffersIcon from '_assets/images/nav/offers.svg'
 import HistoryIcon from '_assets/images/nav/history.svg'
 import HomeIcon from '_assets/images/nav/home.svg'
 import StoresIcon from '_assets/images/nav/stores.svg'
 import SettingsIcon from '_assets/images/nav/settings.svg'
+import TabIcon from '_atoms/TabIcon'
 import { AuthStoreContext } from '_stores/index.js'
 import { observer } from 'mobx-react-lite'
 import Spinner from '_atoms/Spinner'
+import TabBar from '_organisms/TabBar'
 import { createStackNavigator } from '@react-navigation/stack'
 import StoresScreen from '_scenes/StoresScreen'
 import ModalNavigator from '_navigations/ModalNavigator'
@@ -38,47 +40,41 @@ const RootStack = createStackNavigator()
 const Tabs = () => (
   <Tab.Navigator sceneContainerStyle={styles.cardStyle}
                  initialRouteName={'Home'}
+                 tabBar={props => <TabBar {...props} />}
                  screenOptions={{
                      headerShown: false,
                      tabBarActiveTintColor: Colors.PRIMARY,
-                     tabBarStyle: {
-                         minHeight: scaleSize(80),
-                         borderTopWidth: 0
-                     }
                  }}
   >
       <Tab.Screen name={'Home'} component={HomeNavigator}
                   options={{
                       tabBarLabel: 'Home',
-                      tabBarIcon: ({ focused }) => <HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
       <Tab.Screen name="Stores" component={StoresScreen}
                   options={{
                       tabBarLabel: 'Stores',
-                      tabBarIcon: ({ focused }) => <StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Stores'} icon={<StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
       <Tab.Screen name="Offers" component={OffersScreen}
                   options={{
                       tabBarLabel: 'Offers',
-                      tabBarIcon: ({ focused }) => <OffersIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Offers'} icon={<OffersIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
 
       <Tab.Screen name="History" component={HistoryScreen}
                   options={{
                       tabBarLabel: 'History',
-                      tabBarIcon: ({ focused }) => <HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'History'} icon={<HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
       <Tab.Screen name="AccountSettings" component={AccountNavigator}
                   options={{
-                      tabBarLabel: 'Account',
-                      tabBarButton: () => <Pressable onPress={() => props.navigation.navigate('Account')}>
-                          <SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={Colors.PRIMARY}/>
-                      </Pressable>,
-                      tabBarIcon: ({ focused }) => <SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
+                      tabBarLabel: 'Settings',
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
   </Tab.Navigator>
@@ -99,7 +95,9 @@ const AppNavigator = observer(() => {
                   headerShown: false
               }}/>
               <RootStack.Screen name={'Modal'} component={ModalNavigator}/>
-              <RootStack.Screen name={'Account'} component={AccountNavigator}/>
+              <RootStack.Screen name={'Account'} component={AccountNavigator} options={{
+                  headerShown: false
+              }}/>
           </RootStack.Navigator>
         )
     )

@@ -16,7 +16,7 @@ const ContactConfirmationScreen = (props) => {
     return <View style={{ flex: 1 }}>
         <SafeAreaView keyboardShouldPersistTaps='handled' style={ styles.confirmationScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
-            <Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>
+            {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
                 <Container style={ styles.container }>
                     <View style={styles.info}>
                         <EmailIcon style={styles.icon}></EmailIcon>
