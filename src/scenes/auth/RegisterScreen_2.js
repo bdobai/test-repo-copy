@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View, Linking } from 'react-native'
+import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View, Image } from 'react-native';
 import Header from '_components/molecules/Header'
-import { Colors, Spacing, Typography } from '_styles'
+import { Colors, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
@@ -9,29 +9,69 @@ import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { AuthStoreContext } from '_stores'
 import { phoneValidator } from '_utils/validators'
-import DeviceInfo from 'react-native-device-info';
 import { scaleSize } from '_styles/mixins'
+import countries from '_utils/countries.json';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import dayjs from 'dayjs';
 
 const RegisterScreen_2 = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
-
-    const nameRef = React.useRef()
-    const countryRef = React.useRef()
-    const phoneRef = React.useRef()
-    const birthdateRef = React.useRef()
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
     const onSubmit = data => {
-        let deviceId = DeviceInfo.getDeviceId();
+        const params = props.route.params
 
         setLoading(true)
-        request('/auth/register', {
+        request('/user/register.json', {
             method: 'POST',
-            data: {...data, ...{app_device_id: deviceId}},
+            data: {
+                "contact_consent": 3,
+                "email_address": params.email,
+                "password": params.password,
+                "first_name": data.first_name,
+                "last_name": data.last_name,
+                "cedula": null,
+                "terms": params.terms,
+                "phone_number": {
+                    "code": data.country.phone_code,
+                    "number": data.phone
+                },
+                "country": data.country.country_id,
+                "address1": null,
+                "region": null,
+                "city": null,
+                "postal_code": null,
+                "birthdate": dayjs(data.birthdate).unix(),
+                "referral_code": null,
+                "language": 3
+            },
             withToken: false,
             success: function (response) {
+                props.navigation.navigate('Register_3');
+                loginAccount()
+            },
+            error: () => {
+                setLoading(false)
+            }
+        });
+    };
+
+    const loginAccount = () => {
+        const params = props.route.params
+
+        request('/user/authenticate.json', {
+            method: 'POST',
+            data: {
+                "email_address": params.email,
+                "password": params.password,
+            },
+            withToken: false,
+            success: function (response) {
+                console.log(response)
+                AsyncStorage.setItem('online_order_token', response.online_order_token)
+                AsyncStorage.setItem('session_key', response.session_identifier)
                 setLoading(false)
                 authStore.getUser()
             },
@@ -40,13 +80,6 @@ const RegisterScreen_2 = (props) => {
             }
         });
     };
-
-    const termsLink = () => {
-        const url="https://google.com"
-        return <Text onPress={() => Linking.openURL(url)}>
-                    {url}
-                </Text>
-    }
 
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
@@ -57,35 +90,58 @@ const RegisterScreen_2 = (props) => {
                         <View style={ styles.login } title={'Enter your credentials'}>
                             <Controller
                               control={control}
-                              onFocus={() => {nameRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
-                                  onSubmitEditing={() => countryRef.current.focus()}
-                                  ref={nameRef}
+                                  onSubmitEditing={() => setFocus('last_name')}
+                                  ref={ref}
                                   error={errors.name?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Name*'/>
+                                  label='First Name*'/>
                               )}
-                              name="name"
-                              rules={{ required: 'Name is required'}}
+                              name="first_name"
+                              rules={{ required: 'First Name is required'}}
                               defaultValue={''}
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {countryRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
+                                <TextField
+                                  autoCorrect={false}
+                                  autoCapitalize={'none'}
+                                  onBlur={onBlur}
+                                  onChangeText={value => onChange(value)}
+                                  value={value}
+                                  onSubmitEditing={() => setFocus('country')}
+                                  ref={ref}
+                                  error={errors.name?.message}
+                                  label='Last Name*'/>
+                              )}
+                              name="last_name"
+                              rules={{ required: 'Last Name is required'}}
+                              defaultValue={''}
+                            />
+                            <Controller
+                              control={control}
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
-                                  onSubmitEditing={() => phoneRef.current.focus()}
-                                  ref={countryRef}
-                                  error={errors.phone?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Country*'/>
+                                  type={'select'}
+                                  items={countries}
+                                  itemKey={'country_id'}
+                                  onSubmitEditing={() => setFocus('phone')}
+                                  ref={ref}
+                                  error={errors.country?.message}
+                                  label='Country*'
+                                  renderRightAccessory={() => {
+                                      return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
+                                  }}
+                                />
                               )}
                               name="country"
                               rules={{ required: 'Country is required'}}
@@ -93,46 +149,44 @@ const RegisterScreen_2 = (props) => {
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {phoneRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   keyboardType={'phone-pad'}
-                                  onSubmitEditing={() => birthdateRef.current.focus()}
-                                  ref={phoneRef}
+                                  onSubmitEditing={() => setFocus('birthdate')}
+                                  ref={ref}
                                   error={errors.phone?.message}
                                   mask={"+1 (###) ###-####"}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Phone number*'/>
+                                  label='Phone number*'/>
                               )}
                               name="phone"
-                              rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
+                              rules={{ required: 'Phone no. is required'}}
                               defaultValue={''}
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {birthdateRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
+                                  type={'date'}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  ref={birthdateRef}
-                                  error={errors.phone?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Date of birth'/>
+                                  ref={ref}
+                                  error={errors.birthdate?.message}
+                                  label='Date of birth'/>
                               )}
                               name="birthdate"
-                              defaultValue={''}
+                              defaultValue={null}
                             />
                         </View>
                         <View style={styles.footer}>
-                            {/* <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={''Verify phone number'}/> */}
-                            {/* Temporary button - must be removed */}
-                            <Button type={'secondary'} 
-                                text={'Verify phone number'}
-                                onPress={() => props.navigation.navigate('Register_3')}
+                            <Button type={'secondary'}
+                                    // loading={loading}
+                                    text={'Verify phone number'}
+                                    onPress={handleSubmit(onSubmit)}
                             />
                             <View style={styles.footerTextView}>
                                 <Text style={styles.footerText}>Already have an account? </Text>

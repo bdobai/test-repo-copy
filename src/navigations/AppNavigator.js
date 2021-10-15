@@ -98,7 +98,7 @@ const AppNavigator = observer(() => {
       !authStore.user.id ?
         <AuthNavigator/>
         : (
-          <RootStack.Navigator headerMode={'none'}>
+          <RootStack.Navigator>
               <RootStack.Screen name={'App'} component={Tabs}/>
               <RootStack.Screen name={'Modal'} component={ModalNavigator}/>
           </RootStack.Navigator>

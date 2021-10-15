@@ -12,11 +12,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { scaleSize } from '_styles/mixins'
 
 const ResetScreen = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
     const { email } = props.route.params;
-
-    const codeRef = React.useRef()
-    const passwordRef = React.useRef()
 
     const [loading, setLoading] = useState(false);
 
@@ -46,19 +43,18 @@ const ResetScreen = (props) => {
                         <TextField
                           value={email}
                           disabled={true}
-                          containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Email'/>
+                          label='Email'/>
                         <Controller
                           control={control}
-                          onFocus={() => {codeRef.current.focus()}}
-                          render={({ field: { onChange, onBlur, value } }) => (
+                          render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                               onBlur={onBlur}
                               onChangeText={value => onChange(value)}
                               value={value}
-                              onSubmitEditing={() => passwordRef.current.focus()}
-                              ref={codeRef}
+                              onSubmitEditing={() => setFocus('password')}
+                              ref={ref}
                               error={errors.code?.message}
-                              containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Code'/>
+                              label='Code'/>
                           )}
                           name="code"
                           defaultValue=""
@@ -66,17 +62,16 @@ const ResetScreen = (props) => {
                         />
                         <Controller
                           control={control}
-                          onFocus={() => {codeRef.current.focus()}}
-                          render={({ field: { onChange, onBlur, value } }) => (
+                          render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                               onBlur={onBlur}
                               onChangeText={value => onChange(value)}
                               value={value}
                               secure={true}
                               onSubmitEditing={() => handleSubmit(onSubmit)}
-                              ref={passwordRef}
+                              ref={ref}
                               error={errors.password?.message}
-                              containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='New password'/>
+                              label='New password'/>
                           )}
                           name="password"
                           defaultValue=""

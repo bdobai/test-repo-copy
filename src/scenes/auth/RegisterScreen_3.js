@@ -1,33 +1,37 @@
 import React, { useState } from 'react'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
 import Header from '_components/molecules/Header'
-import { Colors, Spacing, Typography } from '_styles'
+import { Colors, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { AuthStoreContext } from '_stores'
-import DeviceInfo from 'react-native-device-info';
 import { scaleSize } from '_styles/mixins'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const RegisterScreen_3 = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
-
-    const confirmCodeRef = React.useRef()
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
     const onSubmit = data => {
-        let deviceId = DeviceInfo.getDeviceId();
-
+        console.log({ props }, { data })
+        return;
         setLoading(true)
-        request('/auth/register', {
+        request('/user/register.json', {
             method: 'POST',
-            data: {...data, ...{app_device_id: deviceId}},
+            data: {
+                "contact_consent": 3,
+
+            },
             withToken: false,
             success: function (response) {
+                console.log(response)
+                AsyncStorage.setItem('online_order_token', response.online_order_token)
+                AsyncStorage.setItem('session_key', response.session_identifier)
                 setLoading(false)
                 authStore.getUser()
             },
@@ -36,6 +40,8 @@ const RegisterScreen_3 = (props) => {
             }
         });
     };
+
+
 
     const resendCode = () => {
         console.log('resend code')
@@ -51,17 +57,15 @@ const RegisterScreen_3 = (props) => {
                             <Text style={ styles.infoText }>Please type the verification code sent to +971 424 242 942</Text>
                             <Controller
                               control={control}
-                              onFocus={() => {confirmCodeRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   secure={true}
-                                  ref={confirmCodeRef}
+                                  ref={ref}
                                   error={errors.password && true}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                   label='Confirm code*'/>
                               )}
                               name="confirm_code"

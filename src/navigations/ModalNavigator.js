@@ -13,7 +13,9 @@ const styles = StyleSheet.create({
 
 function ModalNavigator () {
     return (
-      <Stack.Navigator headerMode={'none'}>
+      <Stack.Navigator screenOptions={{
+          headerShown: false,
+      }}>
           {/*<Stack.Screen options={{cardStyle: styles.cardStyle}} name="Filters" component={FiltersScreen}/>*/}
       </Stack.Navigator>
     )

@@ -1,0 +1,2628 @@
+[
+  {
+    "key": 1,
+    "label": "Afghanistan",
+    "value": {
+      "country_id": 1,
+      "code": "AF",
+      "phone_code": "93",
+      "name": "Afghanistan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/af.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 2,
+    "label": "Albania",
+    "value": {
+      "country_id": 2,
+      "code": "AL",
+      "phone_code": "355",
+      "name": "Albania",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/al.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 3,
+    "label": "Algeria",
+    "value": {
+      "country_id": 3,
+      "code": "DZ",
+      "phone_code": "213",
+      "name": "Algeria",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/dz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 6,
+    "label": "Angola",
+    "value": {
+      "country_id": 6,
+      "code": "AO",
+      "phone_code": "244",
+      "name": "Angola",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ao.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 8,
+    "label": "Antarctica",
+    "value": {
+      "country_id": 8,
+      "code": "AQ",
+      "phone_code": "672",
+      "name": "Antarctica",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/aq.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 10,
+    "label": "Argentina",
+    "value": {
+      "country_id": 10,
+      "code": "AR",
+      "phone_code": "54",
+      "name": "Argentina",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ar.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 11,
+    "label": "Armenia",
+    "value": {
+      "country_id": 11,
+      "code": "AM",
+      "phone_code": "374",
+      "name": "Armenia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/am.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 12,
+    "label": "Aruba",
+    "value": {
+      "country_id": 12,
+      "code": "AW",
+      "phone_code": "297",
+      "name": "Aruba",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/aw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 13,
+    "label": "Australia",
+    "value": {
+      "country_id": 13,
+      "code": "AU",
+      "phone_code": "61",
+      "name": "Australia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/au.png",
+      "zip_validate": "/d{4}/",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 14,
+    "label": "Austria",
+    "value": {
+      "country_id": 14,
+      "code": "AT",
+      "phone_code": "43",
+      "name": "Austria",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/at.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 15,
+    "label": "Azerbaijan",
+    "value": {
+      "country_id": 15,
+      "code": "AZ",
+      "phone_code": "994",
+      "name": "Azerbaijan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/az.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 17,
+    "label": "Bahrain",
+    "value": {
+      "country_id": 17,
+      "code": "BH",
+      "phone_code": "973",
+      "name": "Bahrain",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bh.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 18,
+    "label": "Bangladesh",
+    "value": {
+      "country_id": 18,
+      "code": "BD",
+      "phone_code": "880",
+      "name": "Bangladesh",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bd.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 20,
+    "label": "Belarus",
+    "value": {
+      "country_id": 20,
+      "code": "BY",
+      "phone_code": "375",
+      "name": "Belarus",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/by.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 21,
+    "label": "Belgium",
+    "value": {
+      "country_id": 21,
+      "code": "BE",
+      "phone_code": "32",
+      "name": "Belgium",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/be.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 22,
+    "label": "Belize",
+    "value": {
+      "country_id": 22,
+      "code": "BZ",
+      "phone_code": "501",
+      "name": "Belize",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 23,
+    "label": "Benin",
+    "value": {
+      "country_id": 23,
+      "code": "BJ",
+      "phone_code": "229",
+      "name": "Benin",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bj.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 25,
+    "label": "Bhutan",
+    "value": {
+      "country_id": 25,
+      "code": "BT",
+      "phone_code": "975",
+      "name": "Bhutan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 26,
+    "label": "Bolivia",
+    "value": {
+      "country_id": 26,
+      "code": "BO",
+      "phone_code": "591",
+      "name": "Bolivia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bo.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{2})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 27,
+    "label": "Bosnia and Herzegowina",
+    "value": {
+      "country_id": 27,
+      "code": "BA",
+      "phone_code": "387",
+      "name": "Bosnia and Herzegowina",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ba.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 28,
+    "label": "Botswana",
+    "value": {
+      "country_id": 28,
+      "code": "BW",
+      "phone_code": "267",
+      "name": "Botswana",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 30,
+    "label": "Brazil",
+    "value": {
+      "country_id": 30,
+      "code": "BR",
+      "phone_code": "55",
+      "name": "Brazil",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/br.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 31,
+    "label": "British Indian Ocean Territory",
+    "value": {
+      "country_id": 31,
+      "code": "IO",
+      "phone_code": "246",
+      "name": "British Indian Ocean Territory",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/io.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 33,
+    "label": "Brunei Darussalam",
+    "value": {
+      "country_id": 33,
+      "code": "BN",
+      "phone_code": "673",
+      "name": "Brunei Darussalam",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 34,
+    "label": "Bulgaria",
+    "value": {
+      "country_id": 34,
+      "code": "BG",
+      "phone_code": "359",
+      "name": "Bulgaria",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 35,
+    "label": "Burkina Faso",
+    "value": {
+      "country_id": 35,
+      "code": "BF",
+      "phone_code": "226",
+      "name": "Burkina Faso",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bf.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 36,
+    "label": "Burundi",
+    "value": {
+      "country_id": 36,
+      "code": "BI",
+      "phone_code": "257",
+      "name": "Burundi",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/bi.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 37,
+    "label": "Cambodia",
+    "value": {
+      "country_id": 37,
+      "code": "KH",
+      "phone_code": "855",
+      "name": "Cambodia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kh.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 38,
+    "label": "Cameroon",
+    "value": {
+      "country_id": 38,
+      "code": "CM",
+      "phone_code": "237",
+      "name": "Cameroon",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 39,
+    "label": "Canada",
+    "value": {
+      "country_id": 39,
+      "code": "CA",
+      "phone_code": "1",
+      "name": "Canada",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ca.png",
+      "zip_validate": "/^[ABCEGHJKLMNPRSTVXY]d[A-Z]( )?d[A-Z]d$/",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 40,
+    "label": "Cape Verde",
+    "value": {
+      "country_id": 40,
+      "code": "CV",
+      "phone_code": "238",
+      "name": "Cape Verde",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cv.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 42,
+    "label": "Central African Republic",
+    "value": {
+      "country_id": 42,
+      "code": "CF",
+      "phone_code": "236",
+      "name": "Central African Republic",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cf.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 43,
+    "label": "Chad",
+    "value": {
+      "country_id": 43,
+      "code": "TD",
+      "phone_code": "235",
+      "name": "Chad",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/td.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 44,
+    "label": "Chile",
+    "value": {
+      "country_id": 44,
+      "code": "CL",
+      "phone_code": "56",
+      "name": "Chile",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cl.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 45,
+    "label": "China",
+    "value": {
+      "country_id": 45,
+      "code": "CN",
+      "phone_code": "86",
+      "name": "China",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 46,
+    "label": "Christmas Island",
+    "value": {
+      "country_id": 46,
+      "code": "CX",
+      "phone_code": "61",
+      "name": "Christmas Island",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cx.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 47,
+    "label": "Cocos (Keeling) Islands",
+    "value": {
+      "country_id": 47,
+      "code": "CC",
+      "phone_code": "61",
+      "name": "Cocos (Keeling) Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cc.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 48,
+    "label": "Colombia",
+    "value": {
+      "country_id": 48,
+      "code": "CO",
+      "phone_code": "57",
+      "name": "Colombia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/co.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 49,
+    "label": "Comoros",
+    "value": {
+      "country_id": 49,
+      "code": "KM",
+      "phone_code": "269",
+      "name": "Comoros",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/km.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 50,
+    "label": "Congo",
+    "value": {
+      "country_id": 50,
+      "code": "CG",
+      "phone_code": "243",
+      "name": "Congo",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 51,
+    "label": "Cook Islands",
+    "value": {
+      "country_id": 51,
+      "code": "CK",
+      "phone_code": "682",
+      "name": "Cook Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ck.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 52,
+    "label": "Costa Rica",
+    "value": {
+      "country_id": 52,
+      "code": "CR",
+      "phone_code": "506",
+      "name": "Costa Rica",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cr.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{2})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 54,
+    "label": "Croatia",
+    "value": {
+      "country_id": 54,
+      "code": "HR",
+      "phone_code": "385",
+      "name": "Croatia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/hr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 55,
+    "label": "Cuba",
+    "value": {
+      "country_id": 55,
+      "code": "CU",
+      "phone_code": "53",
+      "name": "Cuba",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cu.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{2})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 56,
+    "label": "Cyprus",
+    "value": {
+      "country_id": 56,
+      "code": "CY",
+      "phone_code": "357",
+      "name": "Cyprus",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cy.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 57,
+    "label": "Czech Republic",
+    "value": {
+      "country_id": 57,
+      "code": "CZ",
+      "phone_code": "420",
+      "name": "Czech Republic",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/cz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 58,
+    "label": "Denmark",
+    "value": {
+      "country_id": 58,
+      "code": "DK",
+      "phone_code": "45",
+      "name": "Denmark",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/dk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 59,
+    "label": "Djibouti",
+    "value": {
+      "country_id": 59,
+      "code": "DJ",
+      "phone_code": "253",
+      "name": "Djibouti",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/dj.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 62,
+    "label": "East Timor",
+    "value": {
+      "country_id": 62,
+      "code": "TP",
+      "phone_code": "670",
+      "name": "East Timor",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tp.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 63,
+    "label": "Ecuador",
+    "value": {
+      "country_id": 63,
+      "code": "EC",
+      "phone_code": "593",
+      "name": "Ecuador",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ec.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 64,
+    "label": "Egypt",
+    "value": {
+      "country_id": 64,
+      "code": "EG",
+      "phone_code": "20",
+      "name": "Egypt",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/eg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 65,
+    "label": "El Salvador",
+    "value": {
+      "country_id": 65,
+      "code": "SV",
+      "phone_code": "503",
+      "name": "El Salvador",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sv.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 66,
+    "label": "Equatorial Guinea",
+    "value": {
+      "country_id": 66,
+      "code": "GQ",
+      "phone_code": "240",
+      "name": "Equatorial Guinea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gq.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 67,
+    "label": "Eritrea",
+    "value": {
+      "country_id": 67,
+      "code": "ER",
+      "phone_code": "291",
+      "name": "Eritrea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/er.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 68,
+    "label": "Estonia",
+    "value": {
+      "country_id": 68,
+      "code": "EE",
+      "phone_code": "372",
+      "name": "Estonia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ee.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 69,
+    "label": "Ethiopia",
+    "value": {
+      "country_id": 69,
+      "code": "ET",
+      "phone_code": "251",
+      "name": "Ethiopia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/et.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 70,
+    "label": "Falkland Islands (Malvinas)",
+    "value": {
+      "country_id": 70,
+      "code": "FK",
+      "phone_code": "500",
+      "name": "Falkland Islands (Malvinas)",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 71,
+    "label": "Faroe Islands",
+    "value": {
+      "country_id": 71,
+      "code": "FO",
+      "phone_code": "298",
+      "name": "Faroe Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fo.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 72,
+    "label": "Fiji",
+    "value": {
+      "country_id": 72,
+      "code": "FJ",
+      "phone_code": "679",
+      "name": "Fiji",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fj.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 73,
+    "label": "Finland",
+    "value": {
+      "country_id": 73,
+      "code": "FI",
+      "phone_code": "358",
+      "name": "Finland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fi.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 74,
+    "label": "France",
+    "value": {
+      "country_id": 74,
+      "code": "FR",
+      "phone_code": "33",
+      "name": "France",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 77,
+    "label": "French Polynesia",
+    "value": {
+      "country_id": 77,
+      "code": "PF",
+      "phone_code": "689",
+      "name": "French Polynesia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pf.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 79,
+    "label": "Gabon",
+    "value": {
+      "country_id": 79,
+      "code": "GA",
+      "phone_code": "241",
+      "name": "Gabon",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ga.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 80,
+    "label": "Georgia",
+    "value": {
+      "country_id": 80,
+      "code": "GE",
+      "phone_code": "995",
+      "name": "Georgia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ge.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 81,
+    "label": "Gambia",
+    "value": {
+      "country_id": 81,
+      "code": "GM",
+      "phone_code": "220",
+      "name": "Gambia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 83,
+    "label": "Germany",
+    "value": {
+      "country_id": 83,
+      "code": "DE",
+      "phone_code": "49",
+      "name": "Germany",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/de.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 84,
+    "label": "Ghana",
+    "value": {
+      "country_id": 84,
+      "code": "GH",
+      "phone_code": "233",
+      "name": "Ghana",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gh.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 85,
+    "label": "Gibraltar",
+    "value": {
+      "country_id": 85,
+      "code": "GI",
+      "phone_code": "350",
+      "name": "Gibraltar",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gi.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 86,
+    "label": "Greece",
+    "value": {
+      "country_id": 86,
+      "code": "GR",
+      "phone_code": "30",
+      "name": "Greece",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 87,
+    "label": "Greenland",
+    "value": {
+      "country_id": 87,
+      "code": "GL",
+      "phone_code": "299",
+      "name": "Greenland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gl.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 91,
+    "label": "Guatemala",
+    "value": {
+      "country_id": 91,
+      "code": "GT",
+      "phone_code": "502",
+      "name": "Guatemala",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 92,
+    "label": "Guinea",
+    "value": {
+      "country_id": 92,
+      "code": "GN",
+      "phone_code": "224",
+      "name": "Guinea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 93,
+    "label": "Guinea-Bissau",
+    "value": {
+      "country_id": 93,
+      "code": "GW",
+      "phone_code": "245",
+      "name": "Guinea-Bissau",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 94,
+    "label": "Guyana",
+    "value": {
+      "country_id": 94,
+      "code": "GY",
+      "phone_code": "592",
+      "name": "Guyana",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gy.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 95,
+    "label": "Haiti",
+    "value": {
+      "country_id": 95,
+      "code": "HT",
+      "phone_code": "509",
+      "name": "Haiti",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ht.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 97,
+    "label": "Honduras",
+    "value": {
+      "country_id": 97,
+      "code": "HN",
+      "phone_code": "504",
+      "name": "Honduras",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/hn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 98,
+    "label": "Hong Kong",
+    "value": {
+      "country_id": 98,
+      "code": "HK",
+      "phone_code": "852",
+      "name": "Hong Kong",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/hk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 99,
+    "label": "Hungary",
+    "value": {
+      "country_id": 99,
+      "code": "HU",
+      "phone_code": "36",
+      "name": "Hungary",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/hu.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 100,
+    "label": "Iceland",
+    "value": {
+      "country_id": 100,
+      "code": "IS",
+      "phone_code": "354",
+      "name": "Iceland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/is.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 101,
+    "label": "India",
+    "value": {
+      "country_id": 101,
+      "code": "IN",
+      "phone_code": "91",
+      "name": "India",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/in.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 102,
+    "label": "Indonesia",
+    "value": {
+      "country_id": 102,
+      "code": "ID",
+      "phone_code": "62",
+      "name": "Indonesia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/id.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 103,
+    "label": "Iraq",
+    "value": {
+      "country_id": 103,
+      "code": "IQ",
+      "phone_code": "964",
+      "name": "Iraq",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/iq.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 104,
+    "label": "Ireland",
+    "value": {
+      "country_id": 104,
+      "code": "IE",
+      "phone_code": "353",
+      "name": "Ireland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ie.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 105,
+    "label": "Iran",
+    "value": {
+      "country_id": 105,
+      "code": "IR",
+      "phone_code": "98",
+      "name": "Iran",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ir.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 106,
+    "label": "Israel",
+    "value": {
+      "country_id": 106,
+      "code": "IL",
+      "phone_code": "972",
+      "name": "Israel",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/il.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 107,
+    "label": "Italy",
+    "value": {
+      "country_id": 107,
+      "code": "IT",
+      "phone_code": "39",
+      "name": "Italy",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/it.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 108,
+    "label": "Jamaica",
+    "value": {
+      "country_id": 108,
+      "code": "JM",
+      "phone_code": "0",
+      "name": "Jamaica",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/jm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 109,
+    "label": "Japan",
+    "value": {
+      "country_id": 109,
+      "code": "JP",
+      "phone_code": "81",
+      "name": "Japan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/jp.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 110,
+    "label": "Jordan",
+    "value": {
+      "country_id": 110,
+      "code": "JO",
+      "phone_code": "962",
+      "name": "Jordan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/jo.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 111,
+    "label": "Kazakhstan",
+    "value": {
+      "country_id": 111,
+      "code": "KZ",
+      "phone_code": "7",
+      "name": "Kazakhstan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 112,
+    "label": "Kenya",
+    "value": {
+      "country_id": 112,
+      "code": "KE",
+      "phone_code": "254",
+      "name": "Kenya",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ke.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 113,
+    "label": "Kiribati",
+    "value": {
+      "country_id": 113,
+      "code": "KI",
+      "phone_code": "686",
+      "name": "Kiribati",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ki.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 114,
+    "label": "North Korea",
+    "value": {
+      "country_id": 114,
+      "code": "KP",
+      "phone_code": "850",
+      "name": "North Korea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kp.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 115,
+    "label": "South Korea",
+    "value": {
+      "country_id": 115,
+      "code": "KR",
+      "phone_code": "82",
+      "name": "South Korea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 116,
+    "label": "Kuwait",
+    "value": {
+      "country_id": 116,
+      "code": "KW",
+      "phone_code": "965",
+      "name": "Kuwait",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 117,
+    "label": "Kyrgyzstan",
+    "value": {
+      "country_id": 117,
+      "code": "KG",
+      "phone_code": "996",
+      "name": "Kyrgyzstan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/kg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 118,
+    "label": "Laos",
+    "value": {
+      "country_id": 118,
+      "code": "LA",
+      "phone_code": "856",
+      "name": "Laos",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/la.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 119,
+    "label": "Latvia",
+    "value": {
+      "country_id": 119,
+      "code": "LV",
+      "phone_code": "371",
+      "name": "Latvia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lv.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 120,
+    "label": "Lebanon",
+    "value": {
+      "country_id": 120,
+      "code": "LB",
+      "phone_code": "961",
+      "name": "Lebanon",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lb.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 121,
+    "label": "Lesotho",
+    "value": {
+      "country_id": 121,
+      "code": "LS",
+      "phone_code": "266",
+      "name": "Lesotho",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ls.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 122,
+    "label": "Liberia",
+    "value": {
+      "country_id": 122,
+      "code": "LR",
+      "phone_code": "231",
+      "name": "Liberia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 124,
+    "label": "Liechtenstein",
+    "value": {
+      "country_id": 124,
+      "code": "LI",
+      "phone_code": "423",
+      "name": "Liechtenstein",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/li.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 125,
+    "label": "Lithuania",
+    "value": {
+      "country_id": 125,
+      "code": "LT",
+      "phone_code": "370",
+      "name": "Lithuania",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 126,
+    "label": "Luxembourg",
+    "value": {
+      "country_id": 126,
+      "code": "LU",
+      "phone_code": "352",
+      "name": "Luxembourg",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lu.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 127,
+    "label": "Macau",
+    "value": {
+      "country_id": 127,
+      "code": "MO",
+      "phone_code": "853",
+      "name": "Macau",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mo.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 128,
+    "label": "Macedonia",
+    "value": {
+      "country_id": 128,
+      "code": "MK",
+      "phone_code": "389",
+      "name": "Macedonia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 129,
+    "label": "Madagascar",
+    "value": {
+      "country_id": 129,
+      "code": "MG",
+      "phone_code": "261",
+      "name": "Madagascar",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 130,
+    "label": "Malawi",
+    "value": {
+      "country_id": 130,
+      "code": "MW",
+      "phone_code": "265",
+      "name": "Malawi",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 131,
+    "label": "Malaysia",
+    "value": {
+      "country_id": 131,
+      "code": "MY",
+      "phone_code": "60",
+      "name": "Malaysia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/my.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 132,
+    "label": "Maldives",
+    "value": {
+      "country_id": 132,
+      "code": "MV",
+      "phone_code": "960",
+      "name": "Maldives",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mv.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 133,
+    "label": "Mali",
+    "value": {
+      "country_id": 133,
+      "code": "ML",
+      "phone_code": "223",
+      "name": "Mali",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ml.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 134,
+    "label": "Malta",
+    "value": {
+      "country_id": 134,
+      "code": "MT",
+      "phone_code": "356",
+      "name": "Malta",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 135,
+    "label": "Marshall Islands",
+    "value": {
+      "country_id": 135,
+      "code": "MH",
+      "phone_code": "692",
+      "name": "Marshall Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mh.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 137,
+    "label": "Mauritania",
+    "value": {
+      "country_id": 137,
+      "code": "MR",
+      "phone_code": "222",
+      "name": "Mauritania",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 138,
+    "label": "Mauritius",
+    "value": {
+      "country_id": 138,
+      "code": "MU",
+      "phone_code": "230",
+      "name": "Mauritius",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mu.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 139,
+    "label": "Mayotte",
+    "value": {
+      "country_id": 139,
+      "code": "YT",
+      "phone_code": "262",
+      "name": "Mayotte",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/yt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 140,
+    "label": "Mexico",
+    "value": {
+      "country_id": 140,
+      "code": "MX",
+      "phone_code": "52",
+      "name": "Mexico",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mx.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 141,
+    "label": "Micronesia",
+    "value": {
+      "country_id": 141,
+      "code": "FM",
+      "phone_code": "691",
+      "name": "Micronesia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/fm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 142,
+    "label": "Moldova, Republic of",
+    "value": {
+      "country_id": 142,
+      "code": "MD",
+      "phone_code": "373",
+      "name": "Moldova, Republic of",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/md.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 143,
+    "label": "Monaco",
+    "value": {
+      "country_id": 143,
+      "code": "MC",
+      "phone_code": "377",
+      "name": "Monaco",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mc.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 144,
+    "label": "Mongolia",
+    "value": {
+      "country_id": 144,
+      "code": "MN",
+      "phone_code": "976",
+      "name": "Mongolia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 146,
+    "label": "Morocco",
+    "value": {
+      "country_id": 146,
+      "code": "MA",
+      "phone_code": "212",
+      "name": "Morocco",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ma.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 147,
+    "label": "Mozambique",
+    "value": {
+      "country_id": 147,
+      "code": "MZ",
+      "phone_code": "258",
+      "name": "Mozambique",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 148,
+    "label": "Myanmar",
+    "value": {
+      "country_id": 148,
+      "code": "MM",
+      "phone_code": "95",
+      "name": "Myanmar",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/mm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 149,
+    "label": "Namibia",
+    "value": {
+      "country_id": 149,
+      "code": "NA",
+      "phone_code": "264",
+      "name": "Namibia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/na.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 150,
+    "label": "Nauru",
+    "value": {
+      "country_id": 150,
+      "code": "NR",
+      "phone_code": "674",
+      "name": "Nauru",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/nr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 151,
+    "label": "Nepal",
+    "value": {
+      "country_id": 151,
+      "code": "NP",
+      "phone_code": "977",
+      "name": "Nepal",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/np.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 152,
+    "label": "Netherlands",
+    "value": {
+      "country_id": 152,
+      "code": "NL",
+      "phone_code": "31",
+      "name": "Netherlands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/nl.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{3})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 153,
+    "label": "Netherlands Antilles",
+    "value": {
+      "country_id": 153,
+      "code": "AN",
+      "phone_code": "599",
+      "name": "Netherlands Antilles",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/an.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{2})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 154,
+    "label": "New Caledonia",
+    "value": {
+      "country_id": 154,
+      "code": "NC",
+      "phone_code": "687",
+      "name": "New Caledonia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/nc.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 155,
+    "label": "New Zealand",
+    "value": {
+      "country_id": 155,
+      "code": "NZ",
+      "phone_code": "64",
+      "name": "New Zealand",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/nz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 156,
+    "label": "Nicaragua",
+    "value": {
+      "country_id": 156,
+      "code": "NI",
+      "phone_code": "505",
+      "name": "Nicaragua",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ni.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 157,
+    "label": "Niger",
+    "value": {
+      "country_id": 157,
+      "code": "NE",
+      "phone_code": "227",
+      "name": "Niger",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ne.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 158,
+    "label": "Nigeria",
+    "value": {
+      "country_id": 158,
+      "code": "NG",
+      "phone_code": "234",
+      "name": "Nigeria",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ng.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 159,
+    "label": "Niue",
+    "value": {
+      "country_id": 159,
+      "code": "NU",
+      "phone_code": "683",
+      "name": "Niue",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/nu.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 162,
+    "label": "Norway",
+    "value": {
+      "country_id": 162,
+      "code": "NO",
+      "phone_code": "47",
+      "name": "Norway",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/no.png",
+      "zip_validate": "",
+      "phone_validate": "/^([0-9]{2})([0-9]{3}){2}$/"
+    }
+  },
+  {
+    "key": 163,
+    "label": "Oman",
+    "value": {
+      "country_id": 163,
+      "code": "OM",
+      "phone_code": "968",
+      "name": "Oman",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/om.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 164,
+    "label": "Pakistan",
+    "value": {
+      "country_id": 164,
+      "code": "PK",
+      "phone_code": "92",
+      "name": "Pakistan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 165,
+    "label": "Palau",
+    "value": {
+      "country_id": 165,
+      "code": "PW",
+      "phone_code": "680",
+      "name": "Palau",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 166,
+    "label": "Panama",
+    "value": {
+      "country_id": 166,
+      "code": "PA",
+      "phone_code": "507",
+      "name": "Panama",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pa.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 167,
+    "label": "Papua New Guinea",
+    "value": {
+      "country_id": 167,
+      "code": "PG",
+      "phone_code": "675",
+      "name": "Papua New Guinea",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 168,
+    "label": "Paraguay",
+    "value": {
+      "country_id": 168,
+      "code": "PY",
+      "phone_code": "595",
+      "name": "Paraguay",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/py.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 169,
+    "label": "Peru",
+    "value": {
+      "country_id": 169,
+      "code": "PE",
+      "phone_code": "51",
+      "name": "Peru",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pe.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 170,
+    "label": "Philippines",
+    "value": {
+      "country_id": 170,
+      "code": "PH",
+      "phone_code": "63",
+      "name": "Philippines",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ph.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 171,
+    "label": "Pitcairn",
+    "value": {
+      "country_id": 171,
+      "code": "PN",
+      "phone_code": "64",
+      "name": "Pitcairn",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 172,
+    "label": "Poland",
+    "value": {
+      "country_id": 172,
+      "code": "PL",
+      "phone_code": "48",
+      "name": "Poland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pl.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 173,
+    "label": "Portugal",
+    "value": {
+      "country_id": 173,
+      "code": "PT",
+      "phone_code": "351",
+      "name": "Portugal",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/pt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 175,
+    "label": "Qatar",
+    "value": {
+      "country_id": 175,
+      "code": "QA",
+      "phone_code": "974",
+      "name": "Qatar",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/qa.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 176,
+    "label": "Reunion",
+    "value": {
+      "country_id": 176,
+      "code": "RE",
+      "phone_code": "262",
+      "name": "Reunion",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/re.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 177,
+    "label": "Romania",
+    "value": {
+      "country_id": 177,
+      "code": "RO",
+      "phone_code": "40",
+      "name": "Romania",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ro.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 178,
+    "label": "Russia",
+    "value": {
+      "country_id": 178,
+      "code": "RU",
+      "phone_code": "7",
+      "name": "Russia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ru.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 179,
+    "label": "Rwanda",
+    "value": {
+      "country_id": 179,
+      "code": "RW",
+      "phone_code": "250",
+      "name": "Rwanda",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/rw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 181,
+    "label": "Samoa",
+    "value": {
+      "country_id": 181,
+      "code": "WS",
+      "phone_code": "685",
+      "name": "Samoa",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ws.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 182,
+    "label": "San Marino",
+    "value": {
+      "country_id": 182,
+      "code": "SM",
+      "phone_code": "378",
+      "name": "San Marino",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 183,
+    "label": "Sao Tome and Principe",
+    "value": {
+      "country_id": 183,
+      "code": "ST",
+      "phone_code": "239",
+      "name": "Sao Tome and Principe",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/st.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 184,
+    "label": "Saudi Arabia",
+    "value": {
+      "country_id": 184,
+      "code": "SA",
+      "phone_code": "966",
+      "name": "Saudi Arabia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sa.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 185,
+    "label": "Senegal",
+    "value": {
+      "country_id": 185,
+      "code": "SN",
+      "phone_code": "221",
+      "name": "Senegal",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 186,
+    "label": "Seychelles",
+    "value": {
+      "country_id": 186,
+      "code": "SC",
+      "phone_code": "248",
+      "name": "Seychelles",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sc.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 187,
+    "label": "Sierra Leone",
+    "value": {
+      "country_id": 187,
+      "code": "SL",
+      "phone_code": "232",
+      "name": "Sierra Leone",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sl.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 188,
+    "label": "Singapore",
+    "value": {
+      "country_id": 188,
+      "code": "SG",
+      "phone_code": "65",
+      "name": "Singapore",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 189,
+    "label": "Slovakia",
+    "value": {
+      "country_id": 189,
+      "code": "SK",
+      "phone_code": "421",
+      "name": "Slovakia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 190,
+    "label": "Slovenia",
+    "value": {
+      "country_id": 190,
+      "code": "SI",
+      "phone_code": "386",
+      "name": "Slovenia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/si.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 191,
+    "label": "Solomon Islands",
+    "value": {
+      "country_id": 191,
+      "code": "SB",
+      "phone_code": "677",
+      "name": "Solomon Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sb.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 192,
+    "label": "Somalia",
+    "value": {
+      "country_id": 192,
+      "code": "SO",
+      "phone_code": "252",
+      "name": "Somalia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/so.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 193,
+    "label": "South Africa",
+    "value": {
+      "country_id": 193,
+      "code": "ZA",
+      "phone_code": "27",
+      "name": "South Africa",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/za.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 194,
+    "label": "Spain",
+    "value": {
+      "country_id": 194,
+      "code": "ES",
+      "phone_code": "34",
+      "name": "Spain",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/es.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 195,
+    "label": "Sri Lanka",
+    "value": {
+      "country_id": 195,
+      "code": "LK",
+      "phone_code": "94",
+      "name": "Sri Lanka",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/lk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 200,
+    "label": "Sudan",
+    "value": {
+      "country_id": 200,
+      "code": "SD",
+      "phone_code": "249",
+      "name": "Sudan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sd.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 201,
+    "label": "Suriname",
+    "value": {
+      "country_id": 201,
+      "code": "SR",
+      "phone_code": "597",
+      "name": "Suriname",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 202,
+    "label": "Svalbard and Jan Mayen Islands",
+    "value": {
+      "country_id": 202,
+      "code": "SJ",
+      "phone_code": "47",
+      "name": "Svalbard and Jan Mayen Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sj.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 203,
+    "label": "Swaziland",
+    "value": {
+      "country_id": 203,
+      "code": "SZ",
+      "phone_code": "268",
+      "name": "Swaziland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 204,
+    "label": "Sweden",
+    "value": {
+      "country_id": 204,
+      "code": "SE",
+      "phone_code": "46",
+      "name": "Sweden",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/se.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 205,
+    "label": "Switzerland",
+    "value": {
+      "country_id": 205,
+      "code": "CH",
+      "phone_code": "41",
+      "name": "Switzerland",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ch.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 206,
+    "label": "Syria",
+    "value": {
+      "country_id": 206,
+      "code": "SY",
+      "phone_code": "963",
+      "name": "Syria",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/sy.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 207,
+    "label": "Taiwan",
+    "value": {
+      "country_id": 207,
+      "code": "TW",
+      "phone_code": "886",
+      "name": "Taiwan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 208,
+    "label": "Tajikistan",
+    "value": {
+      "country_id": 208,
+      "code": "TJ",
+      "phone_code": "992",
+      "name": "Tajikistan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tj.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 209,
+    "label": "Tanzania, United Republic of",
+    "value": {
+      "country_id": 209,
+      "code": "TZ",
+      "phone_code": "255",
+      "name": "Tanzania, United Republic of",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 210,
+    "label": "Thailand",
+    "value": {
+      "country_id": 210,
+      "code": "TH",
+      "phone_code": "66",
+      "name": "Thailand",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/th.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 211,
+    "label": "Togo",
+    "value": {
+      "country_id": 211,
+      "code": "TG",
+      "phone_code": "228",
+      "name": "Togo",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tg.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 212,
+    "label": "Tokelau",
+    "value": {
+      "country_id": 212,
+      "code": "TK",
+      "phone_code": "690",
+      "name": "Tokelau",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tk.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 213,
+    "label": "Tonga",
+    "value": {
+      "country_id": 213,
+      "code": "TO",
+      "phone_code": "676",
+      "name": "Tonga",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/to.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 214,
+    "label": "Trinidad and Tobago",
+    "value": {
+      "country_id": 214,
+      "code": "TT",
+      "phone_code": "1",
+      "name": "Trinidad and Tobago",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tt.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 215,
+    "label": "Tunisia",
+    "value": {
+      "country_id": 215,
+      "code": "TN",
+      "phone_code": "216",
+      "name": "Tunisia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 216,
+    "label": "Turkey",
+    "value": {
+      "country_id": 216,
+      "code": "TR",
+      "phone_code": "90",
+      "name": "Turkey",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tr.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 217,
+    "label": "Turkmenistan",
+    "value": {
+      "country_id": 217,
+      "code": "TM",
+      "phone_code": "993",
+      "name": "Turkmenistan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 219,
+    "label": "Tuvalu",
+    "value": {
+      "country_id": 219,
+      "code": "TV",
+      "phone_code": "688",
+      "name": "Tuvalu",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/tv.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 220,
+    "label": "Uganda",
+    "value": {
+      "country_id": 220,
+      "code": "UG",
+      "phone_code": "256",
+      "name": "Uganda",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ug.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 221,
+    "label": "Ukraine",
+    "value": {
+      "country_id": 221,
+      "code": "UA",
+      "phone_code": "380",
+      "name": "Ukraine",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ua.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 222,
+    "label": "United Arab Emirates",
+    "value": {
+      "country_id": 222,
+      "code": "AE",
+      "phone_code": "971",
+      "name": "United Arab Emirates",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ae.png",
+      "zip_validate": "",
+      "phone_validate": "/^(5)([0-9]{8})$/"
+    }
+  },
+  {
+    "key": 223,
+    "label": "United Kingdom (Great Britain)",
+    "value": {
+      "country_id": 223,
+      "code": "GB",
+      "phone_code": "44",
+      "name": "United Kingdom (Great Britain)",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/gb.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 224,
+    "label": "United States",
+    "value": {
+      "country_id": 224,
+      "code": "US",
+      "phone_code": "1",
+      "name": "United States",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/us.png",
+      "zip_validate": "/^([0-9]{5})(-[0-9]{4})?$/i",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 226,
+    "label": "Uruguay",
+    "value": {
+      "country_id": 226,
+      "code": "UY",
+      "phone_code": "598",
+      "name": "Uruguay",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/uy.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 227,
+    "label": "Uzbekistan",
+    "value": {
+      "country_id": 227,
+      "code": "UZ",
+      "phone_code": "998",
+      "name": "Uzbekistan",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/uz.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 228,
+    "label": "Vanuatu",
+    "value": {
+      "country_id": 228,
+      "code": "VU",
+      "phone_code": "678",
+      "name": "Vanuatu",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/vu.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 229,
+    "label": "Vatican City State",
+    "value": {
+      "country_id": 229,
+      "code": "VA",
+      "phone_code": "379",
+      "name": "Vatican City State",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/va.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 230,
+    "label": "Venezuela",
+    "value": {
+      "country_id": 230,
+      "code": "VE",
+      "phone_code": "58",
+      "name": "Venezuela",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ve.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 231,
+    "label": "Vietnam",
+    "value": {
+      "country_id": 231,
+      "code": "VN",
+      "phone_code": "84",
+      "name": "Vietnam",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/vn.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 232,
+    "label": "Wallis And Futuna Islands",
+    "value": {
+      "country_id": 232,
+      "code": "WF",
+      "phone_code": "681",
+      "name": "Wallis And Futuna Islands",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/wf.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 233,
+    "label": "Western Sahara",
+    "value": {
+      "country_id": 233,
+      "code": "EH",
+      "phone_code": "212",
+      "name": "Western Sahara",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/eh.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 234,
+    "label": "Yemen",
+    "value": {
+      "country_id": 234,
+      "code": "YE",
+      "phone_code": "967",
+      "name": "Yemen",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/ye.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 237,
+    "label": "Zambia",
+    "value": {
+      "country_id": 237,
+      "code": "ZM",
+      "phone_code": "260",
+      "name": "Zambia",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/zm.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  },
+  {
+    "key": 238,
+    "label": "Zimbabwe",
+    "value": {
+      "country_id": 238,
+      "code": "ZW",
+      "phone_code": "263",
+      "name": "Zimbabwe",
+      "flag_url": "https://s3.amazonaws.com/spoonity-flags/zw.png",
+      "zip_validate": "",
+      "phone_validate": null
+    }
+  }
+]

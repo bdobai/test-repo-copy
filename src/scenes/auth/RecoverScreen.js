@@ -15,7 +15,6 @@ import BackButton from '_atoms/BackButton'
 const RecoverScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
 
-    const emailRef = React.useRef()
     const [loading, setLoading] = useState(false);
 
     function onSubmit(data) {
@@ -51,17 +50,16 @@ const RecoverScreen = (props) => {
                             <Text style={styles.forgotPassDescription}>Please enter your email address and we will send you a link to reset password.</Text>
                             <Controller
                               control={control}
-                              onFocus={() => {emailRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   keyboardType={'email-address'}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  ref={emailRef}
+                                  ref={ref}
                                   error={errors.email?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Email*'/>
+                                  label='Email*'/>
                               )}
                               name="email"
                               rules={{ required: 'Email is required', pattern: emailValidator}}

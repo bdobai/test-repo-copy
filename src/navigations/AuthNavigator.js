@@ -26,11 +26,11 @@ function AuthNavigator (props) {
     const getOnboarding = async () => {
         try {
             const seenOnboarding = await AsyncStorage.getItem('Onboarding')
-            // setOnboarding(false)
-            setOnboarding(seenOnboarding === '1')
-            if(seenOnboarding === '1'){
-                props.navigation.navigate('Login')
-            }
+            setOnboarding(false)
+            // setOnboarding(seenOnboarding === '1')
+            // if(seenOnboarding === '1'){
+            //     props.navigation.navigate('Login')
+            // }
         } catch (e) {
 
         }
@@ -45,7 +45,9 @@ function AuthNavigator (props) {
     }
 
     return (
-      <Stack.Navigator headerMode={'none'}>
+      <Stack.Navigator screenOptions={{
+          headerShown: false,
+      }}>
           {!onboarding ? <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Onboarding" component={OnboardingScreen}/> : null}
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Login" component={LoginScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Register" component={RegisterScreen}/>

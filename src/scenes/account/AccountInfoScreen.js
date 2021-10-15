@@ -12,6 +12,7 @@ import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
 import BackButton from '_atoms/BackButton'
 import Logo from '_assets/images/logo_small_white.svg'
+import countries from '_utils/countries.json';
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -19,38 +20,7 @@ const AccountInfoScreen = observer((props) => {
         defaultValues: authStore.user
     });
 
-    const firstNameRef = React.useRef()
-    const lastNameRef = React.useRef()
-    const emailRef = React.useRef()
-    const passwordRef = React.useRef()
-    const countryRef = React.useRef()
-    const phoneRef = React.useRef()
-    const dayRef = React.useRef()
-    const monthRef = React.useRef()
-    const yearRef = React.useRef()
-
     const [loading, setLoading] = useState(false);
-    const [country, setCountry] = useState([]);
-
-    const getCounties = () => {
-        request('/country/list.json', {
-            method: 'GET',
-            success: function (response) {
-                setCountry(response.map((item) => {
-                    return {
-                        key: item.country_id,
-                        value: item.phone_code,
-                        label: item.name,
-                        flag: item.flag_url
-                    }
-                }))
-            }
-        });
-    }
-
-    useEffect(() => {
-        getCounties();
-    }, []);
 
     const onSubmit = data => {
         Keyboard.dismiss();
@@ -60,7 +30,7 @@ const AccountInfoScreen = observer((props) => {
         Object.keys(data).forEach(key => {
             formData.append(key, data[key]);
         });
-   
+
         request('/user/profile.json', {
             method: 'PUT',
             data: formData,
@@ -88,15 +58,14 @@ const AccountInfoScreen = observer((props) => {
                 <Container style={ styles.container }>
                     <Controller
                         control={control}
-                        onFocus={() => {firstNameRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
-                            onSubmitEditing={() => lastNameRef.current.focus()}
-                            ref={firstNameRef}
+                            onSubmitEditing={() => setFocus('last_name')}
+                            ref={ref}
                             error={errors.firstName?.message}
                             containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='First name'/>
                         )}
@@ -105,25 +74,23 @@ const AccountInfoScreen = observer((props) => {
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {lastNameRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
-                            onSubmitEditing={() => emailRef.current.focus()}
-                            ref={lastNameRef}
+                            onSubmitEditing={() => setFocus('email_address')}
+                            ref={ref}
                             error={errors.lastName?.message}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Last name'/>
+                            label='Last name'/>
                         )}
                         name="last_name"
                         rules={{ required: 'Last name is required'}}
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {emailRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             autoCapitalize={'none'}
@@ -132,17 +99,16 @@ const AccountInfoScreen = observer((props) => {
                             value={value}
                             keyboardType={'email-address'}
                             onSubmitEditing={() => passwordRef.current.focus()}
-                            ref={emailRef}
+                            ref={ref}
                             error={errors.email?.message}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='E-mail address'/>
+                            label='E-mail address'/>
                         )}
                         name="email_address"
                         rules={{ required: 'Email is required', pattern: emailValidator}}
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {passwordRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             autoCorrect={false}
                             autoCapitalize={'none'}
@@ -150,10 +116,10 @@ const AccountInfoScreen = observer((props) => {
                             onChangeText={value => onChange(value)}
                             value={value}
                             secure={true}
-                            ref={passwordRef}
+                            ref={ref}
                             error={errors.password?.message}
-                            onSubmitEditing={() => countryRef.current.focus()}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Password*'/>
+                            onSubmitEditing={() => setFocus('address.country.name')}
+                            label='Password*'/>
                         )}
                         name="password"
                         rules={{required: true}}
@@ -161,17 +127,23 @@ const AccountInfoScreen = observer((props) => {
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {countryRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
-                            onSubmitEditing={() => phoneRef.current.focus()}
-                            ref={countryRef}
+                            type={'select'}
+                            items={countries}
+                            itemKey={'country_id'}
+                            onSubmitEditing={() => setFocus('phone_number')}
+                            ref={ref}
                             error={errors.phone?.message}
                             mask={"(+###)"}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Country*'/>
+                            label='Country*'
+                            renderRightAccessory={() => {
+                                return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
+                            }}
+                            />
                         )}
                         name="address.country.name"
                         rules={{ required: 'Country is required'}}
@@ -179,34 +151,32 @@ const AccountInfoScreen = observer((props) => {
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {phoneRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
                             keyboardType={'phone-pad'}
-                            onSubmitEditing={() => dayRef.current.focus()}
-                            ref={phoneRef}
+                            onSubmitEditing={() => setFocus('birthdate')}
+                            ref={ref}
                             error={errors.phone?.message}
-                            mask={"+1 (###) ###-####"}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Phone no.'/>
+                            // mask={"+1 (###) ###-####"}
+                            label='Phone no.'/>
                         )}
                         name="phone_number"
                         rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
                     />
                     <Controller
                         control={control}
-                        onFocus={() => {dayRef.current.focus()}}
-                        render={({ field: { onChange, onBlur, value } }) => (
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
                             value={value}
                             onSubmitEditing={() => monthRef.current.focus()}
-                            ref={dayRef}
+                            ref={ref}
                             error={errors.city?.message}
-                            containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Date of birth'/>
+                            label='Date of birth'/>
                         )}
                         name="birthdate"
                     />

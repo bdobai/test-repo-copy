@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
 
 function HomeNavigator () {
     return (
-      <Stack.Navigator initialRouteName="Home.Dashboard" headerMode={'none'}>
+      <Stack.Navigator initialRouteName="Home.Dashboard" screenOptions={{
+          headerShown: false,
+      }}>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Home.Dashboard" component={HomeScreen}/>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Notifications" component={NotificationsScreen}/>
       </Stack.Navigator>

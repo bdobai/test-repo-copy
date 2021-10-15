@@ -34,7 +34,7 @@ const forFade = ({ current }) => ({
 
 function AccountNavigator () {
     return (
-      <Stack.Navigator initialRouteName="AccountSettings" headerMode={'none'} screenOptions={{
+      <Stack.Navigator initialRouteName="AccountSettings" screenOptions={{
           headerShown: false,
           cardStyleInterpolator: forFade,
       }}>

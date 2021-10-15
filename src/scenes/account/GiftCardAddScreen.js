@@ -15,9 +15,7 @@ import Input from '../../components/atoms/Input'
 
 const GiftCardAddScreen = (props) => {
     const [loading, setLoading] = useState(false);
-    const { control, handleSubmit, formState: { errors } } = useForm();
-    const numberRef = React.useRef()
-    const pinRef = React.useRef()
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.giftCardScreen}>
         <Header left={<BackButton color={Colors.PRIMARY}/>} center={<Logo/>}/>
@@ -29,18 +27,16 @@ const GiftCardAddScreen = (props) => {
                     <View style={ styles.inputs }>
                         <Controller
                             control={control}
-                            onFocus={() => {numberRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <Input
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
                                 onBlur={onBlur}
                                 onChangeText={value => onChange(value)}
                                 value={value}
-                                onSubmitEditing={() => pinRef.current.focus()}
-                                ref={numberRef}
+                                onSubmitEditing={() => setFocus('pin')}
+                                ref={ref}
                                 error={errors.number?.message}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                 label="Please enter gift card number"
                                 />
                             )}
@@ -50,8 +46,7 @@ const GiftCardAddScreen = (props) => {
                         />
                         <Controller
                             control={control}
-                            onFocus={() => {pinRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <Input
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -59,10 +54,9 @@ const GiftCardAddScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 onSubmitEditing={() => handleSubmit(onSubmit)}
-                                ref={pinRef}
+                                ref={ref}
                                 secureTextEntry={true}
                                 error={errors.pin?.message}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                 label="PIN"
                                 />
                             )}

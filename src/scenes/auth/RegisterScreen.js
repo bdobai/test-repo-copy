@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View, Linking } from 'react-native'
 import Header from '_components/molecules/Header'
 import { Colors, Spacing, Typography } from '_styles'
@@ -6,45 +6,15 @@ import Container from '_components/atoms/Container'
 import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { request } from '_utils/request'
-import { AuthStoreContext } from '_stores'
 import { emailValidator } from '_utils/validators'
-import DeviceInfo from 'react-native-device-info';
 import { scaleSize } from '_styles/mixins'
 import CheckBox from '_components/atoms/CheckBox'
 
 const RegisterScreen = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
-
-    const nameRef = React.useRef()
-    const emailRef = React.useRef()
-    const phoneRef = React.useRef()
-    const passwordRef = React.useRef()
-    const confirmPasswordRef = React.useRef()
-
-    const [loading, setLoading] = useState(false);
-    const [agreeWithTerms, setAgreeWithTerms] = useState(false);
-    const [agreeNewsletter, setAgreeNewsletter] = useState(false);
-    const authStore = React.useContext(AuthStoreContext);
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
 
     const onSubmit = data => {
-        let deviceId = DeviceInfo.getDeviceId();
-
-        props.navigation.navigate('Register_2');
-
-        setLoading(true)
-        // request('/auth/register', {
-        //     method: 'POST',
-        //     data: {...data, ...{app_device_id: deviceId}},
-        //     withToken: false,
-        //     success: function (response) {
-        //         setLoading(false)
-        //         authStore.getUser()
-        //     },
-        //     error: () => {
-        //         setLoading(false)
-        //     }
-        // });
+        props.navigation.navigate('Register_2', data);
     };
 
     return <View style={{ flex: 1 }}>
@@ -56,8 +26,7 @@ const RegisterScreen = (props) => {
                         <View style={ styles.login } title={'Enter your credentials'}>
                             <Controller
                               control={control}
-                              onFocus={() => {emailRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
@@ -65,10 +34,10 @@ const RegisterScreen = (props) => {
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   keyboardType={'email-address'}
-                                  onSubmitEditing={() => passwordRef.current.focus()}
-                                  ref={emailRef}
+                                  onSubmitEditing={() => setFocus('password')}
+                                  ref={ref}
                                   error={errors.email?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='E-mail*'/>
+                                  label='E-mail*'/>
                               )}
                               name="email"
                               rules={{ required: 'Email is required', pattern: emailValidator}}
@@ -76,22 +45,21 @@ const RegisterScreen = (props) => {
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {passwordRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   secure={true}
-                                  ref={passwordRef}
-                                  error={errors.password && true}
-                                  onSubmitEditing={() => confirmPasswordRef.current.focus()}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }}
+                                  ref={ref}
+                                  error={errors.password?.message}
+                                  onSubmitEditing={() => setFocus('confirm_password')}
                                   label='Password*'/>
                               )}
                               name="password"
                               rules={{
                                   required: true,
+                                  pattern: /^[A-Za-z0-9]+$/i,
                                   minLength: {
                                       value: 6,
                                       message: 'password must be at least 6'
@@ -101,17 +69,15 @@ const RegisterScreen = (props) => {
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {confirmPasswordRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   secure={true}
-                                  ref={confirmPasswordRef}
-                                  error={errors.password && true}
-                                  onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }}
+                                  title={'At least 6 characters (including 1 lowercase, 1 capital, 1 number)'}
+                                  ref={ref}
+                                  error={errors.confirm_password?.message}
                                   label='Confirm password*'/>
                               )}
                               name="confirm_password"
@@ -124,23 +90,41 @@ const RegisterScreen = (props) => {
                               }
                               defaultValue=""
                             />
-                            <Text style={styles.infoText}>At least 6 characters (including 1 lowercase, 1 capital, 1 number)</Text>
-                            <View style={{ marginTop: 20 }}>
-                                <CheckBox onPress={() => setAgreeWithTerms(!agreeWithTerms)} 
-                                        checked={agreeWithTerms} 
-                                        label={'I have read and agree to the'}
-                                        urlLink={"https://google.com"}
-                                        urlText={'Terms of Service and Privacy Policy'} //TODO change this
-                                        />
-                                <CheckBox onPress={() => setAgreeNewsletter(!agreeNewsletter)} checked={agreeNewsletter} label={'Yes, I agree to receiving news, exclusive offers and more from Costa Coffee.'}/>
-                            </View>
+                            <Controller
+                              control={control}
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
+                                <CheckBox onPress={() => onChange(!value)}
+                                          error={errors.confirm_password?.message}
+                                          checked={value}
+                                >
+                                    <View style={{ flex: 1 }}>
+                                        <Text style={styles.checkBoxLabel}>I have read and agree to the <Text style={styles.checkBoxLink} onPress={() => Linking.openURL("https://google.com")}>Terms of Service and Privacy Policy</Text></Text>
+
+                                    </View>
+                                </CheckBox>
+                              )}
+                              name="terms"
+                              rules={{
+                                  required: true,
+                              }}
+                              defaultValue={false}
+                            />
+                            <Controller
+                              control={control}
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
+                                <CheckBox onPress={() => onChange(!value)}
+                                          checked={value}
+                                          label={'Yes, I agree to receiving news, exclusive offers and more from Costa Coffee.'}
+                                />
+                              )}
+                              name="newsletter"
+                              defaultValue={false}
+                            />
                         </View>
                         <View style={styles.footer}>
-                            {/* <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Next'}/> */}
-                            {/* Temporary button - must be removed */}
-                            <Button type={'secondary'} 
+                            <Button type={'secondary'}
                                 text={'Next'}
-                                onPress={() => props.navigation.navigate('Register_2')}
+                                onPress={handleSubmit(onSubmit)}
                             />
                             <View style={styles.footerTextView}>
                                 <Text style={styles.footerText}>Already have an account? </Text>
@@ -175,7 +159,7 @@ const styles = StyleSheet.create({
     },
     footerText: {
         color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_12,
         lineHeight: Typography.LINE_HEIGHT_14
     },
@@ -197,6 +181,20 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_14,
         lineHeight: Typography.LINE_HEIGHT_16,
         color: Colors.SECONDARY
+    },
+    checkBoxLabel: {
+        flex: 1,
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_12,
+        lineHeight: Typography.LINE_HEIGHT_12,
+    },
+    checkBoxLink: {
+        flex: 1,
+        color: Colors.SECONDARY,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_12,
+        lineHeight: Typography.LINE_HEIGHT_12,
     },
 })
 

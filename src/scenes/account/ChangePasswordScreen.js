@@ -13,11 +13,9 @@ import Logo from '_assets/images/logo_small_white.svg'
 import { AuthStoreContext } from '_stores'
 
 const ChangePasswordScreen = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
     const authStore = React.useContext(AuthStoreContext);
-    const currentPasswordRef = React.useRef()
-    const newPasswordRef = React.useRef()
-    const repeatPasswordRef = React.useRef()
+
     const [loading, setLoading] = useState(false);
 
     const onSubmit = data => {
@@ -47,8 +45,7 @@ const ChangePasswordScreen = (props) => {
                     <Container style={ styles.container }>
                         <Controller
                             control={control}
-                            onFocus={() => {passwordRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -56,10 +53,9 @@ const ChangePasswordScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 secure={true}
-                                ref={currentPasswordRef}
+                                ref={ref}
                                 error={errors.old_password?.message}
-                                onSubmitEditing={() => newPasswordRef.current.focus()}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }}
+                                onSubmitEditing={() => setFocus('new_password')}
                                 label='Current password'/>
                             )}
                             name="old_password"
@@ -74,8 +70,7 @@ const ChangePasswordScreen = (props) => {
                         />
                         <Controller
                             control={control}
-                            onFocus={() => {passwordRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -83,10 +78,9 @@ const ChangePasswordScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 secure={true}
-                                ref={newPasswordRef}
+                                ref={ref}
                                 error={errors.password?.message}
-                                onSubmitEditing={() => repeatPasswordRef.current.focus()}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }}
+                                onSubmitEditing={() => setFocus('repeat_password')}
                                 label='New password'/>
                             )}
                             name="new_password"
@@ -101,8 +95,7 @@ const ChangePasswordScreen = (props) => {
                         />
                         <Controller
                             control={control}
-                            onFocus={() => {passwordRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -110,10 +103,9 @@ const ChangePasswordScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 secure={true}
-                                ref={repeatPasswordRef}
+                                ref={ref}
                                 error={errors.password?.message}
                                 onSubmitEditing={() => handleSubmit(onSubmit)}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                 label='Repeat password'/>
                             )}
                             name="repeat_password"

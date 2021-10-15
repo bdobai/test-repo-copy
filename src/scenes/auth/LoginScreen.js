@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView } from 'react-native';
 import Header from '_components/molecules/Header'
 import Logo from '_assets/images/logo.svg'
@@ -15,15 +15,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = (props) => {
 
-    const { control, handleSubmit, formState: { errors } } = useForm();
-
-    const emailRef = React.useRef()
-    const passwordRef = React.useRef()
+    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
 
     const [loading, setLoading] = useState(false);
-    const [keepLogin, setKeepLogin] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
-    const notificationsStore = React.useContext(NotificationsStoreContext);
 
     const onSubmit = data => {
         setLoading(true)
@@ -57,8 +52,7 @@ const LoginScreen = (props) => {
                             <Text style={styles.loginText}>LOG IN</Text>
                             <Controller
                               control={control}
-                              onFocus={() => {emailRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
@@ -66,10 +60,9 @@ const LoginScreen = (props) => {
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   keyboardType={'email-address'}
-                                  onSubmitEditing={() => passwordRef.current.focus()}
-                                  ref={emailRef}
+                                  onSubmitEditing={() => setFocus('password')}
+                                  ref={ref}
                                   error={errors.email?.message}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                   label='Email*'/>
                               )}
                               name="email"
@@ -78,8 +71,7 @@ const LoginScreen = (props) => {
                             />
                             <Controller
                               control={control}
-                              onFocus={() => {passwordRef.current.focus()}}
-                              render={({ field: { onChange, onBlur, value } }) => (
+                              render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
@@ -87,10 +79,9 @@ const LoginScreen = (props) => {
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   secure={true}
-                                  ref={passwordRef}
+                                  ref={ref}
                                   error={errors.password?.message}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  containerStyle={{ marginBottom: Spacing.SPACING_3 }}
                                   label='Password*'/>
                               )}
                               name="password"
@@ -104,7 +95,6 @@ const LoginScreen = (props) => {
                               defaultValue=""
                             />
                             <View style={ styles.forgot }>
-                                {/* <CheckBox onPress={() => setKeepLogin(!keepLogin)} checked={keepLogin} label={'Stay logged in?'}/> */}
                                 <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={styles.forgotText}>Forgot your password ?</Text></Pressable>
                             </View>
                         </View>

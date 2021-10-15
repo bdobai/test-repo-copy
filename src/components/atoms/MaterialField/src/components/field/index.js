@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { Animated, Platform, StyleSheet, TextInput, View, Pressable, Text } from 'react-native'
+import { Animated, Platform, StyleSheet, TextInput, View, Pressable, Text, SafeAreaView } from 'react-native'
 
 import Line from '../line'
 import Label from '../label'
@@ -14,6 +14,10 @@ import EyeSlashIcon from '_assets/images/eye-slash.svg'
 import styles from './styles'
 import RNPickerSelect from 'react-native-picker-select'
 import PickerModal from 'react-native-picker-modal-view'
+import DateTimePicker from '@react-native-community/datetimepicker';
+import ActionSheet from 'react-native-actions-sheet'
+import { dateFormat } from '_utils/helpers'
+import dayjs from 'dayjs'
 
 function startAnimation (animation, options, callback) {
     Animated
@@ -155,6 +159,7 @@ export default class TextField extends PureComponent {
         this.createGetter('labelOffset')
 
         this.inputRef = React.createRef()
+        this.actionSheetRef = React.createRef();
         this.mounted = false
         this.focused = false
 
@@ -166,7 +171,7 @@ export default class TextField extends PureComponent {
         this.state = {
             text,
             error,
-
+            showDatetimePicker : false,
             focusAnimation: new Animated.Value(focusState),
             labelAnimation: new Animated.Value(labelState),
             colorAnimation: new Animated.Value(labelState),
@@ -281,6 +286,12 @@ export default class TextField extends PureComponent {
                 input.togglePicker()
             }else if(type === 'select-modal'){
 
+            }else if(type === 'date' || type === 'datetime'){
+                if (Platform.OS === 'ios') {
+                    this.actionSheetRef.current?.setModalVisible()
+                } else {
+                    this.setState({ showDatetimePicker: true })
+                }
             }else{
                 input.focus()
             }
@@ -312,6 +323,10 @@ export default class TextField extends PureComponent {
 
         if (null == value) {
             return ''
+        }
+
+        if (this.props.numberMask) {
+            value = this.formatNumber(value, this.props.currency)
         }
 
         return 'string' === typeof value ?
@@ -407,7 +422,7 @@ export default class TextField extends PureComponent {
     }
 
     onChangeText (text) {
-        let { onChangeText, formatText, mask, submitOnFull, onSubmitEditing } = this.props
+        let { onChangeText, formatText, mask, numberMask, currency, submitOnFull, onSubmitEditing } = this.props
 
         if ('function' === typeof formatText) {
             text = formatText(text)
@@ -418,6 +433,8 @@ export default class TextField extends PureComponent {
             }else if (this.value().length < text.length) {
                 text = this.formatTextMask(text, mask)
             }
+        }else if (numberMask) {
+            text = this.formatNumber(text, currency)
         }
 
         this.setState({ text })
@@ -429,6 +446,23 @@ export default class TextField extends PureComponent {
         if (mask && submitOnFull && mask.length === text.length) {
             onSubmitEditing()
         }
+    }
+
+    formatNumber(value, currency) {
+        currency = currency ? '$' : '';
+        if (typeof value === 'undefined' || value === null || value === '') {
+            return 0;
+        }
+        if (typeof value !== 'string') {
+            value = String(value);
+        }
+        value = value.replace('NaN', '').replace('$', '').replace(/[,]/g, '');
+        if (value === '') {
+            value = 0
+        }
+
+        // return currency + parseFloat(value).toLocaleString('en-US');
+        return currency + parseFloat(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
     applyTextMask(text, mask) {
@@ -683,6 +717,50 @@ export default class TextField extends PureComponent {
         let props = this.inputProps()
         let inputStyle = this.inputStyle()
         // inputStyle.fontSize = 14
+
+        if(type === 'date' || type === 'datetime') {
+            let parsed_value = this.props.value ? dayjs(this.props.value).toDate() : new Date();
+
+            return <View>
+                <Text style={inputStyle}>{dateFormat(this.props.value, 'YYYY MMM D')}</Text>
+                {Platform.OS === 'ios' ? (
+                    <ActionSheet containerStyle={{overflow: 'hidden'}} ref={this.actionSheetRef}>
+                        <SafeAreaView>
+                            <View style={{alignItems: 'flex-end', paddingVertical: 10, paddingRight: 20}}><Pressable onPress={() => this.actionSheetRef.current?.setModalVisible(false)}><Text style={{fontSize: 16}}>Done</Text></Pressable></View>
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={parsed_value}
+                                display="spinner"
+                                onChange={(event, date) => {
+                                    if (date) {
+                                        this.onChange(date)
+                                        this.onChangeText(date)
+                                    }
+                                }}
+                            />
+                        </SafeAreaView>
+                    </ActionSheet>
+                ) : (
+                  this.state.showDatetimePicker && (
+                    <DateTimePicker
+                      testID="dateTimePicker"
+                      value={parsed_value}
+                      display="default"
+                      onChange={(event, date) => {
+                          this.setState({ showDatetimePicker: false })
+                          if (date) {
+                              this.onChange(date)
+                              this.onChangeText(date)
+                          }
+
+                      }}
+                    />
+                  )
+                )}
+
+            </View>
+        }
+
         if(type === 'select'){
             return <RNPickerSelect
               useNativeAndroidPickerStyle={false}
@@ -715,6 +793,7 @@ export default class TextField extends PureComponent {
               editable={!disabled && editable}
               value={this.props.value}
               ref={this.inputRef}
+              {...props}
             />
         }
 

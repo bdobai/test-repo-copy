@@ -41,8 +41,7 @@ const ContactScreen = (props) => {
                     <Container style={ styles.container }>
                         <Controller
                             control={control}
-                            onFocus={() => {nameRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (                          
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
@@ -52,7 +51,7 @@ const ContactScreen = (props) => {
                                 onSubmitEditing={() => messageRef.current.focus()}
                                 ref={nameRef}
                                 error={errors.name?.message}
-                                containerStyle={{ marginBottom: Spacing.SPACING_3 }} label='Your name'/>
+                                label='Your name'/>
                             )}
                             name="name"
                             rules={{ required: 'Name is required'}}
@@ -60,8 +59,7 @@ const ContactScreen = (props) => {
                         />
                         <Controller
                             control={control}
-                            onFocus={() => {messageRef.current.focus()}}
-                            render={({ field: { onChange, onBlur, value } }) => (
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <View style={styles.textAreaContainer} >
                                 <TextInput
                                     style={styles.textArea}
@@ -89,7 +87,7 @@ const ContactScreen = (props) => {
         <View style={styles.footer}>
             <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Send'}/>
         </View>
-        
+
     </KeyboardAvoidingView>
 }
 
