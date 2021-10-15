@@ -1,20 +1,16 @@
 import React, { Component, useState } from 'react'
 import { View, ScrollView, StyleSheet, Platform, KeyboardAvoidingView, Pressable, SafeAreaView, Text } from 'react-native'
-import Header from '_components/molecules/Header'
-import BackButton from '_atoms/BackButton'
 import Container from '_atoms/Container'
 import { Colors, Spacing, Typography } from '_styles'
 import { scaleSize } from '_styles/mixins'
 import { request } from '_utils/request'
 import { Controller, useForm } from 'react-hook-form'
-import Card from '_atoms/Card'
 import { TextField } from '_atoms/MaterialField'
-import Button from '_atoms/Button'
 import { creditCardValidator, zipCodeValidator } from '_utils/validators'
 import { dispatch } from 'use-bus'
 import { NotificationsStoreContext } from '_stores'
-import Logo from '_assets/images/logo_small_white.svg'
 import SectionTitle from '_atoms/SectionTitle';
+import CheckBox from '_components/atoms/CheckBox'
 
 const AddCreditCardScreen = (props) => {
     const { control, handleSubmit, setFocus, formState: { errors } } = useForm({
@@ -97,9 +93,9 @@ const AddCreditCardScreen = (props) => {
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1, backgroundColor: Colors.PRIMARY }}>
         {/*<Header left={<BackButton/>} center={<Logo/>}/>*/}
+        <Text style={styles.title}>ADD NEW CREDIT CARD</Text>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1}}>
             <Container style={{ flex: 1 }}>
-                <SectionTitle>ADD NEW CREDIT CARD</SectionTitle>
                 <Controller
                   control={control}
                   render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -113,7 +109,7 @@ const AddCreditCardScreen = (props) => {
                       onSubmitEditing={() => setFocus('number')}
                       ref={ref}
                       error={errors.name?.message}
-                      containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='Name on card'/>
+                      containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='Cardholder'/>
                   )}
                   name="name"
                   rules={{ required: 'Cardholder name is required'}}
@@ -129,7 +125,7 @@ const AddCreditCardScreen = (props) => {
                       submitOnFull={true}
                       onChangeText={value => onChange(value)}
                       value={value}
-                      onSubmitEditing={() => setFocus('expire_date')}
+                      onSubmitEditing={() => setFocus('cvv')}
                       ref={ref}
                       mask={"#### #### #### ####"}
                       keyboardType={'decimal-pad'}
@@ -152,17 +148,17 @@ const AddCreditCardScreen = (props) => {
                       onChangeText={value => onChange(value)}
                       value={value}
                       keyboardType={'decimal-pad'}
-                      onSubmitEditing={() => setFocus('cvc')}
+                      onSubmitEditing={() => setFocus('expire_date')}
+                      renderRightAccessory={() => <Text style={styles.cvvInputText}>CVV</Text>}
                       ref={ref}
                       error={errors.cvv?.message}
-                      />
+                      label='Security code'/>
                   )}
                   name="cvv"
                   rules={{ required: 'CVV is required'}}
                 />
                 <Text style={ styles.expirationText }>Expiration date</Text>
-                <View style={styles.row}>
-                    <View style={styles.col1}>
+                <View style={styles.expirationDate}>
                         <Controller
                           control={control}
                           render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -175,17 +171,27 @@ const AddCreditCardScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 keyboardType={'decimal-pad'}
-                                onSubmitEditing={() => handleSubmit(onSubmit)}
+                                onSubmitEditing={() => setFocus('cvv')}
                                 ref={ref}
                                 mask={"##/##"}
                                 error={errors.expire_date?.message}
-                                label='CVC'/>
+                                label='MM / YY'/>
                           )}
                           name="expire_date"
                           rules={{ required: 'Expiration date is required'}}
                         />
-                    </View>
                 </View>
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                    <CheckBox onPress={() => onChange(!value)}
+                                checked={value}
+                                label={'make this card default'}
+                    />
+                    )}
+                    name="default_card"
+                    defaultValue={false}
+                />
             </Container>
             <View style={styles.footer}>
                 <Pressable onPress={() => props.navigation.navigate('AccountSettings.MyPayments')} style={ styles.cancelBtnWrapper}>
@@ -217,6 +223,26 @@ const styles = StyleSheet.create({
         borderRadius: scaleSize(6),
         height: scaleSize(55),
     },
+    cvvInputText: {
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_PRIMARY_MEDIUM,
+        fontSize: Typography.FONT_SIZE_16,
+        marginBottom: scaleSize(3)
+    },
+    expirationDate: {
+        width: scaleSize(100),
+        height: scaleSize(50),
+    },
+    expirationText: {
+        color: Colors.WHITE,
+        fontSize: Typography.FONT_SIZE_12,
+        marginTop: scaleSize(20)
+    },
+    footer: {
+        flexDirection: 'row',
+        paddingHorizontal: Spacing.SPACING_5,
+        marginBottom: Spacing.SPACING_4,
+    },
     saveBtn: {
         color: Colors.WHITE,
         textAlign: 'center',
@@ -224,19 +250,6 @@ const styles = StyleSheet.create({
         borderRadius: scaleSize(6),
         height: scaleSize(55),
         backgroundColor: Colors.SECONDARY_LIGHT
-    },
-    footer: {
-        flexDirection: 'row',
-        paddingHorizontal: Spacing.SPACING_5,
-        marginBottom: Spacing.SPACING_4,
-    },
-    row: {
-        flex: 1,
-        flexDirection: 'row',
-        alignSelf: 'flex-start',
-    },
-    col1: {
-        width: scaleSize(100),
     },
     title: {
         textTransform: 'uppercase',
@@ -247,10 +260,6 @@ const styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_5,
         marginTop: Spacing.SPACING_3,
     },
-    expirationText: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_12
-    }
 })
 
 export default AddCreditCardScreen
