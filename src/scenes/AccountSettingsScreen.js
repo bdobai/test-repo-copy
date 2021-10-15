@@ -8,7 +8,7 @@ import ChevronIcon from '_assets/images/right-chevron.svg'
 import LogoutIcon from '_assets/images/account/logout.svg'
 import { scaleSize } from '_styles/mixins'
 import { AuthStoreContext } from '_stores'
-import Logo from '_assets/images/logo_small_primary.svg'
+import Logo from '_assets/images/logo_small_white.svg'
 import BackButton from '_atoms/BackButton'
 import {Linking} from 'react-native'
 
