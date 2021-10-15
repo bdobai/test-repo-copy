@@ -175,7 +175,7 @@ const AddCreditCardScreen = (props) => {
                                     onChangeText={value => onChange(value)}
                                     value={value}
                                     keyboardType={'decimal-pad'}
-                                    onSubmitEditing={() => handleSubmit(onSubmit)}}
+                                    onSubmitEditing={() => handleSubmit(onSubmit)}
                                     ref={ref}
                                     mask={"##/##"}
                                     error={errors.expire_date?.message}
