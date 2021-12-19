@@ -1,68 +1,91 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, View, } from 'react-native'
+import { Colors, Spacing, Typography } from '_styles'
 import PropTypes from 'prop-types'
-import Theme from '../themes/Theme'
+import { scaleSize } from '_styles/mixins'
 
-const FormGroup = (props) => {
+const FormGroup = React.forwardRef((props, ref) => {
+
     return (
-      <View style={[styles.section, props.style]}>
-          <View style={styles.containerStyle}>
-              {props.label !== undefined ? <View>
-                  <Text style={[styles.labelStyle, props.styleLabel]}>{props.label}</Text>
-              </View> : null}
-              <View style={[styles.inputStyle, props.inputStyle]}>
-                  {props.children ? props.children : null}
-              </View>
-              {(props.text ? <Text style={styles.formGroupText}>{props.text}</Text> : null)}
-          </View>
-      </View>
+        <View
+            style={[
+                styles.container,
+                props.styleInput,
+                props.multiline === true ? { height: Typography.FONT_SIZE_18 * (props.numberOfLines ? props.numberOfLines : 1) } : null,
+            ]}
+        >
+            {props.label ? <View>
+                <Text style={[styles.labelStyle, props.styleLabel]}>{props.label}</Text>
+            </View> : null}
+            <View style={[styles.inputWrapper,props.inputWrapper, props.error ? styles.error : null,]}>
+                {props.leftAccessory ? props.leftAccessory() : null}
+                <View style={{flex: 1}}>
+                    {props.children}
+                </View>
+                {props.rightAccessory ? props.rightAccessory() : null}
+            </View>
+            {(props.customError ? props.customError() : null )}
+            {(props.customError ? null : props.error ? <Text style={styles.formGroupError}>{props.error}</Text> : (props.text ? <Text style={styles.formGroupText}>{props.text}</Text> : null))}
+        </View>
     )
+})
+
+FormGroup.defaultProps = {
+    withShadow: false,
+    autoCorrect: false,
+    leftAccessory: null,
+    rightAccessory: null,
+    styleInput: null,
+    multiline: false,
+    numberOfLines: 1,
 }
 
 FormGroup.propTypes = {
-    style: PropTypes.any,
-    styleLabel: PropTypes.any,
     label: PropTypes.string,
     text: PropTypes.string,
-    error: PropTypes.string,
-    notes: PropTypes.string,
+    styleInput: PropTypes.any,
+    error: PropTypes.any,
+    multiline: PropTypes.bool,
+    numberOfLines: PropTypes.number,
+    leftAccessory: PropTypes.any,
+    rightAccessory: PropTypes.any,
 }
 
 const styles = StyleSheet.create({
-    notes: {
-        marginTop: 2,
-        color: '#4A4A4A',
-        fontSize: 12,
-        minHeight: 16,
-        fontFamily: 'Montserrat-Light',
+    container: {
+        marginBottom: Spacing.SPACING_5,
     },
-    inputStyle: {
+    inputWrapper: {
         flexDirection: 'row',
-        flex: 1
+        borderWidth: 1,
+        borderRadius: scaleSize(3),
+        borderColor: Colors.MUTED,
+        paddingTop: Spacing.SPACING_2,
+        paddingBottom: Spacing.SPACING_2,
     },
-    section: {
-        paddingBottom: Theme.padding * 2,
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-        position: 'relative'
+    error: {
+        borderColor: Colors.DANGER,
     },
     labelStyle: {
-        fontSize: 13,
-        fontFamily: 'Montserrat-Medium',
-        flex: 1,
-        lineHeight: 18,
-        marginBottom: 6,
-        color: Theme.Colors.textLabel,
-    },
-    containerStyle: {
-        minHeight: 36,
-        flex: 1
+        fontSize: Typography.FONT_SIZE_12,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        lineHeight: Typography.LINE_HEIGHT_14,
+        fontWeight: '600',
+        color: Colors.BLACK,
     },
     formGroupText: {
-        fontFamily: 'Montserrat-Regular',
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
         fontSize: 11,
-        color: Theme.Colors.dark,
-        lineHeight: 16,
+        color: Colors.GRAY_DARK,
+        lineHeight: Typography.LINE_HEIGHT_10,
+    },
+    formGroupError: {
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: 11,
+        color: Colors.DANGER,
+        lineHeight: Typography.LINE_HEIGHT_10,
+        position: 'absolute',
+        bottom: scaleSize(-16),
     }
 })
 

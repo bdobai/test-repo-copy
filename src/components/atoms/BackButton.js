@@ -3,6 +3,7 @@ import { Pressable } from 'react-native'
 import LeftChevron from '_assets/images/left-chevron.svg'
 import { useNavigation } from '@react-navigation/native';
 import { scaleSize } from '_styles/mixins'
+import { Spacing } from "_styles";
 
 const BackButton = props => {
     const navigation = useNavigation();
@@ -18,8 +19,8 @@ const BackButton = props => {
         navigation.goBack()
     }
 
-    return <Pressable style={{width: scaleSize(20), height: scaleSize(20), alignItems: 'flex-start', justifyContent: 'center'}}  onPress={() => onPress()}>
-        <LeftChevron fill= {props.color ? props.color : '#ffffff'} height={18} width={20}/>
+    return <Pressable style={{width: scaleSize(26), height: scaleSize(26), justifyContent: 'center', marginLeft: Spacing.SPACING_1}}  onPress={() => onPress()}>
+        <LeftChevron fill={props.color ? props.color : '#ffffff'} height={24} width={24}/>
     </Pressable>
 }
 

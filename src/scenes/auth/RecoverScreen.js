@@ -1,124 +1,98 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
-import Header from '_components/molecules/Header'
-import Logo from '_assets/images/logo.svg'
-import { Colors, Spacing, Typography } from '_styles'
-import Container from '_components/atoms/Container'
-import { TextField } from '_components/atoms/MaterialField'
-import Button from '_atoms/Button'
+import {
+    StyleSheet,
+    ImageBackground, View, ScrollView, SafeAreaView,
+} from "react-native";
+import { Colors, Spacing, Typography } from "_styles";
 import { request } from '_utils/request'
-import { emailValidator } from '_utils/validators'
-import { Controller, useForm } from 'react-hook-form'
-import { scaleSize } from '_styles/mixins'
-import BackButton from '_atoms/BackButton'
+import { useForm, Controller } from 'react-hook-form'
+import backgroundImage from "_assets/images/auth/forgot_password.png";
+import TextField from "_atoms/TextField";
+import { emailValidator } from "_utils/validators";
+import { scaleSize } from "_styles/mixins";
+import Button from "_atoms/Button";
 
 const RecoverScreen = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState } = useForm({mode:'onBlur'});
 
     const [loading, setLoading] = useState(false);
 
     function onSubmit(data) {
         setLoading(true)
-        request('/user/password-reset/reset', {
+        request('/user/password-reset/reset.json?', {
             method: 'POST',
             data: {
-                "email_address": data.email,
-                "vendor": 107430
+                email_address: data.email,
+                vendor: 107430
               },
             withToken: false,
+            withoutJson: true,
             success: function (response) {
-                props.navigation.navigate('Reset', {email: data.email})
+                props.navigation.navigate('Login')
                 setLoading(false)
             },
-            error: () => {
+            error: (e) => {
                 setLoading(false)
             }
         });
     }
 
-    return <View style={{ flex: 1 }}>
-        <Header
-          left={<BackButton/>}
-        />
-        <SafeAreaView style={ styles.recoverScreen }>
-            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
-                <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
-                    <Container style={{ flex: 1 }}>
-                        <Header bg={false} center={<Logo style={ styles.logo }/>} style={{ flex:1, marginTop: scaleSize(50)}}/>
-                        <View style={ styles.forgot } title={'Enter your email address'}>
-                            <Text style={styles.forgotPassTitle}>FORGOT PASSWORD</Text>
-                            <Text style={styles.forgotPassDescription}>Please enter your email address and we will send you a link to reset password.</Text>
-                            <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
+    return (
+        <ImageBackground source={backgroundImage} style={styles.background}>
+            <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false} >
+                <SafeAreaView style={ styles.loginScreen }>
+                    <View style={styles.card}>
+                        <Controller
+                            control={control}
+                            render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
-                                  onBlur={onBlur}
-                                  onChangeText={value => onChange(value)}
-                                  value={value}
-                                  keyboardType={'email-address'}
-                                  onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  ref={ref}
-                                  error={errors.email?.message}
-                                  label='Email*'/>
-                              )}
-                              name="email"
-                              rules={{ required: 'Email is required', pattern: emailValidator}}
-                              defaultValue={''}
-                            />
-                        </View>
-                        <View style={styles.footer}>
-                        <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Reset password'}/>
-                            {/* <View><Text style={styles.footerText}>Have an account?</Text></View>
-                            <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>LOGIN</Text></Pressable> */}
-                        </View>
-                    </Container>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
-    </View>
+                                    placeholder={'Email'}
+                                    autoCorrect={false}
+                                    autoCapitalize={'none'}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                    keyboardType={'email-address'}
+                                    ref={ref}
+                                    label='EMAIL'/>
+                            )}
+                            name="email"
+                            rules={{ required: 'Email is required', pattern: emailValidator}}
+                            defaultValue={''}
+                        />
+                        <Button disabled={!formState.isValid} textStyle={styles.buttonTitle} bodyStyle={styles.button} loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'RESET PASSWORD'}/>
+                    </View>
+                </SafeAreaView>
+            </ScrollView>
+        </ImageBackground>
+    )
 }
 
 const styles = StyleSheet.create({
-    footer: {
+    background:{
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        paddingBottom: 30
-    },
-    forgot: {
-        flex: 1,
-    },
-    forgotPassTitle: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_14,
-        lineHeight: Typography.LINE_HEIGHT_16,
-        color: Colors.SECONDARY
-    },
-    forgotPassDescription: {
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_16,
-        lineHeight: Typography.LINE_HEIGHT_23,
-        color: Colors.WHITE,
-        marginVertical: 20
-    },
-    // footerText: {
-    //     color: Colors.GRAY_DARK,
-    //     fontFamily: Typography.FONT_PRIMARY_LIGHT,
-    //     fontSize: Typography.FONT_SIZE_12,
-    //     lineHeight: Typography.LINE_HEIGHT_12
-    // },
-    // footerActionText: {
-    //     fontFamily: Typography.FONT_PRIMARY_BOLD,
-    //     fontSize: Typography.FONT_SIZE_16,
-    //     lineHeight: Typography.LINE_HEIGHT_16,
-    //     color: Colors.SECONDARY
-    // },
-    recoverScreen: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: Colors.PRIMARY,
-    }
+        justifyContent: 'flex-start',
+        paddingHorizontal: Spacing.SPACING_5,
+        flexGrow:1,
+    },
+    card: {
+        backgroundColor:'white',
+        width: '100%',
+        marginTop: Spacing.SPACING_5,
+        borderRadius: scaleSize(5),
+        paddingHorizontal: Spacing.SPACING_5,
+        paddingTop: Spacing.SPACING_5,
+        paddingBottom: Spacing.SPACING_10,
+    },
+    button: {
+        width:'100%',
+        height: scaleSize(60),
+        borderRadius: scaleSize(30),
+    },
+    buttonTitle: {
+        fontSize: Typography.FONT_SIZE_18
+    },
 })
 
 export default RecoverScreen

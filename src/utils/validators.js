@@ -28,4 +28,20 @@ export const requiredValidation = {
     message: "required"
 };
 
+export const capitalLetterValidator = text => {
+    const expression = /[A-Z]/;
+    return expression.test(text);
+}
+export const lowercaseLetterValidator = text => {
+    const expression = /[a-z]/;
+    return expression.test(text);
+}
 
+export const numberValidator = text => {
+    const expression = /[0-9]/;
+    return expression.test(text);
+}
+
+export const minCharactersValidator = text => {
+    return text.length >= 6
+}

@@ -120,6 +120,7 @@ export async function request (url, options) {
           //     AsyncStorage.setItem('session_key', response.headers.map['token'])
           // }
           httpCode = response.status
+          if(options.withoutJson) return response;
           return response.json()
       })
       .then(function (response) {
