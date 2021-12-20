@@ -23,6 +23,21 @@ export const creditCardValidator = {
     message: "Credit card is not valid"
 }
 
+export const dayValidator = {
+    value: /^(0?[1-9]|[12][0-9]|3[01])$/,
+    message: "The day is invalid"
+}
+
+export const monthValidator = {
+    value: /^(0[1-9]|1[012])$/,
+    message: "The month is invalid"
+}
+
+export const phoneNumberValidator = {
+    value: /^[0-9]{9}$/,
+    message: "Invalid phone number format"
+};
+
 export const requiredValidation = {
     value: true,
     message: "required"

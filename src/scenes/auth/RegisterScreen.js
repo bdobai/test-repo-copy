@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
+import {
+    KeyboardAvoidingView,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    Pressable,
+    View,
+    ActivityIndicator,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import TextField from "_atoms/TextField";
@@ -10,12 +20,18 @@ import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { scaleSize } from "_styles/mixins";
 import { passwordValidators } from "_utils/constants";
 import { PasswordValidationMessage } from "_atoms/PasswordValidationMessage";
+import SuccessIcon from '_assets/images/alerts/success.svg'
+import ErrorIcon from '_assets/images/alerts/error.svg'
+import { request } from "_utils/request";
 
 const RegisterScreen = (props) => {
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [emailStatus, setEmailStatus] = useState(''); // success || error
     const [showValidation, setShowValidation] = useState(false);
-    const { control, handleSubmit, setFocus, formState, } = useForm({mode: "onBlur"});
+
+    const { control, handleSubmit, setFocus, formState, getValues } = useForm({mode: "onChange"});
 
     useEffect(() => {
        props.navigation.setOptions({
@@ -27,7 +43,7 @@ const RegisterScreen = (props) => {
         props.navigation.navigate('Register_2', data);
     };
 
-    const renderRightAccessory = () => {
+    const renderSecureTextButton = () => {
         return <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)} style={styles.securePasswordWrapper}>
             <Text style={styles.securePassword}>{!secureTextEntry ? 'HIDE' : 'SHOW'}</Text>
         </Pressable>
@@ -38,6 +54,53 @@ const RegisterScreen = (props) => {
         return passwordValidators.map((item) => {
             return <PasswordValidationMessage key={item.label} label={item.label} validator={item.validator} value={password}/>
         })
+    }
+
+    const verifyEmail = () => {
+        const email = getValues('email');
+        if(!email?.length) return;
+        setLoading(true)
+        console.log('email', email);
+        request('/user/email/exists.json', {
+            method: 'GET',
+            data: {
+                email: email,
+                vendor: 107430
+            },
+            withToken: false,
+            success: function (response) {
+                console.log('response', response);
+                if(response.exists){
+                    setEmailStatus('error');
+                }else {
+                    setEmailStatus('success');
+                }
+                setLoading(false)
+            },
+            error: (e) => {
+                console.log('e', e);
+                setLoading(false)
+            }
+        });
+    }
+
+    const renderEmailErrorMessage = () => {
+        if(emailStatus!=='error') return;
+        return (
+            <View style={styles.emailErrorWrapper}>
+                <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR} style={{marginRight: Spacing.SPACING_2}}/>
+                <Text style={styles.emailError}>You are already registered for a Spoonity account with Costa Coffee UAE. Use the same password to login. If you can't remember your password,
+                    <Text style={styles.link} onPress={() => props.navigation.navigate('Recover')}> reset it here</Text>
+                </Text>
+            </View>
+        )
+    }
+
+    const renderRightAccessory = () => {
+        if(loading) return <ActivityIndicator />
+        if(!emailStatus) return;
+        if(emailStatus==='success') return <SuccessIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.WHITE} style={{backgroundColor:Colors.WHITE}} />
+            return <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR}/>
     }
 
     return <View style={{ flex: 1 }}>
@@ -61,10 +124,10 @@ const RegisterScreen = (props) => {
                                             placeholder={'First name'}
                                             onSubmitEditing={() => setFocus('lastName')}
                                             ref={ref}
-                                            error={formState.errors.firstName?.message}
+                                            error={formState.errors.first_name?.message}
                                             label='FIRST NAME'/>
                                     )}
-                                    name="firstName"
+                                    name="first_name"
                                     rules={{ required: 'First name is required', pattern: requiredValidation}}
                                     defaultValue={''}
                                 />
@@ -81,10 +144,10 @@ const RegisterScreen = (props) => {
                                             value={value}
                                             onSubmitEditing={() => setFocus('email')}
                                             ref={ref}
-                                            error={formState.errors.lastName?.message}
+                                            error={formState.errors.last_name?.message}
                                             label='LAST NAME'/>
                                     )}
-                                    name="lastName"
+                                    name="last_name"
                                     rules={{ required: 'Last name is required', pattern: requiredValidation}}
                                     defaultValue={''}
                                 />
@@ -95,7 +158,10 @@ const RegisterScreen = (props) => {
                                     <TextField
                                         autoCorrect={false}
                                         autoCapitalize={'none'}
-                                        onBlur={onBlur}
+                                        onBlur={() => {
+                                            onBlur();
+                                            verifyEmail();
+                                        }}
                                         placeholder={'Email'}
                                         onChangeText={value => onChange(value)}
                                         value={value}
@@ -103,12 +169,14 @@ const RegisterScreen = (props) => {
                                         onSubmitEditing={() => setFocus('confirmEmail')}
                                         ref={ref}
                                         error={formState.errors.email?.message}
+                                        rightAccessory={() => <View style={styles.securePasswordWrapper}>{renderRightAccessory()}</View>}
                                         label='EMAIL'/>
                                 )}
                                 name="email"
                                 rules={{ required: 'Email is required', pattern: emailValidator}}
                                 defaultValue={props.route.params ? props.route.params.email : ''}
                             />
+                            {renderEmailErrorMessage()}
                             <Controller
                                 control={control}
                                 render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -126,7 +194,6 @@ const RegisterScreen = (props) => {
                                         label='CONFIRM EMAIL'/>
                                 )}
                                 name="confirmEmail"
-                                rules={{ required: 'Emails are not the same', pattern: emailValidator}}
                                 defaultValue={''}
                             />
                             <Controller
@@ -144,7 +211,7 @@ const RegisterScreen = (props) => {
                                   error={formState.errors.password?.message}
                                   customError={renderCustomError}
                                   secureTextEntry={secureTextEntry}
-                                  rightAccessory={renderRightAccessory}
+                                  rightAccessory={renderSecureTextButton}
                                   onSubmitEditing={() => setFocus('confirm_password')}
                                   onFocus={() =>setShowValidation(true)}
                                   label='PASSWORD'/>
@@ -244,7 +311,28 @@ const styles = StyleSheet.create({
         color: Colors.PRIMARY,
         marginRight: Spacing.SPACING_1,
         fontWeight: '700',
-    }
+    },
+    emailErrorWrapper: {
+        flexDirection: 'row',
+        marginBottom: Spacing.SPACING_5,
+    },
+    emailError:{
+        fontSize: Typography.FONT_SIZE_14,
+        lineHeight: Typography.FONT_SIZE_20,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: '#617582',
+        flex:1
+    },
+    link: {
+        fontWeight: '700'
+    },
+    errorMessage: {
+        alignSelf: 'center',
+        color: Colors.ERROR,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_16,
+        marginBottom: Spacing.SPACING_5,
+    },
 })
 
 export default RegisterScreen

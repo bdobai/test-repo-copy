@@ -7,23 +7,26 @@ import {
     StyleSheet,
     Text,
     View,
-    Linking,
+    Image,
+    TextInput,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import TextField from "_atoms/TextField";
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { requiredValidation } from "_utils/validators";
+import { dayValidator, monthValidator, phoneNumberValidator, requiredValidation } from "_utils/validators";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { scaleSize } from "_styles/mixins";
 import CheckBox from "_atoms/CheckBox";
 import { genders } from "_utils/constants";
 import countries from '_utils/countries.json';
 import { AuthStoreContext } from "_stores";
+import dayjs from "dayjs";
+import { request } from "_utils/request";
 
 const RegisterScreen_2 = (props) => {
-    const { control, handleSubmit, setFocus, formState, } = useForm({mode: "onBlur"});
+    const { control, handleSubmit, setFocus, formState, } = useForm({mode: "onChange"});
 
     useEffect(() => {
         props.navigation.setOptions({
@@ -36,42 +39,41 @@ const RegisterScreen_2 = (props) => {
 
     const onSubmit = data => {
         const params = props.route.params
-        console.log('params', params)
-        console.log('data', data)
         setLoading(true)
-        props.navigation.navigate('Register_3');
-        // request('/user/register.json', {
-        //     method: 'POST',
-        //     data: {
-        //         "contact_consent": 3,
-        //         "email_address": params.email,
-        //         "password": params.password,
-        //         "first_name": data.first_name,
-        //         "last_name": data.last_name,
-        //         "cedula": null,
-        //         "terms": params.terms,
-        //         "phone_number": {
-        //             "code": data.country.phone_code,
-        //             "number": data.phone
-        //         },
-        //         "country": data.country.country_id,
-        //         "address1": null,
-        //         "region": null,
-        //         "city": null,
-        //         "postal_code": null,
-        //         "birthdate": dayjs(data.birthdate).unix(),
-        //         "referral_code": null,
-        //         "language": 3
-        //     },
-        //     withToken: false,
-        //     success: function (response) {
-        //         props.navigation.navigate('Register_3');
-        //         loginAccount()
-        //     },
-        //     error: () => {
-        //         setLoading(false)
-        //     }
-        // });
+        request('/user/register.json', {
+            method: 'POST',
+            data: {
+                "contact_consent": 3,
+                "email_address": params.email,
+                "password": params.password,
+                "first_name": params.first_name,
+                "last_name": params.last_name,
+                "cedula": null,
+                "terms": data.terms,
+                "phone_number": {
+                    "code": '+971',
+                    "number": data.phone_number
+                },
+                "newsletter": data.newsletter ? {subscribe:[]} : null,
+                "country": null,
+                "address1": null,
+                "region": null,
+                "city": null,
+                "postal_code": null,
+                "birthdate": dayjs(`1970-${data.month}-${data.day}`).unix(),
+                "referral_code": null,
+                "language": 3
+            },
+            withToken: false,
+            success: function () {
+                props.navigation.navigate('Register_3', {email: params.email});
+                loginAccount()
+            },
+            error: (e)=> {
+                console.log('error', e.error.errors);
+                setLoading(false)
+            }
+        });
     };
 
     const loginAccount = () => {
@@ -97,7 +99,20 @@ const RegisterScreen_2 = (props) => {
         });
     };
 
+    const renderFlag = () => {
+        return <View style={styles.flag}>
+            <Image resizeMode={'contain'} style={styles.flagIcon} source={{uri: 'https://s3.amazonaws.com/spoonity-flags/ae.png'}}/>
+            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={{marginLeft: Spacing.SPACING_1}}/>
+        </View>
+    }
 
+    const onTermsOfService = () => {
+        props.navigation.navigate('Terms', {code:'terms'})
+    }
+
+    const onPrivacyPolicy = () => {
+        props.navigation.navigate('Privacy', {code:'terms'})
+    }
 
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
@@ -107,27 +122,34 @@ const RegisterScreen_2 = (props) => {
                     <Container style={{ flex: 1, marginTop: Spacing.SPACING_5 }}>
                         <View style={ styles.login }>
                             <View style={styles.birthdayWrapper}>
+                                    <TextField
+                                        disabled={true}
+                                        styleInput={{width: '33%'}}
+                                        inputWrapper={styles.year}
+                                        value={'BIRTHDAY'}
+                                        inputStyle={{fontWeight:'bold'}}
+                                        />
                                 <Controller
                                     control={control}
                                     render={({ field: { ref, onChange, onBlur, value } }) => (
                                         <TextField
                                             styleInput={{width: '33%'}}
-                                            inputWrapper={styles.year}
+                                            inputWrapper={styles.day}
+                                            placeholder={'DD'}
                                             autoCorrect={false}
                                             autoCapitalize={'none'}
                                             onBlur={onBlur}
+                                            maxLength={2}
                                             onChangeText={value => onChange(value)}
                                             value={value}
-                                            maxLength={4}
-                                            placeholder={'Year'}
                                             onSubmitEditing={() => setFocus('month')}
                                             ref={ref}
-                                            error={formState.errors.year?.message}
+                                            error={formState.errors.day?.message}
                                             keyboardType={"phone-pad"}
-                                            label='BIRTHDAY'/>
+                                            />
                                     )}
-                                    name="year"
-                                    rules={{ required: 'Year is required', pattern: requiredValidation}}
+                                    name="day"
+                                    rules={{ required: 'Day is required', pattern: dayValidator}}
                                     defaultValue={''}
                                 />
                                 <Controller
@@ -136,45 +158,21 @@ const RegisterScreen_2 = (props) => {
                                         <TextField
                                             styleInput={{width: '33%'}}
                                             inputWrapper={styles.month}
-                                            placeholder={'Month'}
+                                            placeholder={'MM'}
                                             autoCorrect={false}
                                             autoCapitalize={'none'}
                                             onBlur={onBlur}
                                             maxLength={2}
                                             onChangeText={value => onChange(value)}
                                             value={value}
-                                            onSubmitEditing={() => setFocus('day')}
+                                            onSubmitEditing={() => setFocus('phone_number')}
                                             ref={ref}
                                             error={formState.errors.month?.message}
                                             keyboardType={"phone-pad"}
-                                            label={' '}
                                             />
                                     )}
                                     name="month"
-                                    rules={{ required: 'Month is required', pattern: requiredValidation}}
-                                    defaultValue={''}
-                                />
-                                <Controller
-                                    control={control}
-                                    render={({ field: { ref, onChange, onBlur, value } }) => (
-                                        <TextField
-                                            styleInput={{width: '33%'}}
-                                            inputWrapper={styles.day}
-                                            placeholder={'Day'}
-                                            autoCorrect={false}
-                                            autoCapitalize={'none'}
-                                            onBlur={onBlur}
-                                            maxLength={2}
-                                            onChangeText={value => onChange(value)}
-                                            value={value}
-                                            onSubmitEditing={() => setFocus('phoneNumber')}
-                                            ref={ref}
-                                            error={formState.errors.day?.message}
-                                            keyboardType={"phone-pad"}
-                                            label={' '}/>
-                                    )}
-                                    name="day"
-                                    rules={{ required: 'Day is required', pattern: requiredValidation}}
+                                    rules={{ required: 'Month is required', pattern: monthValidator}}
                                     defaultValue={''}
                                 />
                             </View>
@@ -182,7 +180,7 @@ const RegisterScreen_2 = (props) => {
                                 control={control}
                                 render={({ field: { ref, onChange, onBlur, value } }) => (
                                     <TextField
-                                        type={'phoneNumber'}
+                                        leftAccessory={renderFlag}
                                         placeholder={'Phone number'}
                                         autoCorrect={false}
                                         autoCapitalize={'none'}
@@ -192,23 +190,12 @@ const RegisterScreen_2 = (props) => {
                                         }}
                                         value={value}
                                         ref={ref}
-                                        error={formState.errors.phoneNumber?.message}
+                                        error={formState.errors.phone_number?.message}
                                         label='MOBILE NUMBER' />
                                 )}
-                                name="phoneNumber"
-                                rules={{ required: 'Phone number is required', pattern: requiredValidation}}
-                                defaultValue={{
-                                    phone: '',
-                                    countryDetails: {
-                                        country_id: 222,
-                                        code: "AE",
-                                        phone_code: "971",
-                                        name: "United Arab Emirates",
-                                        flag_url: "https://s3.amazonaws.com/spoonity-flags/ae.png",
-                                        zip_validate: "",
-                                        phone_validate: "/^(5)([0-9]{8})$/"
-                                    }
-                                }}
+                                name="phone_number"
+                                rules={{ required: 'Phone number is required', pattern: phoneNumberValidator}}
+                                defaultValue={''}
                             />
                             <Controller
                                 control={control}
@@ -254,14 +241,14 @@ const RegisterScreen_2 = (props) => {
                             />
                             <Controller
                               control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
+                              render={({ field: { onChange, value } }) => (
                                 <CheckBox onPress={() => onChange(!value)}
                                            checked={value}
                                            style={{borderColor: Colors.BLACK}}
                                            type={'square'}
                                  >
                                      <View style={{ flex: 1 }}>
-                                         <Text style={styles.checkBoxLabel}>I have read and agree to the <Text style={styles.checkBoxLink} onPress={() => Linking.openURL("https://google.com")}>Terms of Service and Privacy Policy</Text></Text>
+                                         <Text style={styles.checkBoxLabel}>I have read and agree to the <Text style={styles.checkBoxLink} onPress={onTermsOfService}>Terms of Service</Text> and <Text style={styles.checkBoxLink} onPress={onPrivacyPolicy}>Privacy Policy</Text></Text>
                                      </View>
                                  </CheckBox>
                                )}
@@ -288,7 +275,8 @@ const RegisterScreen_2 = (props) => {
                              />
                             <View style={styles.footer}>
                                 <Button
-                                    disabled={false}
+                                    disabled={!formState.isValid}
+                                    loading={loading}
                                     textStyle={styles.buttonTitle}
                                     bodyStyle={styles.button}
                                     onPress={handleSubmit(onSubmit)}
@@ -391,265 +379,22 @@ const styles = StyleSheet.create({
         borderTopRightRadius:0,
         borderBottomRightRadius: 0
     },
-    month: {
-        borderRadius:0,
-        borderLeftWidth:0,
-        borderRightWidth:0,
-    },
     day: {
+        borderRadius:0,
+    },
+    month: {
         borderTopLeftRadius:0,
         borderBottomLeftRadius:0
+    },
+    flag: {
+        flexDirection:'row',
+        alignItems:'center',
+        paddingLeft: scaleSize(15),
+    },
+    flagIcon:{
+        width:scaleSize(30),
+        height: scaleSize(20)
     }
 })
 
 export default RegisterScreen_2
-
-
-// import React, { useState } from 'react'
-// import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View, Image } from 'react-native';
-// import Header from '_components/molecules/Header'
-// import { Colors, Typography } from '_styles'
-// import Container from '_components/atoms/Container'
-// import Button from '_components/atoms/Button'
-// import { Controller, useForm } from 'react-hook-form'
-// import { request } from '_utils/request'
-// import { AuthStoreContext } from '_stores'
-// import { scaleSize } from '_styles/mixins'
-// import countries from '_utils/countries.json';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import dayjs from 'dayjs';
-// import TextField from "_atoms/TextField";
-//
-// const RegisterScreen_2 = (props) => {
-//     const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
-//
-//     const [loading, setLoading] = useState(false);
-//     const authStore = React.useContext(AuthStoreContext);
-//
-//     const onSubmit = data => {
-//         const params = props.route.params
-//
-//         setLoading(true)
-//         request('/user/register.json', {
-//             method: 'POST',
-//             data: {
-//                 "contact_consent": 3,
-//                 "email_address": params.email,
-//                 "password": params.password,
-//                 "first_name": data.first_name,
-//                 "last_name": data.last_name,
-//                 "cedula": null,
-//                 "terms": params.terms,
-//                 "phone_number": {
-//                     "code": data.country.phone_code,
-//                     "number": data.phone
-//                 },
-//                 "country": data.country.country_id,
-//                 "address1": null,
-//                 "region": null,
-//                 "city": null,
-//                 "postal_code": null,
-//                 "birthdate": dayjs(data.birthdate).unix(),
-//                 "referral_code": null,
-//                 "language": 3
-//             },
-//             withToken: false,
-//             success: function (response) {
-//                 props.navigation.navigate('Register_3');
-//                 loginAccount()
-//             },
-//             error: () => {
-//                 setLoading(false)
-//             }
-//         });
-//     };
-//
-//     const loginAccount = () => {
-//         const params = props.route.params
-//
-//         request('/user/authenticate.json', {
-//             method: 'POST',
-//             data: {
-//                 "email_address": params.email,
-//                 "password": params.password,
-//             },
-//             withToken: false,
-//             success: function (response) {
-//                 console.log(response)
-//                 AsyncStorage.setItem('online_order_token', response.online_order_token)
-//                 AsyncStorage.setItem('session_key', response.session_identifier)
-//                 setLoading(false)
-//                 authStore.getUser()
-//             },
-//             error: () => {
-//                 setLoading(false)
-//             }
-//         });
-//     };
-//
-//     return <View style={{ flex: 1 }}>
-//         <SafeAreaView style={ styles.signupScreen }>
-//             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
-//                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
-//                     <Container style={{ flex: 1 }}>
-//                         <Header bg={false} center={<Text style={ styles.signupTitle }>SIGN UP 2/3</Text>} style={{marginTop: scaleSize(10)}}/>
-//                         <View style={ styles.login } title={'Enter your credentials'}>
-//                             <Controller
-//                               control={control}
-//                               render={({ field: { ref, onChange, onBlur, value } }) => (
-//                                 <TextField
-//                                   autoCorrect={false}
-//                                   autoCapitalize={'none'}
-//                                   onBlur={onBlur}
-//                                   onChangeText={value => onChange(value)}
-//                                   value={value}
-//                                   onSubmitEditing={() => setFocus('last_name')}
-//                                   ref={ref}
-//                                   error={errors.name?.message}
-//                                   label='First Name*'/>
-//                               )}
-//                               name="first_name"
-//                               rules={{ required: 'First Name is required'}}
-//                               defaultValue={''}
-//                             />
-//                             <Controller
-//                               control={control}
-//                               render={({ field: { ref, onChange, onBlur, value } }) => (
-//                                 <TextField
-//                                   autoCorrect={false}
-//                                   autoCapitalize={'none'}
-//                                   onBlur={onBlur}
-//                                   onChangeText={value => onChange(value)}
-//                                   value={value}
-//                                   onSubmitEditing={() => setFocus('country')}
-//                                   ref={ref}
-//                                   error={errors.name?.message}
-//                                   label='Last Name*'/>
-//                               )}
-//                               name="last_name"
-//                               rules={{ required: 'Last Name is required'}}
-//                               defaultValue={''}
-//                             />
-//                             <Controller
-//                               control={control}
-//                               render={({ field: { ref, onChange, onBlur, value } }) => (
-//                                 <TextField
-//                                   onBlur={onBlur}
-//                                   onChangeText={value => onChange(value)}
-//                                   value={value}
-//                                   type={'select'}
-//                                   items={countries}
-//                                   itemKey={'country_id'}
-//                                   onSubmitEditing={() => setFocus('phone')}
-//                                   ref={ref}
-//                                   error={errors.country?.message}
-//                                   label='Country*'
-//                                   renderRightAccessory={() => {
-//                                       return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
-//                                   }}
-//                                 />
-//                               )}
-//                               name="country"
-//                               rules={{ required: 'Country is required'}}
-//                               defaultValue={''}
-//                             />
-//                             <Controller
-//                               control={control}
-//                               render={({ field: { ref, onChange, onBlur, value } }) => (
-//                                 <TextField
-//                                   onBlur={onBlur}
-//                                   onChangeText={value => onChange(value)}
-//                                   value={value}
-//                                   keyboardType={'phone-pad'}
-//                                   onSubmitEditing={() => setFocus('birthdate')}
-//                                   ref={ref}
-//                                   error={errors.phone?.message}
-//                                   label='Phone number*'/>
-//                               )}
-//                               name="phone"
-//                               rules={{ required: 'Phone no. is required'}}
-//                               defaultValue={''}
-//                             />
-//                             <Controller
-//                               control={control}
-//                               render={({ field: { ref, onChange, onBlur, value } }) => (
-//                                 <TextField
-//                                   onBlur={onBlur}
-//                                   onChangeText={value => onChange(value)}
-//                                   value={value}
-//                                   type={'date'}
-//                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-//                                   ref={ref}
-//                                   error={errors.birthdate?.message}
-//                                   label='Date of birth'/>
-//                               )}
-//                               name="birthdate"
-//                               defaultValue={null}
-//                             />
-//                         </View>
-//                         <View style={styles.footer}>
-//                             <Button type={'secondary'}
-//                                     loading={loading}
-//                                     text={'Verify phone number'}
-//                                     onPress={handleSubmit(onSubmit)}
-//                             />
-//                             <View style={styles.footerTextView}>
-//                                 <Text style={styles.footerText}>Already have an account? </Text>
-//                                 <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
-//                             </View>
-//                         </View>
-//                     </Container>
-//                 </ScrollView>
-//             </KeyboardAvoidingView>
-//         </SafeAreaView>
-//     </View>
-// }
-//
-//
-// const styles = StyleSheet.create({
-//     infoText: {
-//         color: Colors.WHITE,
-//         fontSize: Typography.FONT_SIZE_12,
-//         lineHeight: Typography.LINE_HEIGHT_14,
-//         fontFamily: Typography.FONT_PRIMARY_MEDIUM
-//     },
-//     footer: {
-//         flex: 1,
-//         alignItems: 'center',
-//         justifyContent: 'flex-end',
-//         marginBottom: 20,
-//     },
-//     footerActionText: {
-//         fontFamily: Typography.FONT_PRIMARY_BOLD,
-//         fontSize: Typography.FONT_SIZE_12,
-//         lineHeight: Typography.LINE_HEIGHT_14,
-//         color: Colors.SECONDARY
-//     },
-//     footerText: {
-//         color: Colors.WHITE,
-//         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-//         fontSize: Typography.FONT_SIZE_12,
-//         lineHeight: Typography.LINE_HEIGHT_14
-//     },
-//     footerTextView: {
-//         flexDirection: 'row',
-//         alignItems: 'center',
-//         marginTop: 20
-//     },
-//     login: {
-//         flex: 3,
-//         justifyContent: 'center'
-//     },
-//     signupScreen: {
-//         flex: 1,
-//         backgroundColor: Colors.PRIMARY
-//     },
-//     signupTitle: {
-//         fontFamily: Typography.FONT_PRIMARY_BOLD,
-//         fontSize: Typography.FONT_SIZE_14,
-//         lineHeight: Typography.LINE_HEIGHT_16,
-//         color: Colors.SECONDARY
-//     },
-// })
-//
-// export default RegisterScreen_2

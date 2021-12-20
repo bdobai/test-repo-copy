@@ -13,7 +13,7 @@ import { AuthHeaderText } from "_atoms/AuthHeaderText";
 
 const LoginScreen = (props) => {
 
-    const { control, handleSubmit, setFocus, formState  } = useForm({mode: "onBlur"});
+    const { control, handleSubmit, setFocus, formState } = useForm({ mode: "onChange" });
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -74,6 +74,7 @@ const LoginScreen = (props) => {
                                   value={value}
                                   keyboardType={'email-address'}
                                   onSubmitEditing={() => setFocus('password')}
+                                  error={formState?.errors?.email?.message}
                                   ref={ref}
                                   label='EMAIL'/>
                               )}

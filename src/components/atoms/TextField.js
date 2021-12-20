@@ -54,7 +54,7 @@ const TextField = React.forwardRef((props, ref) => {
                     return {...item, Name:item.value.name, Value:item.value, Id:item.value}
                 })}
                 onValueChange={onChange}
-                onClosed={onChange}
+                onClosed={() => null}
                 onSelected={onChange}
                 selected={props.value.countryDetails}
             />
