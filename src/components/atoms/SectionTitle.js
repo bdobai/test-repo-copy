@@ -5,7 +5,7 @@ import { Colors, Spacing, Typography } from '../../styles'
 
 const SectionTitle = props => {
     return <View style={[styles.container, props.style ?? null]}>
-        <Text style={[styles.title, props.textStyle ?? null]}>MY PROFILE</Text>
+        <Text style={[styles.title, props.textStyle ?? null]}>{props.children}</Text>
     </View>
 }
 
@@ -26,11 +26,12 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        color: Colors.SECONDARY_LIGHT,
-        fontSize: Typography.FONT_SIZE_13,
-        lineHeight: Typography.LINE_HEIGHT_13,
-        marginBottom: Spacing.SPACING_3
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: Colors.BLACK,
+        fontSize: Typography.FONT_SIZE_16,
+        marginBottom: Spacing.SPACING_3,
+        marginTop: Spacing.SPACING_6,
+        fontWeight:'600'
     },
 })
 

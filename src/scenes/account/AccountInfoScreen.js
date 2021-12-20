@@ -1,26 +1,24 @@
-import React, { Component, useState, useEffect } from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, View, Image, Pressable, Text, Keyboard } from 'react-native'
-import Header from '_components/molecules/Header'
+import React, { useState } from 'react'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, Image, Pressable, Text, Keyboard } from 'react-native'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
-import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { AuthStoreContext } from '_stores'
 import { emailValidator, phoneValidator } from '_utils/validators'
 import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
-import BackButton from '_atoms/BackButton'
-import Logo from '_assets/images/logo_small_white.svg'
 import countries from '_utils/countries.json';
 import SectionTitle from '_atoms/SectionTitle';
+import TextField from "_atoms/TextField";
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
         defaultValues: authStore.user
     });
 
+    console.log('authstore', authStore.user);
     const [loading, setLoading] = useState(false);
 
     const onSubmit = data => {
@@ -51,39 +49,44 @@ const AccountInfoScreen = observer((props) => {
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.accountInfoScreen}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
             <Container style={ styles.container }>
-                <SectionTitle>PERSONAL INFORMATION</SectionTitle>
-                <Controller
-                    control={control}
-                    render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                        autoCorrect={false}
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        onSubmitEditing={() => setFocus('last_name')}
-                        ref={ref}
-                        error={errors.firstName?.message}
-                        label='First name'/>
-                    )}
-                    name="first_name"
-                    rules={{ required: 'First name is required'}}
-                />
-                <Controller
-                    control={control}
-                    render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                        autoCorrect={false}
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        onSubmitEditing={() => setFocus('email_address')}
-                        ref={ref}
-                        error={errors.lastName?.message}
-                        label='Last name'/>
-                    )}
-                    name="last_name"
-                    rules={{ required: 'Last name is required'}}
-                />
+                <SectionTitle textStyle={styles.title}>Personal Information</SectionTitle>
+                <View style={styles.namesWrapper}>
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                        <TextField
+                            styleInput={{width:'47%'}}
+                            autoCorrect={false}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            onSubmitEditing={() => setFocus('last_name')}
+                            ref={ref}
+                            error={errors.firstName?.message}
+                            label='FIRST NAME'/>
+                        )}
+                        name="first_name"
+                        rules={{ required: 'First name is required'}}
+                    />
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                        <TextField
+                            styleInput={{width:'47%'}}
+                            autoCorrect={false}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            onSubmitEditing={() => setFocus('email_address')}
+                            ref={ref}
+                            error={errors.lastName?.message}
+                            label='LAST NAME'/>
+                        )}
+                        name="last_name"
+                        rules={{ required: 'Last name is required'}}
+                    />
+                </View>
+                <View style={styles.divider}/>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -94,14 +97,15 @@ const AccountInfoScreen = observer((props) => {
                         onChangeText={value => onChange(value)}
                         value={value}
                         keyboardType={'email-address'}
-                        onSubmitEditing={() => passwordRef.current.focus()}
+                        onSubmitEditing={() => setFocus('password')}
                         ref={ref}
                         error={errors.email?.message}
-                        label='E-mail address'/>
+                        label='EMAIL'/>
                     )}
                     name="email_address"
                     rules={{ required: 'Email is required', pattern: emailValidator}}
                 />
+                <View style={styles.divider}/>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -112,42 +116,21 @@ const AccountInfoScreen = observer((props) => {
                         onChangeText={value => onChange(value)}
                         value={value}
                         secure={true}
-                        renderRightAccessory={() => <Pressable onPress={() => props.navigation.navigate('AccountSettings.ChangePassword')}>
-                            <Text style={styles.inputLinkText}>Change password</Text>
+                        rightAccessory={() => <Pressable style={{justifyContent:'center', paddingRight: Spacing.SPACING_4}} onPress={() => props.navigation.navigate('AccountSettings.ChangePassword')}>
+                            <Text style={styles.inputLinkText}>CHANGE</Text>
                         </Pressable>}
                         ref={ref}
+                        disabled={true}
+                        editable={false}
                         error={errors.password?.message}
-                        onSubmitEditing={() => setFocus('address.country.name')}
-                        label='Password*'/>
+                        onSubmitEditing={() => setFocus('phone_number')}
+                        label='PASSWORD'/>
                     )}
                     name="password"
                     rules={{required: true}}
-                    defaultValue=""
+                    defaultValue="12345678"
                 />
-                <Controller
-                    control={control}
-                    render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        type={'select'}
-                        items={countries}
-                        itemKey={'country_id'}
-                        onSubmitEditing={() => setFocus('phone_number')}
-                        ref={ref}
-                        error={errors.phone?.message}
-                        mask={"(+###)"}
-                        label='Country*'
-                        renderRightAccessory={() => {
-                            return <View style={{width: 40, height: 30}}><Image source={{uri: value.flag_url}} resizeMode={'contain'} style={{width: 30, height: 20}}/></View>
-                        }}
-                        />
-                    )}
-                    name="address.country.name"
-                    rules={{ required: 'Country is required'}}
-                    defaultValue={''}
-                />
+                <View style={styles.divider}/>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -159,11 +142,25 @@ const AccountInfoScreen = observer((props) => {
                         onSubmitEditing={() => setFocus('birthdate')}
                         ref={ref}
                         error={errors.phone?.message}
-                        label='Phone no.'/>
+                        type={'phoneNumber'}
+                        label='PHONE NUMBER'/>
                     )}
-                    name="phone_number"
+                    name="phoneNumber"
                     rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
+                    defaultValue={{
+                        phone: '',
+                        countryDetails: {
+                            country_id: 222,
+                            code: "AE",
+                            phone_code: "971",
+                            name: "United Arab Emirates",
+                            flag_url: "https://s3.amazonaws.com/spoonity-flags/ae.png",
+                            zip_validate: "",
+                            phone_validate: "/^(5)([0-9]{8})$/"
+                        }
+                    }}
                 />
+                <View style={styles.divider}/>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -171,17 +168,16 @@ const AccountInfoScreen = observer((props) => {
                         onBlur={onBlur}
                         onChangeText={value => onChange(value)}
                         value={value}
-                        onSubmitEditing={() => monthRef.current.focus()}
                         ref={ref}
-                        error={errors.city?.message}
-                        label='Date of birth'/>
+                        error={errors.birthdate?.message}
+                        label='BIRTHDAY'/>
                     )}
                     name="birthdate"
                 />
             </Container>
         </ScrollView>
         <View style={styles.footer}>
-            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Save'}/>
+            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save'}/>
         </View>
     </KeyboardAvoidingView>
 
@@ -190,12 +186,22 @@ const AccountInfoScreen = observer((props) => {
 const styles = StyleSheet.create({
     accountInfoScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY
+        backgroundColor: Colors.WHITE
     },
     container: {
         flex: 1,
-        paddingTop: Spacing.SPACING_6,
         paddingBottom: Spacing.SPACING_5,
+    },
+    divider: {
+        width:'100%',
+        backgroundColor: Colors.LIGHT_GREY,
+        height: 1,
+        marginBottom: Spacing.SPACING_4,
+    },
+    namesWrapper: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between'
     },
     col1: {
         position: 'relative',
@@ -227,17 +233,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        color: Colors.SECONDARY_LIGHT,
-        fontSize: Typography.FONT_SIZE_13,
-        lineHeight: Typography.LINE_HEIGHT_13,
-        paddingLeft: Spacing.SPACING_5,
-        marginTop: Spacing.SPACING_3,
+        fontSize: Typography.FONT_SIZE_22,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        color: Colors.BLACK,
+        fontWeight:'700'
     },
     inputLinkText: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_13,
         lineHeight: Typography.LINE_HEIGHT_13,
-        color: Colors.SECONDARY_LIGHT,
+        color: '#647581',
     }
 })
 

@@ -20,6 +20,7 @@ import StoresScreen from '_scenes/StoresScreen'
 import ModalNavigator from '_navigations/ModalNavigator'
 import OffersScreen from '_scenes/OffersScreen'
 import { scaleSize } from '_styles/mixins';
+import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
 
 export const isReadyRef = React.createRef();
 
@@ -72,12 +73,9 @@ const Tabs = () => (
                       tabBarIcon: ({ focused }) => <HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
                   }}
       />
-      <Tab.Screen name="AccountSettings" component={AccountNavigator}
+      <Tab.Screen name="AccountSettings" component={AccountSettingsScreen}
                   options={{
                       tabBarLabel: 'Account',
-                      tabBarButton: () => <Pressable onPress={() => props.navigation.navigate('Account')}>
-                          <SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={Colors.PRIMARY}/>
-                      </Pressable>,
                       tabBarIcon: ({ focused }) => <SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>
                   }}
       />
@@ -99,7 +97,7 @@ const AppNavigator = observer(() => {
                   headerShown: false
               }}/>
               <RootStack.Screen name={'Modal'} component={ModalNavigator}/>
-              <RootStack.Screen name={'Account'} component={AccountNavigator}/>
+              <RootStack.Screen name={'AccountNavigator'} component={AccountNavigator}/>
           </RootStack.Navigator>
         )
     )

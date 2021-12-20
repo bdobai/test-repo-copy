@@ -3,7 +3,7 @@ export const PRIMARY_LIGHT = '#966473'
 export const SECONDARY = '#C9B17B'
 export const SECONDARY_LIGHT = '#CCB073'
 export const WHITE = '#FFFFFF'
-export const BLACK = '#000000'
+export const BLACK = '#222322'
 export const LIGHT_GREY = '#dddddd'
 export const WARM_GREY = '#7b7b7b'
 
