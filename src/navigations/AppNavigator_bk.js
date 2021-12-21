@@ -1,17 +1,14 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import AccountNavigator from '_navigations/AccountNavigator'
 import AuthNavigator from '_navigations/AuthNavigator'
 import HomeNavigator from '_navigations/HomeNavigator'
 import HistoryScreen from '_scenes/HistoryScreen'
 import { StyleSheet } from 'react-native'
-import { Colors } from '_styles'
-import OffersIcon from '_assets/images/nav/offers.svg'
+import { Colors, Typography } from "_styles";
 import HistoryIcon from '_assets/images/nav/history.svg'
 import HomeIcon from '_assets/images/nav/home.svg'
 import StoresIcon from '_assets/images/nav/stores.svg'
-import SettingsIcon from '_assets/images/nav/settings.svg'
+import UserIcon from '_assets/images/user.svg'
 import TabIcon from '_atoms/TabIcon'
 import { AuthStoreContext } from '_stores/index.js'
 import { observer } from 'mobx-react-lite'
@@ -20,8 +17,9 @@ import TabBar from '_organisms/TabBar'
 import { createStackNavigator } from '@react-navigation/stack'
 import StoresScreen from '_scenes/StoresScreen'
 import ModalNavigator from '_navigations/ModalNavigator'
-import OffersScreen from '_scenes/OffersScreen'
 import { scaleSize } from '_styles/mixins';
+import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
+import AccountNavigator from "_navigations/AccountNavigator";
 
 export const isReadyRef = React.createRef();
 
@@ -29,13 +27,24 @@ export const navigationRef = React.createRef();
 
 const Tab = createBottomTabNavigator()
 
+const RootStack = createStackNavigator()
+
 const styles = StyleSheet.create({
     cardStyle: {
         backgroundColor: Colors.WHITE
+    },
+    authHeader: {
+        borderWidth:0,
+        elevation:0,
+        shadowColor:'white',
+    },
+    headerTitle: {
+        color: Colors.WHITE,
+        fontSize: Typography.FONT_SIZE_16,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontWeight:'600',
     }
 })
-
-const RootStack = createStackNavigator()
 
 const Tabs = () => (
   <Tab.Navigator sceneContainerStyle={styles.cardStyle}
@@ -58,23 +67,26 @@ const Tabs = () => (
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Stores'} icon={<StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
-      <Tab.Screen name="Offers" component={OffersScreen}
-                  options={{
-                      tabBarLabel: 'Offers',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Offers'} icon={<OffersIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
-                  }}
-      />
-
       <Tab.Screen name="History" component={HistoryScreen}
                   options={{
                       tabBarLabel: 'History',
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'History'} icon={<HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}
       />
-      <Tab.Screen name="AccountSettings" component={AccountNavigator}
+      <Tab.Screen name="Account" component={AccountSettingsScreen}
                   options={{
-                      tabBarLabel: 'Settings',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<SettingsIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
+                      tabBarLabel: 'Account',
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<UserIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
+                      headerShown: true,
+                      cardStyle: styles.cardStyle,
+                      headerTitleStyle: styles.headerTitle,
+                      headerStyle: {
+                          backgroundColor:Colors.PRIMARY,
+                          borderColor: Colors.PRIMARY,
+                          shadowColor: Colors.PRIMARY,
+                          height: scaleSize(112),
+                      },
+                      headerTitle: 'How Can We Help?',
                   }}
       />
   </Tab.Navigator>
@@ -95,7 +107,7 @@ const AppNavigator = observer(() => {
                   headerShown: false
               }}/>
               <RootStack.Screen name={'Modal'} component={ModalNavigator}/>
-              <RootStack.Screen name={'Account'} component={AccountNavigator} options={{
+              <RootStack.Screen name={'AccountNavigator'} component={AccountNavigator} options={{
                   headerShown: false
               }}/>
           </RootStack.Navigator>

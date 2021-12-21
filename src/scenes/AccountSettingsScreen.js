@@ -12,6 +12,7 @@ import { AuthStoreContext } from '_stores'
 // import BackButton from '_atoms/BackButton'
 import {Linking} from 'react-native'
 import SectionTitle from '_atoms/SectionTitle';
+import Button from "_atoms/Button";
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -44,69 +45,54 @@ const AccountSettingsScreen = (props) => {
             showsVerticalScrollIndicator={false}
         >
             <Container style={ styles.container }>
-                <SectionTitle>MY PROFILE</SectionTitle>
-                <Card noPadding={true} style={styles.card}>
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Info')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Personal Information</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                    <SectionTitle>YOUR PROFILE</SectionTitle>
+                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.Info'})} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Personal Information</Text>
                     </Pressable>
-                    {Platform.OS !== 'ios' ? <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.MyPayments')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Payments</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
-                    </Pressable> : null}
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Gift cards</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                    <Pressable onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Order History</Text>
                     </Pressable>
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Contact', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>How can we improve?</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                    <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
                     </Pressable>
-                    <Pressable onPress={() => sendEmail()} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Contact Us</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Manage Payment Methods</Text>
                     </Pressable>
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Terms', {code: 'terms', title: 'Terms and Conditions'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Terms of Service</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+
+                    <SectionTitle>SUPPORT</SectionTitle>
+                    <Pressable onPress={() => sendEmail()} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Contact Us</Text>
                     </Pressable>
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.PrivacyPolicy', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>Privacy Policy</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.Terms', params: {code: 'terms', title: 'Terms and Conditions'}})} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Terms of Service</Text>
                     </Pressable>
-                    <Pressable delayPressIn={100} onPress={() => props.navigation.navigate('AccountSettings.Faq', {code: 'privacy', title: 'Privacy Policy'})} style={({pressed}) => pressed ? styles.listItemPressed : styles.listItem}>
-                        <>
-                            <Text style={styles.listItemText}>FAQ</Text>
-                            <View style={styles.iconWrapper}><ChevronIcon fill={Colors.SECONDARY} height={18}/></View>
-                        </>
+                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.PrivacyPolicy', params: {code: 'privacy', title: 'Privacy Policy'}})} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Privacy Policy</Text>
                     </Pressable>
-                </Card>
+                <View style={styles.footer}>
+                    <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={logout} block={true} type={'primary'} text={'LOGOUT'}/>
+                </View>
             </Container>
         </ScrollView>
-        <View style={styles.footer}>
-            <Pressable onPress={() => logout()}><LogoutIcon width={scaleSize(26)} height={scaleSize(26)} fill={Colors.WHITE}/></Pressable>
-            <Text style={styles.footerText}>Log out</Text>
-        </View>
     </SafeAreaView>
 }
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: Colors.PRIMARY,
+        backgroundColor: Colors.WHITE,
+    },
+    button: {
+        width:'70%',
+        alignSelf:'center',
+        height: scaleSize(55),
+        borderRadius: scaleSize(30),
+        marginTop: Spacing.SPACING_5
+    },
+    buttonTitle: {
+        fontSize: Typography.FONT_SIZE_18,
+        lineHeight: Typography.LINE_HEIGHT_20,
+        fontWeight: '500',
+        fontFamily: Typography.FONT_SECONDARY_REGULAR
     },
     container: {
         flex: 1,
@@ -115,7 +101,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignItems: 'center',
         margin: Spacing.SPACING_5
     },
@@ -124,31 +110,20 @@ const styles = StyleSheet.create({
         marginLeft: Spacing.SPACING_5,
         fontSize: Typography.FONT_SIZE_18,
         lineHeight: Typography.LINE_HEIGHT_18,
-        color: Colors.WHITE
+        color: Colors.PRIMARY
     },
     listItem: {
         flexDirection: 'row',
-        paddingVertical: Spacing.SPACING_5,
+        paddingVertical: Spacing.SPACING_3,
         borderBottomWidth: 1,
-        borderBottomColor: Colors.PRIMARY_LIGHT
-    },
-    listItemPressed: {
-        flexDirection: 'row',
-        paddingVertical: Spacing.SPACING_5,
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.SECONDARY,
-        backgroundColor: Colors.PRIMARY_LIGHT
+        borderBottomColor: Colors.LIGHT_GREY
     },
     listItemText: {
         flex: 1,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_18,
-        lineHeight: Typography.LINE_HEIGHT_18,
-        color: Colors.WHITE
-    },
-    settingsScreen: {
-        flex: 1,
-        backgroundColor: Colors.PRIMARY
+        fontSize: Typography.FONT_SIZE_16,
+        lineHeight: Typography.LINE_HEIGHT_16,
+        color: Colors.BLACK
     },
 })
 

@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         marginHorizontal: scaleSize(14),
     },
     disabled: {
-        backgroundColor: Colors.GRAY_LIGHT,
+        // backgroundColor: Colors.GRAY_LIGHT,
     },
     selectViewContainer: {
         flex: 1,
