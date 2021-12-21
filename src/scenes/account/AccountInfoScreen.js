@@ -1,5 +1,16 @@
 import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View, Image, Pressable, Text, Keyboard } from 'react-native'
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    View,
+    Image,
+    Pressable,
+    Text,
+    Keyboard,
+    TextInput,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import Button from '_components/atoms/Button'
@@ -11,11 +22,19 @@ import { observer } from 'mobx-react-lite'
 import countries from '_utils/countries.json';
 import SectionTitle from '_atoms/SectionTitle';
 import TextField from "_atoms/TextField";
+import { scaleSize } from "_styles/mixins";
+import dayjs from "dayjs";
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
     const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
-        defaultValues: authStore.user
+        defaultValues: {
+            first_name: authStore.user.first_name,
+            last_name: authStore.user.last_name,
+            email: authStore.user.email,
+            phone_number: authStore.user.phone_number.toString(),
+            birthdate: dayjs.unix(authStore.user.birthdate).format('DD-MM')
+        }
     });
 
     console.log('authstore', authStore.user);
@@ -43,7 +62,12 @@ const AccountInfoScreen = observer((props) => {
         });
     };
 
-    const actionSheetRef = React.useRef();
+    const renderFlag = () => {
+        return <View style={styles.flag}>
+            <Image resizeMode={'contain'} style={styles.flagIcon} source={{uri: 'https://s3.amazonaws.com/spoonity-flags/ae.png'}}/>
+            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={{marginLeft: Spacing.SPACING_1}}/>
+        </View>
+    }
 
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.accountInfoScreen}>
@@ -134,16 +158,17 @@ const AccountInfoScreen = observer((props) => {
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                        onBlur={onBlur}
-                        onChangeText={value => onChange(value)}
-                        value={value}
-                        keyboardType={'phone-pad'}
-                        onSubmitEditing={() => setFocus('birthdate')}
-                        ref={ref}
-                        error={errors.phone?.message}
-                        type={'phoneNumber'}
-                        label='PHONE NUMBER'/>
+                        <TextField
+                            leftAccessory={renderFlag}
+                            placeholder={'Phone number'}
+                            autoCorrect={false}
+                            autoCapitalize={'none'}
+                            onBlur={onBlur}
+                            onChangeText={onChange}
+                            value={value}
+                            ref={ref}
+                            error={errors.phone_number?.message}
+                            label='PHONE NUMBER' />
                     )}
                     name="phoneNumber"
                     rules={{ required: 'Phone no. is required', pattern: phoneValidator}}
@@ -169,6 +194,8 @@ const AccountInfoScreen = observer((props) => {
                         onChangeText={value => onChange(value)}
                         value={value}
                         ref={ref}
+                        disabled={true}
+                        editable={false}
                         error={errors.birthdate?.message}
                         label='BIRTHDAY'/>
                     )}
@@ -243,6 +270,15 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_13,
         lineHeight: Typography.LINE_HEIGHT_13,
         color: '#647581',
+    },
+    flag: {
+        flexDirection:'row',
+        alignItems:'center',
+        paddingLeft: scaleSize(15),
+    },
+    flagIcon:{
+        width:scaleSize(30),
+        height: scaleSize(20)
     }
 })
 
