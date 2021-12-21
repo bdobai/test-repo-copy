@@ -31,7 +31,7 @@ const AccountInfoScreen = observer((props) => {
         defaultValues: {
             first_name: authStore.user.first_name,
             last_name: authStore.user.last_name,
-            email: authStore.user.email,
+            email_address: authStore.user.email_address,
             phone_number: authStore.user.phone_number.toString(),
             birthdate: dayjs.unix(authStore.user.birthdate).format('DD-MM')
         }
