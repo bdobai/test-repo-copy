@@ -1,60 +1,220 @@
-import React from 'react'
-import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View, Linking } from 'react-native'
-import Header from '_components/molecules/Header'
+import React, { useEffect, useState } from "react";
+import {
+    KeyboardAvoidingView,
+    Platform,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    Pressable,
+    View,
+    ActivityIndicator,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
-import { TextField } from '_components/atoms/MaterialField'
+import TextField from "_atoms/TextField";
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { emailValidator } from '_utils/validators'
-import { scaleSize } from '_styles/mixins'
-import CheckBox from '_components/atoms/CheckBox'
+import { emailValidator, requiredValidation } from "_utils/validators";
+import { AuthHeaderText } from "_atoms/AuthHeaderText";
+import { scaleSize } from "_styles/mixins";
+import { passwordValidators } from "_utils/constants";
+import { PasswordValidationMessage } from "_atoms/PasswordValidationMessage";
+import SuccessIcon from '_assets/images/alerts/success.svg'
+import ErrorIcon from '_assets/images/alerts/error.svg'
+import { request } from "_utils/request";
 
 const RegisterScreen = (props) => {
-    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [emailStatus, setEmailStatus] = useState(''); // success || error
+    const [showValidation, setShowValidation] = useState(false);
+
+    const { control, handleSubmit, setFocus, formState, getValues } = useForm({mode: "onChange"});
+
+    useEffect(() => {
+       props.navigation.setOptions({
+           headerRight: () => <Text style={styles.page}>1 of 3</Text>
+       })
+    },[])
 
     const onSubmit = data => {
         props.navigation.navigate('Register_2', data);
     };
 
+    const renderSecureTextButton = () => {
+        return <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)} style={styles.securePasswordWrapper}>
+            <Text style={styles.securePassword}>{!secureTextEntry ? 'HIDE' : 'SHOW'}</Text>
+        </Pressable>
+    }
+
+    const renderCustomError = () => {
+        if(!showValidation) return
+        return passwordValidators.map((item) => {
+            return <PasswordValidationMessage key={item.label} label={item.label} validator={item.validator} value={password}/>
+        })
+    }
+
+    const verifyEmail = () => {
+        const email = getValues('email');
+        if(!email?.length) return;
+        setLoading(true)
+        console.log('email', email);
+        request('/user/email/exists.json', {
+            method: 'GET',
+            data: {
+                email: email,
+                vendor: 107430
+            },
+            withToken: false,
+            success: function (response) {
+                console.log('response', response);
+                if(response.exists){
+                    setEmailStatus('error');
+                }else {
+                    setEmailStatus('success');
+                }
+                setLoading(false)
+            },
+            error: (e) => {
+                console.log('e', e);
+                setLoading(false)
+            }
+        });
+    }
+
+    const renderEmailErrorMessage = () => {
+        if(emailStatus!=='error') return;
+        return (
+            <View style={styles.emailErrorWrapper}>
+                <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR} style={{marginRight: Spacing.SPACING_2}}/>
+                <Text style={styles.emailError}>You are already registered for a Spoonity account with Costa Coffee UAE. Use the same password to login. If you can't remember your password,
+                    <Text style={styles.link} onPress={() => props.navigation.navigate('Recover')}> reset it here</Text>
+                </Text>
+            </View>
+        )
+    }
+
+    const renderRightAccessory = () => {
+        if(loading) return <ActivityIndicator />
+        if(!emailStatus) return;
+        if(emailStatus==='success') return <SuccessIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.WHITE} style={{backgroundColor:Colors.WHITE}} />
+            return <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR}/>
+    }
+
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
-                    <Container style={{ flex: 1 }}>
-                        <Header bg={false} center={<Text style={ styles.signupTitle }>SIGN UP 1/3</Text>} style={{marginTop: scaleSize(10)}}/>
-                        <View style={ styles.login } title={'Enter your credentials'}>
+                    <AuthHeaderText text={'Register'}/>
+                    <Container style={{ flex: 1, marginTop: Spacing.SPACING_5 }}>
+                        <View style={ styles.login }>
+                            <View style={styles.namesWrapper}>
+                                <Controller
+                                    control={control}
+                                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                                        <TextField
+                                            styleInput={{width:'47%'}}
+                                            autoCorrect={false}
+                                            autoCapitalize={'none'}
+                                            onBlur={onBlur}
+                                            onChangeText={value => onChange(value)}
+                                            value={value}
+                                            placeholder={'First name'}
+                                            onSubmitEditing={() => setFocus('lastName')}
+                                            ref={ref}
+                                            error={formState.errors.first_name?.message}
+                                            label='FIRST NAME'/>
+                                    )}
+                                    name="first_name"
+                                    rules={{ required: 'First name is required', pattern: requiredValidation}}
+                                    defaultValue={''}
+                                />
+                                <Controller
+                                    control={control}
+                                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                                        <TextField
+                                            styleInput={{width:'47%'}}
+                                            placeholder={'Last name'}
+                                            autoCorrect={false}
+                                            autoCapitalize={'none'}
+                                            onBlur={onBlur}
+                                            onChangeText={value => onChange(value)}
+                                            value={value}
+                                            onSubmitEditing={() => setFocus('email')}
+                                            ref={ref}
+                                            error={formState.errors.last_name?.message}
+                                            label='LAST NAME'/>
+                                    )}
+                                    name="last_name"
+                                    rules={{ required: 'Last name is required', pattern: requiredValidation}}
+                                    defaultValue={''}
+                                />
+                            </View>
                             <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                <TextField
-                                  autoCorrect={false}
-                                  autoCapitalize={'none'}
-                                  onBlur={onBlur}
-                                  onChangeText={value => onChange(value)}
-                                  value={value}
-                                  keyboardType={'email-address'}
-                                  onSubmitEditing={() => setFocus('password')}
-                                  ref={ref}
-                                  error={errors.email?.message}
-                                  label='E-mail*'/>
-                              )}
-                              name="email"
-                              rules={{ required: 'Email is required', pattern: emailValidator}}
-                              defaultValue={props.route.params ? props.route.params.email : ''}
+                                control={control}
+                                render={({ field: { ref, onChange, onBlur, value } }) => (
+                                    <TextField
+                                        autoCorrect={false}
+                                        autoCapitalize={'none'}
+                                        onBlur={() => {
+                                            onBlur();
+                                            verifyEmail();
+                                        }}
+                                        placeholder={'Email'}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                        keyboardType={'email-address'}
+                                        onSubmitEditing={() => setFocus('confirmEmail')}
+                                        ref={ref}
+                                        error={formState.errors.email?.message}
+                                        rightAccessory={() => <View style={styles.securePasswordWrapper}>{renderRightAccessory()}</View>}
+                                        label='EMAIL'/>
+                                )}
+                                name="email"
+                                rules={{ required: 'Email is required', pattern: emailValidator}}
+                                defaultValue={props.route.params ? props.route.params.email : ''}
+                            />
+                            {renderEmailErrorMessage()}
+                            <Controller
+                                control={control}
+                                render={({ field: { ref, onChange, onBlur, value } }) => (
+                                    <TextField
+                                        autoCorrect={false}
+                                        autoCapitalize={'none'}
+                                        onBlur={onBlur}
+                                        placeholder={'Confirm email'}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                        keyboardType={'email-address'}
+                                        onSubmitEditing={() => setFocus('password')}
+                                        ref={ref}
+                                        error={formState.errors.confirmEmail?.message}
+                                        label='CONFIRM EMAIL'/>
+                                )}
+                                name="confirmEmail"
+                                defaultValue={''}
                             />
                             <Controller
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
                                   onBlur={onBlur}
-                                  onChangeText={value => onChange(value)}
+                                  onChangeText={value => {
+                                      onChange(value);
+                                      setPassword(value);
+                                  }}
                                   value={value}
-                                  secure={true}
                                   ref={ref}
-                                  error={errors.password?.message}
+                                  placeholder={'6 characters, 1 lowercase, 1 capital, 1 number'}
+                                  error={formState.errors.password?.message}
+                                  customError={renderCustomError}
+                                  secureTextEntry={secureTextEntry}
+                                  rightAccessory={renderSecureTextButton}
                                   onSubmitEditing={() => setFocus('confirm_password')}
-                                  label='Password*'/>
+                                  onFocus={() =>setShowValidation(true)}
+                                  label='PASSWORD'/>
                               )}
                               name="password"
                               rules={{
@@ -70,68 +230,16 @@ const RegisterScreen = (props) => {
                               }
                               defaultValue=""
                             />
-                            <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                <TextField
-                                  onBlur={onBlur}
-                                  onChangeText={value => onChange(value)}
-                                  value={value}
-                                  secure={true}
-                                  title={'At least 6 characters (including 1 lowercase, 1 capital, 1 number)'}
-                                  ref={ref}
-                                  error={errors.confirm_password?.message}
-                                  label='Confirm password*'/>
-                              )}
-                              name="confirm_password"
-                              rules={{
-                                  required: true,
-                                  minLength: {
-                                      value: 6,
-                                      message: 'password must be at least 6'
-                                  }}
-                              }
-                              defaultValue=""
-                            />
-                            <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                <CheckBox onPress={() => onChange(!value)}
-                                          error={errors.confirm_password?.message}
-                                          checked={value}
-                                >
-                                    <View style={{ flex: 1 }}>
-                                        <Text style={styles.checkBoxLabel}>I have read and agree to the <Text style={styles.checkBoxLink} onPress={() => Linking.openURL("https://google.com")}>Terms of Service and Privacy Policy</Text></Text>
-
-                                    </View>
-                                </CheckBox>
-                              )}
-                              name="terms"
-                              rules={{
-                                  required: true,
-                              }}
-                              defaultValue={false}
-                            />
-                            <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                <CheckBox onPress={() => onChange(!value)}
-                                          checked={value}
-                                          label={'Yes, I agree to receiving news, exclusive offers and more from Costa Coffee.'}
+                            <View style={styles.footer}>
+                                <Button
+                                    disabled={!formState.isValid}
+                                    textStyle={styles.buttonTitle}
+                                    bodyStyle={styles.button}
+                                    onPress={handleSubmit(onSubmit)}
+                                    block={true}
+                                    type={'primary'}
+                                    text={'NEXT'}
                                 />
-                              )}
-                              name="newsletter"
-                              defaultValue={false}
-                            />
-                        </View>
-                        <View style={styles.footer}>
-                            <Button type={'secondary'}
-                                text={'Next'}
-                                onPress={handleSubmit(onSubmit)}
-                            />
-                            <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Already have an account? </Text>
-                                <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
                             </View>
                         </View>
                     </Container>
@@ -143,7 +251,7 @@ const RegisterScreen = (props) => {
 
 const styles = StyleSheet.create({
     infoText: {
-        color: Colors.WHITE,
+        color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_12,
         lineHeight: Typography.LINE_HEIGHT_14,
         fontFamily: Typography.FONT_PRIMARY_MEDIUM
@@ -151,8 +259,6 @@ const styles = StyleSheet.create({
     footer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginBottom: Spacing.SPACING_4,
     },
     footerActionText: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
@@ -160,24 +266,18 @@ const styles = StyleSheet.create({
         lineHeight: Typography.LINE_HEIGHT_14,
         color: Colors.SECONDARY
     },
-    footerText: {
-        color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_14
-    },
-    footerTextView: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: Spacing.SPACING_4
-    },
     login: {
-        flex: 3,
-        justifyContent: 'center'
+        flex: 1,
+    },
+    namesWrapper: {
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        width:'100%'
     },
     signupScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY
+        backgroundColor: Colors.WHITE
     },
     signupTitle: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
@@ -185,19 +285,53 @@ const styles = StyleSheet.create({
         lineHeight: Typography.LINE_HEIGHT_16,
         color: Colors.SECONDARY
     },
-    checkBoxLabel: {
-        flex: 1,
-        color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_12,
+    button: {
+        width:'100%',
+        height: scaleSize(60),
+        borderRadius: scaleSize(30),
+        marginTop: Spacing.SPACING_5
     },
-    checkBoxLink: {
-        flex: 1,
-        color: Colors.SECONDARY,
+    buttonTitle: {
+        fontSize: Typography.FONT_SIZE_20
+    },
+    securePasswordWrapper:{
+        justifyContent:'center',
+        marginRight: scaleSize(20)
+    },
+    securePassword: {
+        fontSize: Typography.FONT_SIZE_13,
+        fontFamily: Typography.FONT_SECONDARY_REGULAR,
+        color: Colors.GRAY_DARK,
+        fontWeight: '600',
+        letterSpacing: 0
+    },
+    page: {
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
+        fontSize: Typography.FONT_SIZE_20,
+        color: Colors.PRIMARY,
+        marginRight: Spacing.SPACING_1,
+        fontWeight: '700',
+    },
+    emailErrorWrapper: {
+        flexDirection: 'row',
+        marginBottom: Spacing.SPACING_5,
+    },
+    emailError:{
+        fontSize: Typography.FONT_SIZE_14,
+        lineHeight: Typography.FONT_SIZE_20,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_12,
+        color: '#617582',
+        flex:1
+    },
+    link: {
+        fontWeight: '700'
+    },
+    errorMessage: {
+        alignSelf: 'center',
+        color: Colors.ERROR,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_16,
+        marginBottom: Spacing.SPACING_5,
     },
 })
 

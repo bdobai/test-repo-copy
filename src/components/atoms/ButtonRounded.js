@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { ActivityIndicator, Keyboard, StyleSheet, Text, Pressable, View } from 'react-native'
 import PropTypes from 'prop-types'
-import { Colors, Radius, Spacing, Typography } from '_styles'
+import { Colors, Spacing, Typography } from '_styles'
 import { scaleSize } from '_styles/mixins'
 
 class ButtonRounded extends Component {

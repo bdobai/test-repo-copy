@@ -7,10 +7,11 @@ export const BLACK = '#000000'
 export const LIGHT_GREY = '#dddddd'
 export const WARM_GREY = '#7b7b7b'
 
-export const SUCCESS = '#3adb76'
+export const SUCCESS = '#2f9725'
 export const WARNING = '#ffae00'
 export const DANGER = '#cc4b37'
 export const DELETE = '#ff6a6a'
+export const ERROR = '#a90007'
 
 // GRAYSCALE
 export const CARD_PRESSED = '#f5f5f5'

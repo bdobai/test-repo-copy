@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView } from 'react-native';
-import Header from '_components/molecules/Header'
-import Logo from '_assets/images/logo.svg'
 import { Colors, Spacing, Typography } from '_styles'
-import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { useForm, Controller } from "react-hook-form";
 import { request } from '_utils/request'
 import { emailValidator } from '_utils/validators'
-import { AuthStoreContext, NotificationsStoreContext } from '_stores'
-import { scaleSize } from '_styles/mixins'
+import { AuthStoreContext } from '_stores'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SectionTitle from '_atoms/SectionTitle';
-// import analytics from '@react-native-firebase/analytics'
+import TextField from "_atoms/TextField";
+import { scaleSize } from "_styles/mixins";
+import { AuthHeaderText } from "_atoms/AuthHeaderText";
 
 const LoginScreen = (props) => {
 
-    const { control, handleSubmit, setFocus, formState: { errors } } = useForm();
+    const { control, handleSubmit, setFocus, formState } = useForm({ mode: "onChange" });
 
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
+
     const authStore = React.useContext(AuthStoreContext);
 
     const onSubmit = data => {
@@ -37,24 +37,36 @@ const LoginScreen = (props) => {
                 setLoading(false)
                 authStore.getUser()
             },
-            error: () => {
+            error: (e) => {
                 setLoading(false)
+                setError(e.error?.errors[0]?.message)
             }
         });
     };
 
-    return <View style={{ flex: 1 }}>
+    const renderError = () => {
+        if(!error) return;
+        return <Text style={styles.errorMessage}>{error}</Text>
+    }
+
+    const renderRightAccessory = () => {
+        return <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)} style={styles.securePasswordWrapper}>
+            <Text style={styles.securePassword}>{!secureTextEntry ? 'HIDE' : 'SHOW'}</Text>
+        </Pressable>
+    }
+
+    return <View style={{ flex: 1, backgroundColor: Colors.WHITE }}>
         <SafeAreaView style={{ flex: 1}}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false} >
                     <SafeAreaView style={ styles.loginScreen }>
-                        <Header bg={false} center={<Logo style={ styles.logo }/>} style={{marginTop: scaleSize(50)}}/>
-                        <View style={ styles.login } title={'Enter your credentials'}>
-                            <SectionTitle>LOG IN</SectionTitle>
+                        <AuthHeaderText text={'Log in'}/>
+                        <View style={ styles.login }>
                             <Controller
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
+                                  placeholder={'Email'}
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
                                   onBlur={onBlur}
@@ -62,9 +74,9 @@ const LoginScreen = (props) => {
                                   value={value}
                                   keyboardType={'email-address'}
                                   onSubmitEditing={() => setFocus('password')}
+                                  error={formState?.errors?.email?.message}
                                   ref={ref}
-                                  error={errors.email?.message}
-                                  label='Email*'/>
+                                  label='EMAIL'/>
                               )}
                               name="email"
                               rules={{ required: 'Email is required', pattern: emailValidator}}
@@ -74,16 +86,17 @@ const LoginScreen = (props) => {
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
                                 <TextField
+                                  placeholder={'Password'}
                                   autoCorrect={false}
                                   autoCapitalize={'none'}
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
-                                  secure={true}
+                                  secureTextEntry={secureTextEntry}
                                   ref={ref}
-                                  error={errors.password?.message}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  label='Password*'/>
+                                  rightAccessory={renderRightAccessory}
+                                  label='PASSWORD'/>
                               )}
                               name="password"
                               rules={{
@@ -95,15 +108,13 @@ const LoginScreen = (props) => {
                               }
                               defaultValue=""
                             />
-                            <View style={ styles.forgot }>
-                                <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={styles.forgotText}>Forgot your password ?</Text></Pressable>
+                            <View style={styles.forgot}>
+                                <Text style={styles.forgotText}>Forgot your password ?</Text>
+                                <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={[styles.forgotText, {textDecorationLine:'underline'}]}> Click here to reset it</Text></Pressable>
                             </View>
-                        </View>
-                        <View style={styles.footer}>
-                            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Log in'}/>
-                            <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Don't have an account? </Text>
-                                <Pressable onPress={() => props.navigation.navigate('Register')}><Text style={styles.footerActionText}>Sign up</Text></Pressable>
+                            {renderError()}
+                            <View style={styles.footer}>
+                                <Button disabled={!formState.isValid} textStyle={styles.buttonTitle} bodyStyle={styles.button} loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'LOG IN'}/>
                             </View>
                         </View>
                     </SafeAreaView>
@@ -117,43 +128,51 @@ const styles = StyleSheet.create({
     footer: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginBottom: Spacing.SPACING_4,
-    },
-    footerText: {
-        color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_14
-    },
-    footerActionText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_14,
-        color: Colors.SECONDARY
-    },
-    footerTextView: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: Spacing.SPACING_4
-    },
-    forgot: {
-        alignItems: 'flex-end',
     },
     forgotText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        color: Colors.SECONDARY,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_12,
         lineHeight: Typography.LINE_HEIGHT_14,
+        fontWeight: '500'
+    },
+    forgot: {
+        flexDirection: 'row',
+        marginBottom: Spacing.SPACING_5
     },
     login: {
-        flex: 3,
-        justifyContent: 'center'
+        flex: 1,
     },
     loginScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY,
+        backgroundColor: Colors.WHITE,
         paddingHorizontal: Spacing.SPACING_5,
+    },
+    button: {
+        width:'100%',
+        height: scaleSize(60),
+        borderRadius: scaleSize(30),
+        marginTop: Spacing.SPACING_5
+    },
+    buttonTitle: {
+        fontSize: Typography.FONT_SIZE_20
+    },
+    errorMessage: {
+        alignSelf: 'center',
+        color: Colors.ERROR,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_16,
+    },
+    securePasswordWrapper:{
+        justifyContent:'center',
+        marginRight: scaleSize(20)
+    },
+    securePassword: {
+        fontSize: Typography.FONT_SIZE_13,
+        fontFamily: Typography.FONT_SECONDARY_REGULAR,
+        color: Colors.GRAY_DARK,
+        fontWeight: '600',
+        letterSpacing: 0
     }
 })
 
