@@ -141,11 +141,12 @@ const base_styles = StyleSheet.create({
         height: scaleSize(30),
     },
     defaultText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_14,
-        lineHeight: Typography.LINE_HEIGHT_14,
         color: Colors.BLACK,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: Typography.FONT_SIZE_18,
+        lineHeight: Typography.LINE_HEIGHT_20,
+        fontWeight: '500',
+        fontFamily: Typography.FONT_SECONDARY_REGULAR
     },
     defaultBody: {
         flexDirection: 'row',
@@ -156,9 +157,10 @@ const base_styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_5,
         paddingRight: Spacing.SPACING_5,
         borderWidth: 0,
-        borderRadius: Radius.RADIUS_1,
-        height: scaleSize(55),
+        borderRadius: scaleSize(28),
+        height: scaleSize(56),
         position: 'relative'
+
     },
     xsText: {
         fontSize: Typography.FONT_SIZE_12,

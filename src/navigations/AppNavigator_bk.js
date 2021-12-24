@@ -3,8 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AuthNavigator from '_navigations/AuthNavigator'
 import HomeNavigator from '_navigations/HomeNavigator'
 import HistoryScreen from '_scenes/HistoryScreen'
-import { StyleSheet } from 'react-native'
-import { Colors, Typography } from "_styles";
+import { Colors } from "_styles";
 import HistoryIcon from '_assets/images/nav/history.svg'
 import HomeIcon from '_assets/images/nav/home.svg'
 import StoresIcon from '_assets/images/nav/stores.svg'
@@ -20,6 +19,7 @@ import ModalNavigator from '_navigations/ModalNavigator'
 import { scaleSize } from '_styles/mixins';
 import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
 import AccountNavigator from "_navigations/AccountNavigator";
+import { navigationStyles } from "_styles/navigation";
 
 export const isReadyRef = React.createRef();
 
@@ -29,25 +29,8 @@ const Tab = createBottomTabNavigator()
 
 const RootStack = createStackNavigator()
 
-const styles = StyleSheet.create({
-    cardStyle: {
-        backgroundColor: Colors.WHITE
-    },
-    authHeader: {
-        borderWidth:0,
-        elevation:0,
-        shadowColor:'white',
-    },
-    headerTitle: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_16,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        fontWeight:'600',
-    }
-})
-
 const Tabs = () => (
-  <Tab.Navigator sceneContainerStyle={styles.cardStyle}
+  <Tab.Navigator sceneContainerStyle={navigationStyles.whiteCardStyle}
                  initialRouteName={'Home'}
                  tabBar={props => <TabBar {...props} />}
                  screenOptions={{
@@ -75,17 +58,13 @@ const Tabs = () => (
       />
       <Tab.Screen name="Account" component={AccountSettingsScreen}
                   options={{
+                      headerTitleAlign: 'center',
                       tabBarLabel: 'Account',
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<UserIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
                       headerShown: true,
-                      cardStyle: styles.cardStyle,
-                      headerTitleStyle: styles.headerTitle,
-                      headerStyle: {
-                          backgroundColor:Colors.PRIMARY,
-                          borderColor: Colors.PRIMARY,
-                          shadowColor: Colors.PRIMARY,
-                          height: scaleSize(112),
-                      },
+                      cardStyle: navigationStyles.cardStyle,
+                      headerTitleStyle: navigationStyles.headerTitle,
+                      headerStyle: navigationStyles.primaryHeader,
                       headerTitle: 'How Can We Help?',
                   }}
       />

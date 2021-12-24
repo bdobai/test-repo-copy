@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
 function HomeNavigator () {
     return (
       <Stack.Navigator initialRouteName="Home.Dashboard" screenOptions={{
+          headerTitleAlign: 'center',
           headerLeft: (props) => <HeaderTouchable><InfoIcon height={scaleSize(24)} fill={Colors.GRAY_DARK2}/></HeaderTouchable>,
           headerRight: (props) => <HeaderTouchable><NotificationIcon height={scaleSize(24)} fill={Colors.GRAY_DARK2}/></HeaderTouchable>,
           headerTitle: (props) => <Logo height={scaleSize(22)}/>,

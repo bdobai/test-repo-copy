@@ -1,11 +1,9 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import AccountNavigator from '_navigations/AccountNavigator'
 import AuthNavigator from '_navigations/AuthNavigator'
 import HomeNavigator from '_navigations/HomeNavigator'
 import HistoryScreen from '_scenes/HistoryScreen'
-import { Pressable, StyleSheet } from 'react-native';
 import { Colors } from '_styles'
 import OffersIcon from '_assets/images/nav/offers.svg'
 import HistoryIcon from '_assets/images/nav/history.svg'
@@ -21,6 +19,7 @@ import ModalNavigator from '_navigations/ModalNavigator'
 import OffersScreen from '_scenes/OffersScreen'
 import { scaleSize } from '_styles/mixins';
 import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
+import { navigationStyles } from "_styles/navigation";
 
 export const isReadyRef = React.createRef();
 
@@ -28,16 +27,10 @@ export const navigationRef = React.createRef();
 
 const Tab = createBottomTabNavigator()
 
-const styles = StyleSheet.create({
-    cardStyle: {
-        backgroundColor: Colors.WHITE
-    }
-})
-
 const RootStack = createStackNavigator()
 
 const Tabs = () => (
-  <Tab.Navigator sceneContainerStyle={styles.cardStyle}
+  <Tab.Navigator sceneContainerStyle={navigationStyles.cardStyle}
                  initialRouteName={'Home'}
                  screenOptions={{
                      headerShown: false,

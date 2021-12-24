@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import AccountSettingsScreen from '_scenes/AccountSettingsScreen'
 import AccountInfoScreen from '_scenes/account/AccountInfoScreen'
 import ChangePasswordScreen from '_scenes/account/ChangePasswordScreen'
 import MyPaymentsScreen from '_scenes/account/MyPaymentsScreen'
@@ -11,46 +10,28 @@ import ContactScreen from '_scenes/account/ContactScreen'
 import PrivacyPolicyScreen from '_scenes/account/PrivacyPolicyScreen'
 import TermsScreen from '_scenes/account/TermsScreen'
 import FaqScreen from '_scenes/account/FaqScreen'
-
-
 import AddCreditCardScreen from '_scenes/account/AddCreditCardScreen'
 import PageScreen from '_scenes/account/PageScreen'
-import { StyleSheet } from 'react-native'
-import { Colors, Spacing, Typography } from "_styles";
-import Logo from '_assets/images/logo_small_white.svg';
 import { scaleSize } from '_styles/mixins';
 import LeftChevron from '_assets/images/left-chevron.svg';
+import { navigationStyles } from "_styles/navigation";
 
 const Stack = createStackNavigator()
 
-const styles = StyleSheet.create({
-    cardStyle: {
-        backgroundColor: Colors.PRIMARY
-    }
-})
-
 function AccountNavigator () {
     return (
-      <Stack.Navigator initialRouteName="AccountSettings" screenOptions={{
+      <Stack.Navigator initialRouteName="AccountSettings"  screenOptions={{
           headerMode: 'float',
           headerBackImage: () => <LeftChevron fill={'#ffffff'} height={scaleSize(18)} width={scaleSize(52)}/>,
           headerBackTitleVisible: false,
           headerTitleStyle:{
-              color: Colors.WHITE,
-              fontSize: Typography.FONT_SIZE_16,
-              fontFamily: Typography.FONT_PRIMARY_REGULAR,
-              fontWeight:'600',
+              ...navigationStyles.headerTitle,
+              textTransform: null
           },
-          headerStyle: {
-              backgroundColor: Colors.PRIMARY,
-              borderBottomWidth: 0,
-              shadowOpacity: 0,
-              height: scaleSize(112),
-          },
-          headerBackTitleStyle: {
-              paddingLeft: 20
-          },
-          cardStyle: styles.cardStyle
+          headerStyle: navigationStyles.primaryHeader,
+          headerBackTitleStyle: navigationStyles.headerBackTitleStyle,
+          cardStyle: navigationStyles.cardStyle,
+          headerTitleAlign: 'center',
       }}>
           <Stack.Screen name="AccountSettings.Info" component={AccountInfoScreen} options={{title: 'How Can We Help?'}}/>
           <Stack.Screen name="AccountSettings.MyPayments" component={MyPaymentsScreen}/>

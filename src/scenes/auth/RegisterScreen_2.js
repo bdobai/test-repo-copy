@@ -15,7 +15,13 @@ import Container from '_components/atoms/Container'
 import TextField from "_atoms/TextField";
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { dayValidator, monthValidator, phoneNumberValidator, requiredValidation } from "_utils/validators";
+import {
+    dayValidator,
+    monthValidator,
+    phoneNumberValidator,
+    requiredValidation,
+    yearValidator,
+} from "_utils/validators";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { scaleSize } from "_styles/mixins";
 import CheckBox from "_atoms/CheckBox";
@@ -55,12 +61,12 @@ const RegisterScreen_2 = (props) => {
                     "number": data.phone_number
                 },
                 "newsletter": data.newsletter ? {subscribe:[]} : null,
-                "country": null,
+                "country": data.nationality,
                 "address1": null,
                 "region": null,
                 "city": null,
                 "postal_code": null,
-                "birthdate": dayjs(`1970-${data.month}-${data.day}`).unix(),
+                "birthdate": dayjs(`${data.year}-${data.month}-${data.day}`).unix(),
                 "referral_code": null,
                 "language": 3
             },
@@ -102,7 +108,7 @@ const RegisterScreen_2 = (props) => {
     const renderFlag = () => {
         return <View style={styles.flag}>
             <Image resizeMode={'contain'} style={styles.flagIcon} source={{uri: 'https://s3.amazonaws.com/spoonity-flags/ae.png'}}/>
-            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={{marginLeft: Spacing.SPACING_1}}/>
+            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={styles.prefix}/>
         </View>
     }
 
@@ -117,23 +123,17 @@ const RegisterScreen_2 = (props) => {
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
-                <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
+                <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(20) }} bounces={false} showsVerticalScrollIndicator={false}>
                     <AuthHeaderText text={'Register'}/>
                     <Container style={{ flex: 1, marginTop: Spacing.SPACING_5 }}>
                         <View style={ styles.login }>
                             <View style={styles.birthdayWrapper}>
-                                    <TextField
-                                        disabled={true}
-                                        styleInput={{width: '33%'}}
-                                        inputWrapper={styles.year}
-                                        value={'BIRTHDAY'}
-                                        inputStyle={{fontWeight:'bold'}}
-                                        />
                                 <Controller
                                     control={control}
                                     render={({ field: { ref, onChange, onBlur, value } }) => (
                                         <TextField
-                                            styleInput={{width: '33%'}}
+                                            blurOnSubmit={false}
+                                            styleInput={{width: '33.3%'}}
                                             inputWrapper={styles.day}
                                             placeholder={'DD'}
                                             autoCorrect={false}
@@ -146,6 +146,7 @@ const RegisterScreen_2 = (props) => {
                                             ref={ref}
                                             error={formState.errors.day?.message}
                                             keyboardType={"phone-pad"}
+                                            label={'BIRTHDATE'}
                                             />
                                     )}
                                     name="day"
@@ -156,7 +157,8 @@ const RegisterScreen_2 = (props) => {
                                     control={control}
                                     render={({ field: { ref, onChange, onBlur, value } }) => (
                                         <TextField
-                                            styleInput={{width: '33%'}}
+                                            blurOnSubmit={false}
+                                            styleInput={{width: '33.3%'}}
                                             inputWrapper={styles.month}
                                             placeholder={'MM'}
                                             autoCorrect={false}
@@ -165,14 +167,40 @@ const RegisterScreen_2 = (props) => {
                                             maxLength={2}
                                             onChangeText={value => onChange(value)}
                                             value={value}
-                                            onSubmitEditing={() => setFocus('phone_number')}
+                                            onSubmitEditing={() => setFocus('year')}
                                             ref={ref}
                                             error={formState.errors.month?.message}
                                             keyboardType={"phone-pad"}
+                                            label={' '}
                                             />
                                     )}
                                     name="month"
                                     rules={{ required: 'Month is required', pattern: monthValidator}}
+                                    defaultValue={''}
+                                />
+                                <Controller
+                                    control={control}
+                                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                                        <TextField
+                                            blurOnSubmit={false}
+                                            styleInput={{width: '33.3%'}}
+                                            inputWrapper={styles.year}
+                                            placeholder={'YYYY'}
+                                            autoCorrect={false}
+                                            autoCapitalize={'none'}
+                                            onBlur={onBlur}
+                                            maxLength={4}
+                                            onChangeText={value => onChange(value)}
+                                            value={value}
+                                            onSubmitEditing={() => setFocus('phone_number')}
+                                            ref={ref}
+                                            error={formState.errors.year?.message}
+                                            keyboardType={"phone-pad"}
+                                            label={' '}
+                                        />
+                                    )}
+                                    name="year"
+                                    rules={{ required: 'Year is required', pattern: yearValidator}}
                                     defaultValue={''}
                                 />
                             </View>
@@ -190,6 +218,7 @@ const RegisterScreen_2 = (props) => {
                                         }}
                                         value={value}
                                         ref={ref}
+                                        blurOnSubmit={true}
                                         error={formState.errors.phone_number?.message}
                                         label='MOBILE NUMBER' />
                                 )}
@@ -236,7 +265,7 @@ const RegisterScreen_2 = (props) => {
                                         label='NATIONALITY'/>
                                 )}
                                 name="nationality"
-                                rules={{ required: 'Nationality is required', pattern: requiredValidation}}
+                                rules={{ required: false}}
                                 defaultValue={''}
                             />
                             <Controller
@@ -373,18 +402,20 @@ const styles = StyleSheet.create({
         textDecorationLine:'underline'
     },
     birthdayWrapper: {
-        flexDirection:'row'
-    },
-    year: {
-        borderTopRightRadius:0,
-        borderBottomRightRadius: 0
+        flexDirection:'row',
     },
     day: {
-        borderRadius:0,
+        borderTopRightRadius:0,
+        borderBottomRightRadius:0,
     },
     month: {
+        borderRadius:0,
+        borderLeftWidth:1,
+        borderRightWidth:1,
+    },
+    year:{
         borderTopLeftRadius:0,
-        borderBottomLeftRadius:0
+        borderBottomLeftRadius:0,
     },
     flag: {
         flexDirection:'row',
@@ -394,6 +425,11 @@ const styles = StyleSheet.create({
     flagIcon:{
         width:scaleSize(30),
         height: scaleSize(20)
+    },
+    prefix:{
+        marginLeft: Spacing.SPACING_1,
+        color: Colors.BLACK,
+        paddingVertical:scaleSize(5)
     }
 })
 

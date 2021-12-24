@@ -19,11 +19,11 @@ import { AuthStoreContext } from '_stores'
 import { emailValidator, phoneValidator } from '_utils/validators'
 import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
-import countries from '_utils/countries.json';
 import SectionTitle from '_atoms/SectionTitle';
 import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
 import dayjs from "dayjs";
+import CheckBox from "_atoms/CheckBox";
 
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -33,11 +33,12 @@ const AccountInfoScreen = observer((props) => {
             last_name: authStore.user.last_name,
             email_address: authStore.user.email_address,
             phone_number: authStore.user.phone_number.toString(),
-            birthdate: dayjs.unix(authStore.user.birthdate).format('DD-MM')
+            birthdate: dayjs.unix(authStore.user.birthdate).format('DD-MM-YYYY'),
+            newsletter: authStore.user.newsletter
         }
     });
 
-    console.log('authstore', authStore.user);
+    console.log('deci',authStore.user)
     const [loading, setLoading] = useState(false);
 
     const onSubmit = data => {
@@ -65,15 +66,16 @@ const AccountInfoScreen = observer((props) => {
     const renderFlag = () => {
         return <View style={styles.flag}>
             <Image resizeMode={'contain'} style={styles.flagIcon} source={{uri: 'https://s3.amazonaws.com/spoonity-flags/ae.png'}}/>
-            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={{marginLeft: Spacing.SPACING_1}}/>
+            <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={styles.prefix}/>
         </View>
     }
 
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.accountInfoScreen}>
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(20) }}>
             <Container style={ styles.container }>
                 <SectionTitle textStyle={styles.title}>Personal Information</SectionTitle>
+                <View style={styles.divider}/>
                 <View style={styles.namesWrapper}>
                     <Controller
                         control={control}
@@ -201,6 +203,23 @@ const AccountInfoScreen = observer((props) => {
                     )}
                     name="birthdate"
                 />
+                <SectionTitle textStyle={styles.title}>Contact Preferences</SectionTitle>
+                <View style={styles.divider}/>
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                        <CheckBox
+                            style={{borderColor: Colors.BLACK}}
+                            labelStyle={styles.checkBoxLabel}
+                            onPress={() => onChange(!value)}
+                            checked={value}
+                            label={'I consent to receiving emails from Costa Coffee.'}
+                            type={'square'}
+                        />
+                    )}
+                    name="newsletter"
+                    defaultValue={false}
+                />
             </Container>
         </ScrollView>
         <View style={styles.footer}>
@@ -279,7 +298,19 @@ const styles = StyleSheet.create({
     flagIcon:{
         width:scaleSize(30),
         height: scaleSize(20)
-    }
+    },
+    prefix:{
+        marginLeft: Spacing.SPACING_1,
+        color: Colors.BLACK,
+        paddingVertical:scaleSize(5)
+    },
+    checkBoxLabel: {
+        flex: 1,
+        color: Colors.BLACK,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_16,
+        lineHeight: Typography.LINE_HEIGHT_16,
+    },
 })
 
 export default AccountInfoScreen

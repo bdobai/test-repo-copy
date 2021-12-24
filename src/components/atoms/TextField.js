@@ -66,7 +66,7 @@ const TextField = React.forwardRef((props, ref) => {
             return (
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
-                    fixAndroidTouchableBug={true}
+                    fixAndroidTouchableBug={false}
                     items={items}
                     placeholder={{
                         value: 'male',
@@ -75,7 +75,7 @@ const TextField = React.forwardRef((props, ref) => {
                     onValueChange={props.onChangeText}
                     style={{
                         inputIOS: [styles.inputStyle],
-                        inputAndroid: [styles.selectInput],
+                        inputAndroid: [styles.inputStyle],
                         viewContainer: styles.selectViewContainer,
                         inputIOSContainer: styles.selectInputContainer,
                         inputAndroidContainer: styles.selectInputContainer,
@@ -182,6 +182,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: scaleSize(5),
         marginHorizontal: scaleSize(14),
+        color:Colors.BLACK
     },
     disabled: {
         // backgroundColor: Colors.GRAY_LIGHT,
@@ -189,16 +190,20 @@ const styles = StyleSheet.create({
     selectViewContainer: {
         flex: 1,
         justifyContent: 'flex-end',
+        paddingVertical: 5
     },
     selectInputContainer:{
         width: '100%',
         height: '100%',
         flexDirection: 'row',
         alignItems: 'flex-end',
+        marginVertical:0,
+        paddingVertical:0,
     },
     headlessAndroidContainer:{
         width: '100%',
-        height: '100%',
+        maxHeight: scaleSize(37),
+        padding:0,
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
