@@ -8,7 +8,7 @@ import {
     Text,
     Pressable,
     View,
-    ActivityIndicator,
+    ActivityIndicator, Keyboard, StatusBar,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -25,6 +25,17 @@ import ErrorIcon from '_assets/images/alerts/error.svg'
 import { request } from "_utils/request";
 
 const RegisterScreen = (props) => {
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('dark-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor(Colors.WHITE);
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
+
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -106,7 +117,7 @@ const RegisterScreen = (props) => {
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
-                <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
+                <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(20) }} bounces={false} showsVerticalScrollIndicator={false}>
                     <AuthHeaderText text={'Register'}/>
                     <Container style={{ flex: 1, marginTop: Spacing.SPACING_5 }}>
                         <View style={ styles.login }>
@@ -115,6 +126,7 @@ const RegisterScreen = (props) => {
                                     control={control}
                                     render={({ field: { ref, onChange, onBlur, value } }) => (
                                         <TextField
+                                            blurOnSubmit={false}
                                             styleInput={{width:'47%'}}
                                             autoCorrect={false}
                                             autoCapitalize={'none'}
@@ -122,7 +134,7 @@ const RegisterScreen = (props) => {
                                             onChangeText={value => onChange(value)}
                                             value={value}
                                             placeholder={'First name'}
-                                            onSubmitEditing={() => setFocus('lastName')}
+                                            onSubmitEditing={() => setFocus('last_name')}
                                             ref={ref}
                                             error={formState.errors.first_name?.message}
                                             label='FIRST NAME'/>
@@ -135,6 +147,7 @@ const RegisterScreen = (props) => {
                                     control={control}
                                     render={({ field: { ref, onChange, onBlur, value } }) => (
                                         <TextField
+                                            blurOnSubmit={false}
                                             styleInput={{width:'47%'}}
                                             placeholder={'Last name'}
                                             autoCorrect={false}
@@ -212,7 +225,7 @@ const RegisterScreen = (props) => {
                                   customError={renderCustomError}
                                   secureTextEntry={secureTextEntry}
                                   rightAccessory={renderSecureTextButton}
-                                  onSubmitEditing={() => setFocus('confirm_password')}
+                                  onSubmitEditing={Keyboard.dismiss}
                                   onFocus={() =>setShowValidation(true)}
                                   label='PASSWORD'/>
                               )}
@@ -233,7 +246,6 @@ const RegisterScreen = (props) => {
                             <View style={styles.footer}>
                                 <Button
                                     disabled={!formState.isValid}
-                                    textStyle={styles.buttonTitle}
                                     bodyStyle={styles.button}
                                     onPress={handleSubmit(onSubmit)}
                                     block={true}
@@ -286,9 +298,6 @@ const styles = StyleSheet.create({
         color: Colors.SECONDARY
     },
     button: {
-        width:'100%',
-        height: scaleSize(60),
-        borderRadius: scaleSize(30),
         marginTop: Spacing.SPACING_5
     },
     buttonTitle: {
@@ -320,7 +329,7 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_14,
         lineHeight: Typography.FONT_SIZE_20,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        color: '#617582',
+        color: Colors.BLUE_GRAY,
         flex:1
     },
     link: {

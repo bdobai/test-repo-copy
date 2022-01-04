@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.SPACING_4
     },
     description: {
-        color:'#617582',
+        color: Colors.BLUE_GRAY,
         fontSize: Typography.FONT_SIZE_16,
         fontFamily: FONT_PRIMARY_REGULAR,
         fontWeight: '500',

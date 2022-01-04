@@ -1,18 +1,14 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import {View, KeyboardAvoidingView, Text, StyleSheet, Pressable, ScrollView, RefreshControl } from 'react-native'
-import Header from '_components/molecules/Header'
-import BackButton from '_atoms/BackButton'
 import Button from '_components/atoms/Button'
 import { Colors, Spacing, Typography } from '_styles'
 import { scaleSize } from '_styles/mixins'
 import CreditCardCard from '_molecules/CreditCardCard'
 import CreditCardCardLoader from '_components/loaders/CreditCardCardLoader'
-import useBus from 'use-bus'
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { request } from '_utils/request'
 import ItemsGridSimple from '_organisms/ItemsGridSimple'
 import CreditCardIcon from '_assets/images/account/credit-card.svg'
-import Logo from '_assets/images/logo_small_white.svg'
 import DefaultCard from '_assets/images/default_card.svg'
 
 const MyPaymentsScreen = (props) => {

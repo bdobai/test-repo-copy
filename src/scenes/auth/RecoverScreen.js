@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
-    ImageBackground, View, ScrollView, SafeAreaView,
+    ImageBackground, View, ScrollView, SafeAreaView, StatusBar,
 } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import { request } from '_utils/request'
@@ -14,6 +14,16 @@ import Button from "_atoms/Button";
 
 const RecoverScreen = (props) => {
     const { control, handleSubmit, formState } = useForm({mode:'onBlur'});
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor('transparent');
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
 
     const [loading, setLoading] = useState(false);
 

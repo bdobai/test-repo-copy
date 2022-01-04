@@ -66,7 +66,7 @@ const TextField = React.forwardRef((props, ref) => {
             return (
                 <RNPickerSelect
                     useNativeAndroidPickerStyle={false}
-                    fixAndroidTouchableBug={true}
+                    fixAndroidTouchableBug={false}
                     items={items}
                     placeholder={{
                         value: 'male',
@@ -74,8 +74,8 @@ const TextField = React.forwardRef((props, ref) => {
                     }}
                     onValueChange={props.onChangeText}
                     style={{
-                        inputIOS: [styles.inputStyle],
-                        inputAndroid: [styles.selectInput],
+                        inputIOS: [styles.inputStyle, {paddingVertical: 0}],
+                        inputAndroid: [styles.inputStyle],
                         viewContainer: styles.selectViewContainer,
                         inputIOSContainer: styles.selectInputContainer,
                         inputAndroidContainer: styles.selectInputContainer,
@@ -99,6 +99,7 @@ const TextField = React.forwardRef((props, ref) => {
                             props.inputStyle ? props.inputStyle : null,
                             props.editable === false ? styles.disabled : null,
                             props.multiline === true ? { textAlignVertical: 'top', height: 20 * (props.numberOfLines ? props.numberOfLines : 1) } : null,
+                            props.round ? styles.round : null,
                         ]}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         ref={ref}
@@ -182,6 +183,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: scaleSize(5),
         marginHorizontal: scaleSize(14),
+        color:Colors.BLACK
     },
     disabled: {
         // backgroundColor: Colors.GRAY_LIGHT,
@@ -189,16 +191,20 @@ const styles = StyleSheet.create({
     selectViewContainer: {
         flex: 1,
         justifyContent: 'flex-end',
+        paddingVertical: 5
     },
     selectInputContainer:{
         width: '100%',
         height: '100%',
         flexDirection: 'row',
         alignItems: 'flex-end',
+        marginVertical:0,
+        paddingVertical:0,
     },
     headlessAndroidContainer:{
         width: '100%',
-        height: '100%',
+        maxHeight: scaleSize(37),
+        padding:0,
         flexDirection: 'row',
         alignItems: 'flex-end',
     },
@@ -210,7 +216,7 @@ const styles = StyleSheet.create({
     flagIcon:{
         width:scaleSize(30),
         height: scaleSize(20)
-    }
+    },
 })
 
 export default TextField

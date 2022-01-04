@@ -17,7 +17,7 @@ const FormGroup = React.forwardRef((props, ref) => {
             {props.label ? <View>
                 <Text style={[styles.labelStyle, props.styleLabel]}>{props.label}</Text>
             </View> : null}
-            <View style={[styles.inputWrapper,props.inputWrapper, props.error ? styles.error : null,]}>
+            <View style={[styles.inputWrapper,props.inputWrapper, props.error ? styles.error : null, props.round ? styles.round : null]}>
                 {props.leftAccessory ? props.leftAccessory() : null}
                 <View style={{flex: 1}}>
                     {props.children}
@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
         lineHeight: Typography.LINE_HEIGHT_10,
         position: 'absolute',
         bottom: scaleSize(-16),
+    },
+    round: {
+        borderRadius: scaleSize(12)
     }
 })
 

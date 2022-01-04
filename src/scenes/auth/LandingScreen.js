@@ -1,5 +1,5 @@
-import React  from 'react'
-import { StyleSheet, ImageBackground, View, SafeAreaView } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, ImageBackground, View, SafeAreaView, StatusBar } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import ButtonRounded from "_atoms/ButtonRounded";
 import { scaleSize } from "_styles/mixins";
@@ -7,6 +7,17 @@ import { scaleSize } from "_styles/mixins";
 const backgroundImage = require('_assets/images/auth/landing.png');
 
 const LandingScreen = (props) => {
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor('transparent');
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
+
     return <ImageBackground style={styles.background} source={backgroundImage}>
         <SafeAreaView>
         <View style={styles.buttonsContainer}>

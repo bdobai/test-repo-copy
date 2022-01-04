@@ -38,7 +38,7 @@ export let dateFormat = function (value, format) {
     if (!value) {
         return '-'
     }
-    return dayjs(value).format(format)
+    return dayjs.unix(value).format(format)
 }
 
 export let dateFormatLocal = function (value, format) {
@@ -142,4 +142,13 @@ export function addHttp(url){
         return prefix + url
     }
     return url
+}
+
+export function cardFormat(value){
+    const regex = /^(\d{0,4})(\d{0,4})(\d{0,4})(\d{0,4})$/g
+    const onlyNumbers = value.replace(/[^\d]/g, '')
+
+    return onlyNumbers.replace(regex, (regex, $1, $2, $3, $4) =>
+        [$1, $2, $3, $4].filter(group => !!group).join('-')
+    )
 }

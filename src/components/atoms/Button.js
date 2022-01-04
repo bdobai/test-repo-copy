@@ -56,6 +56,9 @@ class Button extends Component {
         if (this.props.disabled) {
             styles = [styles, base_styles.disabledBody]
         }
+        if(this.props.square) {
+            styles = [styles, base_styles.square]
+        }
 
         return styles
     }
@@ -77,12 +80,18 @@ class Button extends Component {
         if (this.props.disabled) {
             styles = [styles, base_styles.disabledBody]
         }
+        if(this.props.square) {
+            styles = [styles, base_styles.square]
+        }
 
         return styles
     }
 
     getLoadingStyle () {
-        let styles = base_styles.defaultLoading
+        let styles = base_styles.defaultLoading;
+        if(this.props.square) {
+            styles = [styles, base_styles.square]
+        }
         // if (this.props.type && base_styles[this.props.type + 'Body']){
         //     styles = [styles, base_styles[this.props.type + 'Body']];
         // }
@@ -141,11 +150,12 @@ const base_styles = StyleSheet.create({
         height: scaleSize(30),
     },
     defaultText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_14,
-        lineHeight: Typography.LINE_HEIGHT_14,
         color: Colors.BLACK,
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize: Typography.FONT_SIZE_18,
+        lineHeight: Typography.LINE_HEIGHT_20,
+        fontWeight: '700',
+        fontFamily: Typography.FONT_SECONDARY_BOLD
     },
     defaultBody: {
         flexDirection: 'row',
@@ -156,9 +166,10 @@ const base_styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_5,
         paddingRight: Spacing.SPACING_5,
         borderWidth: 0,
-        borderRadius: Radius.RADIUS_1,
-        height: scaleSize(55),
+        borderRadius: scaleSize(28),
+        height: scaleSize(56),
         position: 'relative'
+
     },
     xsText: {
         fontSize: Typography.FONT_SIZE_12,
@@ -281,6 +292,9 @@ const base_styles = StyleSheet.create({
     disabledBody: {
         opacity: 0.5
     },
+    square: {
+        borderRadius: scaleSize(3)
+    }
 })
 
 export default Button

@@ -34,25 +34,18 @@ export default StyleSheet.create({
         includeFontPadding: false,
         textAlignVertical: 'top',
         flex: 1,
-        // borderWidth: 1,
-        // borderColor: 'black'
         fontFamily: Typography.FONT_PRIMARY_REGULAR
     },
 
     selectViewContainer: {
         flex: 1,
         justifyContent: 'flex-end',
-        // borderWidth: 1,
-        // borderColor: 'red'
     },
     selectInputContainer:{
         width: '100%',
         height: '100%',
         flexDirection: 'row',
         alignItems: 'flex-end',
-        // borderWidth: 1,
-        // borderColor: 'green',
-        // padding: 0
     },
     headlessAndroidContainer:{
         width: '100%',

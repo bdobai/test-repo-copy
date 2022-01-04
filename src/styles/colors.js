@@ -6,6 +6,7 @@ export const WHITE = '#FFFFFF'
 export const BLACK = '#222322'
 export const LIGHT_GREY = '#dddddd'
 export const WARM_GREY = '#7b7b7b'
+export const BLUE_GRAY = '#617582'
 
 export const SUCCESS = '#2f9725'
 export const WARNING = '#ffae00'

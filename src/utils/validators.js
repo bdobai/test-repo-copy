@@ -9,8 +9,8 @@ export const zipCodeValidator = {
 }
 
 export const phoneValidator = {
-    value: /^\(?(\+1\s)\)?\(([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i,
-    message: "Phone is not a valid US number"
+    value: /^(?:\+971|00971|0)?(?:50|51|52|55|56|2|3|4|6|7|9)\d{7}$/i,
+    message: "Phone is not a valid number"
 }
 
 export const cityValidator = {
@@ -25,12 +25,17 @@ export const creditCardValidator = {
 
 export const dayValidator = {
     value: /^(0?[1-9]|[12][0-9]|3[01])$/,
-    message: "The day is invalid"
+    message: "Invalid day"
 }
 
 export const monthValidator = {
     value: /^(0[1-9]|1[012])$/,
-    message: "The month is invalid"
+    message: "Invalid month"
+}
+
+export const yearValidator = {
+    value: /^(181[2-9]|18[2-9]\d|19\d\d|2\d{3}|30[0-3]\d|304[0-8])$/,
+    message: "Invalid year"
 }
 
 export const phoneNumberValidator = {
