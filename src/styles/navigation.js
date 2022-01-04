@@ -33,7 +33,7 @@ export const navigationStyles = StyleSheet.create({
     },
     accountHeader: {
         color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_20,
+        fontSize: Typography.FONT_SIZE_18,
         fontFamily: Typography.FONT_SECONDARY_BOLD,
         fontWeight:'700',
     }

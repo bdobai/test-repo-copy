@@ -4,6 +4,7 @@ export default class NotificationsStore {
     notifications = []
 
     addNotification = (alert) => {
+        return;
         if(this.notifications.some((item) => {
             return item.description === alert.description;
         })) {

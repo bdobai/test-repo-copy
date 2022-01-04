@@ -78,6 +78,7 @@ const OldPasswordScreen = (props) => {
                             loading={loading}
                             onPress={handleSubmit(onSubmit)}
                             block={true}
+                            square={true}
                             type={'primary'}
                             text={'Save Settings'}
                         />
@@ -121,6 +122,10 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_16,
         marginBottom: Spacing.SPACING_5
     },
+    buttonTitle: {
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontWeight: 'normal'
+    }
 })
 
 export default OldPasswordScreen

@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+    KeyboardAvoidingView,
+    Platform,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    Pressable,
+    View,
+    ScrollView,
+    StatusBar,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Button from '_components/atoms/Button'
 import { useForm, Controller } from "react-hook-form";
@@ -12,6 +22,16 @@ import { scaleSize } from "_styles/mixins";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 
 const LoginScreen = (props) => {
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('dark-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor(Colors.WHITE);
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
 
     const { control, handleSubmit, setFocus, formState } = useForm({ mode: "onChange" });
 

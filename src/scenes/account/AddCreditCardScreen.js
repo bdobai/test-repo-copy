@@ -104,6 +104,7 @@ const AddCreditCardScreen = (props) => {
                             keyboardType={'phone-pad'}
                             onSubmitEditing={() => setFocus('cvv')}
                             ref={ref}
+                            maxLength={16}
                             error={errors.number?.message}
                             label='CARD NUMBER'/>
                     )}

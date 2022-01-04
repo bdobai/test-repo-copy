@@ -74,7 +74,7 @@ const TextField = React.forwardRef((props, ref) => {
                     }}
                     onValueChange={props.onChangeText}
                     style={{
-                        inputIOS: [styles.inputStyle],
+                        inputIOS: [styles.inputStyle, {paddingVertical: 0}],
                         inputAndroid: [styles.inputStyle],
                         viewContainer: styles.selectViewContainer,
                         inputIOSContainer: styles.selectInputContainer,

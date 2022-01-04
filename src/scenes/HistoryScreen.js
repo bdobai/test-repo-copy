@@ -18,31 +18,42 @@ const HistoryScreen = (props) => {
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState(null);
+    const [totalPages, setTotalPages] = useState(0);
 
     const actionSheetRef = useRef();
 
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('dark-content')
+            StatusBar.setTranslucent(false);
+            StatusBar.setBackgroundColor(Colors.WHITE);
+        });
 
+        return unsubscribe;
+    }, [props.navigation]);
 
-    const getData = () => {
+    const getData = (refresh) => {
         const body = {
             "order": 'dateCreated(desc)',
             "limit": '5'
         }
         if(page!==0){
-            body.page = page+1;
+            body.page = !refresh ? page+1 : 1;
         }
         request('/user/transaction/list.json', {
             method: 'GET',
             data: body,
             withToken: true,
             success: function (response) {
-                setData(page === 0 ? response.data : [...data, ...response.data]);
+                setTotalPages(response.total_pages);
+                setData((page === 0 || refresh) ? response.data : [...data, ...response.data]);
                 setPage(page+1)
                 setLoading(false)
                 setRefreshing(false)
                 setLoadingMore(false)
             },
             error: (e) => {
+                console.log('e',e);
                 setLoading(false)
             }
         });
@@ -55,7 +66,7 @@ const HistoryScreen = (props) => {
     const onRefresh = () => {
         setPage(0);
         setRefreshing(true)
-        getData()
+        getData(true)
     }
 
     const loadMore = () => {
@@ -83,7 +94,7 @@ const HistoryScreen = (props) => {
     }
 
     const renderListFooterComponent = () => {
-        if(!data.length) return <View/>
+        if(!data.length || totalPages <= page ) return <View/>
         return (
             <Button text={'LOAD MORE'} onPress={loadMore} square={true} block={true} type={'primary'} loading={loadingMore}/>
         )
@@ -94,7 +105,6 @@ const HistoryScreen = (props) => {
     return (
         <View style={styles.container}>
             <SafeAreaView/>
-            <StatusBar translucent={false} />
             <FlatList
                 data={filteredData}
                 keyExtractor={(item, index) => 'row-' + index}
@@ -106,10 +116,12 @@ const HistoryScreen = (props) => {
                     styles.contentContainer,
                     !data.length ? {height:'100%'} : {},
                 ]}
+                style={{height:'100%'}}
                 refreshing={refreshing}
                 onRefresh={onRefresh}
                 ListFooterComponent={renderListFooterComponent}
                 ListFooterComponentStyle={{
+                    marginTop: Spacing.SPACING_3,
                     marginBottom: Spacing.SPACING_5
                 }}
             />

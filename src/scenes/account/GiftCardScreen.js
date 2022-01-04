@@ -171,7 +171,8 @@ const GiftCardScreen = (props) => {
                         render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
                                 blurOnSubmit={false}
-                                styleInput={{width:'20%'}}
+                                styleInput={{width:'20%', paddingHorizontal:0}}
+                                inputStyle={{paddingHorizontal:0, marginHorizontal:0, alignSelf:'center'}}
                                 maxLength={4}
                                 placeholder={'Pin'}
                                 autoCorrect={false}
@@ -185,7 +186,7 @@ const GiftCardScreen = (props) => {
                                 />
                         )}
                         name="pin"
-                        rules={{ required: 'Pin is required', pattern: requiredValidation}}
+                        rules={{ required: 'Required', pattern: requiredValidation}}
                         defaultValue={''}
                     />
                 </View>

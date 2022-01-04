@@ -8,7 +8,7 @@ import {
     Text,
     Pressable,
     View,
-    ActivityIndicator, Keyboard,
+    ActivityIndicator, Keyboard, StatusBar,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -25,6 +25,17 @@ import ErrorIcon from '_assets/images/alerts/error.svg'
 import { request } from "_utils/request";
 
 const RegisterScreen = (props) => {
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('dark-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor(Colors.WHITE);
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
+
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);

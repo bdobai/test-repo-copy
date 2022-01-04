@@ -1,5 +1,5 @@
-import React from 'react'
-import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert } from 'react-native'
+import React, { useEffect } from "react";
+import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { scaleSize } from '_styles/mixins'
@@ -11,6 +11,16 @@ import { request } from "_utils/request";
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('light-content')
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor('transparent');
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
 
     const logout = () => {
         request('/user/logout.json', {
@@ -50,6 +60,7 @@ const AccountSettingsScreen = (props) => {
     }
 
     return <SafeAreaView style={{ flex: 1 }}>
+        <StatusBar barStyle={'light-content'}/>
         <ScrollView
             style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}

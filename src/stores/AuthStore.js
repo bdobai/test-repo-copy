@@ -22,7 +22,6 @@ export default class AuthStore {
         request('/user/profile.json', {
             method: 'GET',
             success: (response) => {
-                console.log('response', response)
                 this.setUser(response)
             },
             error: (error) => {
