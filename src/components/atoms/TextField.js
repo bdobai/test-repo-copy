@@ -99,6 +99,7 @@ const TextField = React.forwardRef((props, ref) => {
                             props.inputStyle ? props.inputStyle : null,
                             props.editable === false ? styles.disabled : null,
                             props.multiline === true ? { textAlignVertical: 'top', height: 20 * (props.numberOfLines ? props.numberOfLines : 1) } : null,
+                            props.round ? styles.round : null,
                         ]}
                         underlineColorAndroid="rgba(0,0,0,0)"
                         ref={ref}
@@ -215,7 +216,7 @@ const styles = StyleSheet.create({
     flagIcon:{
         width:scaleSize(30),
         height: scaleSize(20)
-    }
+    },
 })
 
 export default TextField

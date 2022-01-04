@@ -114,7 +114,7 @@ const LoginScreen = (props) => {
                             </View>
                             {renderError()}
                             <View style={styles.footer}>
-                                <Button disabled={!formState.isValid} textStyle={styles.buttonTitle} bodyStyle={styles.button} loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'LOG IN'}/>
+                                <Button disabled={!formState.isValid} bodyStyle={styles.button} loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'LOG IN'}/>
                             </View>
                         </View>
                     </SafeAreaView>

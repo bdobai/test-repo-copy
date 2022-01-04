@@ -1,264 +1,220 @@
-import React, { Component, useState } from 'react'
-import { View, ScrollView, StyleSheet, Platform, KeyboardAvoidingView, Pressable, SafeAreaView, Text } from 'react-native'
-import Container from '_atoms/Container'
+import React, { useState } from "react";
+import {
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    StyleSheet,
+    View,
+    Text,
+    Keyboard, Pressable,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
-import { scaleSize } from '_styles/mixins'
-import { request } from '_utils/request'
+import Container from '_components/atoms/Container'
+import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { TextField } from '_atoms/MaterialField'
-import { creditCardValidator, zipCodeValidator } from '_utils/validators'
-import { dispatch } from 'use-bus'
-import { NotificationsStoreContext } from '_stores'
+import { AuthStoreContext } from '_stores'
+import { monthValidator, requiredValidation, yearValidator } from "_utils/validators";
+import { request } from '_utils/request'
 import SectionTitle from '_atoms/SectionTitle';
-import CheckBox from '_components/atoms/CheckBox'
+import TextField from "_atoms/TextField";
+import { scaleSize } from "_styles/mixins";
 
 const AddCreditCardScreen = (props) => {
-    const { control, handleSubmit, setFocus, formState: { errors } } = useForm({
-        defaultValues: {
-            name: '',
-            number: '',
-            expire_date: '',
-            cvv: '',
-            zip_code: '',
-        }
-    });
+    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({ mode: 'onSubmit'});
 
     const [loading, setLoading] = useState(false);
 
-    const onSubmit = async (data) => {
-        console.log(data)
+    const onSubmit = data => {
+        console.log('data',data);
         setLoading(true)
-
-        request('/payments/setup-intent', {
+        request('/user/billing-profile/add.json', {
             method: 'POST',
-            success: function (response) {
-                confirmSetupIntent(response.intent.client_secret, data)
+            data: {
+                "cvv": data.cvv,
+                "expiry_month": data.month,
+                "expiry_year": data.year,
+                "name": `${data.first_name} ${data.last_name}`,
+                "number": data.number,
+                "description": "Stripe Test Card",
+                "zip_code":"90210"
             },
-            error: () => {
+            withToken: true,
+            withoutJson: true,
+            success: (response) => {
+                console.log('response', response);
+                setLoading(false)
+            },
+            error: (e) => {
+                console.log('e',e)
                 setLoading(false)
             }
-        });
-    };
-
-    const confirmSetupIntent = async (client_secret, data) => {
-        console.log({client_secret})
-        const parts = data.expire_date.split('/');
-        try {
-            const result = await stripe.confirmSetupIntent({
-                clientSecret: client_secret,
-                paymentMethod: {
-                    card: {
-                        number: data.number,
-                        expMonth: parseFloat(parts[0]),
-                        expYear: parseFloat(parts[1]),
-                        cvv: data.cvv,
-                        // optional
-                        name: data.name,
-                        currency: 'USD',
-                        addressZip: data.zip_code,
-                    }
-                }
-            })
-            const expirationData = data.expire_date.split('/');
-            request('/user/billing-profile/add.json', {
-                method: 'POST',
-                data: {
-                    'cvv': data.cvv,
-                    'number': data.number, //TODO hash
-                    'name': data.name,
-                    'expiry_month': parseFloat(expirationData[0]),
-                    'expiry_year': parseFloat(expirationData[1]),
-                    'token': result.paymentMethodId,
-                },
-                success: function (response) {
-                    dispatch('PAYMENTS/REFRESH-LIST')
-                    props.navigation.goBack()
-                    setLoading(false)
-                },
-                error: () => {
-                    setLoading(false)
-                }
-            });
-        } catch (error) {
-            NotificationsStoreContext._currentValue.addNotification({
-                title: 'Error',
-                description: error.message,
-                type: 'error'
-            })
-            setLoading(false)
-            // handle exception here
-        }
-        // createPaymentMethod(data)
+        })
     }
 
-    return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1, backgroundColor: Colors.PRIMARY }}>
-        {/*<Header left={<BackButton/>} center={<Logo/>}/>*/}
-        <Text style={styles.title}>ADD NEW CREDIT CARD</Text>
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1}}>
-            <Container style={{ flex: 1 }}>
-                <Controller
-                  control={control}
-                  render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                      autoCompleteType={'off'}
-                      autoCorrect={false}
-                      autoCapitalize={'none'}
-                      onBlur={onBlur}
-                      onChangeText={value => onChange(value)}
-                      value={value}
-                      onSubmitEditing={() => setFocus('number')}
-                      ref={ref}
-                      error={errors.name?.message}
-                      containerStyle={{ marginBottom: Spacing.SPACING_3, marginTop: 30 }} label='Cardholder'/>
-                  )}
-                  name="name"
-                  rules={{ required: 'Cardholder name is required'}}
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                      autoCompleteType={'off'}
-                      autoCorrect={false}
-                      autoCapitalize={'none'}
-                      onBlur={onBlur}
-                      submitOnFull={true}
-                      onChangeText={value => onChange(value)}
-                      value={value}
-                      onSubmitEditing={() => setFocus('cvv')}
-                      ref={ref}
-                      mask={"#### #### #### ####"}
-                      keyboardType={'decimal-pad'}
-                      error={errors.number?.message}
-                      label='Credit card number'/>
-                  )}
-                  name="number"
-                  rules={{ required: 'Card number is required'}}
-                  // rules={{ required: 'Card number is required', pattern: creditCardValidator}}
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <TextField
-                      autoCompleteType={'off'}
-                      autoCorrect={false}
-                      autoCapitalize={'none'}
-                      onBlur={onBlur}
-                      submitOnFull={true}
-                      onChangeText={value => onChange(value)}
-                      value={value}
-                      keyboardType={'decimal-pad'}
-                      onSubmitEditing={() => setFocus('expire_date')}
-                      renderRightAccessory={() => <Text style={styles.cvvInputText}>CVV</Text>}
-                      ref={ref}
-                      error={errors.cvv?.message}
-                      label='Security code'/>
-                  )}
-                  name="cvv"
-                  rules={{ required: 'CVV is required'}}
-                />
-                <Text style={ styles.expirationText }>Expiration date</Text>
-                <View style={styles.expirationDate}>
-                        <Controller
-                          control={control}
-                          render={({ field: { ref, onChange, onBlur, value } }) => (
-                              <TextField
-                                autoCompleteType={'off'}
+    return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.screen}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(120) }}>
+            <Container style={ styles.container }>
+                <SectionTitle textStyle={styles.title}>Personal New Credit Card</SectionTitle>
+                <View style={styles.namesWrapper}>
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                            <TextField
+                                styleInput={{width:'47%'}}
                                 autoCorrect={false}
-                                autoCapitalize={'none'}
                                 onBlur={onBlur}
-                                submitOnFull={true}
                                 onChangeText={value => onChange(value)}
                                 value={value}
-                                keyboardType={'decimal-pad'}
-                                onSubmitEditing={() => setFocus('cvv')}
+                                onSubmitEditing={() => setFocus('last_name')}
                                 ref={ref}
-                                mask={"##/##"}
-                                error={errors.expire_date?.message}
-                                label='MM / YY'/>
-                          )}
-                          name="expire_date"
-                          rules={{ required: 'Expiration date is required'}}
-                        />
+                                error={errors.first_name?.message}
+                                label='CARDHOLDER NAME'/>
+                        )}
+                        name="first_name"
+                        rules={{ required: 'First name is required', pattern: requiredValidation}}
+                    />
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                            <TextField
+                                styleInput={{width:'47%'}}
+                                autoCorrect={false}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                onSubmitEditing={() => setFocus('number')}
+                                ref={ref}
+                                error={errors.last_name?.message}
+                                label='CARDHOLDER LAST NAME'/>
+                        )}
+                        name="last_name"
+                        rules={{ required: 'Last name is required', pattern:requiredValidation}}
+                    />
                 </View>
+                <View style={styles.divider}/>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
-                    <CheckBox onPress={() => onChange(!value)}
-                                checked={value}
-                                label={'make this card default'}
-                    />
+                        <TextField
+                            autoCorrect={false}
+                            autoCapitalize={'none'}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            keyboardType={'phone-pad'}
+                            onSubmitEditing={() => setFocus('cvv')}
+                            ref={ref}
+                            error={errors.number?.message}
+                            label='CARD NUMBER'/>
                     )}
-                    name="default_card"
-                    defaultValue={false}
+                    name="number"
+                    rules={{ required: 'Card number is required', pattern: requiredValidation}}
                 />
+                <View style={styles.divider}/>
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                        <TextField
+                            autoCorrect={false}
+                            autoCapitalize={'none'}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            rightAccessory={() => <Pressable disabled={true} style={{justifyContent:'center'}}><Text style={styles.cvv}>CVV</Text></Pressable>}
+                            ref={ref}
+                            maxLength={4}
+                            error={errors.cvv?.message}
+                            onSubmitEditing={() => setFocus('month')}
+                            label='SECURITY CODE'/>
+                    )}
+                    name="cvv"
+                    rules={{required: true}}
+                />
+                <View style={styles.divider}/>
+                <View style={styles.namesWrapper}>
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                            <TextField
+                                styleInput={{width:'47%'}}
+                                autoCorrect={false}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                onSubmitEditing={() => setFocus('year')}
+                                ref={ref}
+                                maxLength={2}
+                                error={errors.month?.message}
+                                label='EXPIRATION DATE'/>
+                        )}
+                        name="month"
+                        rules={{ required: 'First name is required', pattern: monthValidator}}
+                    />
+                    <Controller
+                        control={control}
+                        render={({ field: { ref, onChange, onBlur, value } }) => (
+                            <TextField
+                                styleInput={{width:'47%'}}
+                                autoCorrect={false}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                                maxLength={4}
+                                onSubmitEditing={Keyboard.dismiss}
+                                ref={ref}
+                                error={errors.year?.message}
+                                label=' '/>
+                        )}
+                        name="year"
+                        rules={{ required: 'Year is required', pattern: yearValidator}}
+                    />
+                </View>
             </Container>
-            <View style={styles.footer}>
-                <Pressable onPress={() => props.navigation.navigate('AccountSettings.MyPayments')} style={ styles.cancelBtnWrapper}>
-                    <Text style={styles.cancelBtn}>Cancel</Text>
-                </Pressable>
-                <Pressable onPress={() => handleSubmit(onSubmit)} style={ styles.saveBtnWrapper}>
-                    <Text style={styles.saveBtn}>Save</Text>
-                </Pressable>
-            </View>
         </ScrollView>
+        <View style={styles.footer}>
+            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save Card'}/>
+        </View>
     </KeyboardAvoidingView>
-
 }
 
 const styles = StyleSheet.create({
-    cancelBtnWrapper: {
-        flexGrow: 1,
-        marginRight: scaleSize(13)
+    screen: {
+        flex: 1,
+        backgroundColor: Colors.WHITE
     },
-    saveBtnWrapper: {
-        flexGrow: 1,
+    container: {
+        flex: 1,
+        paddingBottom: Spacing.SPACING_5,
     },
-    cancelBtn: {
-        color: Colors.WHITE,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        borderColor: Colors.WHITE,
-        borderWidth: scaleSize(1),
-        borderRadius: scaleSize(6),
-        height: scaleSize(55),
-    },
-    cvvInputText: {
-        color: Colors.WHITE,
-        fontFamily: Typography.FONT_PRIMARY_MEDIUM,
-        fontSize: Typography.FONT_SIZE_16,
-        marginBottom: scaleSize(3)
-    },
-    expirationDate: {
-        width: scaleSize(100),
-        height: scaleSize(50),
-    },
-    expirationText: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_12,
-        marginTop: scaleSize(20)
-    },
-    footer: {
-        flexDirection: 'row',
-        paddingHorizontal: Spacing.SPACING_5,
+    divider: {
+        width:'100%',
+        backgroundColor: Colors.LIGHT_GREY,
+        height: 1,
         marginBottom: Spacing.SPACING_4,
     },
-    saveBtn: {
-        color: Colors.WHITE,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        borderRadius: scaleSize(6),
-        height: scaleSize(55),
-        backgroundColor: Colors.SECONDARY_LIGHT
+    namesWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    footer: {
+        bottom: scaleSize(30),
+        paddingHorizontal: Spacing.SPACING_5
     },
     title: {
-        textTransform: 'uppercase',
-        fontFamily: Typography.FONT_PRIMARY_MEDIUM,
-        color: Colors.SECONDARY_LIGHT,
+        fontSize: Typography.FONT_SIZE_22,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        color: Colors.BLACK,
+        fontWeight:'700'
+    },
+    cvv: {
+        justifyContent:'center',
+        paddingRight: Spacing.SPACING_4,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_13,
         lineHeight: Typography.LINE_HEIGHT_13,
-        paddingLeft: Spacing.SPACING_5,
-        marginTop: Spacing.SPACING_3,
+        color: '#647581',
+        alignSelf:'center'
     },
 })
 

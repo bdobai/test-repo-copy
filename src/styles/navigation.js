@@ -31,4 +31,10 @@ export const navigationStyles = StyleSheet.create({
     headerBackTitleStyle: {
         paddingLeft: 20
     },
+    accountHeader: {
+        color: Colors.WHITE,
+        fontSize: Typography.FONT_SIZE_20,
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
+        fontWeight:'700',
+    }
 })

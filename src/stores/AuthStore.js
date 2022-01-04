@@ -22,7 +22,8 @@ export default class AuthStore {
         request('/user/profile.json', {
             method: 'GET',
             success: (response) => {
-                this.setUser(response.user)
+                console.log('response', response)
+                this.setUser(response)
             },
             error: (error) => {
                 this.setUser(null)
@@ -30,8 +31,9 @@ export default class AuthStore {
         });
     };
 
-    setUser = (user) => {
-        if (user) {
+    setUser = (response) => {
+        if (response?.user) {
+            const {user} = response;
             this.user.id = user.id;
             this.user.first_name = user.first_name;
             this.user.last_name = user.last_name;
@@ -40,6 +42,7 @@ export default class AuthStore {
             this.user.address = user.address;
             this.user.status = user.status;
             this.user.birthdate = user.birthdate;
+            this.user.contact_consent = response.contact_consent
 
             // analytics().setUserId((user.id).toString());
         }

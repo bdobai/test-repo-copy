@@ -63,7 +63,7 @@ const Tabs = () => (
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<UserIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
                       headerShown: true,
                       cardStyle: navigationStyles.cardStyle,
-                      headerTitleStyle: navigationStyles.headerTitle,
+                      headerTitleStyle: navigationStyles.accountHeader,
                       headerStyle: navigationStyles.primaryHeader,
                       headerTitle: 'How Can We Help?',
                   }}

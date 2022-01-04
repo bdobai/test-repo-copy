@@ -1,23 +1,33 @@
 import React from 'react'
-import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, Platform } from 'react-native'
-import Header from '_components/molecules/Header'
-import Card from '_components/atoms/Card'
+import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert } from 'react-native'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
-import ChevronIcon from '_assets/images/right-chevron.svg'
-import LogoutIcon from '_assets/images/account/logout.svg'
 import { scaleSize } from '_styles/mixins'
 import { AuthStoreContext } from '_stores'
-// import Logo from '_assets/images/logo_small_white.svg'
-// import BackButton from '_atoms/BackButton'
 import {Linking} from 'react-native'
 import SectionTitle from '_atoms/SectionTitle';
 import Button from "_atoms/Button";
+import { request } from "_utils/request";
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
 
     const logout = () => {
+        request('/user/logout.json', {
+            method: 'POST',
+            data: {},
+            withToken: true,
+            withoutJson: true,
+            success: function () {
+                authStore.logout()
+            },
+            error: (e) => {
+                authStore.logout()
+            }
+        });
+    }
+
+    const onLogout = () => {
         Alert.alert(
           'Logout',
           'Are you sure?',
@@ -28,7 +38,7 @@ const AccountSettingsScreen = (props) => {
               },
               {
                   text: 'Yes',
-                  onPress: () => authStore.logout()
+                  onPress: () => logout()
               },
           ],
         );
@@ -52,10 +62,10 @@ const AccountSettingsScreen = (props) => {
                     <Pressable onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
                         <Text style={styles.listItemText}>Order History</Text>
                     </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.listItem}>
+                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
                     </Pressable>
-                <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.listItem}>
+                <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.AddCreditCard'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Manage Payment Methods</Text>
                     </Pressable>
 
@@ -70,7 +80,7 @@ const AccountSettingsScreen = (props) => {
                         <Text style={styles.listItemText}>Privacy Policy</Text>
                     </Pressable>
                 <View style={styles.footer}>
-                    <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={logout} block={true} type={'primary'} text={'LOGOUT'}/>
+                    <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={onLogout} block={true} type={'primary'} text={'LOGOUT'}/>
                 </View>
             </Container>
         </ScrollView>

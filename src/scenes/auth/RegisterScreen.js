@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_14,
         lineHeight: Typography.FONT_SIZE_20,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        color: '#617582',
+        color: Colors.BLUE_GRAY,
         flex:1
     },
     link: {

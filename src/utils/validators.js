@@ -9,8 +9,8 @@ export const zipCodeValidator = {
 }
 
 export const phoneValidator = {
-    value: /^\(?(\+1\s)\)?\(([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/i,
-    message: "Phone is not a valid US number"
+    value: /^(?:\+971|00971|0)?(?:50|51|52|55|56|2|3|4|6|7|9)\d{7}$/i,
+    message: "Phone is not a valid number"
 }
 
 export const cityValidator = {
