@@ -44,7 +44,7 @@ function AccountNavigator () {
 
           <Stack.Screen name="AccountSettings.AddCreditCard" component={AddCreditCardScreen} options={{title: 'New Credit Card'}}/>
           <Stack.Screen name="AccountSettings.NewPassword" component={NewPasswordScreen} options={{title:'Personal Information'}}/>
-          <Stack.Screen name="AccountSettings.OldPassword" component={OldPasswordScreen} options={{title:'CURRENT PASSWORD'}}/>
+          <Stack.Screen name="AccountSettings.OldPassword" component={OldPasswordScreen} options={{title:'VERIFY PASSWORD'}}/>
 
           <Stack.Screen name="AccountSettings.Page" component={PageScreen}/>
 

@@ -79,7 +79,7 @@ const NewPasswordScreen = (props) => {
                                         error={formState.errors.password?.message}
                                         onSubmitEditing={() => setFocus('repeat_password')}
                                         onFocus={() =>setShowValidation(true)}
-                                        label='PASSWORD'/>
+                                        label='NEW PASSWORD'/>
                                 )}
                                 name="password"
                                 defaultValue=""
@@ -102,7 +102,7 @@ const NewPasswordScreen = (props) => {
                                         onSubmitEditing={Keyboard.dismiss}
                                         ref={ref}
                                         error={formState.errors.repeat_password?.message}
-                                        label='Repeat Password'/>
+                                        label='REPEAT PASSWORD'/>
                                 )}
                                 name="repeat_password"
                                 rules={{ required: true}}

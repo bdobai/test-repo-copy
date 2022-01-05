@@ -33,7 +33,7 @@ const AddCreditCardScreen = (props) => {
                 "cvv": data.cvv,
                 "expiry_month": data.month,
                 "expiry_year": data.year,
-                "name": `${data.first_name} ${data.last_name}`,
+                "name": `${data.name}`,
                 "number": data.number,
                 "description": "Stripe Test Card",
                 "zip_code":"90210"
@@ -55,42 +55,23 @@ const AddCreditCardScreen = (props) => {
         <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(120) }}>
             <Container style={ styles.container }>
                 <SectionTitle textStyle={styles.title}>Personal New Credit Card</SectionTitle>
-                <View style={styles.namesWrapper}>
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                            <TextField
-                                styleInput={{width:'47%'}}
-                                autoCorrect={false}
-                                onBlur={onBlur}
-                                onChangeText={value => onChange(value)}
-                                value={value}
-                                onSubmitEditing={() => setFocus('last_name')}
-                                ref={ref}
-                                error={errors.first_name?.message}
-                                label='CARDHOLDER NAME'/>
-                        )}
-                        name="first_name"
-                        rules={{ required: 'First name is required', pattern: requiredValidation}}
-                    />
-                    <Controller
-                        control={control}
-                        render={({ field: { ref, onChange, onBlur, value } }) => (
-                            <TextField
-                                styleInput={{width:'47%'}}
-                                autoCorrect={false}
-                                onBlur={onBlur}
-                                onChangeText={value => onChange(value)}
-                                value={value}
-                                onSubmitEditing={() => setFocus('number')}
-                                ref={ref}
-                                error={errors.last_name?.message}
-                                label='CARDHOLDER LAST NAME'/>
-                        )}
-                        name="last_name"
-                        rules={{ required: 'Last name is required', pattern:requiredValidation}}
-                    />
-                </View>
+                <Controller
+                    control={control}
+                    render={({ field: { ref, onChange, onBlur, value } }) => (
+                        <TextField
+                            autoCorrect={false}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            onSubmitEditing={() => setFocus('number')}
+                            ref={ref}
+                            error={errors.name?.message}
+                            placeholder='Cardholder name'
+                            label='CARDHOLDER NAME'/>
+                    )}
+                    name="name"
+                    rules={{ required: 'First name is required', pattern: requiredValidation}}
+                />
                 <View style={styles.divider}/>
                 <Controller
                     control={control}
@@ -106,6 +87,7 @@ const AddCreditCardScreen = (props) => {
                             ref={ref}
                             maxLength={16}
                             error={errors.number?.message}
+                            placeholder='Card number'
                             label='CARD NUMBER'/>
                     )}
                     name="number"
@@ -146,6 +128,7 @@ const AddCreditCardScreen = (props) => {
                                 ref={ref}
                                 maxLength={2}
                                 error={errors.month?.message}
+                                placeholder='DD/MM'
                                 label='EXPIRATION DATE'/>
                         )}
                         name="month"
@@ -164,6 +147,7 @@ const AddCreditCardScreen = (props) => {
                                 onSubmitEditing={Keyboard.dismiss}
                                 ref={ref}
                                 error={errors.year?.message}
+                                placeholder='YYYY'
                                 label=' '/>
                         )}
                         name="year"
