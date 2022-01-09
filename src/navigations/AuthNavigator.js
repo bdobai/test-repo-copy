@@ -15,6 +15,7 @@ import TermsScreen from "_scenes/account/TermsScreen";
 import PrivacyPolicyScreen from "_scenes/account/PrivacyPolicyScreen";
 import AccountValidationScreen from "_scenes/auth/AccountValidationScreen";
 import { navigationStyles } from "_styles/navigation";
+import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
 
 const Stack = createStackNavigator()
 
@@ -35,9 +36,9 @@ function AuthNavigator (props) {
         }}>
             <Stack.Screen options={{cardStyle: navigationStyles.cardStyle}} name="Landing" component={LandingScreen}/>
             <Stack.Screen name="Login" component={LoginScreen} options={authOptions}/>
-            <Stack.Screen name="Register" component={RegisterScreen} options={authOptions}/>
+            <Stack.Screen name="Register" component={ConfirmSmsScreen} options={authOptions}/>
             <Stack.Screen name="Register_2" component={RegisterScreen_2} options={authOptions}/>
-            <Stack.Screen name="Register_3" component={AccountValidationScreen} initialParams={{email:'eu'}} options={{
+            <Stack.Screen name="Register_3" component={ConfirmSmsScreen} initialParams={{email:'eu'}} options={{
                 ...authOptions,
                 headerLeft: () => <BackButton colors={Colors.WHITE}/>,
                 headerTitle: 'Account Validation',

@@ -184,6 +184,7 @@ const AccountInfoScreen = observer((props) => {
                             onChangeText={onChange}
                             value={value}
                             ref={ref}
+                            keyboardType={"phone-pad"}
                             error={errors.phone_number?.message}
                             label='Mobile Number' />
                     )}

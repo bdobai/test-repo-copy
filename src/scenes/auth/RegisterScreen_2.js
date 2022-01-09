@@ -46,38 +46,38 @@ const RegisterScreen_2 = (props) => {
     const onSubmit = data => {
         const params = props.route.params
         setLoading(true)
+        const body = {
+            "contact_consent": data.newsletter ? 3 : 2,
+            "email_address": params.email,
+            "email_address_duplicate": params.email,
+            "password": params.password,
+            "first_name": params.first_name,
+            "last_name": params.last_name,
+            "terms": data.terms,
+            "phone_number": {
+                "code": '40',
+                "number": '746345590'
+            },
+            // "country": data.nationality.name,
+            "birth_day": +data.day,
+            "birth_month": +data.month,
+            "birth_year": data.year,
+            "birthdate": dayjs(`${data.year}-${data.month}-${data.day}`).unix(),
+            "language": 1,
+            "vendor": 107430
+        }
+        console.log('body', body)
         request('/user/register.json', {
             method: 'POST',
-            data: {
-                "contact_consent": 3,
-                "email_address": params.email,
-                "password": params.password,
-                "first_name": params.first_name,
-                "last_name": params.last_name,
-                "cedula": null,
-                "terms": data.terms,
-                "phone_number": {
-                    "code": '+971',
-                    "number": data.phone_number
-                },
-                "newsletter": data.newsletter ? {subscribe:[]} : null,
-                "country": data.nationality,
-                "address1": null,
-                "region": null,
-                "city": null,
-                "postal_code": null,
-                "birthdate": dayjs(`${data.year}-${data.month}-${data.day}`).unix(),
-                "referral_code": null,
-                "language": 3
-            },
+            data: body,
             withToken: false,
             success: function () {
                 props.navigation.navigate('Register_3', {email: params.email});
                 loginAccount()
             },
             error: (e)=> {
-                console.log('error', e.error.errors);
                 setLoading(false)
+                console.log('error', e.error);
             }
         });
     };
@@ -220,6 +220,7 @@ const RegisterScreen_2 = (props) => {
                                         ref={ref}
                                         blurOnSubmit={true}
                                         error={formState.errors.phone_number?.message}
+                                        keyboardType={"phone-pad"}
                                         label='MOBILE NUMBER' />
                                 )}
                                 name="phone_number"

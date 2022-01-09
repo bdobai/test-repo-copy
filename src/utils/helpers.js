@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { Platform } from "react-native";
 var utc = require('dayjs/plugin/utc') // dependent on utc plugin
 var timezone = require('dayjs/plugin/timezone')
 dayjs.extend(utc)
@@ -152,3 +153,5 @@ export function cardFormat(value){
         [$1, $2, $3, $4].filter(group => !!group).join('-')
     )
 }
+
+export const isIphone = () => Platform.OS === 'ios'

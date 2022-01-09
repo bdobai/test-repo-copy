@@ -11,15 +11,18 @@ import TextField from "_atoms/TextField";
 import { emailValidator } from "_utils/validators";
 import { scaleSize } from "_styles/mixins";
 import Button from "_atoms/Button";
+import { isIphone } from "_utils/helpers";
 
 const RecoverScreen = (props) => {
-    const { control, handleSubmit, formState } = useForm({mode:'onBlur'});
+    const { control, handleSubmit, formState } = useForm({mode:'onChange'});
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('light-content')
-            StatusBar.setTranslucent(true);
-            StatusBar.setBackgroundColor('transparent');
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor('transparent');
+            }
         });
 
         return unsubscribe;

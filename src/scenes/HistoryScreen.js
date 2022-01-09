@@ -5,11 +5,12 @@ import Spinner from "_atoms/Spinner";
 import { Colors, Spacing, Typography } from "_styles";
 import OrdersListItem from "_atoms/OrdersListItem";
 import Button from "_atoms/Button";
-import { scaleSize, WINDOW_HEIGHT } from "_styles/mixins";
+import { scaleSize, SCREEN_HEIGHT, WINDOW_HEIGHT } from "_styles/mixins";
 import ActionSheet from "react-native-actions-sheet";
 import OrderInfo from "_atoms/OrderInfo";
 import OrderDetailsCard from "_atoms/OrderDetailsCard";
 import ArrowDown from "_assets/images/orders/arrow-down-orange.png"
+import { isIphone } from "_utils/helpers";
 
 const HistoryScreen = (props) => {
     const [loading, setLoading] = useState(true)
@@ -25,8 +26,10 @@ const HistoryScreen = (props) => {
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
-            StatusBar.setTranslucent(false);
-            StatusBar.setBackgroundColor(Colors.WHITE);
+            if(!isIphone()){
+                StatusBar.setTranslucent(false);
+                StatusBar.setBackgroundColor(Colors.WHITE);
+            }
         });
 
         return unsubscribe;
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     },
     actionSheet: {
         borderRadius: 0,
-        height: WINDOW_HEIGHT*0.8,
+        height: SCREEN_HEIGHT*0.8,
         borderTopWidth:1,
         borderColor: Colors.BLUE_GRAY,
         marginBottom:0,

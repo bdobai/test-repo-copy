@@ -8,6 +8,7 @@ import {Linking} from 'react-native'
 import SectionTitle from '_atoms/SectionTitle';
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
+import { isIphone } from "_utils/helpers";
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -15,8 +16,10 @@ const AccountSettingsScreen = (props) => {
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('light-content')
-            StatusBar.setTranslucent(true);
-            StatusBar.setBackgroundColor('transparent');
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor('transparent');
+            }
         });
 
         return unsubscribe;

@@ -28,8 +28,9 @@ const GiftCardScreen = (props) => {
     const [cards, setCards] = useState([])
     const [addCard, setAddCard] = useState(false);
     const [error, setError] = useState('');
+    const [showLostMessage, setShowLostMessage] = useState({});
 
-    const { control, handleSubmit, formState , setFocus } = useForm({mode: 'onChange'})
+    const { control, handleSubmit, formState , setFocus, reset } = useForm({mode: 'onChange'})
 
 
     useEffect(()=>{
@@ -53,10 +54,15 @@ const GiftCardScreen = (props) => {
         request('/user/card/lost.json', {
             method: 'PUT',
             data:{
-                "user_card": card.pin
+                "user_card": card.id
             },
             withToken: true,
+            withoutJson: true,
             success: function (response) {
+                const lostCard = cards.findIndex((item) => item.id === card.id);
+                cards[lostCard] = {...cards[lostCard], status: {...cards[lostCard].status, name: 'Inactive'}}
+                setCards([...cards]);
+                setShowLostMessage({...showLostMessage, [card.id]: true})
             },
             error: (e) => {
                 console.log('e',e);
@@ -65,15 +71,40 @@ const GiftCardScreen = (props) => {
         console.log('card',card)
     }
 
-    //Todo Ask for testing cards
     const onDelete = (card) => {
-        request('/user/card', {
+        console.log('card here', card)
+        request('/user/card.json', {
             method: 'DELETE',
             data:{
-                "user_card": card.pin
+                "user_card": card.id.toString()
             },
             withToken: true,
+            withoutJson: true,
             success: function (response) {
+                console.log('response', response);
+                setCards([...cards.filter((item) => item.id !== card.id)])
+                setShowLostMessage({...showLostMessage, [card.id]: false})
+            },
+            error: (e) => {
+                console.log('e',e);
+            }
+        });
+    }
+
+    const onActivate = (card) => {
+        request('/user/card/found.json', {
+            method: 'PUT',
+            data:{
+                "user_card": card.id.toString()
+            },
+            withToken: true,
+            withoutJson: true,
+            success: function (response) {
+                console.log('response', response);
+                const activatedCard = cards.findIndex((item) => item.id === card.id);
+                cards[activatedCard] = {...cards[activatedCard], status: {...cards[activatedCard].status, name: 'Active'}}
+                setCards([...cards]);
+                setShowLostMessage({...showLostMessage, [card.id]: false})
             },
             error: (e) => {
                 console.log('e',e);
@@ -82,9 +113,19 @@ const GiftCardScreen = (props) => {
     }
 
     const renderCostaCards = () => {
-        return cards.map((item) => (
-            <GiftCard key={item.number} card={item.card} onLost={onLost} onDelete={onDelete}/>
-        ))
+        return cards.map((item) => {
+            console.debug('item, item', item);
+            return (
+                <GiftCard
+                    key={item.id}
+                    card={item}
+                    onLost={onLost}
+                    onDelete={onDelete}
+                    onActivate={onActivate}
+                    isLost={showLostMessage[item.id]}
+                />
+            )
+        })
     }
 
     const onSubmit = data => {
@@ -98,8 +139,11 @@ const GiftCardScreen = (props) => {
             },
             withToken: true,
             success: function (response) {
-                setCards([...cards, response.card])
+                console.log('response', response);
+                setCards([...cards, response])
                 setLoading(false)
+                setAddCard(false);
+                reset();
             },
             error: (e) => {
                 console.log('e',e);
@@ -134,7 +178,10 @@ const GiftCardScreen = (props) => {
             <View style={styles.card}>
                 <View style={[styles.header, styles.addHeader]}>
                     <Text style={styles.headerText}>ADD A COSTA COFFEE CARD</Text>
-                    <Pressable style={{padding: Spacing.SPACING_2}} onPress={() => setAddCard(false)}>
+                    <Pressable style={{padding: Spacing.SPACING_2}} onPress={() => {
+                        reset();
+                        setAddCard(false)
+                    }}>
                         <CloseIcon width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLACK}/>
                     </Pressable>
                 </View>
@@ -157,6 +204,7 @@ const GiftCardScreen = (props) => {
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 placeholder={'Card number'}
+                                keyboardType={"phone-pad"}
                                 onSubmitEditing={() => setFocus('pin')}
                                 ref={ref}
                                 error={formState.errors.number?.message}
@@ -178,6 +226,7 @@ const GiftCardScreen = (props) => {
                                 autoCorrect={false}
                                 autoCapitalize={'none'}
                                 onBlur={onBlur}
+                                keyboardType={"phone-pad"}
                                 onChangeText={value => onChange(value)}
                                 value={value}
                                 onSubmitEditing={Keyboard.dismiss}
@@ -220,7 +269,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor:Colors.WHITE,
-        marginTop: Spacing.SPACING_5,
+        marginVertical: Spacing.SPACING_5,
         borderRadius: scaleSize(5),
         paddingBottom: Spacing.SPACING_10,
         justifyContent: 'center',

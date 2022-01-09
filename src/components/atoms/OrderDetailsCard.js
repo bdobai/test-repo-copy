@@ -22,7 +22,7 @@ const OrderDetailsCard = (props) => {
             <Text style={styles.details}>{dateFormat(props.item.date, 'MMMM DD [AT] HH:mm A')}</Text>
             <Text style={styles.details}>{`Order number: ${props.item.receipts[0].number}`}</Text>
             <View style={styles.divider}/>
-            <ScrollView style={{maxHeight:'60%'}}>
+            <ScrollView style={{maxHeight:'55%'}} showsVerticalScrollIndicator={false}>
                 {renderItems()}
             </ScrollView>
             <View style={styles.divider}/>
