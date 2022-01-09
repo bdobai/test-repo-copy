@@ -55,10 +55,10 @@ const RegisterScreen_2 = (props) => {
             "last_name": params.last_name,
             "terms": data.terms,
             "phone_number": {
-                "code": '40',
-                "number": '746345590'
+                "code": '+971', // +40
+                "number": data.phone_number
             },
-            // "country": data.nationality.name,
+            "country": data.nationality.country_id,
             "birth_day": +data.day,
             "birth_month": +data.month,
             "birth_year": data.year,

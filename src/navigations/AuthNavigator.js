@@ -36,7 +36,7 @@ function AuthNavigator (props) {
         }}>
             <Stack.Screen options={{cardStyle: navigationStyles.cardStyle}} name="Landing" component={LandingScreen}/>
             <Stack.Screen name="Login" component={LoginScreen} options={authOptions}/>
-            <Stack.Screen name="Register" component={ConfirmSmsScreen} options={authOptions}/>
+            <Stack.Screen name="Register" component={RegisterScreen} options={authOptions}/>
             <Stack.Screen name="Register_2" component={RegisterScreen_2} options={authOptions}/>
             <Stack.Screen name="Register_3" component={ConfirmSmsScreen} initialParams={{email:'eu'}} options={{
                 ...authOptions,
