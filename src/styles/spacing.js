@@ -1,7 +1,8 @@
 import { scaleSize } from './mixins'
 
 export const SPACING_10 = scaleSize(50)
-export const SPACING_7 = scaleSize(30)
+export const SPACING_8 = scaleSize(40)
+export const SPACING_7 = scaleSize(35)
 export const SPACING_6 = scaleSize(30)
 export const SPACING_5 = scaleSize(25)
 export const SPACING_4 = scaleSize(20)

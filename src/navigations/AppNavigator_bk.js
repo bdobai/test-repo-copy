@@ -20,6 +20,7 @@ import { scaleSize } from '_styles/mixins';
 import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
 import AccountNavigator from "_navigations/AccountNavigator";
 import { navigationStyles } from "_styles/navigation";
+import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
 
 export const isReadyRef = React.createRef();
 
@@ -39,10 +40,12 @@ const Tabs = () => (
                  }}
   >
       <Tab.Screen name={'Home'} component={HomeNavigator}
-                  options={{
+                  options={({navigation}) => ({
+                      headerShown: true,
                       tabBarLabel: 'Home',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
-                  }}
+                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
+                      header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>,
+                  })}
       />
       <Tab.Screen name="Stores" component={StoresScreen}
                   options={{
@@ -85,7 +88,9 @@ const AppNavigator = observer(() => {
               <RootStack.Screen name={'App'} component={Tabs} options={{
                   headerShown: false
               }}/>
-              <RootStack.Screen name={'Modal'} component={ModalNavigator}/>
+              <RootStack.Screen name={'Modal'} component={ModalNavigator} options={{
+                  headerShown: false
+              }}/>
               <RootStack.Screen name={'AccountNavigator'} component={AccountNavigator} options={{
                   headerShown: false
               }}/>

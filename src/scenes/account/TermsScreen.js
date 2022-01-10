@@ -23,6 +23,7 @@ const TermsScreen = (props) => {
             },
             withToken: false,
             success: function (response) {
+                console.log('response.', response.content)
                 setContent(response.content);
                 setLoading(false);
             },

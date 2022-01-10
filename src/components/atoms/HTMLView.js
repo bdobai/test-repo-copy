@@ -8,13 +8,14 @@ const HTMLView = props => {
     if (!props.html) {
         return null;
     }
-    return <HTML source={{ html: props.html }}
+    return <HTML source={{ html: props.html, lang: 'xml' }}
         imagesMaxWidth={Dimensions.get('window').width}
         onPress={(evt, href) => this.handleUrl(href)}
-        classesStyles={HTMLStyles.classesStyles}
-        baseFontStyle={HTMLStyles.baseFontStyle}
-        ignoredStyles={HTMLStyles.ignoredStyles}
-        tagsStyles={HTMLStyles.tagsStyles}
+        contentWidth={props.contentWidth}
+        // classesStyles={HTMLStyles.classesStyles}
+        // baseFontStyle={HTMLStyles.baseFontStyle}
+        // ignoredStyles={HTMLStyles.ignoredStyles}
+        // tagsStyles={HTMLStyles.tagsStyles}
     />
 }
 

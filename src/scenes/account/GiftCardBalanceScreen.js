@@ -1,68 +1,102 @@
-import React, { useState } from 'react'
-import { KeyboardAvoidingView, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View, } from 'react-native'
-import Header from '_components/molecules/Header'
+import React, { useEffect, useState } from "react";
+import {
+    Image, StatusBar,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
-import Container from '_components/atoms/Container'
-import BackButton from '_atoms/BackButton'
-import Button from '_components/atoms/Button'
-import { request } from '_utils/request'
-import { HEADER_SPACE } from '_styles/spacing'
-import Logo from '_assets/images/logo_small_primary.svg'
-import GiftCard from '_assets/images/gift_cards/gift_card_simple.svg'
-import { scaleSize } from '../../styles/mixins'
+import balanceBackground from '_assets/images/home/balance-background.png';
+import { scaleSize } from "_styles/mixins";
+import { request } from "_utils/request";
+import Button from "_atoms/Button";
+import Spinner from "_atoms/Spinner";
+import { isIphone } from "_utils/helpers";
 
 const GiftCardsScreen = (props) => {
     const [loading, setLoading] = useState(false);
+    const [balance, setBalance] = useState(null);
 
-    return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.giftCardScreen}>
-        {/*<Header left={<BackButton color={Colors.PRIMARY}/>} center={<Logo/>}/>*/}
-        <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
-            <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
-                <Container style={ styles.container }>
-                    <Text style={ styles.title }>Your gift card balance</Text>
-                    <Text style={ styles.amount }>100 AED</Text>
-                    <GiftCard></GiftCard>
-                </Container>
-            </SafeAreaView>
-        </ScrollView>
-        <View style={styles.footer}>
-            <Button loading={loading} onPress={() => props.navigation.navigate('AccountSettings.GiftCardAdd')} block={true} type={'secondary'} text={"Let's order"}/>
-        </View>
-    </KeyboardAvoidingView>
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('light-content')
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor('transparent');
+            }
+        });
+
+        return unsubscribe;
+    }, [props.navigation]);
+
+    useEffect(() => {
+        setLoading(true);
+        request('/user/quick-pay/balance.json', {
+            method: 'GET',
+            withToken: true,
+            data:{},
+            success: (response) => {
+                setBalance(response);
+                setLoading(false);
+            },
+            error: () => {
+                setLoading(false);
+            },
+        });
+    },[])
+
+    const onManage = () => {
+        props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.GiftCards'})
+    }
+
+    return (
+        <View style={ styles.giftCardScreen}>
+           <View style={[styles.contentWrapper, loading ? {justifyContent: 'center'} : {justifyContent: 'flex-start'}]}>
+               {loading ? <Spinner size={'small'} color={Colors.PRIMARY}/> : <>
+                   <Text style={ styles.title }>{`BALANCE: AED${balance?.amount.toFixed(2)}`}</Text>
+                   <Text style={ styles.description }>Last updated: just now</Text>
+                   <Button type={'primary'} square={true} size={'sm'} text={'Add or Manage Gift Cards'} bodyStyle={styles.smallButton} onPress={onManage}/>
+               </>
+               }
+            </View>
+            <Image source={balanceBackground} style={styles.backgroundImage}/>
+    </View>
+    )
 }
 
 const styles = StyleSheet.create({
-    amount: {
-        flex: 1,
-        color: Colors.SECONDARY,
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_40,
-        lineHeight: Typography.LINE_HEIGHT_40,
-        marginBottom: scaleSize(55)
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    footer: {
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        marginBottom: Spacing.SPACING_4,
-        paddingHorizontal: Spacing.SPACING_5
-    },
     giftCardScreen: {
         flex: 1,
-        backgroundColor: Colors.WHITE
+        backgroundColor: Colors.WHITE,
+        justifyContent: "space-between",
+    },
+    backgroundImage: {
+        width: '100%',
+        height: scaleSize(175)
     },
     title: {
-        flex: 1,
         color: Colors.PRIMARY,
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_22,
-        lineHeight: Typography.LINE_HEIGHT_18,
-        marginBottom: Spacing.SPACING_3,
+        fontSize: Typography.FONT_SIZE_24,
+        fontFamily: Typography.FONT_PRIMARY_MEDIUM,
+        marginBottom: Spacing.SPACING_5,
+        marginTop: scaleSize(100),
     },
+    description: {
+        fontSize: Typography.FONT_SIZE_16,
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
+        color: Colors.PRIMARY,
+        marginBottom: Spacing.SPACING_5
+    },
+    smallButton: {
+        width: scaleSize(245),
+        alignSelf: 'center',
+        height: scaleSize(35)
+    },
+    contentWrapper: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    }
 })
 
 export default GiftCardsScreen

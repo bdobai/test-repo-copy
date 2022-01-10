@@ -21,19 +21,8 @@ const styles = StyleSheet.create({
 
 function HomeNavigator () {
     return (
-      <Stack.Navigator initialRouteName="Home.Dashboard" screenOptions={{
-          headerTitleAlign: 'center',
-          headerLeft: (props) => <HeaderTouchable><InfoIcon height={scaleSize(24)} fill={Colors.GRAY_DARK2}/></HeaderTouchable>,
-          headerRight: (props) => <HeaderTouchable><NotificationIcon height={scaleSize(24)} fill={Colors.GRAY_DARK2}/></HeaderTouchable>,
-          headerTitle: (props) => <Logo height={scaleSize(22)}/>,
-          headerStyle: {
-              borderBottomWidth: 0,
-              shadowOpacity: 0,
-          },
-          cardStyle: styles.cardStyle
-      }}>
-          <Stack.Screen name="Home.Dashboard" component={HomeScreen}/>
-          <Stack.Screen name="Notifications" component={NotificationsScreen}/>
+      <Stack.Navigator initialRouteName="Home.Dashboard">
+          <Stack.Screen name="Home.Dashboard" component={HomeScreen} options={{headerShown: false}}/>
       </Stack.Navigator>
     )
 }
