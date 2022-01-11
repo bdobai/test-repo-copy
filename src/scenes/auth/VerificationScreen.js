@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     },
     verificationScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY
+        backgroundColor: Colors.WHITE
     },
     verificationTitle: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,

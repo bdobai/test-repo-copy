@@ -20,14 +20,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
+import { isIphone } from "_utils/helpers";
 
 const LoginScreen = (props) => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
-            StatusBar.setTranslucent(true);
-            StatusBar.setBackgroundColor(Colors.WHITE);
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor(Colors.WHITE);
+            }
         });
 
         return unsubscribe;

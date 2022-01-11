@@ -1,15 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
 import Header from '_components/molecules/Header'
-import { Colors, Typography } from '_styles'
+import { Colors, Spacing, Typography } from "_styles";
 import Container from '_components/atoms/Container'
-import { TextField } from '_components/atoms/MaterialField'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { AuthStoreContext } from '_stores'
 import { scaleSize } from '_styles/mixins'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import TextField from "_atoms/TextField";
+import { AuthHeaderText } from "_atoms/AuthHeaderText";
 
 const ConfirmSmsScreen = (props) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
@@ -17,17 +18,23 @@ const ConfirmSmsScreen = (props) => {
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
-    const onSubmit = data => {
-        console.log({ props }, { data })
+    useEffect(() => {
+        props.navigation.setOptions({
+            headerRight: () => <Text style={styles.page}>3 of 3</Text>
+        })
+    },[])
+
+    const onSubmit = () => {
+        // console.log({ props }, { data })
         return;
         setLoading(true)
-        request('/user/register.json', {
-            method: 'POST',
+        request('/user/activate/sms.json', {
+            method: 'GET',
             data: {
-                "contact_consent": 3,
+                // "contact_consent": 3,
 
             },
-            withToken: false,
+            withToken: true,
             success: function (response) {
                 console.log(response)
                 AsyncStorage.setItem('online_order_token', response.online_order_token)
@@ -35,7 +42,8 @@ const ConfirmSmsScreen = (props) => {
                 setLoading(false)
                 authStore.getUser()
             },
-            error: () => {
+            error: (error) => {
+                console.log('error', error)
                 setLoading(false)
             }
         });
@@ -44,17 +52,35 @@ const ConfirmSmsScreen = (props) => {
 
 
     const resendCode = () => {
-        console.log('resend code')
+        request('/user/activate/sms.json', {
+            method: 'GET',
+            data: {
+                // "contact_consent": 3,
+
+            },
+            withToken: true,
+            success: function (response) {
+                console.log(response)
+                AsyncStorage.setItem('online_order_token', response.online_order_token)
+                AsyncStorage.setItem('session_key', response.session_identifier)
+                setLoading(false)
+                authStore.getUser()
+            },
+            error: (error) => {
+                console.log('error', error.error.errors[0])
+                setLoading(false)
+            }
+        });
     };
 
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
+                    <AuthHeaderText text={'Register'}/>
                     <Container style={{ flex: 1 }}>
-                        <Header bg={false} center={<Text style={ styles.signupTitle }>SIGN UP 3/3</Text>} style={{marginTop: scaleSize(10)}}/>
+                        <Text style={ styles.infoText }>Please type the verification code sent to +971 424 242 942</Text>
                         <View style={ styles.register } title={'Enter your credentials'}>
-                            <Text style={ styles.infoText }>Please type the verification code sent to +971 424 242 942</Text>
                             <Controller
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -64,9 +90,10 @@ const ConfirmSmsScreen = (props) => {
                                   value={value}
                                   secure={true}
                                   ref={ref}
+                                  placeholder={'Confirmation code'}
                                   error={errors.password && true}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  label='Confirm code*'/>
+                                  label='CONFIRM CODE'/>
                               )}
                               name="confirm_code"
                               rules={{
@@ -83,8 +110,15 @@ const ConfirmSmsScreen = (props) => {
                             </View>
                         </View>
                         <View style={styles.footer}>
-                            {/* <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'secondary'} text={'Next'}/> */}
-                            <Button loading={loading} onPress={() => props.navigation.navigate('Verification')} block={true} type={'secondary'} text={'Next'}/>
+                            <Button
+                                loading={loading}
+                                textStyle={styles.buttonTitle}
+                                bodyStyle={styles.button}
+                                onPress={handleSubmit(onSubmit)}
+                                block={true}
+                                type={'primary'}
+                                text={'NEXT'}
+                            />
                             <View style={styles.footerTextView}>
                                 <Text style={styles.footerText}>Already have an account? </Text>
                                 <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
@@ -99,10 +133,11 @@ const ConfirmSmsScreen = (props) => {
 
 const styles = StyleSheet.create({
     infoText: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_18,
-        lineHeight: Typography.LINE_HEIGHT_30,
-        fontFamily: Typography.FONT_PRIMARY_REGULAR
+        color: Colors.BLUE_GRAY,
+        fontSize: Typography.FONT_SIZE_16,
+        lineHeight: Typography.LINE_HEIGHT_16,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        marginTop: Spacing.SPACING_5,
     },
     footer: {
         flex: 1,
@@ -111,16 +146,19 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     footerActionText: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_12,
         lineHeight: Typography.LINE_HEIGHT_14,
-        color: Colors.SECONDARY
+        fontWeight: '500',
+        textDecorationLine: 'underline'
     },
     footerText: {
-        color: Colors.WHITE,
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_14
+        lineHeight: Typography.LINE_HEIGHT_14,
+        fontWeight: '500'
     },
     footerTextView: {
         flexDirection: 'row',
@@ -133,19 +171,26 @@ const styles = StyleSheet.create({
     },
     resendText: {
         fontFamily: Typography.FONT_PRIMARY_REGULAR,
-        color: Colors.SECONDARY,
+        color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_13,
         lineHeight: Typography.LINE_HEIGHT_13,
     },
     signupScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY
+        backgroundColor: Colors.WHITE
     },
     signupTitle: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_14,
         lineHeight: Typography.LINE_HEIGHT_16,
-        color: Colors.SECONDARY
+        color: Colors.PRIMARY
+    },
+    page: {
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
+        fontSize: Typography.FONT_SIZE_20,
+        color: Colors.PRIMARY,
+        marginRight: Spacing.SPACING_1,
+        fontWeight: '700',
     },
 })
 

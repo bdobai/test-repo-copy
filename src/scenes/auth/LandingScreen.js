@@ -3,6 +3,7 @@ import { StyleSheet, ImageBackground, View, SafeAreaView, StatusBar } from "reac
 import { Colors, Spacing, Typography } from "_styles";
 import ButtonRounded from "_atoms/ButtonRounded";
 import { scaleSize } from "_styles/mixins";
+import { isIphone } from "_utils/helpers";
 
 const backgroundImage = require('_assets/images/auth/landing.png');
 
@@ -11,8 +12,10 @@ const LandingScreen = (props) => {
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('light-content')
-            StatusBar.setTranslucent(true);
-            StatusBar.setBackgroundColor('transparent');
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor('transparent');
+            }
         });
 
         return unsubscribe;

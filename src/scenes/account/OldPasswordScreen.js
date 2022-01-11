@@ -15,7 +15,7 @@ import { passwordValidators } from "_utils/constants";
 import { AuthStoreContext } from "_stores";
 
 const OldPasswordScreen = (props) => {
-    const { control, handleSubmit, formState } = useForm({mode:'onBlur'});
+    const { control, handleSubmit, formState } = useForm({mode:'onChange'});
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 

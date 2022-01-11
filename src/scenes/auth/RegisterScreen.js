@@ -23,14 +23,17 @@ import { PasswordValidationMessage } from "_atoms/PasswordValidationMessage";
 import SuccessIcon from '_assets/images/alerts/success.svg'
 import ErrorIcon from '_assets/images/alerts/error.svg'
 import { request } from "_utils/request";
+import { isIphone } from "_utils/helpers";
 
 const RegisterScreen = (props) => {
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
-            StatusBar.setTranslucent(true);
-            StatusBar.setBackgroundColor(Colors.WHITE);
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor(Colors.WHITE);
+            }
         });
 
         return unsubscribe;
