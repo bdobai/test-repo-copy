@@ -39,7 +39,7 @@ const AccountInfoScreen = observer((props) => {
             first_name: authStore.user.first_name,
             last_name: authStore.user.last_name,
             email_address: authStore.user.email_address,
-            phone_number: authStore.user.phone_number.slice(3),
+            phone_number: authStore.user.phone_number?.slice(3),
             birthdate: dayjs.unix(authStore.user.birthdate).format('DD-MM-YYYY'),
             newsletter: authStore.user.contact_consent === 3
         }

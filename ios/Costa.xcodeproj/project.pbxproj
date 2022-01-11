@@ -21,8 +21,8 @@
 		BF16431BA8FA4011B81A58FD /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */; };
 		CDEAA69E98544773A71961B2 /* BrandonGrotesque-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 53142B7F46494387A15E311B /* BrandonGrotesque-Regular.otf */; };
 		D167666E07609E2E6047E12B /* libPods-Costa-CostaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 191BA4087DC6BD6CE965B970 /* libPods-Costa-CostaTests.a */; };
-		F5156A3A51134359A1945AE0 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E920932223E8491C95F5FC3D /* Gotham-Light.ttf */; };
 		D85422F8041A4C4C9B6B00B6 /* ManusTrial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */; };
+		F5156A3A51134359A1945AE0 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E920932223E8491C95F5FC3D /* Gotham-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +57,7 @@
 		6266430FA8484D9F83D5C08E /* GothamMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamMedium.ttf; path = ../src/assets/fonts/GothamMedium.ttf; sourceTree = "<group>"; };
 		7094C5569DB147A6BD92EE2D /* Gotham-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Light.otf"; path = "../src/assets/fonts/Gotham-Light.otf"; sourceTree = "<group>"; };
 		71AAB4A3D43C8CE85577A3B0 /* Pods-Costa-CostaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Costa-CostaTests.release.xcconfig"; path = "Target Support Files/Pods-Costa-CostaTests/Pods-Costa-CostaTests.release.xcconfig"; sourceTree = "<group>"; };
+		78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = ManusTrial.ttf; path = ../src/assets/fonts/ManusTrial.ttf; sourceTree = "<group>"; };
 		7D29F19131F94B1AA3C98FD5 /* GothamBook.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamBook.ttf; path = ../src/assets/fonts/GothamBook.ttf; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Costa/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Bold.ttf"; path = "../src/assets/fonts/Gotham-Bold.ttf"; sourceTree = "<group>"; };
@@ -65,7 +66,6 @@
 		E920932223E8491C95F5FC3D /* Gotham-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Light.ttf"; path = "../src/assets/fonts/Gotham-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FE2458EE62C405EE5AEB0939 /* Pods-Costa-CostaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Costa-CostaTests.debug.xcconfig"; path = "Target Support Files/Pods-Costa-CostaTests/Pods-Costa-CostaTests.debug.xcconfig"; sourceTree = "<group>"; };
-		78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */ = {isa = PBXFileReference; name = "ManusTrial.ttf"; path = "../src/assets/fonts/ManusTrial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */

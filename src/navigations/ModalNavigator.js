@@ -6,7 +6,8 @@ import GiftCardBalanceScreen from "_scenes/account/GiftCardBalanceScreen";
 import LeftChevron from "_assets/images/left-chevron.svg";
 import { scaleSize } from "_styles/mixins";
 import { navigationStyles } from "_styles/navigation";
-import Messages from "_scenes/Messages";
+import MessagesScreen from "_scenes/MessagesScreen";
+import MessagesDetailsScreen from "_scenes/MessagesDetailsScreen";
 
 const Stack = createStackNavigator()
 
@@ -30,7 +31,8 @@ function ModalNavigator () {
           headerTitleAlign: 'center',
       }}>
           <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Gift Cards" component={GiftCardBalanceScreen}/>
-          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Messages" component={Messages}/>
+          <Stack.Screen options={{cardStyle: styles.cardStyle}} name="Messages" component={MessagesScreen}/>
+          <Stack.Screen options={{cardStyle: styles.cardStyle, title:'Messages'}} name="Messages.Details" component={MessagesDetailsScreen}/>
       </Stack.Navigator>
     )
 }
