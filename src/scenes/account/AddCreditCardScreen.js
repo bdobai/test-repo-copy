@@ -128,7 +128,7 @@ const AddCreditCardScreen = (props) => {
                                 ref={ref}
                                 maxLength={2}
                                 error={errors.month?.message}
-                                placeholder='DD/MM'
+                                placeholder='MM'
                                 label='EXPIRATION DATE'/>
                         )}
                         name="month"
