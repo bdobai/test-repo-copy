@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     noDataWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: Spacing.SPACING_7,
+        marginBottom: Spacing.SPACING_6,
         paddingHorizontal: scaleSize(20)
     },
     noDataText: {

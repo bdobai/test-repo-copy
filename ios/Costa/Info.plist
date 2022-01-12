@@ -50,6 +50,7 @@
 		<string>BrandonGrotesque-Medium.otf</string>
 		<string>BrandonGrotesque-Regular.otf</string>
 		<string>Gotham-Light.ttf</string>
+		<string>ManusTrial.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

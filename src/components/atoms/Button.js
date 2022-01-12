@@ -139,15 +139,14 @@ Button.propTypes = {
 
 const base_styles = StyleSheet.create({
     smText: {
-        fontSize: Typography.FONT_SIZE_12,
-        lineHeight: Typography.LINE_HEIGHT_12,
+        fontSize: Typography.FONT_SIZE_20,
     },
     smBody: {
-        paddingTop: 5,
-        paddingBottom: 5,
-        paddingLeft: scaleSize(24),
-        paddingRight: scaleSize(24),
-        height: scaleSize(30),
+        paddingTop:0,
+        paddingBottom:0,
+        paddingLeft: scaleSize(12),
+        paddingRight: scaleSize(12),
+        height: scaleSize(35),
     },
     defaultText: {
         color: Colors.BLACK,
@@ -228,9 +227,9 @@ const base_styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD
     },
     outlinePrimaryBody: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: Colors.PRIMARY,
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.WHITE,
     },
     outlinePrimaryBodyPressed: {
         borderWidth: 1,

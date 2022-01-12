@@ -68,11 +68,9 @@ const GiftCardScreen = (props) => {
                 console.log('e',e);
             }
         });
-        console.log('card',card)
     }
 
     const onDelete = (card) => {
-        console.log('card here', card)
         request('/user/card.json', {
             method: 'DELETE',
             data:{
