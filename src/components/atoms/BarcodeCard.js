@@ -9,10 +9,7 @@ const BarcodeCard = (props) => {
     return (
         <View style={styles.barcodeCard}>
             {loading ? <Spinner color={Colors.PRIMARY} /> :
-                <>
-                    <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} />
-                    <Text style={styles.token}>{barcode?.token}</Text>
-                </>
+                <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} />
             }
         </View>
     )
@@ -26,24 +23,11 @@ const styles = StyleSheet.create({
         height: scaleSize(75),
     },
     barcodeCard: {
-        backgroundColor: Colors.WHITE,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-        marginHorizontal: Spacing.SPACING_10,
+        backgroundColor: '#FAFAFA',
+        marginHorizontal: Spacing.SPACING_5,
         justifyContent: 'center',
         alignItems: 'center',
-        height: scaleSize(160),
-        marginBottom: Spacing.SPACING_8,
+        height: scaleSize(120),
+        marginBottom: Spacing.SPACING_4,
     },
-    token: {
-        position: 'absolute',
-        bottom: Spacing.SPACING_2,
-        color: Colors.BLUE_GRAY
-    }
 })

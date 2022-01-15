@@ -7,17 +7,20 @@ import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import BarcodeCard from "_atoms/BarcodeCard";
 import { scaleSize } from "_styles/mixins";
-import campaignImage from '_assets/images/home/campaign-image.png'
-import campaignImage2 from '_assets/images/home/campaign-image-2.png'
 import menuImage from '_assets/images/home/menu-image.png'
+import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
+import Swiper from 'react-native-swiper'
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
     const [loadingBarcode, setLoadingBarcode] = useState(false);
     const [loadingRewards, setLoadingRewards] = useState(false);
+    const [loadingMessages, setLoadingMessages] = useState(false);
     const [barcode, setBarcode] = useState(null);
     const [rewards, setRewards] = useState(null);
+    const [messages, setMessages] = useState(null);
+    const [index, setIndex] = useState(0);
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -34,12 +37,14 @@ const HomeScreen = observer((props) => {
     useEffect(() => {
         getToken();
         getRewards();
+        getMessages();
     },[])
 
     const onRefresh = () => {
         setRefreshing(true)
         getRewards();
-        getToken()
+        getToken();
+        getMessages();
     }
 
     const getToken = () => {
@@ -75,16 +80,25 @@ const HomeScreen = observer((props) => {
         });
     }
 
-    const onMenu = () => {
-        Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
+    const getMessages = () => {
+        setLoadingMessages(true);
+        request('/user/message/list.json', {
+            method: 'GET',
+            withToken: true,
+            data:{},
+            success: function (response) {
+                setMessages(response);
+                setLoadingMessages(false);
+            },
+            error: (error) => {
+                console.log('error', error.error)
+                setLoadingMessages(false);
+            }
+        });
     }
 
-    const renderButtons = () => {
-        if(!rewards?.data?.length) return;
-        return rewards.data.map((item) => {
-            if(!item.available) return
-            return <Button key={item.name} type={'secondary'} square={true} text={`Time for ${item.available} x ${item.name}`} bodyStyle={{backgroundColor: '#87744a', marginBottom: Spacing.SPACING_3}} textStyle={{fontSize: Typography.FONT_SIZE_22}}/>
-        })
+    const onMenu = () => {
+        Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
     }
 
     const getBalance = () => {
@@ -101,6 +115,56 @@ const HomeScreen = observer((props) => {
         return props.navigation.navigate('Modal',  {screen: 'Balance'})
     }
 
+    const renderTier = () => {
+        if(rewards?.tier?.current?.name)
+        return (
+            <View style={styles.tierCard}>
+                <View style={{flex:1, justifyContent:'center', paddingLeft: Spacing.SPACING_3}}>
+                    <Text style={[styles.timeFor, { color: Colors.WHITE }]}>Tier:</Text>
+                    <Text style={[styles.reward, {color: Colors.WHITE}]}>{rewards?.tier?.current?.name}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    const renderReward = () => {
+        if(!rewards?.data[0].available) return;
+        return (
+            <View style={styles.card}>
+                <Image source={giftHand} style={styles.hand}/>
+                <View style={{flex:1, justifyContent:'center', paddingLeft: Spacing.SPACING_3}}>
+                    <Text style={styles.timeFor}>Time for</Text>
+                    <Text style={styles.reward}>{rewards?.data[0].available} x {rewards?.data[0].name}!</Text>
+                </View>
+            </View>
+        )
+    }
+
+    const renderMessages = () => {
+        if(loadingMessages || !messages) return;
+        return (
+            <Swiper
+                key={messages.length}
+                style={{height: scaleSize(200), marginBottom: Spacing.SPACING_8}}
+                autoplay={true}
+                autoplayTimeout={2.5}
+                loop={true}
+                dotStyle={{bottom:-10}}
+                activeDotStyle={{bottom:-10, backgroundColor: Colors.PRIMARY}}
+                horizontal={true}
+                onIndexChanged={(value) =>setIndex(value)}
+                index={index}
+            >
+                {messages.map((item) => (<View key={item.message.title} style={styles.messageCard}>
+                    <Text style={styles.messageTitle}>{item.message.title}</Text>
+                    <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
+                    {/*{item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }*/}
+                    <Image source={{ uri: 'https://pbs.twimg.com/media/E4TqORmUUAEr7Fk?format=jpg&name=4096x4096' }} style={{width: '100%', height: scaleSize(100)}}/>
+                </View>))}
+            </Swiper>
+        )
+    }
+
     return <ScrollView
       style={{backgroundColor: Colors.WHITE}}
       contentContainerStyle={styles.contentContainer}
@@ -109,64 +173,58 @@ const HomeScreen = observer((props) => {
       refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
       }>
-        <Text style={styles.sectionTitle}>YOUR BEANS</Text>
         <BeansCard balance={getBalance()}/>
-        <View style={styles.buttonWrapper}>
-            {renderButtons()}
-        </View>
-        <Text style={styles.sectionTitle}>SCAN ME AT THE TILL</Text>
+        {renderReward()}
+        {renderTier()}
         <BarcodeCard barcode={barcode} loading={loadingBarcode}/>
+        {renderMessages()}
         <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>
         <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Order Online'} bodyStyle={styles.smallButton} onPress={onOrderOnline}/>
-        <Image source={campaignImage} style={styles.campaign}/>
-        <Image source={campaignImage2} style={styles.campaign}/>
         <View style={styles.campaign}>
             <Image source={menuImage} style={styles.menuImage}/>
             <View style={styles.menuBackground}>
-                <Button type={'outlinePrimary'} size={'sm'} text={'See the menu'} bodyStyle={[styles.smallButton, { height: scaleSize(40) }]} textStyle={{fontSize: Typography.FONT_SIZE_22, fontFamily: Typography.FONT_SECONDARY_REGULAR}} onPress={onMenu}/>
+                <Button
+                    type={'outlinePrimary'}
+                    size={'sm'}
+                    text={'See the menu'}
+                    bodyStyle={[styles.smallButton, { height: scaleSize(40), width: scaleSize(155) }]}
+                    textStyle={{fontSize: Typography.FONT_SIZE_20, fontFamily: Typography.FONT_SECONDARY_REGULAR, fontWeight: '500'}}
+                    onPress={onMenu}
+                />
             </View>
         </View>
     </ScrollView>
 })
 
 const styles = StyleSheet.create({
-    sectionTitle: {
-        color: Colors.PRIMARY,
-        fontSize: Typography.FONT_SIZE_20,
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
-        paddingLeft: Spacing.SPACING_4,
-        marginBottom: Spacing.SPACING_2,
-    },
     contentContainer:{
         paddingTop: Spacing.SPACING_4,
         paddingBottom: Spacing.SPACING_10
     },
-    buttonWrapper: {
-        marginHorizontal: Spacing.SPACING_7,
-        marginTop: Spacing.SPACING_4,
-        marginBottom: Spacing.SPACING_3,
-    },
     divider: {
         width:'100%',
         backgroundColor: Colors.LIGHT_GREY,
-        height: scaleSize(1),
-        marginVertical: Spacing.SPACING_4
+        marginVertical: Spacing.SPACING_3
     },
     smallButton: {
-        width: scaleSize(175),
+        width: scaleSize(225),
         alignSelf: 'center',
         height: scaleSize(35)
     },
     campaign: {
         height: scaleSize(170),
-        width: '100%',
+        paddingHorizontal: Spacing.SPACING_5,
         marginTop: Spacing.SPACING_5,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        borderRadius: scaleSize(5),
+        overflow: "hidden"
     },
     menuImage:{
         width:'50%',
         height: '100%',
+        borderTopLeftRadius: scaleSize(5),
+        borderBottomLeftRadius: scaleSize(5),
     },
     menuBackground: {
         backgroundColor: Colors.PRIMARY,
@@ -174,6 +232,64 @@ const styles = StyleSheet.create({
         height: '100%',
         justifyContent: 'center',
         alignItems: 'center',
+        borderTopRightRadius: scaleSize(5),
+        borderBottomRightRadius: scaleSize(5)
+    },
+    timeFor: {
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        fontSize: Typography.FONT_SIZE_14,
+        color: Colors.PRIMARY
+    },
+    reward: {
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontSize: Typography.FONT_SIZE_20,
+        fontWeight: "bold",
+        color: Colors.PRIMARY
+    },
+    hand: {
+        height: scaleSize(80),
+        width: scaleSize(130),
+        resizeMode: 'contain'
+    },
+    card: {
+        backgroundColor: '#F4F4F4',
+        borderRadius: scaleSize(5),
+        paddingTop: Spacing.SPACING_3,
+        paddingBottom: Spacing.SPACING_3,
+        flexDirection: 'row',
+        paddingRight: Spacing.SPACING_4,
+        paddingLeft: Spacing.SPACING_1,
+        marginHorizontal: Spacing.SPACING_5,
+        marginBottom: Spacing.SPACING_4,
+    },
+    tierCard: {
+        backgroundColor: '#87744a',
+        borderRadius: scaleSize(5),
+        paddingTop: Spacing.SPACING_3,
+        paddingBottom: Spacing.SPACING_3,
+        flexDirection: 'row',
+        paddingRight: Spacing.SPACING_4,
+        paddingLeft: Spacing.SPACING_1,
+        marginHorizontal: Spacing.SPACING_5,
+        marginBottom: Spacing.SPACING_3,
+    },
+    messageTitle: {
+        fontSize: Typography.FONT_SIZE_16,
+        color: Colors.PRIMARY,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+    },
+    messageDescription: {
+        fontSize: Typography.FONT_SIZE_14,
+        color: Colors.BLUE_GRAY,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        paddingBottom: Spacing.SPACING_2,
+    },
+    messageCard: {
+        height: scaleSize(200),
+        marginHorizontal: Spacing.SPACING_4,
+        padding: Spacing.SPACING_4,
+        backgroundColor: '#F4F4F4',
+        borderRadius: scaleSize(5)
     }
 })
 

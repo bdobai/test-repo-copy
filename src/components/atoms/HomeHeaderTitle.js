@@ -5,7 +5,8 @@ import { AuthStoreContext } from "_stores";
 import { Colors, Spacing, Typography } from "_styles";
 import EmailIcon from "_assets/images/account/email-icon.svg";
 import { scaleSize } from "_styles/mixins";
-import { isIphone } from "_utils/helpers";
+import { dateFormat, dateFormatLocal, isIphone } from "_utils/helpers";
+import dayjs from "dayjs";
 
 const HomeHeaderTitle = observer((props) => {
     const authStore = React.useContext(AuthStoreContext)
@@ -14,11 +15,19 @@ const HomeHeaderTitle = observer((props) => {
         props.onInbox()
     }
 
+    const getGreeting = () => {
+        const hours = dateFormatLocal(dayjs(Date.now()), 'HH')
+        if(hours <= 12)
+            return "Good Morning"
+        else if(hours <= 17)
+            return "Good Afternoon"
+        return "Good Evening"
+    }
+
     return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.contentWrapper, isIphone() ? {} : {marginTop: StatusBar.currentHeight}]}>
-                    <Text style={styles.name}>Hello {authStore.user.first_name}</Text>
-                    <Text style={styles.description}>Welcome to Costa Coffee Club</Text>
+                    <Text style={styles.name}>{`${getGreeting()} ${authStore.user.first_name}`}</Text>
                     <Pressable style={styles.icon} onPress={onInbox}>
                         <EmailIcon fill={'white'}/>
                     </Pressable>
@@ -36,19 +45,13 @@ const styles = StyleSheet.create({
     },
     contentWrapper: {
         paddingHorizontal: Spacing.SPACING_4,
-        paddingBottom: Spacing.SPACING_5,
+        paddingBottom: Spacing.SPACING_2,
         paddingTop: Spacing.SPACING_1,
     },
     name:{
         color: Colors.WHITE,
-        fontFamily:'ManusTrial',
-        fontSize: Typography.FONT_SIZE_30,
-
-    },
-    description: {
-        color: Colors.WHITE,
-        fontSize: Typography.FONT_SIZE_22,
-        fontFamily: Typography.FONT_SECONDARY_BOLD
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
+        fontSize: Typography.FONT_SIZE_26,
     },
     icon: {
         position: 'absolute',
