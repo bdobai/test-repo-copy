@@ -116,12 +116,11 @@ const HomeScreen = observer((props) => {
     }
 
     const renderTier = () => {
-        if(rewards?.tier?.current?.name)
+        if(rewards?.tier?.current?.name === 'Family Discount')
         return (
             <View style={styles.tierCard}>
                 <View style={{flex:1, justifyContent:'center', paddingLeft: Spacing.SPACING_3}}>
-                    <Text style={[styles.timeFor, { color: Colors.WHITE }]}>Tier:</Text>
-                    <Text style={[styles.reward, {color: Colors.WHITE}]}>{rewards?.tier?.current?.name}</Text>
+                    <Text style={[styles.reward, {color: Colors.WHITE}]}>{`Tier: ${rewards?.tier?.current?.name}`}</Text>
                 </View>
             </View>
         )
