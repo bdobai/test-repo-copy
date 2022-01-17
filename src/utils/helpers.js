@@ -155,3 +155,30 @@ export function cardFormat(value){
 }
 
 export const isIphone = () => Platform.OS === 'ios'
+
+export const formatTimeUTC = (value) => {
+    return dayjs.unix(value).utc().format('h:mm A')
+}
+
+export const dayStringFromNumber = (number) => {
+    switch (number){
+        case 1:
+            return 'MON'
+        case 2:
+            return 'TUE'
+        case 3:
+            return 'WED'
+        case 4:
+            return 'THU'
+        case 5:
+            return 'FRI'
+        case 6:
+            return 'SAT'
+        case 7:
+            return 'SUN'
+    }
+}
+
+export const createGoogleMapsUrl = (lat: string, long: string) => {
+    return `https://www.google.com/maps/dir//${lat},${long}/@${lat},${long},14z}`;
+};

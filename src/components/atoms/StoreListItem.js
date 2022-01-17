@@ -1,38 +1,33 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, Linking } from "react-native";
+import { View, Text, StyleSheet, Image, Linking, Pressable } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import openIcon from '_assets/images/stores/open.png';
 import closedIcon from '_assets/images/stores/closed.png';
 import { scaleSize } from "_styles/mixins";
 import Button from "_atoms/Button";
 import dayjs from "dayjs";
-import { dateFormat, dateFormatLocal } from "_utils/helpers";
+import { dateFormat, dateFormatLocal, formatTimeUTC } from "_utils/helpers";
 var utc = require('dayjs/plugin/utc')
 dayjs.extend(utc)
 
 const StoreListItem = (props) => {
-    console.log('props 123', props.item.store_hours.data);
     const renderIsOpen = () => {
         let day = dayjs().day();
         if(day === 0){
             day = 7;
         }
-        console.log('day',day);
         const dayOfWeek = props.item?.store_hours?.data?.find((item) => item.day_of_week === day)
         let until;
-        console.log('endtyime', dayOfWeek.end_time);
         if(dayOfWeek.end_time === 0){
             until = '24 Hours'
         }else {
-            // until = dateFormat(dayOfWeek.end_time, 'h:mm A')
-            until = dayjs.unix(dayOfWeek.end_time).utc().format('h:mm A')
+            until = `until ${formatTimeUTC(dayOfWeek.end_time)}`
         }
-        console.log('until', until);
         if(props.item.store_hours.is_open){
             return <View style={styles.openContainer}>
                 <Image source={openIcon} style={styles.icon}/>
                 <Text style={styles.openText}>OPEN</Text>
-                <Text style={styles.until}>{`until ${until}`}</Text>
+                <Text style={styles.until}>{`${until}`}</Text>
             </View>
         }
         return <View style={styles.openContainer}>
@@ -46,15 +41,17 @@ const StoreListItem = (props) => {
         return <Button type={'outlinePrimary'} square={true} text={props.item.vendor_attribute[0]?.label} onPress={() => Linking.openURL(props.item.vendor_attribute[0].link)}/>
     }
 
+    const onPress = () => props.onPress(props.item)
+
     return (
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={onPress}>
             <Text style={styles.text}>{props.item.name}</Text>
             <Text style={styles.text}>{props.item.city}</Text>
             <Text style={styles.text}>{props.item.address_line_1}</Text>
             <Text style={styles.distance}>{`${props.item.distance?.toFixed(2)}km`}</Text>
             {renderIsOpen()}
             {renderButton()}
-        </View>
+        </Pressable>
     )
 }
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { FlatList, Image, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import { AuthStoreContext } from '_stores'
 import { observer } from 'mobx-react-lite'
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
@@ -10,16 +10,26 @@ import Geolocation from '@react-native-community/geolocation';
 import StoreListItem from "_atoms/StoreListItem";
 import Spinner from "_atoms/Spinner";
 import { Colors, Spacing } from "_styles";
+import ActionSheet from "react-native-actions-sheet/index";
+import ArrowDown from "_assets/images/orders/arrow-down-orange.png";
+import OrderInfo from "_atoms/OrderInfo";
+import OrderDetailsCard from "_atoms/OrderDetailsCard";
+import StoreDetails from "_atoms/StoreDetails";
+import { createGoogleMapsUrl } from "_utils/helpers";
 
 const StoresScreen = observer((props) => {
     const { user } = React.useContext(AuthStoreContext)
     const [loading, setLoading] = useState(true)
     const [stores, setStores] = useState([]);
-    const [coords, setCoords] = useState(null);
+    const [currentStore, setCurrentStore] = useState(null);
+
+    const actionSheetRef = useRef();
+
 
     useEffect(() => {
         Geolocation.getCurrentPosition(info => {
-            getData(info.latitude, info.longitude)
+            console.debug('info', info);
+            getData(info.coords.latitude, info.coords.longitude)
         });
     },[])
 
@@ -32,8 +42,8 @@ const StoresScreen = observer((props) => {
                 distance: 30000,
                 unit: 'km',
                 limit: 999,
-                latitude: '46.771210',
-                longitude: '23.6139646',
+                latitude: lat?.toString(),
+                longitude: long?.toString(),
                 language: 1,
             },
             success: function (response) {
@@ -51,15 +61,30 @@ const StoresScreen = observer((props) => {
     const renderMarkers = () => {
         return (
             stores.map((item) => <Marker
-                key={item}
+                key={item.id}
                 coordinate={{
                     latitude: +item.latitude,
                     longitude: +item.longitude,
                 }}
+                onPress={() => onStoreDetails(item)}
             >
-                <Image source={markerIcon} style={{width: scaleSize(30), height: scaleSize(30)}}/>
+                <Image source={markerIcon} style={{width: scaleSize(40), height: scaleSize(40)}}/>
             </Marker>)
         )
+    }
+
+    const onStoreDetails = (store) => {
+        setCurrentStore(store);
+        actionSheetRef.current.setModalVisible(true);
+    }
+
+    const onDirections = async () => {
+        await Linking.openURL(
+            createGoogleMapsUrl(
+                currentStore.latitude,
+                currentStore.longitude,
+            ),
+        );
     }
 
     return (
@@ -80,12 +105,16 @@ const StoresScreen = observer((props) => {
             </MapView>
             {/*<Button type={'outlinePrimary'} square={true} size={'sm'} text={'Order Online'} bodyStyle={styles.smallButton} onPress={() => null}/>*/}
             <FlatList
-                data={stores.filter((item) => item.name === 'RAK HOSPITAL')}
-                renderItem={({ item }) => <StoreListItem item={item} />}
+                showsVerticalScrollIndicator={false}
+                data={stores}
+                renderItem={({ item }) => <StoreListItem item={item} onPress={onStoreDetails} />}
                 ListEmptyComponent={() => <Spinner color={Colors.PRIMARY} size={'large'}/>}
                 ItemSeparatorComponent={() => <View style={styles.divider}/>}
-                // contentContainerStyle={[styles.contentContainer, !stores?.length ? {flex:1, justifyContent:'center'} : {}]}
+                contentContainerStyle={[styles.contentContainer, !stores?.length ? {height: SCREEN_HEIGHT/3, justifyContent:'center'} : {}]}
             />
+            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
+                <StoreDetails store={currentStore} onDirections={onDirections}/>
+            </ActionSheet>
         </View>
     )
 })
@@ -105,7 +134,15 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         paddingBottom: Spacing.SPACING_5
-    }
+    },
+    actionSheet: {
+        borderRadius: 0,
+        height: SCREEN_HEIGHT/2,
+        borderTopWidth:1,
+        borderColor: Colors.BLUE_GRAY,
+        marginBottom:0,
+        paddingBottom:0,
+    },
 })
 
 export default StoresScreen
