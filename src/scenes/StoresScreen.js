@@ -28,7 +28,6 @@ const StoresScreen = observer((props) => {
 
     useEffect(() => {
         Geolocation.getCurrentPosition(info => {
-            console.debug('info', info);
             getData(info.coords.latitude, info.coords.longitude)
         });
     },[])
@@ -68,7 +67,7 @@ const StoresScreen = observer((props) => {
                 }}
                 onPress={() => onStoreDetails(item)}
             >
-                <Image source={markerIcon} style={{width: scaleSize(40), height: scaleSize(40)}}/>
+                <Image source={markerIcon} style={currentStore?.id === item.id ? styles.bigMarker : styles.smallMarker}/>
             </Marker>)
         )
     }
@@ -113,7 +112,7 @@ const StoresScreen = observer((props) => {
                 ItemSeparatorComponent={() => <View style={styles.divider}/>}
                 contentContainerStyle={[styles.contentContainer, !stores?.length ? {height: SCREEN_HEIGHT/3, justifyContent:'center'} : {}]}
             />
-            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
+            <ActionSheet onClose={() => setCurrentStore(null)} containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
                 <StoreDetails store={currentStore} onDirections={onDirections}/>
             </ActionSheet>
         </View>
@@ -144,6 +143,14 @@ const styles = StyleSheet.create({
         marginBottom:0,
         paddingBottom:0,
     },
+    smallMarker:{
+        width: scaleSize(40),
+        height: scaleSize(40)
+    },
+    bigMarker:{
+        width: scaleSize(50),
+        height:scaleSize(50)
+    }
 })
 
 export default StoresScreen
