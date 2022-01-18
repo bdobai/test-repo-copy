@@ -119,7 +119,7 @@ const HomeScreen = observer((props) => {
         if(rewards?.tier?.current?.name === 'Family Discount')
         return (
             <View style={styles.tierCard}>
-                <View style={{flex:1, justifyContent:'center', paddingLeft: Spacing.SPACING_3}}>
+                <View style={styles.rewardWrapper}>
                     <Text style={[styles.reward, {color: Colors.WHITE}]}>{`Tier: ${rewards?.tier?.current?.name}`}</Text>
                 </View>
             </View>
@@ -127,13 +127,13 @@ const HomeScreen = observer((props) => {
     }
 
     const renderReward = () => {
-        if(!rewards?.data[0].available) return;
+        if(!rewards?.data[0]?.available) return;
         return (
             <View style={styles.card}>
                 <Image source={giftHand} style={styles.hand}/>
-                <View style={{flex:1, justifyContent:'center', paddingLeft: Spacing.SPACING_3}}>
+                <View style={styles.rewardWrapper}>
                     <Text style={styles.timeFor}>Time for</Text>
-                    <Text style={styles.reward}>{rewards?.data[0].available} x {rewards?.data[0].name}!</Text>
+                    <Text style={styles.reward}>{rewards?.data[0]?.available} x {rewards?.data[0]?.name}!</Text>
                 </View>
             </View>
         )
@@ -144,7 +144,7 @@ const HomeScreen = observer((props) => {
         return (
             <Swiper
                 key={messages.length}
-                style={{height: scaleSize(200), marginBottom: Spacing.SPACING_8}}
+                style={styles.swiper}
                 autoplay={true}
                 autoplayTimeout={2.5}
                 loop={true}
@@ -289,7 +289,13 @@ const styles = StyleSheet.create({
         padding: Spacing.SPACING_4,
         backgroundColor: '#F4F4F4',
         borderRadius: scaleSize(5)
-    }
+    },
+    rewardWrapper: {
+        flex:1,
+        justifyContent:'center',
+        paddingLeft: Spacing.SPACING_3
+    },
+    swiper:{height: scaleSize(200), marginBottom: Spacing.SPACING_8}
 })
 
 export default HomeScreen
