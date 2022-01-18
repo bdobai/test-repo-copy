@@ -37,7 +37,7 @@ function ProgressBar(props) {
     // }, [])
 
     return (
-      <View style={[styles.background, {backgroundColor: props.color + '25'}, props.size === 'large' ? styles.backgroundLarge : null]}>
+      <View style={[styles.background, props.size === 'large' ? styles.backgroundLarge : null]}>
           <Animated.View style={[
               styles.bar,
               { backgroundColor: props.color, width: width + '%' },
@@ -64,11 +64,11 @@ const styles = StyleSheet.create({
         width: '100%',
         height: scaleSize(8),
         borderRadius: scaleSize(4),
-        padding: scaleSize(2)
+        backgroundColor: Colors.WHITE,
     },
     bar: {
-        height: scaleSize(4),
-        borderRadius: scaleSize(2),
+        height: scaleSize(8),
+        borderRadius: scaleSize(4),
     },
     backgroundLarge: {
         height: scaleSize(16),
