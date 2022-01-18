@@ -60,8 +60,8 @@ const StoresScreen = observer((props) => {
 
     const renderMarkers = () => {
         return (
-            stores.map((item) => <Marker
-                key={item.id}
+            stores.map((item, index) => <Marker
+                key={index}
                 coordinate={{
                     latitude: +item.latitude,
                     longitude: +item.longitude,
@@ -95,6 +95,7 @@ const StoresScreen = observer((props) => {
                     height: SCREEN_HEIGHT/2,
                 }}
                 provider={PROVIDER_DEFAULT}
+                tracksViewChanges={false}
                 initialRegion={{
                     latitude: 25.2048,
                     longitude: 55.2708,

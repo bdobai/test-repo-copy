@@ -25,8 +25,8 @@ const StoreDetails = (props) => {
     }
 
     const renderSchedule = () => {
-        return store.store_hours?.data?.map((item) => {
-            return <View style={styles.row}>
+        return store.store_hours?.data?.map((item, index) => {
+            return <View key={index.toString()} style={styles.row}>
                 <Text style={styles.day}>{dayStringFromNumber(item.day_of_week)}</Text>
                 {renderDaySchedule(item)}
             </View>
@@ -38,19 +38,23 @@ const StoreDetails = (props) => {
         return <Button type={'outlinePrimary'} square={true} text={store.vendor_attribute[0]?.label} onPress={() => Linking.openURL(store.vendor_attribute[0].link)}/>
     }
 
+    const onCall = () => Linking.openURL(`tel:${store.phone_number}`)
+    const onEmail = () => Linking.openURL(`mailto:${store.email_address}`)
+
+
     return(
-        <ScrollView style={styles.wrapper}>
+        <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <Text style={styles.name}>{store.name}</Text>
             <View style={styles.row}>
                 <Image source={MessageIcon} style={styles.icon}/>
-                <Text style={styles.sectionTitle}>CALL <Text style={{color: Colors.BLACK}}>{store.phone_number}</Text></Text>
+                <Text style={styles.sectionTitle}>CALL <Text onPress={onCall} style={{color: Colors.BLACK}}>{store.phone_number}</Text></Text>
             </View>
             <View style={styles.row}>
                 <View style={styles.icon}/>
                 <View style={[styles.row, {justifyContent:'space-between'}]}>
                     <View style={{marginRight: Spacing.SPACING_2}}>
                         <Text style={styles.sectionTitle}>EMAIL</Text>
-                        <Text style={styles.email}>{store.email_address}</Text>
+                        <Text onPress={onEmail} style={styles.email}>{store.email_address}</Text>
                     </View>
                     <Pressable onPress={props.onDirections} style={styles.directionsWrapper}>
                         <Text style={styles.directions}>Directions</Text>
@@ -127,6 +131,9 @@ const styles = StyleSheet.create({
         color: Colors.BLUE_GRAY,
         fontSize: Typography.FONT_SIZE_14,
         fontFamily: Typography.FONT_PRIMARY_REGULAR
+    },
+    contentContainer: {
+        paddingBottom: scaleSize(50),
     }
 })
 
