@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Image, Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, Linking, PermissionsAndroid, StyleSheet, Text, View } from "react-native";
 import { AuthStoreContext } from '_stores'
 import { observer } from 'mobx-react-lite'
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
-import markerIcon from '_assets/images/stores/custom-map-icon.png';
+import markerIcon from '_assets/images/stores/marker-new.png';
+import markerIconBig from '_assets/images/stores/marker-new-big.png';
 import Geolocation from '@react-native-community/geolocation';
 import StoreListItem from "_atoms/StoreListItem";
 import Spinner from "_atoms/Spinner";
-import { Colors, Spacing } from "_styles";
+import { Colors, Spacing, Typography } from "_styles";
 import ActionSheet from "react-native-actions-sheet/index";
-import ArrowDown from "_assets/images/orders/arrow-down-orange.png";
-import OrderInfo from "_atoms/OrderInfo";
-import OrderDetailsCard from "_atoms/OrderDetailsCard";
 import StoreDetails from "_atoms/StoreDetails";
-import { createGoogleMapsUrl } from "_utils/helpers";
+import { createGoogleMapsUrl, isIphone } from "_utils/helpers";
 
 const StoresScreen = observer((props) => {
     const { user } = React.useContext(AuthStoreContext)
@@ -27,34 +25,41 @@ const StoresScreen = observer((props) => {
 
 
     useEffect(() => {
-        Geolocation.getCurrentPosition(info => {
-            getData(info.coords.latitude, info.coords.longitude)
-        });
+        if(isIphone()) return getData()
+        PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((granted)=>{
+            if(granted === PermissionsAndroid.RESULTS.GRANTED){
+                getData()
+            }
+        })
     },[])
 
-    const getData = (lat, long) => {
-        setLoading(true);
-        request('/vendor/store/list.json', {
-            method: 'GET',
-            withToken: true,
-            data:{
-                distance: 30000,
-                unit: 'km',
-                limit: 999,
-                latitude: lat?.toString(),
-                longitude: long?.toString(),
-                language: 1,
-            },
-            success: function (response) {
-                console.debug('response', response.data);
-                setStores(response.data);
-                setLoading(false);
-            },
-            error: (error) => {
-                console.log('error', error.error)
-                setLoading(false);
-            }
-        });
+
+
+    const getData = () => {
+        Geolocation.getCurrentPosition(info => {
+            setLoading(true);
+            request('/vendor/store/list.json', {
+                method: 'GET',
+                withToken: true,
+                data: {
+                    distance: 30000,
+                    unit: 'km',
+                    limit: 999,
+                    latitude: info.coords.latitude.toString(),
+                    longitude: info.coords.longitude.toString(),
+                    language: 1,
+                },
+                success: function(response) {
+                    console.debug('response', response.data);
+                    setStores(response.data);
+                    setLoading(false);
+                },
+                error: (error) => {
+                    console.log('error', error.error)
+                    setLoading(false);
+                }
+            });
+        })
     }
 
     const renderMarkers = () => {
@@ -66,8 +71,9 @@ const StoresScreen = observer((props) => {
                     longitude: +item.longitude,
                 }}
                 onPress={() => onStoreDetails(item)}
+                image={currentStore?.id === item.id ? markerIconBig : markerIcon}
+                icon={currentStore?.id === item.id ? markerIconBig : markerIcon}
             >
-                <Image source={markerIcon} style={currentStore?.id === item.id ? styles.bigMarker : styles.smallMarker}/>
             </Marker>)
         )
     }
@@ -84,6 +90,15 @@ const StoresScreen = observer((props) => {
                 currentStore.longitude,
             ),
         );
+    }
+
+    const renderListEmptyComponent = () => {
+        if(loading) return <Spinner color={Colors.PRIMARY} size={'large'}/>
+        return (
+            <View>
+                <Text style={styles.emptyText}>No stores to show</Text>
+            </View>
+        )
     }
 
     return (
@@ -108,7 +123,7 @@ const StoresScreen = observer((props) => {
                 showsVerticalScrollIndicator={false}
                 data={stores}
                 renderItem={({ item }) => <StoreListItem item={item} onPress={onStoreDetails} />}
-                ListEmptyComponent={() => <Spinner color={Colors.PRIMARY} size={'large'}/>}
+                ListEmptyComponent={renderListEmptyComponent}
                 ItemSeparatorComponent={() => <View style={styles.divider}/>}
                 contentContainerStyle={[styles.contentContainer, !stores?.length ? {height: SCREEN_HEIGHT/3, justifyContent:'center'} : {}]}
             />
@@ -150,6 +165,12 @@ const styles = StyleSheet.create({
     bigMarker:{
         width: scaleSize(50),
         height:scaleSize(50)
+    },
+    emptyText: {
+        alignSelf: 'center',
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        color: Colors.PRIMARY,
+        fontSize: Typography.FONT_SIZE_16
     }
 })
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Linking, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image, Linking, Pressable, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import { observer } from 'mobx-react-lite'
 import { Colors, Spacing, Typography } from "_styles";
 import BeansCard from "_atoms/BeansCard";
@@ -116,6 +116,7 @@ const HomeScreen = observer((props) => {
     }
 
     const renderTier = () => {
+        console.log('reward', rewards?.tier)
         if(rewards?.tier?.current?.name === 'Family Discount')
         return (
             <View style={styles.tierCard}>
@@ -139,6 +140,10 @@ const HomeScreen = observer((props) => {
         )
     }
 
+    const onPressMessage = (item) => {
+        props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{item}})
+    }
+
     const renderMessages = () => {
         if(loadingMessages || !messages) return;
         return (
@@ -151,15 +156,15 @@ const HomeScreen = observer((props) => {
                 dotStyle={{bottom:-10}}
                 activeDotStyle={{bottom:-10, backgroundColor: Colors.PRIMARY}}
                 horizontal={true}
-                onIndexChanged={(value) =>setIndex(value)}
-                index={index}
+                // onIndexChanged={(value) =>setIndex(value)}
+                // index={index}
             >
-                {messages.map((item) => (<View key={item.message.title} style={styles.messageCard}>
+                {messages.map((item) => (<Pressable key={item.message.title} style={styles.messageCard} onPress={() => onPressMessage(item)}>
                     <Text style={styles.messageTitle}>{item.message.title}</Text>
                     <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
                     {/*{item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }*/}
                     <Image source={{ uri: 'https://pbs.twimg.com/media/E4TqORmUUAEr7Fk?format=jpg&name=4096x4096' }} style={{width: '100%', height: scaleSize(100)}}/>
-                </View>))}
+                </Pressable>))}
             </Swiper>
         )
     }

@@ -45,6 +45,9 @@ const StoreDetails = (props) => {
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
             <Text style={styles.name}>{store.name}</Text>
+                <Pressable onPress={props.onDirections} style={styles.directionsWrapper}>
+                    <Text style={styles.directions}>Directions</Text>
+                </Pressable>
             <View style={styles.row}>
                 <Image source={MessageIcon} style={styles.icon}/>
                 <Text style={styles.sectionTitle}>CALL <Text onPress={onCall} style={{color: Colors.BLACK}}>{store.phone_number}</Text></Text>
@@ -56,9 +59,6 @@ const StoreDetails = (props) => {
                         <Text style={styles.sectionTitle}>EMAIL</Text>
                         <Text onPress={onEmail} style={styles.email}>{store.email_address}</Text>
                     </View>
-                    <Pressable onPress={props.onDirections} style={styles.directionsWrapper}>
-                        <Text style={styles.directions}>Directions</Text>
-                    </Pressable>
                 </View>
             </View>
             <View style={styles.row}>
@@ -114,12 +114,11 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
         backgroundColor: Colors.PRIMARY,
-
     },
     directionsWrapper: {
-        borderRadius: scaleSize(24),
         overflow: 'hidden',
-        backgroundColor: 'blue'
+        borderRadius: scaleSize(24),
+        alignSelf:'flex-start',
     },
     day: {
         width: scaleSize(60),
