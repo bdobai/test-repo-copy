@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
         marginHorizontal: Spacing.SPACING_5,
         justifyContent: 'center',
         alignItems: 'center',
-        height: scaleSize(120),
         marginBottom: Spacing.SPACING_4,
     },
 })

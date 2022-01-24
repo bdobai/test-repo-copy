@@ -116,7 +116,6 @@ const HomeScreen = observer((props) => {
     }
 
     const renderTier = () => {
-        console.log('reward', rewards?.tier)
         if(rewards?.tier?.current?.name === 'Family Discount')
         return (
             <View style={styles.tierCard}>
@@ -251,8 +250,8 @@ const styles = StyleSheet.create({
         color: Colors.PRIMARY
     },
     hand: {
-        height: scaleSize(80),
-        width: scaleSize(130),
+        height: scaleSize(70),
+        width: scaleSize(110),
         resizeMode: 'contain'
     },
     card: {

@@ -43,7 +43,6 @@ const MessagesScreen = (props) => {
                 setLoading(false);
             },
             error: (error) => {
-                console.log('error', error.error)
                 setLoading(false);
             }
         });
