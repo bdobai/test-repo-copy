@@ -52,7 +52,7 @@ const StoreDetailsNew = (props) => {
         return <View style={styles.row}>
             <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
             <Text style={styles.closedText}>CLOSED: Opens </Text>
-            <Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store).day_of_week)} ${formatTimeUTC(getNextOpen(store).start_time)}`}</Text>
+            <Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store)?.day_of_week)} ${formatTimeUTC(getNextOpen(store)?.start_time)}`}</Text>
         </View>
     }
 
