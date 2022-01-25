@@ -102,7 +102,7 @@ const HomeScreen = observer((props) => {
     }
 
     const getBalance = () => {
-        if(!rewards?.balances?.length) return null;
+        if(!rewards?.balances?.length) return 0;
         const index = rewards?.balances?.findIndex((item) => item.id === 3);
         return rewards?.balances[index]?.balance;
     }
@@ -179,7 +179,7 @@ const HomeScreen = observer((props) => {
         <BeansCard balance={getBalance()}/>
         {renderReward()}
         {renderTier()}
-        <BarcodeCard barcode={barcode} loading={loadingBarcode}/>
+        {barcode && <BarcodeCard barcode={barcode} loading={loadingBarcode}/>}
         {renderMessages()}
         <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>

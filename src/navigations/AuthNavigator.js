@@ -4,16 +4,13 @@ import LoginScreen from '_scenes/auth/LoginScreen'
 import RegisterScreen from '_scenes/auth/RegisterScreen'
 import RegisterScreen_2 from '_scenes/auth/RegisterScreen_2'
 import VerificationScreen from '_scenes/auth/VerificationScreen'
-import { StyleSheet } from 'react-native'
 import RecoverScreen from '_scenes/auth/RecoverScreen'
 import ResetScreen from '_scenes/auth/ResetScreen'
-import { Colors, Typography } from "_styles";
+import { Colors } from "_styles";
 import LandingScreen from "_scenes/auth/LandingScreen";
 import BackButton from "_atoms/BackButton";
-import { scaleSize } from "_styles/mixins";
 import TermsScreen from "_scenes/account/TermsScreen";
 import PrivacyPolicyScreen from "_scenes/account/PrivacyPolicyScreen";
-import AccountValidationScreen from "_scenes/auth/AccountValidationScreen";
 import { navigationStyles } from "_styles/navigation";
 import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
 
@@ -38,7 +35,7 @@ function AuthNavigator (props) {
             <Stack.Screen name="Login" component={LoginScreen} options={authOptions}/>
             <Stack.Screen name="Register" component={RegisterScreen} options={authOptions}/>
             <Stack.Screen name="Register_2" component={RegisterScreen_2} options={authOptions}/>
-            <Stack.Screen name="Register_3" component={ConfirmSmsScreen} initialParams={{email:'eu'}} options={{
+            <Stack.Screen name="Register_3" component={ConfirmSmsScreen} options={{
                 ...authOptions,
                 headerLeft: () => <BackButton colors={Colors.WHITE}/>,
                 headerTitle: 'Account Validation',

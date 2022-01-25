@@ -89,7 +89,7 @@ const HistoryScreen = (props) => {
     const renderListEmptyComponent = () => {
         if(loading)
             return <Spinner color={Colors.PRIMARY}/>
-        return <View><Text>Nothing yet</Text></View>
+        return <View style={{alignSelf: 'center'}}><Text style={styles.title}>No orders yet</Text></View>
     }
 
     const renderItemSeparator = () => {

@@ -4,7 +4,6 @@ import Header from '_components/molecules/Header'
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import Button from '_atoms/Button'
-import { request } from '_utils/request'
 import { scaleSize } from '_styles/mixins'
 import InfoIcon from '_assets/images/account/info.svg'
 

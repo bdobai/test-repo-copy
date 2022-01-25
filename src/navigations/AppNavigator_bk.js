@@ -21,6 +21,7 @@ import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
 import AccountNavigator from "_navigations/AccountNavigator";
 import { navigationStyles } from "_styles/navigation";
 import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
+import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
 
 export const isReadyRef = React.createRef();
 
@@ -29,6 +30,7 @@ export const navigationRef = React.createRef();
 const Tab = createBottomTabNavigator()
 
 const RootStack = createStackNavigator()
+const Stack = createStackNavigator()
 
 const Tabs = () => (
   <Tab.Navigator sceneContainerStyle={navigationStyles.whiteCardStyle}
@@ -74,16 +76,28 @@ const Tabs = () => (
   </Tab.Navigator>
 )
 
+const ValidationNavigator = () => (
+    <Stack.Navigator screenOptions={{
+        cardStyle: navigationStyles.cardStyle,
+        headerShown: true,
+        headerTitle: 'Account Validation',
+        headerTitleStyle: navigationStyles.headerTitle,
+        headerStyle: navigationStyles.primaryHeader,
+    }}>
+        <Stack.Screen name={'ConfirmSms'} component={ConfirmSmsScreen}/>
+    </Stack.Navigator>
+)
+
 const AppNavigator = observer(() => {
     const authStore = React.useContext(AuthStoreContext)
-
+    console.log('authstore', authStore.userValidated);
     if (!authStore.userLoaded) {
         return <Spinner visible={true}/>
     }
     return (
       !authStore.user.id ?
         <AuthNavigator/>
-        : (
+        : !authStore.userValidated ? <ValidationNavigator/> : (
           <RootStack.Navigator>
               <RootStack.Screen name={'App'} component={Tabs} options={{
                   headerShown: false

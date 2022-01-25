@@ -42,7 +42,7 @@ const StoreDetailsNew = (props) => {
     }
 
     const renderIsOpen = () => {
-        if(store?.is_open) {
+        if(store?.store_hours.is_open) {
             return <View style={styles.row}>
                 <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
                 <Text style={styles.openText}>OPEN </Text>
@@ -77,9 +77,15 @@ const StoreDetailsNew = (props) => {
                     {renderSchedule()}
                 </View>
             </View>
-            <Pressable onPress={props.onDirections}>
-                <Text style={styles.directions}>Direction</Text>
-            </Pressable>
+            <Button 
+                onPress={props.onDirections}
+                text={'Direction'}
+                block={true}
+                type={'primary'}
+                square={true}
+                bodyStyle={styles.bodyStyle}
+                textStyle={styles.textStyle}
+            />
             {renderButton()}
         </ScrollView>
     )
@@ -124,9 +130,15 @@ const styles = StyleSheet.create({
     directions: {
         paddingVertical: Spacing.SPACING_1,
         paddingHorizontal: Spacing.SPACING_2,
-        color: Colors.PRIMARY,
+        color: Colors.WHITE,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
+        backgroundColor: Colors.PRIMARY,
+    },
+    directionsWrapper: {
+        overflow: 'hidden',
+        borderRadius: scaleSize(24),
+        alignSelf:'flex-start',
     },
     day: {
         width: scaleSize(60),
@@ -152,6 +164,8 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_14,
     },
+    bodyStyle:{marginBottom: Spacing.SPACING_4},
+    textStyle:{fontFamily: Typography.FONT_PRIMARY_BOLD}
 })
 
 export default StoreDetailsNew;

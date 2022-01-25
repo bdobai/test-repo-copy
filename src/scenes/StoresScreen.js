@@ -5,6 +5,8 @@ import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import markerIcon from '_assets/images/stores/marker-new.png';
 import markerIconBig from '_assets/images/stores/marker-new-big.png';
+import searchIcon from '_assets/images/stores/search.png';
+import filterIcon from '_assets/images/stores/filter.png';
 import Geolocation from "react-native-geolocation-service";
 import { Colors, Spacing, Typography } from "_styles";
 import ActionSheet from "react-native-actions-sheet/index";
@@ -162,15 +164,27 @@ const StoresScreen = (props) => {
         return mapRef.current.animateToCoordinate({latitude: locationDetails.geometry.location.lat, longitude: locationDetails.geometry.location.lng})
     }
 
+    const renderSearchButton = () => {
+        return (
+            <View style={styles.searchWrapper}>
+                <Image source={searchIcon} style={styles.search} resizeMode={'contain'}/>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.inputWrapper}>
+                <View style={[styles.searchWrapper, styles.filterWrapper]}>
+                    <Image source={filterIcon} style={styles.search} resizeMode={'contain'}/>
+                </View>
                 <GooglePlacesAutocomplete
                     placeholder='Search by street, city etc'
                     fetchDetails={true}
                     textInputProps={{
-                        placeholderTextColor: Colors.BLUE_GRAY
+                        placeholderTextColor: Colors.BLUE_GRAY,
                     }}
+                    renderRightButton={renderSearchButton}
                     onPress={(data, details = null) => {
                         goToLocation(details)
                     }}
@@ -179,9 +193,7 @@ const StoresScreen = (props) => {
                         language: 'en',
                     }}
                     styles={{
-                        textInput: {
-                            color: Colors.BLACK,
-                        },
+                        textInput: styles.textInput
                     }}
                 />
             </View>
@@ -247,14 +259,6 @@ const styles = StyleSheet.create({
         marginBottom:0,
         paddingBottom:0,
     },
-    smallMarker:{
-        width: scaleSize(40),
-        height: scaleSize(40)
-    },
-    bigMarker:{
-        width: scaleSize(50),
-        height:scaleSize(50)
-    },
     emptyText: {
         alignSelf: 'center',
         fontFamily: Typography.FONT_PRIMARY_BOLD,
@@ -280,8 +284,10 @@ const styles = StyleSheet.create({
         top: scaleSize(60),
         paddingHorizontal: Spacing.SPACING_4,
         zIndex:20,
-        left:0, right:0,
+        left:0,
+        right:0,
         position:'absolute',
+        flexDirection: 'row',
     },
     overlay: {
         position: 'absolute',
@@ -292,7 +298,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)'
-    }
+    },
+    searchWrapper:{
+        backgroundColor: Colors.PRIMARY,
+        width: scaleSize(63),
+        height: scaleSize(44),
+        borderTopRightRadius: scaleSize(22),
+        borderBottomRightRadius: scaleSize(22),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    search: {
+        width: scaleSize(20),
+        height: scaleSize(20),
+    },
+    filterWrapper:{
+        borderRadius: scaleSize(22),
+        marginRight: Spacing.SPACING_5
+    },
+    textInput:{
+        color: Colors.BLACK,
+        borderTopLeftRadius: scaleSize(22),
+        borderBottomLeftRadius: scaleSize(22),
+        borderBottomRightRadius: 0,
+        borderTopRightRadius: 0,
+        height: scaleSize(44)
+    },
 })
 
 export default StoresScreen
