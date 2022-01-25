@@ -40,7 +40,7 @@ function AccountNavigator () {
           <Stack.Screen name="AccountSettings.Contact" component={ContactScreen}/>
           <Stack.Screen name="AccountSettings.Terms" component={TermsScreen} options={{title: 'TERMS OF SERVICE'}}/>
           <Stack.Screen name="AccountSettings.PrivacyPolicy" component={PrivacyPolicyScreen} options={{title: 'PRIVACY POLICY'}}/>
-          <Stack.Screen name="AccountSettings.Faq" component={FaqScreen}/>
+          <Stack.Screen name="AccountSettings.FAQ" component={FaqScreen} options={{title: 'FAQ'}}/>
 
           <Stack.Screen name="AccountSettings.AddCreditCard" component={AddCreditCardScreen} options={{title: 'New Credit Card'}}/>
           <Stack.Screen name="AccountSettings.NewPassword" component={NewPasswordScreen} options={{title:'Personal Information'}}/>

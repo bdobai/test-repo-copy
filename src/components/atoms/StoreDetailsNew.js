@@ -77,7 +77,7 @@ const StoreDetailsNew = (props) => {
                     {renderSchedule()}
                 </View>
             </View>
-            <Button 
+            <Button
                 onPress={props.onDirections}
                 text={'Direction'}
                 block={true}
