@@ -18,9 +18,9 @@ const MessagesDetailsScreen = (props) => {
             method: 'PUT',
             withToken: true,
             data:{
-                read: false, // false for add
-                status_id: 1, // 1 for add, 4 for remove
-                user_message: 6970// message.user_message_id, // 47 or 6970 for demo@spoonity.com
+                read: true, // false for add
+                status_id: 4, // 1 for add, 4 for remove
+                user_message: message.user_message_id, // 47 or 6970 for demo@spoonity.com
             },
             success: function () {
                 setLoading(false);
