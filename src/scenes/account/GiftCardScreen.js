@@ -39,7 +39,6 @@ const GiftCardScreen = (props) => {
             data:{},
             withToken: true,
             success: function (response) {
-                console.debug('cards',cards);
                 setCards([...response.data])
             },
             error: (e) => {

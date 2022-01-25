@@ -155,3 +155,72 @@ export function cardFormat(value){
 }
 
 export const isIphone = () => Platform.OS === 'ios'
+
+export const formatTimeUTC = (value) => {
+    if(!value) return '';
+    return dayjs.unix(value).utc().format('h:mm A')
+}
+
+export const dayStringFromNumber = (number) => {
+    if(!number) return '';
+    switch (number){
+        case 1:
+            return 'MON'
+        case 2:
+            return 'TUE'
+        case 3:
+            return 'WED'
+        case 4:
+            return 'THU'
+        case 5:
+            return 'FRI'
+        case 6:
+            return 'SAT'
+        case 7:
+            return 'SUN'
+    }
+}
+
+export const createGoogleMapsUrl = (lat: string, long: string) => {
+    return `https://www.google.com/maps/dir//${lat},${long}/@${lat},${long},14z}`;
+};
+
+const getDayOfWeek = (item) => {
+    let day = dayjs().day();
+    if(day === 0){
+        day = 7;
+    }
+    const dayOfWeek = item?.store_hours?.data?.find((item) => item.day_of_week === day)
+    return dayOfWeek
+}
+
+export const getOpenUntil = (item) => {
+    const dayOfWeek = getDayOfWeek(item)
+    let until;
+    if(dayOfWeek.end_time === 0){
+        until = '24 Hours'
+    }else {
+        until = `until ${formatTimeUTC(dayOfWeek.end_time)}`
+    }
+    return until
+}
+
+export const getNextOpen = (item) => {
+    let day = dayjs().day();
+    if(day === 0){
+        day = 7;
+    }
+    const currentDayIndex = item?.store_hours?.data?.findIndex((item) => item.day_of_week === day)
+    let next = null;
+    let previous = null;
+    item?.store_hours?.data.forEach((item, index) => {
+        if(!next && !!item.start_time && index > currentDayIndex){
+            next = item
+        } else if(!previous && !!item.start_time && index < currentDayIndex){
+            previous = item
+        }
+    })
+    if(next) return next
+    if(previous) return previous
+    return null
+}
