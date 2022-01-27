@@ -257,8 +257,6 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#F4F4F4',
         borderRadius: scaleSize(5),
-        paddingTop: Spacing.SPACING_3,
-        paddingBottom: Spacing.SPACING_3,
         flexDirection: 'row',
         paddingRight: Spacing.SPACING_4,
         paddingLeft: Spacing.SPACING_1,

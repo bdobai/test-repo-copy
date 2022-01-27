@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         height: scaleSize(75),
     },
     barcodeCard: {
-        backgroundColor: '#FAFAFA',
         marginHorizontal: Spacing.SPACING_5,
         justifyContent: 'center',
         alignItems: 'center',
