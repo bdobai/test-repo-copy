@@ -5,6 +5,7 @@ import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import markerIcon from '_assets/images/stores/marker-new.png';
 import markerIconBig from '_assets/images/stores/marker-new-big.png';
+import markerIconSmall from '_assets/images/stores/marker-new-small.png';
 import searchIcon from '_assets/images/stores/search.png';
 import filterIcon from '_assets/images/stores/filter.png';
 import Geolocation from "react-native-geolocation-service";
@@ -109,7 +110,7 @@ const StoresScreen = (props) => {
                     longitude: +item.longitude,
                 }}
                 onPress={() => onStoreBasic(item)}
-                image={currentStore?.id === item.id ? markerIconBig : markerIcon}
+                image={markerIconSmall}
             >
             </Marker>)
         )
