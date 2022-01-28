@@ -68,96 +68,12 @@ const Index: () => React$Node = observer(() => {
         if (!parts[1]) {
             return;
         }
-
-        const path = parts[1].replace('/share', '').replace('portal.chapplabs.com/', '');
-        if(!path) {
-            return;
-        }
-        if (path === 'events') {
-            navigationRef.current.navigate('Modal', {screen: 'Browse.Events'})
-        }
-        if (path === 'fundraisers') {
-            navigationRef.current.navigate('Modal', {screen: 'Browse.Fundraisers'})
-        }
-        if (path === 'organizations') {
-            navigationRef.current.navigate('Modal', {screen: 'Browse.Organizations'})
-        }
-        if (path === 'donors') {
-            navigationRef.current.navigate('Social')
-        }
-        let match = null;
-        match = path.match(/events\/(.*)/)
-        if(match && match.length > 0) {
-            navigationRef.current.navigate('Modal', {screen: 'Event', params: {event_id: match[1]}})
-        }
-        match = path.match(/fundraisers\/(.*)/)
-        if(match && match.length > 0) {
-            navigationRef.current.navigate('Modal', {screen: 'Fundraiser', params: {fundraiser_id: match[1]}})
-        }
-        match = path.match(/organizations\/(.*)/)
-        if(match && match.length > 0) {
-            navigationRef.current.navigate('Modal', {screen: 'Organization', params: {organization_id: match[1]}})
-        }
-        match = path.match(/donors\/(.*)/)
-        if(match && match.length > 0) {
-            navigationRef.current.navigate('Modal', {screen: 'DonorDetails', params: {donor_id: match[1]}})
-        }
-
-        if (path.indexOf('register') > -1) {
-            const params = parse_query_string(path)
-            let route_params = {}
-            if(params && params.email) {
-                route_params = {
-                    email: params.email
-                }
-            }
-            navigationRef.current.navigate('Register', route_params)
-        }
-
     }
 
     const onOpenNotification = (notification) => {
         console.log({notification})
         if (!notification.additionalData) {
             return;
-        }
-
-        if (!isReadyRef.current || !navigationRef.current || !navigationRef.current.getRootState() ||!authStore.userLoaded) {
-            setTimeout(() => {
-                onOpenNotification(notification)
-            }, 1000)
-            return;
-        }
-
-        switch (notification.additionalData.type) {
-            case 'SHOW_TICKET':
-                if (notification.additionalData.ticket_id) {
-                    navigationRef.current.navigate('AccountSettings', {screen: 'AccountSettings.TicketDetails', params: {ticket_id: notification.additionalData.ticket_id}})
-                }else if (notification.additionalData.ticket) {
-                    navigationRef.current.navigate('AccountSettings', {screen: 'AccountSettings.TicketDetails', params: {ticket: notification.additionalData.ticket}})
-                }
-                break;
-            case 'SHOW_EVENT':
-                if (notification.additionalData.event_id) {
-                    navigationRef.current.navigate('Modal', {screen: 'Event', params: {event_id: notification.additionalData.event_id}})
-                }else if (notification.additionalData.event) {
-                    navigationRef.current.navigate('Modal', {screen: 'Event', params: {event: notification.additionalData.event}})
-                }
-                break;
-            case 'SHOW_FUNDRAISER':
-                if (notification.additionalData.fundraiser_id) {
-                    navigationRef.current.navigate('Modal', {screen: 'Fundraiser', params: {fundraiser_id: notification.additionalData.fundraiser_id}})
-                }else if (notification.additionalData.fundraiser) {
-                    navigationRef.current.navigate('Modal', {screen: 'Fundraiser', params: {fundraiser: notification.additionalData.fundraiser}})
-                }
-                break;
-            case 'SHOW_ORGANIZATION':
-                if (notification.additionalData.organization_id) {
-                    navigationRef.current.navigate('Modal', {screen: 'Organization', params: {organization_id: notification.additionalData.organization_id}})
-                }else if (notification.additionalData.organization) {
-                    navigationRef.current.navigate('Modal', {screen: 'Organization', params: {organization: notification.additionalData.organization}})
-                }
-                break;
         }
     }
 
