@@ -56,9 +56,9 @@ class Button extends Component {
         if (this.props.disabled) {
             styles = [styles, base_styles.disabledBody]
         }
-        if(this.props.square) {
-            styles = [styles, base_styles.square]
-        }
+        // if(this.props.square) {
+        //     styles = [styles, base_styles.square]
+        // }
 
         return styles
     }
@@ -80,18 +80,18 @@ class Button extends Component {
         if (this.props.disabled) {
             styles = [styles, base_styles.disabledBody]
         }
-        if(this.props.square) {
-            styles = [styles, base_styles.square]
-        }
+        // if(this.props.square) {
+        //     styles = [styles, base_styles. ]
+        // }
 
         return styles
     }
 
     getLoadingStyle () {
         let styles = base_styles.defaultLoading;
-        if(this.props.square) {
-            styles = [styles, base_styles.square]
-        }
+        // if(this.props.square) {
+        //     styles = [styles, base_styles.square]
+        // }
         // if (this.props.type && base_styles[this.props.type + 'Body']){
         //     styles = [styles, base_styles[this.props.type + 'Body']];
         // }

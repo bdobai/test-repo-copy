@@ -42,7 +42,7 @@ const StoreListItemNew = (props) => {
                         {renderIsOpen()}
                     </View>
                 </View>
-                <RightChevron width={scaleSize(20)} height={scaleSize(20)} fill={Colors.PRIMARY}/>
+                {/*<RightChevron width={scaleSize(20)} height={scaleSize(20)} fill={Colors.PRIMARY}/>*/}
             </View>
             {renderButton()}
         </Pressable>
@@ -51,7 +51,7 @@ const StoreListItemNew = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: Spacing.SPACING_3,
+        paddingTop: Spacing.SPACING_3,
         paddingHorizontal: Spacing.SPACING_4,
     },
     contentWrapper: {

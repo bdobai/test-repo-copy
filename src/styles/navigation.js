@@ -13,13 +13,13 @@ export const navigationStyles = StyleSheet.create({
         borderWidth:0,
         elevation:0,
         shadowColor: Colors.WHITE,
-        height: scaleSize(112),
+        height: scaleSize(100),
     },
     primaryHeader: {
         backgroundColor:Colors.PRIMARY,
         borderColor: Colors.PRIMARY,
         shadowColor: Colors.PRIMARY,
-        height: scaleSize(112),
+        height: scaleSize(100),
     },
     headerTitle: {
         textTransform:'uppercase',

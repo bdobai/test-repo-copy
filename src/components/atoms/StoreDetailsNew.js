@@ -45,31 +45,31 @@ const StoreDetailsNew = (props) => {
         if(store?.store_hours.is_open) {
             return <View style={styles.row}>
                 <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
-                <Text style={styles.openText}>OPEN </Text>
-                <Text style={styles.distance}>{getOpenUntil(store)}</Text>
+                <Text style={styles.openText}>SCHEDULE </Text>
+                {/*<Text style={styles.distance}>{getOpenUntil(store)}</Text>*/}
             </View>
         }
-        return <View style={styles.row}>
+        return <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
             <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
-            <Text style={styles.closedText}>CLOSED: Opens </Text>
-            <Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store)?.day_of_week)} ${formatTimeUTC(getNextOpen(store)?.start_time)}`}</Text>
+            <Text style={styles.closedText}>SCHEDULE </Text>
+            {/*<Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store)?.day_of_week)} ${formatTimeUTC(getNextOpen(store)?.start_time)}`}</Text>*/}
         </View>
     }
 
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            <View style={styles.row}>
-                <Image source={markerIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text numberOfLines={2} style={styles.name}>{store.name}</Text>
-            </View>
-            <View style={styles.row}>
-                <Image source={pinIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text style={styles.address}>{`${store.city} ${store.address_line_1}`}</Text>
-            </View>
-            <View style={styles.row}>
-                <Image source={personIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text style={styles.distance}>{`${store.distance.toFixed(2)} km`}</Text>
-            </View>
+            {/*<View style={styles.row}>*/}
+            {/*    <Image source={markerIcon} style={styles.icon} resizeMode={'contain'}/>*/}
+            {/*    <Text numberOfLines={2} style={styles.name}>{store.name}</Text>*/}
+            {/*</View>*/}
+            {/*<View style={styles.row}>*/}
+            {/*    <Image source={pinIcon} style={styles.icon} resizeMode={'contain'}/>*/}
+            {/*    <Text style={styles.address}>{`${store.city} ${store.address_line_1}`}</Text>*/}
+            {/*</View>*/}
+            {/*<View style={styles.row}>*/}
+            {/*    <Image source={personIcon} style={styles.icon} resizeMode={'contain'}/>*/}
+            {/*    <Text style={styles.distance}>{`${store.distance.toFixed(2)} km`}</Text>*/}
+            {/*</View>*/}
             {renderIsOpen()}
             <View style={styles.row}>
                 <View style={styles.icon}/>
@@ -77,6 +77,7 @@ const StoreDetailsNew = (props) => {
                     {renderSchedule()}
                 </View>
             </View>
+            <View style={{paddingHorizontal: Spacing.SPACING_4}}>
             <Button
                 onPress={props.onDirections}
                 text={'Direction'}
@@ -86,6 +87,7 @@ const StoreDetailsNew = (props) => {
                 bodyStyle={styles.bodyStyle}
                 textStyle={styles.textStyle}
             />
+            </View>
             {renderButton()}
         </ScrollView>
     )
@@ -93,7 +95,7 @@ const StoreDetailsNew = (props) => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        paddingHorizontal: Spacing.SPACING_4,
+        // paddingHorizontal: Spacing.SPACING_4,
         paddingTop: Spacing.SPACING_4,
     },
     name: {

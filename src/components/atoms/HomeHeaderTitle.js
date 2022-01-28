@@ -42,10 +42,11 @@ export default HomeHeaderTitle
 const styles = StyleSheet.create({
     container:{
         backgroundColor: Colors.PRIMARY,
+        height: scaleSize(100),
     },
     contentWrapper: {
         paddingHorizontal: Spacing.SPACING_4,
-        paddingBottom: Spacing.SPACING_2,
+        paddingBottom: Spacing.SPACING_1,
         paddingTop: Spacing.SPACING_1,
     },
     name:{
