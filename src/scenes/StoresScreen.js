@@ -25,6 +25,8 @@ const StoresScreen = (props) => {
     const [filteredStores, setFilteredStores] = useState([]);
     const [currentStore, setCurrentStore] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [availability, setAvailability] = useState(false)
+    const [onlineOrdering, setOnlineOrdering] = useState(false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
 
     const actionSheetRef = useRef();
@@ -162,11 +164,18 @@ const StoresScreen = (props) => {
     }
 
     const goToCurrentLocation = () => {
-        return mapRef.current.animateToCoordinate(coords)
+        return mapRef.current.animateToRegion({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        })
     }
 
     const goToLocation = (locationDetails) => {
-        return mapRef.current.animateToCoordinate({latitude: locationDetails.geometry.location.lat, longitude: locationDetails.geometry.location.lng})
+        return mapRef.current.fitToCoordinates(// {center:{
+            [{latitude: locationDetails.geometry.viewport.northeast.lat, longitude: locationDetails.geometry.viewport.northeast.lng.toString()},
+                {latitude: locationDetails.geometry.viewport.southwest.lat, longitude: locationDetails.geometry.viewport.southwest.lng.toString()}])
     }
 
     const renderSearchButton = () => {
@@ -183,30 +192,33 @@ const StoresScreen = (props) => {
 
     const onSaveFilters = (availability, onlineOrdering) => {
         let filteredStores = [...stores];
-        if(availability === 'open'){
+        if(availability === true){
             filteredStores = filteredStores.filter((item) => item.store_hours.is_open === true)
         }
-        if(availability === 'closed') {
-            filteredStores = filteredStores.filter((item) => !item.store_hours.is_open)
-        }
-        if(onlineOrdering === 'online') {
+        if(onlineOrdering === true) {
             filteredStores = filteredStores.filter((item) => !!item.vendor_attribute?.length && !!item.vendor_attribute[0].link)
         }
         setFilteredStores([...filteredStores]);
+        setAvailability(availability);
+        setOnlineOrdering(onlineOrdering)
+        filtersActionSheetRef.current.setModalVisible(false);
     }
 
     const onClearFilters = () => {
         setFilteredStores([...stores]);
+        setAvailability(false);
+        setOnlineOrdering(false);
+        filtersActionSheetRef.current.setModalVisible(false)
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.inputWrapper}>
-                <View style={[styles.searchWrapper, styles.filterWrapper]}>
-                    <Pressable onPress={onFilters}>
+                <Pressable onPress={onFilters}>
+                    <View style={[styles.searchWrapper, styles.filterWrapper]}>
                         <Image source={filterIcon} style={styles.search} resizeMode={'contain'}/>
-                    </Pressable>
-                </View>
+                    </View>
+                </Pressable>
                 <GooglePlacesAutocomplete
                     placeholder='Search by street, city etc'
                     fetchDetails={true}
@@ -261,7 +273,7 @@ const StoresScreen = (props) => {
                 safeAreaInnerHeight={0}
                 gestureEnabled={true}
                 indicatorColor={'#404042'}
-                initialOffsetFromBottom={0.2}
+                initialOffsetFromBottom={0.25}
             >
                 {/*{!showDetails ? <StoreListItemNew item={currentStore} onPress={onStoreDetails}/> : <StoreDetailsNew store={currentStore} onDirections={onDirections}/>}*/}
                 <>
@@ -270,7 +282,7 @@ const StoresScreen = (props) => {
                 </>
             </ActionSheet>
             <ActionSheet containerStyle={styles.actionSheet} ref={filtersActionSheetRef} safeAreaInnerHeight={0}>
-                <StoresFilters onSave={onSaveFilters} onClear={onClearFilters}/>
+                <StoresFilters onSave={onSaveFilters} onClear={onClearFilters} availability={availability} onlineOrdering={onlineOrdering}/>
             </ActionSheet>
         </View>
     )

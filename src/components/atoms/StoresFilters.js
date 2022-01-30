@@ -1,12 +1,12 @@
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Pressable } from "react-native";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { Colors, Spacing, Typography } from "_styles";
 import Button from "_atoms/Button";
 import CheckBox from "_atoms/CheckBox";
 
 const StoresFilters = forwardRef((props, ref) => {
-    const [availability, setAvailability] = useState(false)
-    const [onlineOrdering, setOnlineOrdering] = useState(false)
+    const [availability, setAvailability] = useState(props.availability || false)
+    const [onlineOrdering, setOnlineOrdering] = useState(props.onlineOrdering || false)
 
     useImperativeHandle(ref, () => ({
         getData () {
@@ -29,14 +29,22 @@ const StoresFilters = forwardRef((props, ref) => {
         setOnlineOrdering(!onlineOrdering);
     }
 
+    const onClearFilters = () => {
+        setAvailability(false);
+        setOnlineOrdering(false);
+        props.onClear();
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.row}>
                 <Text style={styles.title}>Filters</Text>
-                <Text style={styles.clearAll}>Clear All</Text>
+                <Pressable onPress={onClearFilters}>
+                    <Text style={styles.clearAll}>Clear All</Text>
+                </Pressable>
             </View>
             <CheckBox
-                checked={true}
+                checked={availability}
                 type={'square'}
                 label={'Open now'}
                 style={{borderColor: Colors.BLACK}}
@@ -44,6 +52,7 @@ const StoresFilters = forwardRef((props, ref) => {
                 onPress={onPressOpen}
             />
             <CheckBox
+                checked={onlineOrdering}
                 type={'square'}
                 label={'Accepting online order'}
                 style={{borderColor: Colors.BLACK}}
