@@ -111,7 +111,6 @@ const GiftCardScreen = (props) => {
 
     const renderCostaCards = () => {
         return cards.map((item) => {
-            console.debug('item, item', item);
             return (
                 <GiftCard
                     key={item.id}

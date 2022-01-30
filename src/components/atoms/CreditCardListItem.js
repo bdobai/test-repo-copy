@@ -15,7 +15,6 @@ const CARD_HEIGHT = scaleSize(35)
 const CreditCardListItem = (props) => {
 
     const renderCardIcon = () => {
-        console.log('master', props.item.type)
         switch (props.item.type){
             case 'MasterCard':
                 return <MasterCard style={styles.card} width={CARD_WIDTH} height={CARD_HEIGHT}/>
@@ -23,6 +22,8 @@ const CreditCardListItem = (props) => {
                 return <VisaCard style={styles.card} width={CARD_WIDTH} height={CARD_HEIGHT}/>
             case 'American Express':
                 return <AmexCard style={styles.card} width={CARD_WIDTH} height={CARD_HEIGHT}/>
+            default:
+                return <MasterCard style={styles.card} width={CARD_WIDTH} height={CARD_HEIGHT}/>
 
         }
     }

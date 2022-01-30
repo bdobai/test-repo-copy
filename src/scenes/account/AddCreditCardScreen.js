@@ -12,7 +12,6 @@ import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
-import { AuthStoreContext } from '_stores'
 import { monthValidator, requiredValidation, yearValidator } from "_utils/validators";
 import { request } from '_utils/request'
 import SectionTitle from '_atoms/SectionTitle';
@@ -53,13 +52,14 @@ const AddCreditCardScreen = (props) => {
     }
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={styles.screen}>
-        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(120) }}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1, paddingBottom: scaleSize(40) }}>
             <Container style={ styles.container }>
                 <SectionTitle textStyle={styles.title}>Personal New Credit Card</SectionTitle>
                 <Controller
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
+                            round={true}
                             autoCorrect={false}
                             onBlur={onBlur}
                             onChangeText={value => onChange(value)}
@@ -68,7 +68,7 @@ const AddCreditCardScreen = (props) => {
                             ref={ref}
                             error={formState.errors.name?.message}
                             placeholder='Cardholder name'
-                            label='CARDHOLDER NAME'/>
+                            label='Cardholder name'/>
                     )}
                     name="name"
                     rules={{ required: 'First name is required', pattern: requiredValidation}}
@@ -78,6 +78,7 @@ const AddCreditCardScreen = (props) => {
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
+                            round={true}
                             autoCorrect={false}
                             autoCapitalize={'none'}
                             onBlur={onBlur}
@@ -89,7 +90,7 @@ const AddCreditCardScreen = (props) => {
                             error={formState.errors.number?.message}
                             maxLength={16}
                             placeholder='Card number'
-                            label='CARD NUMBER'/>
+                            label='Card number'/>
                     )}
                     name="number"
                     rules={{ required: 'Card number is required', pattern: requiredValidation}}
@@ -99,6 +100,7 @@ const AddCreditCardScreen = (props) => {
                     control={control}
                     render={({ field: { ref, onChange, onBlur, value } }) => (
                         <TextField
+                            round={true}
                             autoCorrect={false}
                             autoCapitalize={'none'}
                             onBlur={onBlur}
@@ -107,9 +109,11 @@ const AddCreditCardScreen = (props) => {
                             rightAccessory={() => <Pressable disabled={true} style={{justifyContent:'center'}}><Text style={styles.cvv}>CVV</Text></Pressable>}
                             ref={ref}
                             maxLength={4}
+                            keyboardType={'phone-pad'}
                             error={formState.errors.cvv?.message}
+                            placeholder='Security code'
                             onSubmitEditing={() => setFocus('month')}
-                            label='SECURITY CODE'/>
+                            label='Security code'/>
                     )}
                     name="cvv"
                     rules={{required: true}}
@@ -120,6 +124,7 @@ const AddCreditCardScreen = (props) => {
                         control={control}
                         render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
+                                round={true}
                                 styleInput={{width:'47%'}}
                                 autoCorrect={false}
                                 onBlur={onBlur}
@@ -130,7 +135,8 @@ const AddCreditCardScreen = (props) => {
                                 maxLength={2}
                                 error={formState.errors.month?.message}
                                 placeholder='MM'
-                                label='EXPIRATION DATE'/>
+                                keyboardType={'phone-pad'}
+                                label='Expiration date'/>
                         )}
                         name="month"
                         rules={{ required: 'First name is required', pattern: monthValidator}}
@@ -139,6 +145,7 @@ const AddCreditCardScreen = (props) => {
                         control={control}
                         render={({ field: { ref, onChange, onBlur, value } }) => (
                             <TextField
+                                round={true}
                                 styleInput={{width:'47%'}}
                                 autoCorrect={false}
                                 onBlur={onBlur}
@@ -149,6 +156,7 @@ const AddCreditCardScreen = (props) => {
                                 ref={ref}
                                 error={formState.errors.year?.message}
                                 placeholder='YYYY'
+                                keyboardType={'phone-pad'}
                                 label=' '/>
                         )}
                         name="year"
@@ -156,21 +164,21 @@ const AddCreditCardScreen = (props) => {
                     />
                 </View>
             </Container>
+            <View style={styles.footer}>
+                <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save Card'} disabled={!formState.isValid}/>
+            </View>
         </ScrollView>
-        <View style={styles.footer}>
-            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save Card'} disabled={!formState.isValid}/>
-        </View>
     </KeyboardAvoidingView>
 }
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        backgroundColor: Colors.WHITE
+        backgroundColor: Colors.WHITE,
     },
     container: {
         flex: 1,
-        paddingBottom: Spacing.SPACING_5,
+        // paddingBottom: Spacing.SPACING_5,
     },
     divider: {
         width:'100%',
@@ -184,7 +192,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     footer: {
-        bottom: scaleSize(30),
+        // flex:1,
         paddingHorizontal: Spacing.SPACING_5
     },
     title: {
