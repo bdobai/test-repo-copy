@@ -101,7 +101,7 @@ const AccountSettingsScreen = (props) => {
                     <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
                     </Pressable>
-                <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.AddCreditCard'})} style={styles.listItem}>
+                <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Manage Payment Methods</Text>
                     </Pressable>
 

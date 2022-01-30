@@ -20,7 +20,7 @@ import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
 
 const AddCreditCardScreen = (props) => {
-    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({ mode: 'onSubmit'});
+    const { control, handleSubmit, formState, setFocus } = useForm({ mode: 'onChange'});
 
     const [loading, setLoading] = useState(false);
 
@@ -35,13 +35,14 @@ const AddCreditCardScreen = (props) => {
                 "expiry_year": data.year,
                 "name": `${data.name}`,
                 "number": data.number,
-                "description": "Stripe Test Card",
+                "description": `${data.name}`,
                 "zip_code":"90210"
             },
             withToken: true,
             withoutJson: true,
             success: (response) => {
                 console.log('response', response);
+                props.navigation.goBack();
                 setLoading(false)
             },
             error: (e) => {
@@ -65,7 +66,7 @@ const AddCreditCardScreen = (props) => {
                             value={value}
                             onSubmitEditing={() => setFocus('number')}
                             ref={ref}
-                            error={errors.name?.message}
+                            error={formState.errors.name?.message}
                             placeholder='Cardholder name'
                             label='CARDHOLDER NAME'/>
                     )}
@@ -85,8 +86,8 @@ const AddCreditCardScreen = (props) => {
                             keyboardType={'phone-pad'}
                             onSubmitEditing={() => setFocus('cvv')}
                             ref={ref}
+                            error={formState.errors.number?.message}
                             maxLength={16}
-                            error={errors.number?.message}
                             placeholder='Card number'
                             label='CARD NUMBER'/>
                     )}
@@ -106,7 +107,7 @@ const AddCreditCardScreen = (props) => {
                             rightAccessory={() => <Pressable disabled={true} style={{justifyContent:'center'}}><Text style={styles.cvv}>CVV</Text></Pressable>}
                             ref={ref}
                             maxLength={4}
-                            error={errors.cvv?.message}
+                            error={formState.errors.cvv?.message}
                             onSubmitEditing={() => setFocus('month')}
                             label='SECURITY CODE'/>
                     )}
@@ -127,7 +128,7 @@ const AddCreditCardScreen = (props) => {
                                 onSubmitEditing={() => setFocus('year')}
                                 ref={ref}
                                 maxLength={2}
-                                error={errors.month?.message}
+                                error={formState.errors.month?.message}
                                 placeholder='MM'
                                 label='EXPIRATION DATE'/>
                         )}
@@ -146,7 +147,7 @@ const AddCreditCardScreen = (props) => {
                                 maxLength={4}
                                 onSubmitEditing={Keyboard.dismiss}
                                 ref={ref}
-                                error={errors.year?.message}
+                                error={formState.errors.year?.message}
                                 placeholder='YYYY'
                                 label=' '/>
                         )}
@@ -157,7 +158,7 @@ const AddCreditCardScreen = (props) => {
             </Container>
         </ScrollView>
         <View style={styles.footer}>
-            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save Card'}/>
+            <Button loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'Save Card'} disabled={!formState.isValid}/>
         </View>
     </KeyboardAvoidingView>
 }
