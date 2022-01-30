@@ -116,7 +116,7 @@ const StoresScreen = (props) => {
                     longitude: +item.longitude,
                 }}
                 onPress={() => onStoreBasic(item)}
-                image={markerIcon}
+                image={markerIconSmall}
             >
             </Marker>)
         )
