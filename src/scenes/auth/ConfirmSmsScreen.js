@@ -25,21 +25,21 @@ const ConfirmSmsScreen = (props) => {
 
     const onSubmit = (data) => {
         setLoading(true)
-        // request('/user/activate/sms.json', {
-        //     method: 'GET',
-        //     data: {
-        //          code: data.confirm_code
-        //     },
-        //     withToken: true,
-        //     success: function (response) {
+        request('/user/activate.json', {
+            method: 'GET',
+            data: {
+                 token: data.confirm_code
+            },
+            withToken: true,
+            success: function (response) {
                 authStore.setUserValidated(true);
-                // setLoading(false)
-            // },
-            // error: (error) => {
-            //     console.log('error', error)
-            //     setLoading(false)
-            // }
-        // });
+                setLoading(false)
+            },
+            error: (error) => {
+                console.log('error', error)
+                setLoading(false)
+            }
+        });
     };
 
 
