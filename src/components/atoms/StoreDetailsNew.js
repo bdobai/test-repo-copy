@@ -29,7 +29,7 @@ const StoreDetailsNew = (props) => {
 
     const renderSchedule = () => {
         return store.store_hours?.data?.map((item, index) => {
-            return <View key={index.toString()} style={[styles.row, {paddingVertical: Spacing.SPACING_1}]}>
+            return <View key={index.toString()} style={styles.schedule}>
                 <Text style={styles.day}>{dayStringFromNumber(item.day_of_week)}</Text>
                 {renderDaySchedule(item)}
             </View>
@@ -42,37 +42,16 @@ const StoreDetailsNew = (props) => {
     }
 
     const renderIsOpen = () => {
-        if(store?.store_hours.is_open) {
-            return <View style={styles.row}>
-                <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
-                <Text style={styles.openText}>SCHEDULE </Text>
-                {/*<Text style={styles.distance}>{getOpenUntil(store)}</Text>*/}
-            </View>
-        }
         return <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
             <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
             <Text style={styles.closedText}>SCHEDULE </Text>
-            {/*<Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store)?.day_of_week)} ${formatTimeUTC(getNextOpen(store)?.start_time)}`}</Text>*/}
         </View>
     }
 
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            {/*<View style={styles.row}>*/}
-            {/*    <Image source={markerIcon} style={styles.icon} resizeMode={'contain'}/>*/}
-            {/*    <Text numberOfLines={2} style={styles.name}>{store.name}</Text>*/}
-            {/*</View>*/}
-            {/*<View style={styles.row}>*/}
-            {/*    <Image source={pinIcon} style={styles.icon} resizeMode={'contain'}/>*/}
-            {/*    <Text style={styles.address}>{`${store.city} ${store.address_line_1}`}</Text>*/}
-            {/*</View>*/}
-            {/*<View style={styles.row}>*/}
-            {/*    <Image source={personIcon} style={styles.icon} resizeMode={'contain'}/>*/}
-            {/*    <Text style={styles.distance}>{`${store.distance.toFixed(2)} km`}</Text>*/}
-            {/*</View>*/}
             {renderIsOpen()}
             <View style={styles.row}>
-                <View style={styles.icon}/>
                 <View>
                     {renderSchedule()}
                 </View>
@@ -107,6 +86,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: Spacing.SPACING_2,
+    },
+    schedule:{
+        paddingVertical: Spacing.SPACING_1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: Spacing.SPACING_4
     },
     icon: {
         width: scaleSize(20),

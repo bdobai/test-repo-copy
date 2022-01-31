@@ -145,15 +145,6 @@ const StoresScreen = (props) => {
         setCurrentStore(null)
     }
 
-    // const renderListEmptyComponent = () => {
-    //     if(loading) return <Spinner color={Colors.PRIMARY} size={'large'}/>
-    //     return (
-    //         <View>
-    //             <Text style={styles.emptyText}>No stores to show</Text>
-    //         </View>
-    //     )
-    // }
-
     const renderLoader = () => {
         if(!loading) return;
         return (
@@ -273,9 +264,8 @@ const StoresScreen = (props) => {
                 safeAreaInnerHeight={0}
                 gestureEnabled={true}
                 indicatorColor={'#404042'}
-                initialOffsetFromBottom={0.25}
+                initialOffsetFromBottom={0.2}
             >
-                {/*{!showDetails ? <StoreListItemNew item={currentStore} onPress={onStoreDetails}/> : <StoreDetailsNew store={currentStore} onDirections={onDirections}/>}*/}
                 <>
                     <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
                     <StoreDetailsNew store={currentStore} onDirections={onDirections}/>

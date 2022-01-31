@@ -9,7 +9,7 @@ const BarcodeCard = (props) => {
     return (
         <View style={styles.barcodeCard}>
             {loading ? <Spinner color={Colors.PRIMARY} /> :
-                <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} />
+                <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} resizeMode={'stretch'}/>
             }
         </View>
     )
