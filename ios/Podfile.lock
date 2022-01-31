@@ -21,6 +21,9 @@ PODS:
     - FirebaseAnalytics (~> 8.7.0)
   - Firebase/CoreOnly (8.7.0):
     - FirebaseCore (= 8.7.0)
+  - Firebase/Messaging (8.7.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 8.7.0)
   - FirebaseAnalytics (8.7.0):
     - FirebaseAnalytics/AdIdSupport (= 8.7.0)
     - FirebaseCore (~> 8.0)
@@ -53,6 +56,15 @@ PODS:
     - GoogleUtilities/Environment (~> 7.4)
     - GoogleUtilities/UserDefaults (~> 7.4)
     - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseMessaging (8.7.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleDataTransport (~> 9.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Reachability (~> 7.4)
+    - GoogleUtilities/UserDefaults (~> 7.4)
+    - nanopb (~> 2.30908.0)
   - Flipper (0.93.0):
     - Flipper-Folly (~> 2.6)
     - Flipper-RSocket (~> 1.4)
@@ -475,6 +487,10 @@ PODS:
   - RNFBApp (12.8.0):
     - Firebase/CoreOnly (= 8.7.0)
     - React-Core
+  - RNFBMessaging (14.3.0):
+    - Firebase/Messaging (= 8.7.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (1.10.3):
     - React-Core
   - RNScreens (3.7.2):
@@ -553,6 +569,7 @@ DEPENDENCIES:
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - "RNFBAnalytics (from `../node_modules/@react-native-firebase/analytics`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -567,6 +584,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
+    - FirebaseMessaging
     - Flipper
     - Flipper-Boost-iOSX
     - Flipper-DoubleConversion
@@ -675,6 +693,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/analytics"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBMessaging:
+    :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -697,6 +717,7 @@ SPEC CHECKSUMS:
   FirebaseCore: f4804c1d3f4bbbefc88904d15653038f2c99ddf7
   FirebaseCoreDiagnostics: b63732f581a1c6a453ec7241f9ab60b3a5bd3450
   FirebaseInstallations: ede6fb72bb6337914e5888b399271259d0c4910c
+  FirebaseMessaging: 93227dd71d7888e200baef65043f81acb2b6596e
   Flipper: b1fddf9a17c32097b2b4c806ad158b2f36bb2692
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
   Flipper-DoubleConversion: 57ffbe81ef95306cc9e69c4aa3aeeeeb58a6a28c
@@ -754,6 +775,7 @@ SPEC CHECKSUMS:
   RNDeviceInfo: cc7de0772378f85d8f36ae439df20f05c590a651
   RNFBAnalytics: 3e6402bfe53d5c41abc7f36b1aa50ec71c6e1c89
   RNFBApp: b97d6654509a5852d49f0abf93be76b300fd2e2c
+  RNFBMessaging: c5a2084bacbf3bb9fd9388d8fe291fa57747e49a
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNScreens: 0591543e343c7444ea1756b6265d81a4295922c9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f

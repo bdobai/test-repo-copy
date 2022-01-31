@@ -84,6 +84,36 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
+    const onDownloadPassbook = () => {
+        if(isIphone()){
+            request(`/vendor/107430/passbook/card/export/${authStore.user.id}`, {
+                method: 'GET',
+                data: {},
+                withToken: true,
+                withoutJson: true,
+                success: function (res) {
+                    console.log('res',res);
+                },
+                error: (e) => {
+                    console.log('error', e);
+                }
+            });
+        }
+        // TODO: Get pass id instead of 12345678
+        request(`/vendor/107430/googlepaypass/12345678/export/${authStore.user.id}`, {
+            method: 'GET',
+            data: {},
+            withToken: true,
+            withoutJson: true,
+            success: function (res) {
+                console.log('res',res);
+            },
+            error: (e) => {
+                console.log('error', e);
+            }
+        });
+    }
+
     return <SafeAreaView style={{ flex: 1 }}>
         <StatusBar barStyle={'light-content'}/>
         <ScrollView
@@ -101,8 +131,11 @@ const AccountSettingsScreen = (props) => {
                     <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
                     </Pressable>
-                <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
+                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Manage Payment Methods</Text>
+                    </Pressable>
+                    <Pressable onPress={onDownloadPassbook} style={styles.listItem}>
+                        <Text style={styles.listItemText}>Download passbook</Text>
                     </Pressable>
 
                     <SectionTitle>SUPPORT</SectionTitle>
