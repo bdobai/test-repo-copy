@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need acces to your location so we can find the closest shops</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need acces to your location so we can find the closest shops</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -39,6 +35,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need acces to your location so we can find the closest shops</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need acces to your location so we can find the closest shops</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gotham-Light.otf</string>
@@ -53,6 +53,11 @@
 		<string>BrandonGrotesque-Regular.otf</string>
 		<string>Gotham-Light.ttf</string>
 		<string>ManusTrial.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
