@@ -66,8 +66,8 @@ const StoreDetailsNew = (props) => {
                 bodyStyle={styles.bodyStyle}
                 textStyle={styles.textStyle}
             />
+                {renderButton()}
             </View>
-            {renderButton()}
         </ScrollView>
     )
 }
