@@ -1,28 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Image, Linking, PermissionsAndroid, Pressable, StyleSheet, View } from "react-native";
+import { Alert, Image, Linking, PermissionsAndroid, Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import markerIcon from '_assets/images/stores/marker-new.png';
 import markerIconBig from '_assets/images/stores/marker-new-big.png';
+import markerIconSmall from '_assets/images/stores/marker-new-small.png';
+import searchIcon from '_assets/images/stores/search.png';
+import filterIcon from '_assets/images/stores/filter.png';
 import Geolocation from "react-native-geolocation-service";
 import { Colors, Spacing, Typography } from "_styles";
-import ActionSheet from "react-native-actions-sheet/index";
+import ActionSheet from "react-native-actions-sheet";
 import { createGoogleMapsUrl, isIphone } from "_utils/helpers";
 import StoreListItemNew from "_atoms/StoreListItemNew";
 import StoreDetailsNew from "_atoms/StoreDetailsNew";
 import currentLocationIcon from '_assets/images/stores/current-location.png';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Spinner from "_atoms/Spinner";
+import StoresFilters from "_atoms/StoresFilters";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
     const [stores, setStores] = useState([]);
+    const [filteredStores, setFilteredStores] = useState([]);
     const [currentStore, setCurrentStore] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [availability, setAvailability] = useState(false)
+    const [onlineOrdering, setOnlineOrdering] = useState(false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
 
     const actionSheetRef = useRef();
+    const filtersActionSheetRef = useRef();
     const mapRef = useRef();
 
     const showMandatoryAlert = () => {
@@ -77,6 +85,7 @@ const StoresScreen = (props) => {
             },
             success: function(response) {
                 setStores(response.data);
+                setFilteredStores(response.data);
                 setLoading(false);
             },
             error: () => {
@@ -100,14 +109,14 @@ const StoresScreen = (props) => {
 
     const renderMarkers = () => {
         return (
-            stores.map((item, index) => <Marker
+            filteredStores.map((item, index) => <Marker
                 key={index}
                 coordinate={{
                     latitude: +item.latitude,
                     longitude: +item.longitude,
                 }}
                 onPress={() => onStoreBasic(item)}
-                image={currentStore?.id === item.id ? markerIconBig : markerIcon}
+                image={markerIconSmall}
             >
             </Marker>)
         )
@@ -136,15 +145,6 @@ const StoresScreen = (props) => {
         setCurrentStore(null)
     }
 
-    // const renderListEmptyComponent = () => {
-    //     if(loading) return <Spinner color={Colors.PRIMARY} size={'large'}/>
-    //     return (
-    //         <View>
-    //             <Text style={styles.emptyText}>No stores to show</Text>
-    //         </View>
-    //     )
-    // }
-
     const renderLoader = () => {
         if(!loading) return;
         return (
@@ -155,22 +155,68 @@ const StoresScreen = (props) => {
     }
 
     const goToCurrentLocation = () => {
-        return mapRef.current.animateToCoordinate(coords)
+        return mapRef.current.animateToRegion({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+        })
     }
 
     const goToLocation = (locationDetails) => {
-        return mapRef.current.animateToCoordinate({latitude: locationDetails.geometry.location.lat, longitude: locationDetails.geometry.location.lng})
+        return mapRef.current.fitToCoordinates(// {center:{
+            [{latitude: locationDetails.geometry.viewport.northeast.lat, longitude: locationDetails.geometry.viewport.northeast.lng.toString()},
+                {latitude: locationDetails.geometry.viewport.southwest.lat, longitude: locationDetails.geometry.viewport.southwest.lng.toString()}])
+    }
+
+    const renderSearchButton = () => {
+        return (
+            <View style={styles.searchWrapper}>
+                <Image source={searchIcon} style={styles.search} resizeMode={'contain'}/>
+            </View>
+        )
+    }
+
+    const onFilters = () => {
+        filtersActionSheetRef.current.setModalVisible(true);
+    }
+
+    const onSaveFilters = (availability, onlineOrdering) => {
+        let filteredStores = [...stores];
+        if(availability === true){
+            filteredStores = filteredStores.filter((item) => item.store_hours.is_open === true)
+        }
+        if(onlineOrdering === true) {
+            filteredStores = filteredStores.filter((item) => !!item.vendor_attribute?.length && !!item.vendor_attribute[0].link)
+        }
+        setFilteredStores([...filteredStores]);
+        setAvailability(availability);
+        setOnlineOrdering(onlineOrdering)
+        filtersActionSheetRef.current.setModalVisible(false);
+    }
+
+    const onClearFilters = () => {
+        setFilteredStores([...stores]);
+        setAvailability(false);
+        setOnlineOrdering(false);
+        filtersActionSheetRef.current.setModalVisible(false)
     }
 
     return (
         <View style={styles.container}>
             <View style={styles.inputWrapper}>
+                <Pressable onPress={onFilters}>
+                    <View style={[styles.searchWrapper, styles.filterWrapper]}>
+                        <Image source={filterIcon} style={styles.search} resizeMode={'contain'}/>
+                    </View>
+                </Pressable>
                 <GooglePlacesAutocomplete
                     placeholder='Search by street, city etc'
                     fetchDetails={true}
                     textInputProps={{
-                        placeholderTextColor: Colors.BLUE_GRAY
+                        placeholderTextColor: Colors.BLUE_GRAY,
                     }}
+                    renderRightButton={renderSearchButton}
                     onPress={(data, details = null) => {
                         goToLocation(details)
                     }}
@@ -179,9 +225,7 @@ const StoresScreen = (props) => {
                         language: 'en',
                     }}
                     styles={{
-                        textInput: {
-                            color: Colors.BLACK,
-                        },
+                        textInput: styles.textInput
                     }}
                 />
             </View>
@@ -213,8 +257,22 @@ const StoresScreen = (props) => {
             <Pressable onPress={goToCurrentLocation} style={styles.currentLocation}>
                 <Image style={styles.currentLocationImage} source={currentLocationIcon} resizeMode={'contain'}/>
             </Pressable>
-            <ActionSheet onClose={onCloseActionSheet} containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
-                {!showDetails ? <StoreListItemNew item={currentStore} onPress={onStoreDetails}/> : <StoreDetailsNew store={currentStore} onDirections={onDirections}/>}
+            <ActionSheet
+                onClose={onCloseActionSheet}
+                containerStyle={styles.actionSheet}
+                ref={actionSheetRef}
+                safeAreaInnerHeight={0}
+                gestureEnabled={true}
+                indicatorColor={'#404042'}
+                initialOffsetFromBottom={0.2}
+            >
+                <>
+                    <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
+                    <StoreDetailsNew store={currentStore} onDirections={onDirections}/>
+                </>
+            </ActionSheet>
+            <ActionSheet containerStyle={styles.actionSheet} ref={filtersActionSheetRef} safeAreaInnerHeight={0}>
+                <StoresFilters onSave={onSaveFilters} onClear={onClearFilters} availability={availability} onlineOrdering={onlineOrdering}/>
             </ActionSheet>
         </View>
     )
@@ -247,14 +305,6 @@ const styles = StyleSheet.create({
         marginBottom:0,
         paddingBottom:0,
     },
-    smallMarker:{
-        width: scaleSize(40),
-        height: scaleSize(40)
-    },
-    bigMarker:{
-        width: scaleSize(50),
-        height:scaleSize(50)
-    },
     emptyText: {
         alignSelf: 'center',
         fontFamily: Typography.FONT_PRIMARY_BOLD,
@@ -280,8 +330,10 @@ const styles = StyleSheet.create({
         top: scaleSize(60),
         paddingHorizontal: Spacing.SPACING_4,
         zIndex:20,
-        left:0, right:0,
+        left:0,
+        right:0,
         position:'absolute',
+        flexDirection: 'row',
     },
     overlay: {
         position: 'absolute',
@@ -292,7 +344,32 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)'
-    }
+    },
+    searchWrapper:{
+        backgroundColor: Colors.PRIMARY,
+        width: scaleSize(63),
+        height: scaleSize(44),
+        borderTopRightRadius: scaleSize(22),
+        borderBottomRightRadius: scaleSize(22),
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    search: {
+        width: scaleSize(20),
+        height: scaleSize(20),
+    },
+    filterWrapper:{
+        borderRadius: scaleSize(22),
+        marginRight: Spacing.SPACING_5
+    },
+    textInput:{
+        color: Colors.BLACK,
+        borderTopLeftRadius: scaleSize(22),
+        borderBottomLeftRadius: scaleSize(22),
+        borderBottomRightRadius: 0,
+        borderTopRightRadius: 0,
+        height: scaleSize(44)
+    },
 })
 
 export default StoresScreen

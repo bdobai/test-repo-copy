@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
-import Header from '_components/molecules/Header'
 import { Colors, Spacing, Typography } from "_styles";
 import Container from '_components/atoms/Container'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { AuthStoreContext } from '_stores'
-import { scaleSize } from '_styles/mixins'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextField from "_atoms/TextField";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
+import { requiredValidation } from "_utils/validators";
 
 const ConfirmSmsScreen = (props) => {
-    const { control, handleSubmit, formState: { errors } } = useForm();
+    const { control, handleSubmit, formState } = useForm({mode: 'onChange'});
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
@@ -24,29 +23,23 @@ const ConfirmSmsScreen = (props) => {
         })
     },[])
 
-    const onSubmit = () => {
-        // console.log({ props }, { data })
-        return;
+    const onSubmit = (data) => {
         setLoading(true)
-        request('/user/activate/sms.json', {
-            method: 'GET',
-            data: {
-                // "contact_consent": 3,
-
-            },
-            withToken: true,
-            success: function (response) {
-                console.log(response)
-                AsyncStorage.setItem('online_order_token', response.online_order_token)
-                AsyncStorage.setItem('session_key', response.session_identifier)
-                setLoading(false)
-                authStore.getUser()
-            },
-            error: (error) => {
-                console.log('error', error)
-                setLoading(false)
-            }
-        });
+        // request('/user/activate/sms.json', {
+        //     method: 'GET',
+        //     data: {
+        //          code: data.confirm_code
+        //     },
+        //     withToken: true,
+        //     success: function (response) {
+                authStore.setUserValidated(true);
+                // setLoading(false)
+            // },
+            // error: (error) => {
+            //     console.log('error', error)
+            //     setLoading(false)
+            // }
+        // });
     };
 
 
@@ -56,7 +49,6 @@ const ConfirmSmsScreen = (props) => {
             method: 'GET',
             data: {
                 // "contact_consent": 3,
-
             },
             withToken: true,
             success: function (response) {
@@ -79,7 +71,7 @@ const ConfirmSmsScreen = (props) => {
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
                     <AuthHeaderText text={'Register'}/>
                     <Container style={{ flex: 1 }}>
-                        <Text style={ styles.infoText }>Please type the verification code sent to +971 424 242 942</Text>
+                        <Text style={ styles.infoText }>Please type the verification code sent to {authStore.user.phone_number}</Text>
                         <View style={ styles.register } title={'Enter your credentials'}>
                             <Controller
                               control={control}
@@ -90,19 +82,14 @@ const ConfirmSmsScreen = (props) => {
                                   value={value}
                                   secure={true}
                                   ref={ref}
+                                  maxLength={4}
                                   placeholder={'Confirmation code'}
-                                  error={errors.password && true}
+                                  error={formState.errors.confirm_code && true}
                                   onSubmitEditing={() => handleSubmit(onSubmit)}
                                   label='CONFIRM CODE'/>
                               )}
                               name="confirm_code"
-                              rules={{
-                                  required: true,
-                                  minLength: {
-                                      value: 4,
-                                      message: 'code must be at least 4'
-                                  }}
-                              }
+                              rules={{ required: 'Confirmation code is required', pattern: requiredValidation}}
                               defaultValue=""
                             />
                             <View>
@@ -111,6 +98,7 @@ const ConfirmSmsScreen = (props) => {
                         </View>
                         <View style={styles.footer}>
                             <Button
+                                disabled={!formState.isValid}
                                 loading={loading}
                                 textStyle={styles.buttonTitle}
                                 bodyStyle={styles.button}
@@ -120,8 +108,9 @@ const ConfirmSmsScreen = (props) => {
                                 text={'NEXT'}
                             />
                             <View style={styles.footerTextView}>
-                                <Text style={styles.footerText}>Already have an account? </Text>
-                                <Pressable onPress={() => props.navigation.navigate('Login')}><Text style={styles.footerActionText}>Log in</Text></Pressable>
+                                <Pressable onPress={() => {
+                                    authStore.logout();
+                                }}><Text style={styles.footerActionText}>Change Account</Text></Pressable>
                             </View>
                         </View>
                     </Container>

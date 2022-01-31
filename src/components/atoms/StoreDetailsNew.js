@@ -29,7 +29,7 @@ const StoreDetailsNew = (props) => {
 
     const renderSchedule = () => {
         return store.store_hours?.data?.map((item, index) => {
-            return <View key={index.toString()} style={[styles.row, {paddingVertical: Spacing.SPACING_1}]}>
+            return <View key={index.toString()} style={styles.schedule}>
                 <Text style={styles.day}>{dayStringFromNumber(item.day_of_week)}</Text>
                 {renderDaySchedule(item)}
             </View>
@@ -42,44 +42,31 @@ const StoreDetailsNew = (props) => {
     }
 
     const renderIsOpen = () => {
-        if(store?.is_open) {
-            return <View style={styles.row}>
-                <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
-                <Text style={styles.openText}>OPEN </Text>
-                <Text style={styles.distance}>{getOpenUntil(store)}</Text>
-            </View>
-        }
-        return <View style={styles.row}>
+        return <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
             <Image source={clockIcon} style={styles.icon} resizeMode={'contain'} />
-            <Text style={styles.closedText}>CLOSED: Opens </Text>
-            <Text style={styles.distance}>{`${dayStringFromNumber(getNextOpen(store)?.day_of_week)} ${formatTimeUTC(getNextOpen(store)?.start_time)}`}</Text>
+            <Text style={styles.closedText}>SCHEDULE </Text>
         </View>
     }
 
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            <View style={styles.row}>
-                <Image source={markerIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text numberOfLines={2} style={styles.name}>{store.name}</Text>
-            </View>
-            <View style={styles.row}>
-                <Image source={pinIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text style={styles.address}>{`${store.city} ${store.address_line_1}`}</Text>
-            </View>
-            <View style={styles.row}>
-                <Image source={personIcon} style={styles.icon} resizeMode={'contain'}/>
-                <Text style={styles.distance}>{`${store.distance.toFixed(2)} km`}</Text>
-            </View>
             {renderIsOpen()}
             <View style={styles.row}>
-                <View style={styles.icon}/>
                 <View>
                     {renderSchedule()}
                 </View>
             </View>
-            <Pressable onPress={props.onDirections}>
-                <Text style={styles.directions}>Direction</Text>
-            </Pressable>
+            <View style={{paddingHorizontal: Spacing.SPACING_4}}>
+            <Button
+                onPress={props.onDirections}
+                text={'Direction'}
+                block={true}
+                type={'primary'}
+                square={true}
+                bodyStyle={styles.bodyStyle}
+                textStyle={styles.textStyle}
+            />
+            </View>
             {renderButton()}
         </ScrollView>
     )
@@ -87,7 +74,7 @@ const StoreDetailsNew = (props) => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        paddingHorizontal: Spacing.SPACING_4,
+        // paddingHorizontal: Spacing.SPACING_4,
         paddingTop: Spacing.SPACING_4,
     },
     name: {
@@ -99,6 +86,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: Spacing.SPACING_2,
+    },
+    schedule:{
+        paddingVertical: Spacing.SPACING_1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: Spacing.SPACING_4
     },
     icon: {
         width: scaleSize(20),
@@ -124,9 +117,15 @@ const styles = StyleSheet.create({
     directions: {
         paddingVertical: Spacing.SPACING_1,
         paddingHorizontal: Spacing.SPACING_2,
-        color: Colors.PRIMARY,
+        color: Colors.WHITE,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
+        backgroundColor: Colors.PRIMARY,
+    },
+    directionsWrapper: {
+        overflow: 'hidden',
+        borderRadius: scaleSize(24),
+        alignSelf:'flex-start',
     },
     day: {
         width: scaleSize(60),
@@ -152,6 +151,8 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_14,
     },
+    bodyStyle:{marginBottom: Spacing.SPACING_4},
+    textStyle:{fontFamily: Typography.FONT_PRIMARY_BOLD}
 })
 
 export default StoreDetailsNew;

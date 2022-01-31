@@ -102,7 +102,7 @@ const HomeScreen = observer((props) => {
     }
 
     const getBalance = () => {
-        if(!rewards?.balances?.length) return null;
+        if(!rewards?.balances?.length) return 0;
         const index = rewards?.balances?.findIndex((item) => item.id === 3);
         return rewards?.balances[index]?.balance;
     }
@@ -113,17 +113,6 @@ const HomeScreen = observer((props) => {
 
     const onGiftCardBalance = () => {
         return props.navigation.navigate('Modal',  {screen: 'Balance'})
-    }
-
-    const renderTier = () => {
-        if(rewards?.tier?.current?.name === 'Family Discount')
-        return (
-            <View style={styles.tierCard}>
-                <View style={styles.rewardWrapper}>
-                    <Text style={[styles.reward, {color: Colors.WHITE}]}>{`Tier: ${rewards?.tier?.current?.name}`}</Text>
-                </View>
-            </View>
-        )
     }
 
     const renderReward = () => {
@@ -176,10 +165,9 @@ const HomeScreen = observer((props) => {
       refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
       }>
-        <BeansCard balance={getBalance()}/>
+        <BeansCard balance={getBalance()} tier={rewards?.tier?.current?.name}/>
         {renderReward()}
-        {renderTier()}
-        <BarcodeCard barcode={barcode} loading={loadingBarcode}/>
+        {barcode && <BarcodeCard barcode={barcode} loading={loadingBarcode}/>}
         {renderMessages()}
         <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>
@@ -257,24 +245,11 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: '#F4F4F4',
         borderRadius: scaleSize(5),
-        paddingTop: Spacing.SPACING_3,
-        paddingBottom: Spacing.SPACING_3,
         flexDirection: 'row',
         paddingRight: Spacing.SPACING_4,
         paddingLeft: Spacing.SPACING_1,
         marginHorizontal: Spacing.SPACING_5,
         marginBottom: Spacing.SPACING_4,
-    },
-    tierCard: {
-        backgroundColor: '#87744a',
-        borderRadius: scaleSize(5),
-        paddingTop: Spacing.SPACING_3,
-        paddingBottom: Spacing.SPACING_3,
-        flexDirection: 'row',
-        paddingRight: Spacing.SPACING_4,
-        paddingLeft: Spacing.SPACING_1,
-        marginHorizontal: Spacing.SPACING_5,
-        marginBottom: Spacing.SPACING_3,
     },
     messageTitle: {
         fontSize: Typography.FONT_SIZE_16,
@@ -288,7 +263,7 @@ const styles = StyleSheet.create({
         paddingBottom: Spacing.SPACING_2,
     },
     messageCard: {
-        height: scaleSize(200),
+        height: scaleSize(180),
         marginHorizontal: Spacing.SPACING_4,
         padding: Spacing.SPACING_4,
         backgroundColor: '#F4F4F4',

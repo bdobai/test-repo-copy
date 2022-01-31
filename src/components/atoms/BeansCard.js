@@ -10,6 +10,13 @@ const BeansCard = (props) => {
 
     const percent = (props.balance * 100) / 2000;
 
+    const renderTier = () => {
+        if(!props.tier || props.tier !== 'Family Discount') return;
+        return (
+            <Text style={styles.tier}>{`Tier: Family Discount`}</Text>
+        )
+    }
+
     return (
         <View style={styles.card}>
             <Image source={props.balance >= 2000 ? fullCup : halfCup} style={styles.image}/>
@@ -17,6 +24,7 @@ const BeansCard = (props) => {
                 <Text style={styles.beans}>{props.balance}<Text style={{fontSize: Typography.FONT_SIZE_16}}>/2000</Text></Text>
                 <ProgressBar color={Colors.SECONDARY} percent={percent > 100 ? 100 : percent}/>
                 <Text style={styles.description}>2000 beans gets you a <Text style={{fontWeight: 'bold', fontFamily: Typography.FONT_PRIMARY_BOLD}}>free coffee</Text></Text>
+                {renderTier()}
             </View>
         </View>
     )
@@ -54,6 +62,12 @@ const styles = StyleSheet.create({
     contentWrapper:{
         flex:1,
         paddingLeft: Spacing.SPACING_3,
+        paddingTop: Spacing.SPACING_2
+    },
+    tier: {
+        color: Colors.SECONDARY,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontSize: Typography.FONT_SIZE_16,
         paddingTop: Spacing.SPACING_2
     }
 })

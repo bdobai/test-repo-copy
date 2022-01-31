@@ -9,7 +9,7 @@ const BarcodeCard = (props) => {
     return (
         <View style={styles.barcodeCard}>
             {loading ? <Spinner color={Colors.PRIMARY} /> :
-                <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} />
+                <Image key={barcode} source={{ uri: barcode?.barcode }} style={styles.barcode} resizeMode={'stretch'}/>
             }
         </View>
     )
@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         height: scaleSize(75),
     },
     barcodeCard: {
-        backgroundColor: '#FAFAFA',
         marginHorizontal: Spacing.SPACING_5,
         justifyContent: 'center',
         alignItems: 'center',

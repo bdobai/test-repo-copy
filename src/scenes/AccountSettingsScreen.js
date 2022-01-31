@@ -62,6 +62,28 @@ const AccountSettingsScreen = (props) => {
         Linking.openURL('mailto:'+{email})
     }
 
+    const onFAQ = () => {
+        props.navigation.navigate('AccountNavigator', {
+            screen: 'AccountSettings.FAQ'
+        })
+    }
+
+    const onTerms = () => {
+        props.navigation.navigate('AccountNavigator', {
+            screen: 'AccountSettings.Terms', params: {
+                code: 'terms', title: 'Terms and Conditions'
+            }
+        })
+    }
+
+    const onPrivacy = () => {
+        props.navigation.navigate('AccountNavigator', {
+            screen: 'AccountSettings.PrivacyPolicy', params: {
+                code: 'privacy', title: 'Privacy Policy'
+            }
+        })
+    }
+
     return <SafeAreaView style={{ flex: 1 }}>
         <StatusBar barStyle={'light-content'}/>
         <ScrollView
@@ -87,10 +109,13 @@ const AccountSettingsScreen = (props) => {
                     <Pressable onPress={() => sendEmail()} style={styles.listItem}>
                         <Text style={styles.listItemText}>Contact Us</Text>
                     </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.Terms', params: {code: 'terms', title: 'Terms and Conditions'}})} style={styles.listItem}>
+                    <Pressable onPress={onFAQ} style={styles.listItem}>
+                        <Text style={styles.listItemText}>FAQ</Text>
+                    </Pressable>
+                    <Pressable onPress={onTerms} style={styles.listItem}>
                         <Text style={styles.listItemText}>Terms of Service</Text>
                     </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.PrivacyPolicy', params: {code: 'privacy', title: 'Privacy Policy'}})} style={styles.listItem}>
+                    <Pressable onPress={onPrivacy} style={styles.listItem}>
                         <Text style={styles.listItemText}>Privacy Policy</Text>
                     </Pressable>
                 <View style={styles.footer}>

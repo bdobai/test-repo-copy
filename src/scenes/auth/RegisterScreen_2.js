@@ -30,6 +30,7 @@ import countries from '_utils/countries.json';
 import { AuthStoreContext } from "_stores";
 import dayjs from "dayjs";
 import { request } from "_utils/request";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const RegisterScreen_2 = (props) => {
     const { control, handleSubmit, setFocus, formState, } = useForm({mode: "onChange"});
@@ -66,13 +67,12 @@ const RegisterScreen_2 = (props) => {
             "language": 1,
             "vendor": 107430
         }
-        console.log('body', body)
         request('/user/register.json', {
             method: 'POST',
             data: body,
             withToken: false,
             success: function () {
-                props.navigation.navigate('Register_3', {email: params.email});
+                props.navigation.navigate('Register_3', {email: params.email, number: data.phone_number});
                 loginAccount()
             },
             error: (e)=> {

@@ -39,8 +39,6 @@ const FaqScreen = (props) => {
     }, []);
 
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.faqScreen}>
-        {/*<Header left={<BackButton/>} center={<Logo style={ styles.logo }/>}/>*/}
-        <Text style={styles.title}>FAQ</Text>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
             {data.map(function(d, id) {
@@ -68,10 +66,10 @@ const styles = StyleSheet.create({
     },
     faqScreen: {
         flex: 1,
-        backgroundColor: Colors.PRIMARY
+        backgroundColor: Colors.WHITE
     },
     faqTitle: {
-        color: Colors.WHITE,
+        color: Colors.PRIMARY,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontWeight: 'bold',
         fontSize: Typography.FONT_SIZE_18,

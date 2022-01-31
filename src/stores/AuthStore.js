@@ -16,13 +16,31 @@ export default class AuthStore {
         phone_number: '',
         status: {},
     };
+    userValidated = false;
     notificationsCount = 0;
+
+    // checkValidation = () => {
+    //     request('/user/isValidated.json', {
+    //         method: 'GET',
+    //         withToken: true,
+    //         data: {},
+    //         success: (response) => {
+    //             this.setUserValidated(response.isValidated);
+    //         },
+    //         error: (error) => {
+    //             // Todo Ask API Explanations
+    //             this.setUserValidated(false);
+    //         }
+    //     })
+    // }
 
     getUser = () => {
         request('/user/profile.json', {
             method: 'GET',
             success: (response) => {
+                console.debug('response', response.is_verified);
                 this.setUser(response)
+                this.setUserValidated(response.is_verified.status);
             },
             error: (error) => {
                 this.setUser(null)
@@ -49,6 +67,10 @@ export default class AuthStore {
         this.userLoaded = true
     }
 
+    setUserValidated = (response) => {
+        this.userValidated = response;
+    }
+
     logout = async () => {
         this.user = {
             id: null,
@@ -56,6 +78,7 @@ export default class AuthStore {
             email: '',
             phone: '',
         }
+        this.userValidated = false;
         AsyncStorage.removeItem('session_key');
     }
 
@@ -72,6 +95,8 @@ export default class AuthStore {
             getUser: action,
             logout: action,
             setNotificationsCount: action,
+            userValidated: observable,
+            setUserValidated: action,
         })
     }
 }
