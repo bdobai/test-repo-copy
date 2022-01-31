@@ -2,8 +2,6 @@ import * as React from 'react'
 import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import AccountInfoScreen from '_scenes/account/AccountInfoScreen'
 import NewPasswordScreen from '_scenes/account/NewPasswordScreen'
-import MyPaymentsScreen from '_scenes/account/MyPaymentsScreen'
-import GiftCardBalanceScreen from '_scenes/account/GiftCardBalanceScreen'
 import GiftCardScreen from '_scenes/account/GiftCardScreen'
 import GiftScreen from '_scenes/account/GiftScreen'
 import ContactScreen from '_scenes/account/ContactScreen'
@@ -16,6 +14,7 @@ import { scaleSize } from '_styles/mixins';
 import LeftChevron from '_assets/images/left-chevron.svg';
 import { navigationStyles } from "_styles/navigation";
 import OldPasswordScreen from "_scenes/account/OldPasswordScreen";
+import CreditCardsScreen from "_scenes/account/CreditCardsScreen";
 
 const Stack = createStackNavigator()
 
@@ -33,7 +32,7 @@ function AccountNavigator () {
           headerTitleAlign: 'center',
       }}>
           <Stack.Screen name="AccountSettings.Info" component={AccountInfoScreen} options={{title: 'How Can We Help?'}}/>
-          <Stack.Screen name="AccountSettings.MyPayments" component={MyPaymentsScreen}/>
+          <Stack.Screen name="AccountSettings.CreditCards" component={CreditCardsScreen} options={{title: 'Credit Cards'}}/>
           <Stack.Screen name="AccountSettings.GiftCards" component={GiftCardScreen} options={{title:'Manage Cards'}}/>
           <Stack.Screen name="AccountSettings.GiftCardAdd" component={GiftCardScreen}/>
           <Stack.Screen name="AccountSettings.Gift" component={GiftScreen}/>

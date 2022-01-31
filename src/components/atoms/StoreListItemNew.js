@@ -44,7 +44,7 @@ const StoreListItemNew = (props) => {
                 </View>
                 {/*<RightChevron width={scaleSize(20)} height={scaleSize(20)} fill={Colors.PRIMARY}/>*/}
             </View>
-            {renderButton()}
+            {/*{renderButton()}*/}
         </Pressable>
     )
 }

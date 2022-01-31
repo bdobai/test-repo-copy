@@ -27,12 +27,12 @@ const MyPaymentsScreen = (props) => {
     // )
 
     React.useEffect(() => {
-        // getCreditCards();
+        getCreditCards();
     }, [])
 
     const getCreditCards = () => {
         setLoading(true)
-        request('/payments/credit-cards', {
+        request('/user/billing-profile/list.json', {
             method: 'GET',
             success: function (res) {
                 setLoading(false)

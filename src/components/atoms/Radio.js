@@ -20,7 +20,7 @@ const Radio = (props) => {
               <View style={[styles.radioInput, props.selectedValue === props.value ? styles.radioInputChecked : null, [props.style]]}>
                   {renderInterior()}
               </View>
-              {props.label ? <Text style={[styles.radioLabel, props.selectedValue === props.value ? styles.radioLabelChecked : null]}>{props.label}</Text> : null}
+              {props.label ? <Text style={[styles.radioLabel, props.selectedValue === props.value ? styles.radioLabelChecked : null, props.labelStyle]}>{props.label}</Text> : null}
               {props.children ? props.children : null}
           </View>
       </Pressable>
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
         height: scaleSize(24),
         borderRadius: scaleSize(12),
         borderWidth: scaleSize(1),
-        borderColor: Colors.GRAY_MEDIUM,
-        backgroundColor: Colors.GRAY_MEDIUM,
+        borderColor: Colors.BLACK,
+        // backgroundColor: Colors.GRAY_MEDIUM,
         alignItems: 'center',
         justifyContent: 'center',
     },

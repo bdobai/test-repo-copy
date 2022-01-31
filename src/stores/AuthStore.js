@@ -38,7 +38,6 @@ export default class AuthStore {
         request('/user/profile.json', {
             method: 'GET',
             success: (response) => {
-                console.debug('response', response.is_verified);
                 this.setUser(response)
                 this.setUserValidated(response.is_verified.status);
             },
