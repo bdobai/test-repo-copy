@@ -11,9 +11,8 @@ const BeansCard = (props) => {
     const percent = (props.balance * 100) / 2000;
 
     const renderTier = () => {
-        // if(!props.tier || props.tier !== 'Family Discount') return;
+        if(!props.tier || props.tier !== 'Family Discount') return;
         return (
-            // <Text style={[styles.tier, {color: Colors.WHITE}]}>{`Tier: ${rewards?.tier?.current?.name}`}</Text>
             <Text style={styles.tier}>{`Tier: Family Discount`}</Text>
         )
     }
