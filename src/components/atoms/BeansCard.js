@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import fullCup from '_assets/images/home/cup-full.png';
 import halfCup from '_assets/images/home/cup-half.png';
+import emptyCup from '_assets/images/home/cup-empty.png';
 import { scaleSize } from "_styles/mixins";
 import ProgressBar from "_atoms/ProgressBar";
 
@@ -19,7 +20,7 @@ const BeansCard = (props) => {
 
     return (
         <View style={styles.card}>
-            <Image source={props.balance >= 2000 ? fullCup : halfCup} style={styles.image}/>
+            <Image source={props.balance >= 2000 ? fullCup : (props.balance > 0 ? halfCup : emptyCup)} style={styles.image}/>
             <View style={styles.contentWrapper}>
                 <Text style={styles.beans}>{props.balance}<Text style={{fontSize: Typography.FONT_SIZE_16}}>/2000</Text></Text>
                 <ProgressBar color={Colors.SECONDARY} percent={percent > 100 ? 100 : percent}/>
