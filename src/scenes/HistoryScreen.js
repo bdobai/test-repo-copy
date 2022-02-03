@@ -21,11 +21,10 @@ import OrderInfo from "_atoms/OrderInfo";
 import OrderDetailsCard from "_atoms/OrderDetailsCard";
 import ArrowDown from "_assets/images/orders/arrow-down-orange.png"
 import { isIphone } from "_utils/helpers";
-import StarsFeedback from "_atoms/StarsFeedback";
+import FeedbackSection from "_atoms/FeedbackSection";
 import Modal from "react-native-modal";
 
 const HistoryScreen = (props) => {
-    const [comment, setComment] = useState('');
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
@@ -142,16 +141,21 @@ const HistoryScreen = (props) => {
         )
     }
 
-    const onSendFeedback = () => {
+    const onSendFeedback = (stars, comment) => {
         request('/user/transaction/rate.json', {
             method: 'POST',
             data: {
                 comment:"Excellent!",
                 rating:100,
-                transaction:14395345,
+                transaction: order.id
             },
             withToken: true,
-            success: function (response) {},
+            withoutJson: true,
+            success: function (response) {
+                const index = data.findIndex((item) => item.id === order.id);
+                data[index] = {...data[index], rating:{value: stars, comment: comment}}
+                setData([...data]);
+            },
             error: (e) => {}
         });
     }
@@ -185,26 +189,12 @@ const HistoryScreen = (props) => {
                 backdropColor={Colors.BLACK}
                 backdropOpacity={0.2}
             >
-                <View style={styles.centeredView} onTouchEnd={()=>setModalVisible(false)}>
+                <Pressable style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <OrderDetailsCard item={order}/>
-                        <StarsFeedback/>
-                        <TextInput
-                            multiline={true}
-                            style={styles.input}
-                            value={comment}
-                            onChangeText={(value) => setComment(value)}
-                        />
-                        <Button
-                            type={'primary'}
-                            square={true}
-                            size={'sm'}
-                            text={'Send Feedback'}
-                            bodyStyle={styles.smallButton}
-                            onPress={onSendFeedback}
-                        />
+                        <FeedbackSection onSendFeedback={onSendFeedback} />
                     </View>
-                </View>
+                </Pressable>
             </Modal>
             <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
                 {renderOrderDetails()}
@@ -279,19 +269,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: Colors.MUTED,
-        height: scaleSize(80),
-        borderRadius: scaleSize(12),
-        paddingHorizontal: Spacing.SPACING_4
-    },
-    smallButton: {
-        width: scaleSize(225),
-        alignSelf: 'center',
-        height: scaleSize(35),
-        marginTop: Spacing.SPACING_4
     },
 })
 
