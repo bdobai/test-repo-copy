@@ -21,7 +21,7 @@ const FeedbackSection = (props) => {
     }
 
     const renderStars = () => STARS.map((item) => (
-        <Pressable onPress={() => setSelectedStar(item)}>
+        <Pressable onPress={() => setSelectedStar(item)} key={item}>
             {renderStar(item)}
         </Pressable>
     ))
@@ -42,9 +42,10 @@ const FeedbackSection = (props) => {
                 onChangeText={(value) => setComment(value)}
             />
             <Button
+                loading={props.loading}
                 type={'primary'}
                 square={true}
-                size={'sm'}
+                // size={'sm'}
                 text={'Send Feedback'}
                 bodyStyle={styles.smallButton}
                 onPress={onSendFeedback}
@@ -71,9 +72,9 @@ const styles = StyleSheet.create({
         color: Colors.BLACK
     },
     smallButton: {
-        width: scaleSize(225),
-        alignSelf: 'center',
-        height: scaleSize(35),
+        // width: scaleSize(225),
+        // alignSelf: 'center',
+        // height: scaleSize(35),
         marginTop: Spacing.SPACING_4
     },
 })

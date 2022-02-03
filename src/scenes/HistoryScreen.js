@@ -23,12 +23,14 @@ import ArrowDown from "_assets/images/orders/arrow-down-orange.png"
 import { isIphone } from "_utils/helpers";
 import FeedbackSection from "_atoms/FeedbackSection";
 import Modal from "react-native-modal";
+import CloseIcon from "_assets/images/close.svg";
 
 const HistoryScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
     const [loadingMore, setLoadingMore] = useState(false);
+    const [loadingFeedback, setLoadingFeedback] = useState(false);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState(null);
@@ -142,11 +144,12 @@ const HistoryScreen = (props) => {
     }
 
     const onSendFeedback = (stars, comment) => {
+        setLoadingFeedback(true)
         request('/user/transaction/rate.json', {
             method: 'POST',
             data: {
-                comment:"Excellent!",
-                rating:100,
+                comment: comment,
+                rating: stars * 20,
                 transaction: order.id
             },
             withToken: true,
@@ -155,8 +158,11 @@ const HistoryScreen = (props) => {
                 const index = data.findIndex((item) => item.id === order.id);
                 data[index] = {...data[index], rating:{value: stars, comment: comment}}
                 setData([...data]);
+                setLoadingFeedback(false)
             },
-            error: (e) => {}
+            error: (e) => {
+                setLoadingFeedback(false)
+            }
         });
     }
 
@@ -191,8 +197,11 @@ const HistoryScreen = (props) => {
             >
                 <Pressable style={styles.centeredView}>
                     <View style={styles.modalView}>
+                        <Pressable onPress={() => setModalVisible(false)} style={styles.modalClose} hitSlop={{top: scaleSize(10), bottom: scaleSize(10), left:scaleSize(10), right: scaleSize(10)}}>
+                            <CloseIcon width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLACK}/>
+                        </Pressable>
                         <OrderDetailsCard item={order}/>
-                        <FeedbackSection onSendFeedback={onSendFeedback} />
+                        <FeedbackSection onSendFeedback={onSendFeedback} loading={loadingFeedback}/>
                     </View>
                 </Pressable>
             </Modal>
@@ -269,6 +278,11 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    modalClose: {
+        position: 'absolute',
+        right: 20,
+        top: 20
+    }
 })
 
 export default HistoryScreen
