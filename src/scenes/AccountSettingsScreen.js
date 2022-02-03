@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar } from "react-native";
+import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar, TouchableHighlight } from 'react-native';
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { scaleSize } from '_styles/mixins'
@@ -109,36 +109,36 @@ const AccountSettingsScreen = (props) => {
             showsVerticalScrollIndicator={false}
         >
             <Container style={ styles.container }>
-                    <SectionTitle>YOUR PROFILE</SectionTitle>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.Info'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Personal Information</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Order History</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Manage Payment Methods</Text>
-                    </Pressable>
-                    <Pressable onPress={onDownloadPassbook} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Download passbook</Text>
-                    </Pressable>
+                <SectionTitle>YOUR PROFILE</SectionTitle>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.Info'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Personal Information</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Order History</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Manage Payment Methods</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Download passbook</Text>
+                </TouchableHighlight>
 
-                    <SectionTitle>SUPPORT</SectionTitle>
-                    <Pressable onPress={() => sendEmail()} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Contact Us</Text>
-                    </Pressable>
-                    <Pressable onPress={onFAQ} style={styles.listItem}>
-                        <Text style={styles.listItemText}>FAQ</Text>
-                    </Pressable>
-                    <Pressable onPress={onTerms} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Terms of Service</Text>
-                    </Pressable>
-                    <Pressable onPress={onPrivacy} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Privacy Policy</Text>
-                    </Pressable>
+                <SectionTitle>SUPPORT</SectionTitle>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => sendEmail()} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Contact Us</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onFAQ} style={styles.listItem}>
+                    <Text style={styles.listItemText}>FAQ</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onTerms} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Terms of Service</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onPrivacy} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Privacy Policy</Text>
+                </TouchableHighlight>
                 <View style={styles.footer}>
                     <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={onLogout} block={true} type={'primary'} text={'LOGOUT'}/>
                 </View>
