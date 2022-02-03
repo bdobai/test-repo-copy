@@ -253,7 +253,6 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.SPACING_2
     },
     centeredView: {
-        flex: 1,
         justifyContent: "center",
     },
     modalView: {
