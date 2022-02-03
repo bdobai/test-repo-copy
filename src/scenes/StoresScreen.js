@@ -279,7 +279,7 @@ const StoresScreen = (props) => {
                 safeAreaInnerHeight={0}
                 gestureEnabled={true}
                 indicatorColor={'#404042'}
-                initialOffsetFromBottom={0.19}
+                initialOffsetFromBottom={isIphone() ? 0.19 : 0.15}
             >
                 <View>
                     <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
