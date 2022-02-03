@@ -133,7 +133,7 @@ const HomeScreen = observer((props) => {
     }
 
     const renderMessages = () => {
-        if(loadingMessages || !messages) return;
+        if(loadingMessages || !messages?.length) return;
         return (
             <Swiper
                 key={messages.length}

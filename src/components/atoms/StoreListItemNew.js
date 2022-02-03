@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Image, Linking, Pressable } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import { scaleSize } from "_styles/mixins";
-import Button from "_atoms/Button";
 import { dayStringFromNumber, formatTimeUTC, getNextOpen, getOpenUntil } from "_utils/helpers";
 import markerIcon from "_assets/images/stores/marker-new.png";
-import RightChevron from "_assets/images/right-chevron.svg";
 
 const StoreListItemNew = (props) => {
     const renderIsOpen = () => {
@@ -21,12 +19,21 @@ const StoreListItemNew = (props) => {
         </View>
     }
 
-    const renderButton = () => {
-        if(!props.item.vendor_attribute.length || !props.item.vendor_attribute[0].link) return;
-        return <Button bodyStyle={styles.smallButton} type={'primary'} square={true} size={'sm'} bodyStyle={styles.smallButton} text={props.item.vendor_attribute[0]?.label} onPress={() => Linking.openURL(props.item.vendor_attribute[0].link)}/>
-    }
-
     const onPress = () => props.onPress(props.item)
+
+    const getAddress = () => {
+        let address = '';
+        if(props.item.city){
+            address = address.concat(props.item.city)
+        }
+        if(props.item.address_line_1){
+            address = address.concat(`, ${props.item.address_line_1}`)
+        }
+        if(props.item.address_line_2){
+            address = address.concat(`, ${props.item.address_line_2}`)
+        }
+        return address;
+    }
 
     return (
         <Pressable style={styles.container} onPress={onPress}>
@@ -36,15 +43,13 @@ const StoreListItemNew = (props) => {
                         <Image resizeMode={'contain'} source={markerIcon} style={styles.pinIcon}/>
                         <Text style={styles.title}>{props.item.name}</Text>
                     </View>
-                    <Text numberOfLines={1} style={styles.text}>{`${props.item.city}, ${props.item.address_line_1}`}</Text>
+                    <Text numberOfLines={1} style={styles.text}>{getAddress()}</Text>
                     <View style={styles.titleWrapper}>
                         <Text style={styles.title}>{`${props.item.distance?.toFixed(2)} km | `}</Text>
                         {renderIsOpen()}
                     </View>
                 </View>
-                {/*<RightChevron width={scaleSize(20)} height={scaleSize(20)} fill={Colors.PRIMARY}/>*/}
             </View>
-            {/*{renderButton()}*/}
         </Pressable>
     )
 }

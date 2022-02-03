@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, StyleSheet, Text, Pressable, View } from 'react-native'
 import { Colors, Spacing, Typography } from "_styles";
 import Container from '_components/atoms/Container'
@@ -6,103 +6,60 @@ import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { request } from '_utils/request'
 import { AuthStoreContext } from '_stores'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import TextField from "_atoms/TextField";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { requiredValidation } from "_utils/validators";
-import { observer } from "mobx-react-lite";
 
-const ConfirmSmsScreen = observer((props) => {
+const EditPhoneNumber = (props) => {
     const { control, handleSubmit, formState } = useForm({mode: 'onChange'});
+
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
-    useEffect(() => {
-        props.navigation.setOptions({
-            headerRight: () => <Text style={styles.page}>3 of 3</Text>
-        })
-    },[])
-
     const onSubmit = (data) => {
-        setLoading(true)
-        request('/user/activate.json', {
-            method: 'GET',
-            data: {
-                 token: data.confirm_code
-            },
-            withToken: true,
-            success: function (response) {
-                console.log('response', response)
-                authStore.setUserValidated(true);
+        // request(`/user/activate/sms.json`, {
+        //     method: 'GET',
+        //     data: {
+        //         'phone': data.phone_number
+        //     },
+        //     success: function () {
+                authStore.setUser({user: {...authStore.user, phone_number: data.phone_number}})
+                props.navigation.goBack();
                 setLoading(false)
-            },
-            error: (error) => {
-                console.log('error', error.error.errors[0])
-                setLoading(false)
-            }
-        });
-    };
-
-
-
-    const resendCode = () => {
-        request('/user/activate/sms.json', {
-            method: 'GET',
-            data: {
-                // "contact_consent": 3,
-            },
-            withToken: true,
-            success: function (response) {
-                console.log(response)
-                AsyncStorage.setItem('online_order_token', response.online_order_token)
-                AsyncStorage.setItem('session_key', response.session_identifier)
-                setLoading(false)
-                authStore.getUser()
-            },
-            error: (error) => {
-                console.log('error', error.error.errors[0])
-                setLoading(false)
-            }
-        });
-    };
-
-    const onEditPhoneNumber = () => {
-        props.navigation.navigate('EditPhoneNumber')
+            // },
+            // error: (error) => {
+            //     console.log('error', error);
+            //     setLoading(false)
+            // }
+        // })
     }
 
     return <View style={{ flex: 1 }}>
         <SafeAreaView style={ styles.signupScreen }>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
                 <ScrollView keyboardShouldPersistTaps='handled' style={{ flexGrow: 1 }} contentContainerStyle={{ flexGrow: 1 }} bounces={false} showsVerticalScrollIndicator={false}>
-                    <AuthHeaderText text={'Register'}/>
+                    <AuthHeaderText text={'Edit phone number'}/>
                     <Container style={{ flex: 1 }}>
-                        <Text style={ styles.infoText }>Please type the verification code sent to {authStore.user.phone_number}</Text>
-                        <Pressable onPress={onEditPhoneNumber}>
-                            <Text style={styles.footerActionText}>Edit phone number</Text>
-                        </Pressable>
-                        <View style={ styles.register } title={'Enter your credentials'}>
+                        <View style={ styles.register }>
                             <Controller
-                              control={control}
-                              render={({ field: { ref, onChange, onBlur, value } }) => (
-                                <TextField
-                                  onBlur={onBlur}
-                                  onChangeText={value => onChange(value)}
-                                  value={value}
-                                  ref={ref}
-                                  maxLength={6}
-                                  placeholder={'Confirmation code'}
-                                  error={formState.errors.confirm_code && true}
-                                  onSubmitEditing={() => handleSubmit(onSubmit)}
-                                  label='CONFIRM CODE'/>
-                              )}
-                              name="confirm_code"
-                              rules={{ required: 'Confirmation code is required', pattern: requiredValidation}}
-                              defaultValue=""
+                                control={control}
+                                render={({ field: { ref, onChange, onBlur, value } }) => (
+                                    <TextField
+                                        onBlur={onBlur}
+                                        onChangeText={value => onChange(value)}
+                                        value={value}
+                                        keyboardType={'phone-pad'}
+                                        ref={ref}
+                                        placeholder={'New phone number'}
+                                        error={formState.errors.phone_number?.message}
+                                        onSubmitEditing={() => handleSubmit(onSubmit)}
+                                        label='Phone number'/>
+                                )}
+                                name="phone_number"
+                                rules={{ required: 'Confirmation code is required', pattern: requiredValidation}}
+                                defaultValue=""
                             />
-                            <View>
-                                <Pressable onPress={() => resendCode()}><Text style={styles.resendText}>Resend code</Text></Pressable>
-                            </View>
                         </View>
                         <View style={styles.footer}>
                             <Button
@@ -113,7 +70,7 @@ const ConfirmSmsScreen = observer((props) => {
                                 onPress={handleSubmit(onSubmit)}
                                 block={true}
                                 type={'primary'}
-                                text={'NEXT'}
+                                text={'Save'}
                             />
                             <View style={styles.footerTextView}>
                                 <Pressable onPress={() => {
@@ -126,7 +83,7 @@ const ConfirmSmsScreen = observer((props) => {
             </KeyboardAvoidingView>
         </SafeAreaView>
     </View>
-})
+}
 
 const styles = StyleSheet.create({
     infoText: {
@@ -191,4 +148,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ConfirmSmsScreen
+export default EditPhoneNumber

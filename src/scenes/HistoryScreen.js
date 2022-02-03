@@ -1,18 +1,32 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Image, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    FlatList,
+    Image,
+    Pressable,
+    SafeAreaView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { request } from "_utils/request";
 import Spinner from "_atoms/Spinner";
 import { Colors, Spacing, Typography } from "_styles";
 import OrdersListItem from "_atoms/OrdersListItem";
 import Button from "_atoms/Button";
-import { scaleSize, SCREEN_HEIGHT, WINDOW_HEIGHT } from "_styles/mixins";
+import { scaleSize, SCREEN_HEIGHT } from "_styles/mixins";
 import ActionSheet from "react-native-actions-sheet";
 import OrderInfo from "_atoms/OrderInfo";
 import OrderDetailsCard from "_atoms/OrderDetailsCard";
 import ArrowDown from "_assets/images/orders/arrow-down-orange.png"
 import { isIphone } from "_utils/helpers";
+import StarsFeedback from "_atoms/StarsFeedback";
+import Modal from "react-native-modal";
 
 const HistoryScreen = (props) => {
+    const [comment, setComment] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
     const [loadingMore, setLoadingMore] = useState(false);
@@ -82,8 +96,13 @@ const HistoryScreen = (props) => {
         actionSheetRef.current.setModalVisible(true);
     }
 
+    const onFeedback = (item) => {
+        setOrder(item);
+        setModalVisible(true);
+    }
+
     const renderItem = ({ item }) => {
-        return <OrdersListItem onMore={onMore} item={item}/>
+        return <OrdersListItem onMore={onMore} onFeedback={onFeedback} item={item}/>
     }
 
     const renderListEmptyComponent = () => {
@@ -104,6 +123,38 @@ const HistoryScreen = (props) => {
     }
 
     const filteredData = data.filter((item) => item.status === 'Complete')
+
+    const renderOrderDetails = () => {
+        if(!order) return;
+        return(
+            <View style={{height:'100%'}}>
+                <Pressable onPress={() => actionSheetRef.current.setModalVisible(false)} style={styles.arrowWrapper}>
+                    <Image resizeMode={'stretch'} source={ArrowDown} style={styles.arrow}/>
+                </Pressable>
+                <View style={{paddingHorizontal: Spacing.SPACING_4}}>
+                    <Text style={styles.title}>{`AED${order?.total.toFixed(2)} purchase at ${order?.name}`}</Text>
+                    <OrderInfo item={order}/>
+                </View>
+                <View style={styles.cardWrapper}>
+                    <OrderDetailsCard item={order}/>
+                </View>
+            </View>
+        )
+    }
+
+    const onSendFeedback = () => {
+        request('/user/transaction/rate.json', {
+            method: 'POST',
+            data: {
+                comment:"Excellent!",
+                rating:100,
+                transaction:14395345,
+            },
+            withToken: true,
+            success: function (response) {},
+            error: (e) => {}
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -128,19 +179,35 @@ const HistoryScreen = (props) => {
                     marginBottom: Spacing.SPACING_5
                 }}
             />
-            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
-                <View style={{height:'100%'}}>
-                    <Pressable onPress={() => actionSheetRef.current.setModalVisible(false)} style={styles.arrowWrapper}>
-                        <Image resizeMode={'stretch'} source={ArrowDown} style={styles.arrow}/>
-                    </Pressable>
-                    <View style={{paddingHorizontal: Spacing.SPACING_4}}>
-                        <Text style={styles.title}>{`AED${order?.total.toFixed(2)} purchase at ${order?.name}`}</Text>
-                        <OrderInfo item={order}/>
-                    </View>
-                    <View style={styles.cardWrapper}>
+            <Modal
+                isVisible={modalVisible}
+                onBackdropPress={() => setModalVisible(false)}
+                backdropColor={Colors.BLACK}
+                backdropOpacity={0.2}
+            >
+                <View style={styles.centeredView} onTouchEnd={()=>setModalVisible(false)}>
+                    <View style={styles.modalView}>
                         <OrderDetailsCard item={order}/>
+                        <StarsFeedback/>
+                        <TextInput
+                            multiline={true}
+                            style={styles.input}
+                            value={comment}
+                            onChangeText={(value) => setComment(value)}
+                        />
+                        <Button
+                            type={'primary'}
+                            square={true}
+                            size={'sm'}
+                            text={'Send Feedback'}
+                            bodyStyle={styles.smallButton}
+                            onPress={onSendFeedback}
+                        />
                     </View>
                 </View>
+            </Modal>
+            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
+                {renderOrderDetails()}
             </ActionSheet>
         </View>
     )
@@ -194,7 +261,38 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: Spacing.SPACING_4,
         marginBottom: Spacing.SPACING_2
-    }
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+    },
+    modalView: {
+        marginVertical: scaleSize(20),
+        backgroundColor: "white",
+        borderRadius: scaleSize(20),
+        padding: scaleSize(35),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: Colors.MUTED,
+        height: scaleSize(80),
+        borderRadius: scaleSize(12),
+        paddingHorizontal: Spacing.SPACING_4
+    },
+    smallButton: {
+        width: scaleSize(225),
+        alignSelf: 'center',
+        height: scaleSize(35),
+        marginTop: Spacing.SPACING_4
+    },
 })
 
 export default HistoryScreen

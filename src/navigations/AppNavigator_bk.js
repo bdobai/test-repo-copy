@@ -22,6 +22,8 @@ import AccountNavigator from "_navigations/AccountNavigator";
 import { navigationStyles } from "_styles/navigation";
 import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
 import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
+import EditPhoneNumber from "_scenes/auth/EditPhoneNumber";
+import BackButton from "_atoms/BackButton";
 
 export const isReadyRef = React.createRef();
 
@@ -85,6 +87,9 @@ const ValidationNavigator = () => (
         headerStyle: navigationStyles.primaryHeader,
     }}>
         <Stack.Screen name={'ConfirmSms'} component={ConfirmSmsScreen}/>
+        <Stack.Screen name={'EditPhoneNumber'} component={EditPhoneNumber} options={{
+            headerLeft:() => <BackButton color={Colors.WHITE}/>,
+        }}/>
     </Stack.Navigator>
 )
 

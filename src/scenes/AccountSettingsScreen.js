@@ -9,6 +9,10 @@ import SectionTitle from '_atoms/SectionTitle';
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import { isIphone } from "_utils/helpers";
+import ReactNativeBlobUtil from "react-native-blob-util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { baseurl } from "_base/config/settings";
+
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -84,34 +88,18 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
-    const onDownloadPassbook = () => {
-        if(isIphone()){
-            request(`/vendor/107430/passbook/card/export/${authStore.user.id}`, {
-                method: 'GET',
-                data: {},
-                withToken: true,
-                withoutJson: true,
-                success: function (res) {
-                    console.log('res',res);
-                },
-                error: (e) => {
-                    console.log('error', e);
-                }
-            });
+    const onDownloadPassbook = async () => {
+        const sessionKey = await AsyncStorage.getItem('session_key')
+        if (isIphone()) {
+            return ReactNativeBlobUtil.config({fileCache: true})
+                .fetch("GET", `${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
+                .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()))
+                .catch((e) => console.log('e', e))
         }
-        // TODO: Get pass id instead of 12345678
-        request(`/vendor/107430/googlepaypass/12345678/export/${authStore.user.id}`, {
-            method: 'GET',
-            data: {},
-            withToken: true,
-            withoutJson: true,
-            success: function (res) {
-                console.log('res',res);
-            },
-            error: (e) => {
-                console.log('error', e);
-            }
-        });
+        return ReactNativeBlobUtil.config({fileCache: true})
+            .fetch("GET", `${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
+            .then((res) => ReactNativeBlobUtil.android.actionViewIntent(res.path()))
+            .catch((e) => console.log('e', e))
     }
 
     return <SafeAreaView style={{ flex: 1 }}>

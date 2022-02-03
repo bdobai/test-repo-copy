@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Alert, Image, Linking, PermissionsAndroid, Pressable, StyleSheet, Text, View } from "react-native";
-import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
+import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import markerIcon from '_assets/images/stores/marker-new.png';
@@ -164,9 +164,24 @@ const StoresScreen = (props) => {
     }
 
     const goToLocation = (locationDetails) => {
-        return mapRef.current.fitToCoordinates(// {center:{
+        if(!isIphone()){
+            return mapRef.current.animateCamera({
+                center:{ latitude: locationDetails.geometry.location.lat, longitude: locationDetails.geometry.location.lng},
+                zoom: 15
+            })
+        }
+        return mapRef.current.fitToCoordinates(
             [{latitude: locationDetails.geometry.viewport.northeast.lat, longitude: locationDetails.geometry.viewport.northeast.lng.toString()},
-                {latitude: locationDetails.geometry.viewport.southwest.lat, longitude: locationDetails.geometry.viewport.southwest.lng.toString()}])
+                {latitude: locationDetails.geometry.viewport.southwest.lat, longitude: locationDetails.geometry.viewport.southwest.lng.toString()}],
+            {
+                edgePadding: {
+                    top: 20,
+                    right: 20,
+                    bottom: 20,
+                    left: 20,
+                },
+            }
+        )
     }
 
     const renderSearchButton = () => {
@@ -234,7 +249,7 @@ const StoresScreen = (props) => {
                 showsUserLocation={true}
                 showsMyLocationButton={false}
                 style={styles.map}
-                provider={PROVIDER_DEFAULT}
+                provider={isIphone() ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
                 tracksViewChanges={false}
                 initialRegion={{
                     latitude: 25.2048,
@@ -264,12 +279,12 @@ const StoresScreen = (props) => {
                 safeAreaInnerHeight={0}
                 gestureEnabled={true}
                 indicatorColor={'#404042'}
-                initialOffsetFromBottom={0.2}
+                initialOffsetFromBottom={0.19}
             >
-                <>
+                <View>
                     <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
                     <StoreDetailsNew store={currentStore} onDirections={onDirections}/>
-                </>
+                </View>
             </ActionSheet>
             <ActionSheet containerStyle={styles.actionSheet} ref={filtersActionSheetRef} safeAreaInnerHeight={0}>
                 <StoresFilters onSave={onSaveFilters} onClear={onClearFilters} availability={availability} onlineOrdering={onlineOrdering}/>

@@ -8,17 +8,35 @@ import OrderInfo from "_atoms/OrderInfo";
 
 const OrdersListItem = (props) => {
 
-    const onMore = () => props.onMore(props.item);
+    const onMore = () => {
+        props.onMore(props.item);
+    }
+
+    const renderFeedback = () => {
+        if(props.item.rating.value > 0)
+            return props.item.rating.value;
+        return 'Feedback'
+    }
+
+    const onFeedback = () => {
+        if(props.item.rating.value > 0) return;
+        return props.onFeedback(props.item);
+    }
 
     const renderMore = () => {
         if(props.item.total === 0) return;
         return (
             <View>
                 <View style={styles.divider}/>
-                <Pressable onPress={onMore} style={styles.button}>
-                    <Text style={[styles.text, styles.more]}>More</Text>
-                    <RightChevron width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLUE_GRAY}/>
-                </Pressable>
+                <View style={styles.row}>
+                    <Pressable onPress={onFeedback} style={styles.feedbackButton}>
+                        <Text style={[styles.text, styles.feedback]}>{renderFeedback()}</Text>
+                    </Pressable>
+                    <Pressable onPress={onMore} style={styles.button}>
+                        <Text style={[styles.text, styles.more]}>More</Text>
+                        <RightChevron width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLUE_GRAY}/>
+                    </Pressable>
+                </View>
             </View>
         )
     }
@@ -66,7 +84,6 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_16,
     },
     button: {
-        alignSelf: 'flex-end',
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: scaleSize(10)
@@ -76,6 +93,22 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         paddingRight: Spacing.SPACING_1/2
     },
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    feedbackButton: {
+        backgroundColor: Colors.PRIMARY,
+        borderRadius: scaleSize(50),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: Spacing.SPACING_1
+    },
+    feedback: {
+        color: Colors.WHITE,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        padding: Spacing.SPACING_2,
+    }
 })
 
 export default OrdersListItem

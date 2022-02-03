@@ -7,7 +7,7 @@ import Button from "_atoms/Button";
 import { dayStringFromNumber, formatTimeUTC, getNextOpen, getOpenUntil } from "_utils/helpers";
 import markerIcon from "_assets/images/stores/marker-new.png";
 import clockIcon from "_assets/images/stores/clock-orange.png";
-import personIcon from "_assets/images/stores/person-orange.png";
+import messageIcon from "_assets/images/stores/message.png";
 import pinIcon from "_assets/images/stores/pin-orange.png";
 
 const StoreDetailsNew = (props) => {
@@ -48,8 +48,37 @@ const StoreDetailsNew = (props) => {
         </View>
     }
 
+    const onCall = () => Linking.openURL(`tel:${store.phone_number}`)
+    const onEmail = () => Linking.openURL(`mailto:${store.email_address}`)
+
+    const renderEmail = () => {
+        if(!store?.email_address) return
+        return (
+            <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
+                <View>
+                    <Text style={styles.closedText}>EMAIL</Text>
+                    <Text onPress={onEmail}>{store.email_address}</Text>
+                </View>
+            </View>
+        )
+    }
+
+    const renderPhoneNumber = () => {
+        if(!store?.phone_number) return;
+        return (
+            <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
+                <View>
+                    <Text style={styles.closedText}>PHONE NUMBER</Text>
+                    <Text onPress={onCall}>{store.phone_number}</Text>
+                </View>
+            </View>
+        )
+    }
+
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
+            {renderEmail()}
+            {renderPhoneNumber()}
             {renderIsOpen()}
             <View style={styles.row}>
                 <View>
@@ -74,7 +103,6 @@ const StoreDetailsNew = (props) => {
 
 const styles = StyleSheet.create({
     wrapper: {
-        // paddingHorizontal: Spacing.SPACING_4,
         paddingTop: Spacing.SPACING_4,
     },
     name: {
@@ -152,7 +180,12 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_14,
     },
     bodyStyle:{marginBottom: Spacing.SPACING_4},
-    textStyle:{fontFamily: Typography.FONT_PRIMARY_BOLD}
+    textStyle:{fontFamily: Typography.FONT_PRIMARY_BOLD},
+    sectionTitle :{
+        color: Colors.BLUE_GRAY,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontSize: Typography.FONT_SIZE_14,
+    },
 })
 
 export default StoreDetailsNew;
