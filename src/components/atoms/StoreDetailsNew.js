@@ -49,19 +49,6 @@ const StoreDetailsNew = (props) => {
     }
 
     const onCall = () => Linking.openURL(`tel:${store.phone_number}`)
-    const onEmail = () => Linking.openURL(`mailto:${store.email_address}`)
-
-    const renderEmail = () => {
-        if(!store?.email_address) return
-        return (
-            <View style={[styles.row, {paddingHorizontal: Spacing.SPACING_4}]}>
-                <View>
-                    <Text style={styles.closedText}>EMAIL</Text>
-                    <Text onPress={onEmail}>{store.email_address}</Text>
-                </View>
-            </View>
-        )
-    }
 
     const renderPhoneNumber = () => {
         if(!store?.phone_number) return;
@@ -77,7 +64,6 @@ const StoreDetailsNew = (props) => {
 
     return(
         <ScrollView style={styles.wrapper} contentContainerStyle={styles.contentContainer} showsVerticalScrollIndicator={false}>
-            {renderEmail()}
             {renderPhoneNumber()}
             {renderIsOpen()}
             <View style={styles.row}>

@@ -27,8 +27,8 @@ const HomeHeaderTitle = observer((props) => {
     return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.contentWrapper, isIphone() ? {} : {marginTop: StatusBar.currentHeight}]}>
-                    <Text style={styles.name}>{`${getGreeting()} ${authStore.user.first_name}`}</Text>
-                    <Pressable style={styles.icon} onPress={onInbox}>
+                    <Text numberOfLines={1} style={styles.name}>{`${getGreeting()} ${authStore.user.first_name}asdfdsfa`}</Text>
+                    <Pressable onPress={onInbox}>
                         <EmailIcon fill={'white'}/>
                     </Pressable>
                 </View>
@@ -45,18 +45,17 @@ const styles = StyleSheet.create({
         height: scaleSize(100),
     },
     contentWrapper: {
-        paddingHorizontal: Spacing.SPACING_4,
+        paddingHorizontal: Spacing.SPACING_5,
         paddingBottom: Spacing.SPACING_1,
         paddingTop: Spacing.SPACING_1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     name:{
         color: Colors.WHITE,
         fontFamily: Typography.FONT_SECONDARY_BOLD,
         fontSize: Typography.FONT_SIZE_26,
+        flex: 0.9
     },
-    icon: {
-        position: 'absolute',
-        top: scaleSize(0),
-        right: Spacing.SPACING_2
-    }
 })

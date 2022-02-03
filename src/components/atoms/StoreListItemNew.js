@@ -23,14 +23,14 @@ const StoreListItemNew = (props) => {
 
     const getAddress = () => {
         let address = '';
-        if(props.item.city){
-            address = address.concat(props.item.city)
-        }
         if(props.item.address_line_1){
-            address = address.concat(`, ${props.item.address_line_1}`)
+            address = address.concat(props.item.address_line_1)
         }
         if(props.item.address_line_2){
             address = address.concat(`, ${props.item.address_line_2}`)
+        }
+        if(props.item.city){
+            address = address.concat(`, ${props.item.city}`)
         }
         return address;
     }
