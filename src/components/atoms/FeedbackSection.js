@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
         borderColor: Colors.MUTED,
         height: scaleSize(80),
         borderRadius: scaleSize(12),
-        paddingHorizontal: Spacing.SPACING_4
+        paddingHorizontal: Spacing.SPACING_4,
+        color: Colors.BLACK
     },
     smallButton: {
         width: scaleSize(225),
