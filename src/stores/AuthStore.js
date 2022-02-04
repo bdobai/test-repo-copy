@@ -20,6 +20,7 @@ export default class AuthStore {
     notificationsCount = 0;
 
     // checkValidation = () => {
+
     //     request('/user/isValidated.json', {
     //         method: 'GET',
     //         withToken: true,

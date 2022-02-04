@@ -65,9 +65,17 @@ export async function request (url, options) {
             const value = await AsyncStorage.getItem('session_key')
             if (value !== null) {
                 if (url.indexOf('?') > -1) {
-                    url = url + '&session_key=' + value
+                    if(!options.sesionIdentifier) {
+                        url = url + '&session_key=' + value
+                    }else{
+                        url = url + '&session_identifier=' + value
+                    }
                 } else {
-                    url = url + '?session_key=' + value
+                    if(!options.sesionIdentifier) {
+                        url = url + '?session_key=' + value
+                    }else{
+                        url = url + '?session_identifier=' + value
+                    }
                 }
             }
         } catch (error) {

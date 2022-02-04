@@ -32,6 +32,8 @@ const ConfirmSmsScreen = observer((props) => {
                  token: data.confirm_code
             },
             withToken: true,
+            withoutJson: true,
+            sesionIdentifier:true,
             success: function (response) {
                 console.log('response', response)
                 authStore.setUserValidated(true);
@@ -53,6 +55,8 @@ const ConfirmSmsScreen = observer((props) => {
                 // "contact_consent": 3,
             },
             withToken: true,
+            withoutJson: true,
+            sesionIdentifier:true,
             success: function (response) {
                 console.log(response)
                 AsyncStorage.setItem('online_order_token', response.online_order_token)
@@ -106,8 +110,8 @@ const ConfirmSmsScreen = observer((props) => {
                         </View>
                         <View style={styles.footer}>
                             <Button
-                                disabled={!formState.isValid}
-                                loading={loading}
+                                // disabled={!formState.isValid}
+                                // loading={loading}
                                 textStyle={styles.buttonTitle}
                                 bodyStyle={styles.button}
                                 onPress={handleSubmit(onSubmit)}
