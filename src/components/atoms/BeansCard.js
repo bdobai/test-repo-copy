@@ -20,9 +20,9 @@ const BeansCard = (props) => {
 
     return (
         <View style={styles.card}>
-            <Image source={props.balance >= 2000 ? fullCup : (props.balance > 0 ? halfCup : emptyCup)} style={styles.image}/>
+            <Image key={props.balance} source={props.balance >= 2000 ? fullCup : (props.balance > 0 ? halfCup : emptyCup)} style={styles.image} resizeMode={'contain'}/>
             <View style={styles.contentWrapper}>
-                <Text style={styles.beans}>{props.balance}<Text style={{fontSize: Typography.FONT_SIZE_16}}>/2000</Text></Text>
+                <Text style={styles.beans}>{props.balance}</Text>
                 <ProgressBar color={Colors.SECONDARY} percent={percent > 100 ? 100 : percent}/>
                 <Text style={styles.description}>2000 beans gets you a <Text style={{fontWeight: 'bold', fontFamily: Typography.FONT_PRIMARY_BOLD}}>free coffee</Text></Text>
                 {renderTier()}
@@ -48,17 +48,18 @@ const styles = StyleSheet.create({
         color: Colors.PRIMARY,
         fontSize: Typography.FONT_SIZE_36,
         fontFamily: Typography.FONT_SECONDARY_BOLD,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        alignSelf: 'center'
     },
     description: {
         color: Colors.PRIMARY,
-        fontSize: Typography.FONT_SIZE_14,
+        fontSize: Typography.FONT_SIZE_12,
         fontFamily: Typography.FONT_PRIMARY_MEDIUM,
         paddingTop: Spacing.SPACING_3
     },
     image: {
-        width: scaleSize(120),
-        height: scaleSize(150),
+        width: scaleSize(80),
+        height: scaleSize(100),
     },
     contentWrapper:{
         flex:1,
