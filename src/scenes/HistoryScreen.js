@@ -1,21 +1,36 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Image, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    FlatList,
+    Image,
+    Pressable,
+    SafeAreaView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { request } from "_utils/request";
 import Spinner from "_atoms/Spinner";
 import { Colors, Spacing, Typography } from "_styles";
 import OrdersListItem from "_atoms/OrdersListItem";
 import Button from "_atoms/Button";
-import { scaleSize, SCREEN_HEIGHT, WINDOW_HEIGHT } from "_styles/mixins";
+import { scaleSize, SCREEN_HEIGHT } from "_styles/mixins";
 import ActionSheet from "react-native-actions-sheet";
 import OrderInfo from "_atoms/OrderInfo";
 import OrderDetailsCard from "_atoms/OrderDetailsCard";
 import ArrowDown from "_assets/images/orders/arrow-down-orange.png"
 import { isIphone } from "_utils/helpers";
+import FeedbackSection from "_atoms/FeedbackSection";
+import Modal from "react-native-modal";
+import CloseIcon from "_assets/images/close.svg";
 
 const HistoryScreen = (props) => {
+    const [modalVisible, setModalVisible] = useState(false);
     const [loading, setLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false)
     const [loadingMore, setLoadingMore] = useState(false);
+    const [loadingFeedback, setLoadingFeedback] = useState(false);
     const [data, setData] = useState([]);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState(null);
@@ -82,8 +97,13 @@ const HistoryScreen = (props) => {
         actionSheetRef.current.setModalVisible(true);
     }
 
+    const onFeedback = (item) => {
+        setOrder(item);
+        setModalVisible(true);
+    }
+
     const renderItem = ({ item }) => {
-        return <OrdersListItem onMore={onMore} item={item}/>
+        return <OrdersListItem onMore={onMore} onFeedback={onFeedback} item={item}/>
     }
 
     const renderListEmptyComponent = () => {
@@ -104,6 +124,47 @@ const HistoryScreen = (props) => {
     }
 
     const filteredData = data.filter((item) => item.status === 'Complete')
+
+    const renderOrderDetails = () => {
+        if(!order) return;
+        return(
+            <View style={{height:'100%'}}>
+                <Pressable onPress={() => actionSheetRef.current.setModalVisible(false)} style={styles.arrowWrapper}>
+                    <Image resizeMode={'stretch'} source={ArrowDown} style={styles.arrow}/>
+                </Pressable>
+                <View style={{paddingHorizontal: Spacing.SPACING_4}}>
+                    <Text style={styles.title}>{`AED${order?.total.toFixed(2)} purchase at ${order?.name}`}</Text>
+                    <OrderInfo item={order}/>
+                </View>
+                <View style={styles.cardWrapper}>
+                    <OrderDetailsCard item={order}/>
+                </View>
+            </View>
+        )
+    }
+
+    const onSendFeedback = (stars, comment) => {
+        setLoadingFeedback(true)
+        request('/user/transaction/rate.json', {
+            method: 'POST',
+            data: {
+                comment: comment,
+                rating: stars * 20,
+                transaction: order.id
+            },
+            withToken: true,
+            withoutJson: true,
+            success: function (response) {
+                const index = data.findIndex((item) => item.id === order.id);
+                data[index] = {...data[index], rating:{value: stars, comment: comment}}
+                setData([...data]);
+                setLoadingFeedback(false)
+            },
+            error: (e) => {
+                setLoadingFeedback(false)
+            }
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -128,19 +189,24 @@ const HistoryScreen = (props) => {
                     marginBottom: Spacing.SPACING_5
                 }}
             />
-            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
-                <View style={{height:'100%'}}>
-                    <Pressable onPress={() => actionSheetRef.current.setModalVisible(false)} style={styles.arrowWrapper}>
-                        <Image resizeMode={'stretch'} source={ArrowDown} style={styles.arrow}/>
-                    </Pressable>
-                    <View style={{paddingHorizontal: Spacing.SPACING_4}}>
-                        <Text style={styles.title}>{`AED${order?.total.toFixed(2)} purchase at ${order?.name}`}</Text>
-                        <OrderInfo item={order}/>
-                    </View>
-                    <View style={styles.cardWrapper}>
+            <Modal
+                isVisible={modalVisible}
+                onBackdropPress={() => setModalVisible(false)}
+                backdropColor={Colors.BLACK}
+                backdropOpacity={0.2}
+            >
+                <Pressable style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Pressable onPress={() => setModalVisible(false)} style={styles.modalClose} hitSlop={{top: scaleSize(10), bottom: scaleSize(10), left:scaleSize(10), right: scaleSize(10)}}>
+                            <CloseIcon width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLACK}/>
+                        </Pressable>
                         <OrderDetailsCard item={order}/>
+                        <FeedbackSection onSendFeedback={onSendFeedback} loading={loadingFeedback}/>
                     </View>
-                </View>
+                </Pressable>
+            </Modal>
+            <ActionSheet containerStyle={styles.actionSheet} ref={actionSheetRef} safeAreaInnerHeight={0}>
+                {renderOrderDetails()}
             </ActionSheet>
         </View>
     )
@@ -194,6 +260,28 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         marginTop: Spacing.SPACING_4,
         marginBottom: Spacing.SPACING_2
+    },
+    centeredView: {
+        justifyContent: "center",
+    },
+    modalView: {
+        marginVertical: scaleSize(20),
+        backgroundColor: "white",
+        borderRadius: scaleSize(20),
+        padding: scaleSize(35),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    modalClose: {
+        position: 'absolute',
+        right: 20,
+        top: 20
     }
 })
 

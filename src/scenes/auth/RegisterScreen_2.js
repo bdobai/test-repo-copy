@@ -8,7 +8,7 @@ import {
     Text,
     View,
     Image,
-    TextInput,
+    TextInput, ActivityIndicator,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -31,10 +31,12 @@ import { AuthStoreContext } from "_stores";
 import dayjs from "dayjs";
 import { request } from "_utils/request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ErrorIcon from "_assets/images/alerts/error.svg";
+import SuccessIcon from "_assets/images/alerts/success.svg";
 
 const RegisterScreen_2 = (props) => {
-    const { control, handleSubmit, setFocus, formState, } = useForm({mode: "onChange"});
-
+    const { control, handleSubmit, setFocus, formState, getValues } = useForm({mode: "onChange"});
+    const [mobileStatus, setMobileStatus] = useState(''); // success || error
     useEffect(() => {
         props.navigation.setOptions({
             headerRight: () => <Text style={styles.page}>2 of 3</Text>
@@ -56,7 +58,7 @@ const RegisterScreen_2 = (props) => {
             "last_name": params.last_name,
             "terms": data.terms,
             "phone_number": {
-                "code": '+971', // +40
+                "code": '+40', // +971
                 "number": data.phone_number
             },
             "country": data.nationality.country_id,
@@ -118,6 +120,53 @@ const RegisterScreen_2 = (props) => {
 
     const onPrivacyPolicy = () => {
         props.navigation.navigate('Privacy', {code:'terms'})
+    }
+
+    const verifyPhoneNumber = () => {
+        const phoneNumber = getValues('phone_number');
+        if(!phoneNumber?.length) return;
+        setLoading(true)
+        console.log('email', phoneNumber);
+        request('/user/mobile/exists.json', {
+            method: 'GET',
+            data: {
+                mobile: phoneNumber,
+                vendor: 107430
+            },
+            withToken: false,
+            success: function (response) {
+                console.log('response', response);
+                if(response.exists){
+                    setMobileStatus('error');
+                }else {
+                    setMobileStatus('success');
+                }
+                setLoading(false)
+            },
+            error: (e) => {
+                console.log('e', e);
+                setLoading(false)
+            }
+        });
+    }
+
+    const renderEmailErrorMessage = () => {
+        if(mobileStatus!=='error') return;
+        return (
+            <View style={styles.emailErrorWrapper}>
+                <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR} style={{marginRight: Spacing.SPACING_2}}/>
+                <Text style={styles.emailError}>You are already registered for a Spoonity account with Costa Coffee UAE. Use the same password to login. If you can't remember your password,
+                    <Text style={styles.link} onPress={() => props.navigation.navigate('Recover')}> reset it here</Text>
+                </Text>
+            </View>
+        )
+    }
+
+    const renderRightAccessory = () => {
+        if(loading) return <ActivityIndicator />
+        if(!mobileStatus) return;
+        if(mobileStatus==='success') return <SuccessIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.WHITE} style={{backgroundColor:Colors.WHITE}} />
+        return <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR}/>
     }
 
     return <View style={{ flex: 1 }}>
@@ -212,12 +261,16 @@ const RegisterScreen_2 = (props) => {
                                         placeholder={'Phone number'}
                                         autoCorrect={false}
                                         autoCapitalize={'none'}
-                                        onBlur={onBlur}
+                                        onBlur={() => {
+                                            onBlur();
+                                            verifyPhoneNumber();
+                                        }}
                                         onChangeText={value => {
                                             onChange(value)
                                         }}
                                         value={value}
                                         ref={ref}
+                                        rightAccessory={() => <View style={styles.securePasswordWrapper}>{renderRightAccessory()}</View>}
                                         blurOnSubmit={true}
                                         error={formState.errors.phone_number?.message}
                                         keyboardType={"phone-pad"}
@@ -227,6 +280,7 @@ const RegisterScreen_2 = (props) => {
                                 rules={{ required: 'Phone number is required', pattern: phoneNumberValidator}}
                                 defaultValue={''}
                             />
+                            {renderEmailErrorMessage()}
                             <Controller
                                 control={control}
                                 render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -431,7 +485,21 @@ const styles = StyleSheet.create({
         marginLeft: Spacing.SPACING_1,
         color: Colors.BLACK,
         paddingVertical:scaleSize(5)
-    }
+    },
+    emailErrorWrapper: {
+        flexDirection: 'row',
+        marginBottom: Spacing.SPACING_5,
+    },
+    emailError:{
+        fontSize: Typography.FONT_SIZE_14,
+        lineHeight: Typography.FONT_SIZE_20,
+        fontFamily: Typography.FONT_PRIMARY_REGULAR,
+        color: Colors.BLUE_GRAY,
+        flex:1
+    },
+    link: {
+        fontWeight: '700'
+    },
 })
 
 export default RegisterScreen_2

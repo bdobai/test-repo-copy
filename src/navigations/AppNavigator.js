@@ -21,6 +21,7 @@ import { scaleSize } from '_styles/mixins';
 import AccountSettingsScreen from "_scenes/AccountSettingsScreen";
 import { navigationStyles } from "_styles/navigation";
 import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
+import EditPhoneNumber from "_scenes/auth/EditPhoneNumber";
 
 export const isReadyRef = React.createRef();
 
@@ -86,6 +87,7 @@ const ValidationNavigator = () => (
         headerStyle: navigationStyles.primaryHeader,
     }}>
         <Stack.Screen name={'ConfirmSms'} component={ConfirmSmsScreen}/>
+        <Stack.Screen name={'EditPhoneNumber'} component={EditPhoneNumber}/>
     </Stack.Navigator>
 )
 

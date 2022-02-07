@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar } from "react-native";
+import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar, TouchableHighlight } from 'react-native';
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { scaleSize } from '_styles/mixins'
@@ -9,6 +9,10 @@ import SectionTitle from '_atoms/SectionTitle';
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import { isIphone } from "_utils/helpers";
+import ReactNativeBlobUtil from "react-native-blob-util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { baseurl } from "_base/config/settings";
+
 
 const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
@@ -84,34 +88,36 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
-    const onDownloadPassbook = () => {
-        if(isIphone()){
-            request(`/vendor/107430/passbook/card/export/${authStore.user.id}`, {
-                method: 'GET',
-                data: {},
-                withToken: true,
-                withoutJson: true,
-                success: function (res) {
-                    console.log('res',res);
-                },
-                error: (e) => {
-                    console.log('error', e);
-                }
-            });
+    console.log('auth', authStore.user.id);
+
+    const onDownloadPassbook = async () => {
+        const sessionKey = await AsyncStorage.getItem('session_key')
+        if (isIphone()) {
+            // return ReactNativeBlobUtil.config({fileCache: true})
+            //     .fetch("GET", `${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
+                // .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()))
+                // .catch((e) => console.log('e', e))
+            return Linking.openURL(`${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
         }
-        // TODO: Get pass id instead of 12345678
-        request(`/vendor/107430/googlepaypass/12345678/export/${authStore.user.id}`, {
+        // return ReactNativeBlobUtil.config({fileCache: true})
+            // .fetch("GET", `${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
+            // .then((res) => {
+            //     console.log('path', res.path());
+            //     ReactNativeBlobUtil.android.actionViewIntent(res.path())
+            // })
+            // .catch((e) => console.log('e', e))
+        // Linking.openURL(`${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
+        request(`/vendor/107430/googlepaypass/1/export/${authStore.user.id}`, {
             method: 'GET',
-            data: {},
             withToken: true,
-            withoutJson: true,
+            data:{},
             success: function (res) {
-                console.log('res',res);
+                Linking.openURL(res.google_pay_pass_url);
             },
             error: (e) => {
-                console.log('error', e);
+                console.log('e',e);
             }
-        });
+        })
     }
 
     return <SafeAreaView style={{ flex: 1 }}>
@@ -121,36 +127,36 @@ const AccountSettingsScreen = (props) => {
             showsVerticalScrollIndicator={false}
         >
             <Container style={ styles.container }>
-                    <SectionTitle>YOUR PROFILE</SectionTitle>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.Info'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Personal Information</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Order History</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
-                    </Pressable>
-                    <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Manage Payment Methods</Text>
-                    </Pressable>
-                    <Pressable onPress={onDownloadPassbook} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Download passbook</Text>
-                    </Pressable>
+                <SectionTitle>YOUR PROFILE</SectionTitle>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.Info'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Personal Information</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('History')} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Order History</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Manage Payment Methods</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Download passbook</Text>
+                </TouchableHighlight>
 
-                    <SectionTitle>SUPPORT</SectionTitle>
-                    <Pressable onPress={() => sendEmail()} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Contact Us</Text>
-                    </Pressable>
-                    <Pressable onPress={onFAQ} style={styles.listItem}>
-                        <Text style={styles.listItemText}>FAQ</Text>
-                    </Pressable>
-                    <Pressable onPress={onTerms} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Terms of Service</Text>
-                    </Pressable>
-                    <Pressable onPress={onPrivacy} style={styles.listItem}>
-                        <Text style={styles.listItemText}>Privacy Policy</Text>
-                    </Pressable>
+                <SectionTitle>SUPPORT</SectionTitle>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => sendEmail()} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Contact Us</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onFAQ} style={styles.listItem}>
+                    <Text style={styles.listItemText}>FAQ</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onTerms} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Terms of Service</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={onPrivacy} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Privacy Policy</Text>
+                </TouchableHighlight>
                 <View style={styles.footer}>
                     <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={onLogout} block={true} type={'primary'} text={'LOGOUT'}/>
                 </View>
