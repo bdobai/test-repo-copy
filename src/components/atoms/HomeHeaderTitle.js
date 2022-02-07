@@ -27,7 +27,7 @@ const HomeHeaderTitle = observer((props) => {
     return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.contentWrapper, isIphone() ? {} : {marginTop: StatusBar.currentHeight}]}>
-                    <Text numberOfLines={1} style={styles.name}>{`${getGreeting()} ${authStore.user.first_name}asdfdsfa`}</Text>
+                    <Text numberOfLines={1} style={styles.name}>{`${getGreeting()} ${authStore.user.first_name}`}</Text>
                     <Pressable onPress={onInbox}>
                         <EmailIcon fill={'white'}/>
                     </Pressable>
