@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Image, Linking, PermissionsAndroid, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Linking, PermissionsAndroid, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
@@ -132,12 +132,24 @@ const StoresScreen = (props) => {
     }
 
     const onDirections = async () => {
-        await Linking.openURL(
-            createGoogleMapsUrl(
-                currentStore.latitude,
-                currentStore.longitude,
-            ),
-        );
+        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+        const latLng = `${currentStore.latitude},${currentStore.longitude}`;
+        const label = currentStore.name;
+        const url = Platform.select({
+            ios: `${scheme}${label}@${latLng}`,
+            android: `${scheme}${latLng}(${label})`
+        });
+        try{
+            await Linking.openURL(url);
+        }catch (e){
+            await Linking.openURL(
+                createGoogleMapsUrl(
+                    currentStore.latitude,
+                    currentStore.longitude,
+                ),
+            );
+        }
+
     }
 
     const onCloseActionSheet = () => {

@@ -88,18 +88,36 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
+    console.log('auth', authStore.user.id);
+
     const onDownloadPassbook = async () => {
         const sessionKey = await AsyncStorage.getItem('session_key')
         if (isIphone()) {
-            return ReactNativeBlobUtil.config({fileCache: true})
-                .fetch("GET", `${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
-                .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()))
-                .catch((e) => console.log('e', e))
+            // return ReactNativeBlobUtil.config({fileCache: true})
+            //     .fetch("GET", `${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
+                // .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()))
+                // .catch((e) => console.log('e', e))
+            return Linking.openURL(`${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
         }
-        return ReactNativeBlobUtil.config({fileCache: true})
-            .fetch("GET", `${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
-            .then((res) => ReactNativeBlobUtil.android.actionViewIntent(res.path()))
-            .catch((e) => console.log('e', e))
+        // return ReactNativeBlobUtil.config({fileCache: true})
+            // .fetch("GET", `${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
+            // .then((res) => {
+            //     console.log('path', res.path());
+            //     ReactNativeBlobUtil.android.actionViewIntent(res.path())
+            // })
+            // .catch((e) => console.log('e', e))
+        // Linking.openURL(`${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
+        request(`/vendor/107430/googlepaypass/1/export/${authStore.user.id}`, {
+            method: 'GET',
+            withToken: true,
+            data:{},
+            success: function (res) {
+                Linking.openURL(res.google_pay_pass_url);
+            },
+            error: (e) => {
+                console.log('e',e);
+            }
+        })
     }
 
     return <SafeAreaView style={{ flex: 1 }}>
