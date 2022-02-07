@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, Pressable, View, ScrollView, Alert, StatusBar } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -9,12 +9,13 @@ import SectionTitle from '_atoms/SectionTitle';
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import { isIphone } from "_utils/helpers";
-import ReactNativeBlobUtil from "react-native-blob-util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseurl } from "_base/config/settings";
+import Spinner from "_atoms/Spinner";
 
 
 const AccountSettingsScreen = (props) => {
+    const [loadingPassbook, setLoadingPassbook] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
     useEffect(() => {
@@ -88,31 +89,27 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
-    console.log('auth', authStore.user.id);
-
     const onDownloadPassbook = async () => {
         const sessionKey = await AsyncStorage.getItem('session_key')
+        setLoadingPassbook(true);
         if (isIphone()) {
-            // return ReactNativeBlobUtil.config({fileCache: true})
-            //     .fetch("GET", `${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
-                // .then((res) => ReactNativeBlobUtil.ios.previewDocument(res.path()))
-                // .catch((e) => console.log('e', e))
-            return Linking.openURL(`${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
+            Linking.openURL(`${baseurl}/vendor/107430/passbook/card/export/${authStore.user.id}?session_key=${sessionKey}`)
+                .then(()=>{
+                    setLoadingPassbook(false);
+                return;
+            })
+                .catch(()=> setLoadingPassbook(false))
         }
-        // return ReactNativeBlobUtil.config({fileCache: true})
-            // .fetch("GET", `${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
-            // .then((res) => {
-            //     console.log('path', res.path());
-            //     ReactNativeBlobUtil.android.actionViewIntent(res.path())
-            // })
-            // .catch((e) => console.log('e', e))
-        // Linking.openURL(`${baseurl}/vendor/107430/googlepaypass/1/export/${authStore.user.id}?session_key=${sessionKey}`)
         request(`/vendor/107430/googlepaypass/1/export/${authStore.user.id}`, {
             method: 'GET',
             withToken: true,
             data:{},
             success: function (res) {
-                Linking.openURL(res.google_pay_pass_url);
+                Linking.openURL(res.google_pay_pass_url).then(()=>{
+                    setLoadingPassbook(false);
+                    return;
+                })
+                    .catch(()=> setLoadingPassbook(false))
             },
             error: (e) => {
                 console.log('e',e);
@@ -140,8 +137,9 @@ const AccountSettingsScreen = (props) => {
                     <Pressable onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
                         <Text style={styles.listItemText}>Manage Payment Methods</Text>
                     </Pressable>
-                    <Pressable onPress={onDownloadPassbook} style={styles.listItem}>
+                    <Pressable onPress={onDownloadPassbook} style={[styles.listItem, styles.passbookWrapper]}>
                         <Text style={styles.listItemText}>Download passbook</Text>
+                        {loadingPassbook && <Spinner size={'small'} color={Colors.BLUE_GRAY}/>}
                     </Pressable>
 
                     <SectionTitle>SUPPORT</SectionTitle>
@@ -213,6 +211,10 @@ const styles = StyleSheet.create({
         lineHeight: Typography.LINE_HEIGHT_16,
         color: Colors.BLACK
     },
+    passbookWrapper: {
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }
 })
 
 export default AccountSettingsScreen
