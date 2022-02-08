@@ -14,7 +14,7 @@ const OrdersListItem = (props) => {
 
     const renderFeedback = () => {
         if(props.item.rating.value > 0) {
-            return 'Rating: ' + (props.item.rating.value);
+            return 'Rating: ' + (props.item.rating.value / 20).toFixed(1);
         }
         return 'Feedback'
     }

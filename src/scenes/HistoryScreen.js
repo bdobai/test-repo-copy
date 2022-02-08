@@ -156,7 +156,7 @@ const HistoryScreen = (props) => {
             withoutJson: true,
             success: function (response) {
                 const index = data.findIndex((item) => item.id === order.id);
-                data[index] = {...data[index], rating:{value: stars*20, comment: comment}}
+                data[index] = {...data[index], rating: {value: stars*20, comment: comment}}
                 setData([...data]);
                 setLoadingFeedback(false)
                 setModalVisible(false);
