@@ -139,7 +139,7 @@ const AccountSettingsScreen = (props) => {
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook}>
                     <View style={[styles.listItem, styles.passbookWrapper]}>
-                        <Text style={styles.listItemText}>Download passbook</Text>
+                        <Text style={styles.listItemText}>Add QR to Apple/Google Wallet</Text>
                         {loadingPassbook && <Spinner size={'small'} color={Colors.BLUE_GRAY}/>}
                     </View>
                 </TouchableHighlight>

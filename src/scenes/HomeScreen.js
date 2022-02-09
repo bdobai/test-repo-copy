@@ -168,10 +168,11 @@ const HomeScreen = observer((props) => {
         <BeansCard balance={getBalance()} tier={rewards?.tier?.current?.name}/>
         {renderReward()}
         {barcode && <BarcodeCard barcode={barcode} loading={loadingBarcode}/>}
-        {renderMessages()}
         <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>
         <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Order Online'} bodyStyle={styles.smallButton} onPress={onOrderOnline}/>
+        <View style={styles.divider}/>
+        {renderMessages()}
         <View style={styles.campaign}>
             <Image source={menuImage} style={styles.menuImage}/>
             <View style={styles.menuBackground}>
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     divider: {
         width:'100%',
         backgroundColor: Colors.LIGHT_GREY,
-        marginVertical: Spacing.SPACING_3
+        marginVertical: Spacing.SPACING_1
     },
     smallButton: {
         width: scaleSize(225),
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     campaign: {
         height: scaleSize(170),
         paddingHorizontal: Spacing.SPACING_5,
-        marginTop: Spacing.SPACING_5,
+        marginTop: Spacing.SPACING_2,
         flexDirection: 'row',
         borderRadius: scaleSize(5),
         overflow: "hidden"
@@ -274,7 +275,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         paddingLeft: Spacing.SPACING_3
     },
-    swiper:{height: scaleSize(200), marginBottom: Spacing.SPACING_8}
+    swiper:{height: scaleSize(200), marginBottom: Spacing.SPACING_3}
 })
 
 export default HomeScreen

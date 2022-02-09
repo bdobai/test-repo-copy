@@ -16,7 +16,7 @@ const OrdersListItem = (props) => {
         if(props.item.rating.value > 0) {
             return 'Rating: ' + (props.item.rating.value / 20).toFixed(1);
         }
-        return 'Feedback'
+        return 'Rate'
     }
 
     const onFeedback = () => {
@@ -28,7 +28,6 @@ const OrdersListItem = (props) => {
         if(props.item.total === 0) return;
         return (
             <View>
-                <View style={styles.divider}/>
                 <View style={styles.row}>
                     <Pressable onPress={onFeedback} style={styles.feedbackButton}>
                         <Text style={[styles.text, styles.feedback]}>{renderFeedback()}</Text>
@@ -49,8 +48,7 @@ const OrdersListItem = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [AT] HH:mm A')}</Text>
-            <View style={styles.divider}/>
+            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [AT] HH:mm')}</Text>
             {renderTitle()}
             <OrderInfo item={props.item}/>
             {renderMore()}
