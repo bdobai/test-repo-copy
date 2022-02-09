@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, Alert, StatusBar, TouchableHighlight } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, Alert, StatusBar, TouchableHighlight } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import { scaleSize } from '_styles/mixins'
