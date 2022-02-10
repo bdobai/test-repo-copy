@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import { scaleSize } from "_styles/mixins";
 import RightChevron from "_assets/images/right-chevron.svg";
 import { dateFormat } from "_utils/helpers";
 import OrderInfo from "_atoms/OrderInfo";
+import ratingIcon from '_assets/images/orders/rating.png';
 
 const OrdersListItem = (props) => {
 
@@ -14,9 +15,12 @@ const OrdersListItem = (props) => {
 
     const renderFeedback = () => {
         if(props.item.rating.value > 0) {
-            return 'Rating: ' + (props.item.rating.value / 20).toFixed(1);
+            return <Text style={[styles.text, styles.feedback]}>{'Rating: ' + (props.item.rating.value / 20).toFixed(1)}</Text>
         }
-        return 'Rate'
+        return <View style={{flexDirection:'row', alignItems:'center'}}>
+            <Image source={ratingIcon} style={styles.ratingIcon} resizeMode={'contain'}/>
+            <Text style={[styles.text, styles.feedback]}>Rate</Text>
+        </View>
     }
 
     const onFeedback = () => {
@@ -30,7 +34,7 @@ const OrdersListItem = (props) => {
             <View>
                 <View style={styles.row}>
                     <Pressable onPress={onFeedback} style={styles.feedbackButton}>
-                        <Text style={[styles.text, styles.feedback]}>{renderFeedback()}</Text>
+                        {renderFeedback()}
                     </Pressable>
                     <Pressable onPress={onMore} style={styles.button}>
                         <Text style={[styles.text, styles.more]}>More</Text>
@@ -107,6 +111,11 @@ const styles = StyleSheet.create({
         color: Colors.WHITE,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         padding: Spacing.SPACING_2,
+    },
+    ratingIcon: {
+        width: scaleSize(20),
+        height: scaleSize(20),
+        marginLeft: scaleSize(10)
     }
 })
 

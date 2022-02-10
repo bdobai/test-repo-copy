@@ -206,8 +206,8 @@ const styles = StyleSheet.create({
     },
     campaign: {
         height: scaleSize(170),
-        paddingHorizontal: Spacing.SPACING_5,
-        marginTop: Spacing.SPACING_2,
+        paddingHorizontal: Spacing.SPACING_4,
+        marginTop: Spacing.SPACING_1,
         flexDirection: 'row',
         borderRadius: scaleSize(5),
         overflow: "hidden"
@@ -275,7 +275,11 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         paddingLeft: Spacing.SPACING_3
     },
-    swiper:{height: scaleSize(200), marginBottom: Spacing.SPACING_3}
+    swiper:{
+        height: scaleSize(200),
+        marginBottom: Spacing.SPACING_4,
+        marginTop: Spacing.SPACING_4
+    }
 })
 
 export default HomeScreen
