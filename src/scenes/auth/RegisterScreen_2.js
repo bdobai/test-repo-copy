@@ -33,11 +33,13 @@ import { request } from "_utils/request";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ErrorIcon from "_assets/images/alerts/error.svg";
 import SuccessIcon from "_assets/images/alerts/success.svg";
+import { visilabsApi } from "_utils/analytics";
 
 const RegisterScreen_2 = (props) => {
     const { control, handleSubmit, setFocus, formState, getValues } = useForm({mode: "onChange"});
     const [mobileStatus, setMobileStatus] = useState(''); // success || error
     useEffect(() => {
+        visilabsApi.customEvent('Register-2');
         props.navigation.setOptions({
             headerRight: () => <Text style={styles.page}>2 of 3</Text>
         })
@@ -73,7 +75,12 @@ const RegisterScreen_2 = (props) => {
             method: 'POST',
             data: body,
             withToken: false,
-            success: function () {
+            success: function (response) {
+                let userData = {
+                    "OM.exVisitorID": response?.id || '1',
+                    "OM.b_sgnp":"1"
+                };
+                visilabsApi.customEvent("SignUp",userData);
                 props.navigation.navigate('Register_3', {email: params.email, number: data.phone_number});
                 loginAccount()
             },

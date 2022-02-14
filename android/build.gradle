@@ -12,10 +12,12 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {url 'http://developer.huawei.com/repo/'}
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.1")
         classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.huawei.agconnect:agcp:1.4.1.300'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,6 +27,7 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        maven {url 'http://developer.huawei.com/repo/'}
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")

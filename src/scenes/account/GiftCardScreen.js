@@ -22,6 +22,7 @@ import { Controller, useForm } from "react-hook-form";
 import TextField from "_atoms/TextField";
 import { requiredValidation } from "_utils/validators";
 import Button from "_atoms/Button";
+import { visilabsApi } from "_utils/analytics";
 
 const GiftCardScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -31,6 +32,10 @@ const GiftCardScreen = (props) => {
     const [showLostMessage, setShowLostMessage] = useState({});
 
     const { control, handleSubmit, formState , setFocus, reset } = useForm({mode: 'onChange'})
+
+    useEffect(() => {
+        visilabsApi.customEvent('Gift-Cards');
+    },[])
 
 
     useEffect(()=>{

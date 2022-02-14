@@ -20,6 +20,9 @@
 		BE0254449B0F156BF30F9949 /* libPods-Costa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6299144175D47D133C34D802 /* libPods-Costa.a */; };
 		BE12B4C7587D4966AE08C08C /* BrandonGrotesque-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1C2DE34BDB3B44D5BAE746C2 /* BrandonGrotesque-Medium.otf */; };
 		BF16431BA8FA4011B81A58FD /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */; };
+		C940353427B929F10051F55F /* VisilabsMiniNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */; };
+		C940353627B92A1C0051F55F /* VisilabsFullNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */; };
+		C9B5BC5427B9282D00DA4EFA /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5BC5327B9282D00DA4EFA /* Empty.swift */; };
 		CDEAA69E98544773A71961B2 /* BrandonGrotesque-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 53142B7F46494387A15E311B /* BrandonGrotesque-Regular.otf */; };
 		D85422F8041A4C4C9B6B00B6 /* ManusTrial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */; };
 		F5156A3A51134359A1945AE0 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E920932223E8491C95F5FC3D /* Gotham-Light.ttf */; };
@@ -64,8 +67,12 @@
 		A92E4AB1E839750FA60AB389 /* Pods-Costa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Costa.release.xcconfig"; path = "Target Support Files/Pods-Costa/Pods-Costa.release.xcconfig"; sourceTree = "<group>"; };
 		ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Bold.ttf"; path = "../src/assets/fonts/Gotham-Bold.ttf"; sourceTree = "<group>"; };
 		C763F0D764434278B5F8C267 /* Gotham-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Medium.ttf"; path = "../src/assets/fonts/Gotham-Medium.ttf"; sourceTree = "<group>"; };
+		C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsMiniNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib; sourceTree = "<group>"; };
+		C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsFullNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib; sourceTree = "<group>"; };
 		C9531AAA27A851900095D4C8 /* Costa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Costa.entitlements; path = Costa/Costa.entitlements; sourceTree = "<group>"; };
 		C9531AAB27A8519C0095D4C8 /* CostaRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CostaRelease.entitlements; path = Costa/CostaRelease.entitlements; sourceTree = "<group>"; };
+		C9B5BC5227B9282D00DA4EFA /* Costa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Costa-Bridging-Header.h"; sourceTree = "<group>"; };
+		C9B5BC5327B9282D00DA4EFA /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		E920932223E8491C95F5FC3D /* Gotham-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Light.ttf"; path = "../src/assets/fonts/Gotham-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -142,6 +149,9 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */,
+				C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */,
+				C9B5BC5327B9282D00DA4EFA /* Empty.swift */,
 				13CD75EB26FA1C2B00387D15 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Costa */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -150,6 +160,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D027E965DD78F15AC83DBC2F /* Pods */,
 				D844386E4A0642EAB62F6513 /* Resources */,
+				C9B5BC5227B9282D00DA4EFA /* Costa-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -255,7 +266,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1310;
 					};
 				};
 			};
@@ -290,6 +301,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C940353627B92A1C0051F55F /* VisilabsFullNotificationViewController.xib in Resources */,
+				C940353427B929F10051F55F /* VisilabsMiniNotificationViewController.xib in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				BF16431BA8FA4011B81A58FD /* Gotham-Bold.ttf in Resources */,
@@ -482,6 +495,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C9B5BC5427B9282D00DA4EFA /* Empty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +514,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 53A388EF8280AA9341E7DA27 /* Pods-Costa-CostaTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -527,6 +542,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 349C2DC04E653FF50AB6E701 /* Pods-Costa-CostaTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = CostaTests/Info.plist;
@@ -569,6 +585,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.spoonity.costacoffee2;
 				PRODUCT_NAME = Costa;
+				SWIFT_OBJC_BRIDGING_HEADER = "Costa-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -596,6 +613,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.spoonity.costacoffee2;
 				PRODUCT_NAME = Costa;
+				SWIFT_OBJC_BRIDGING_HEADER = "Costa-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -655,11 +673,7 @@
 					/usr/lib/swift,
 					"$(inherited)",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
-					"\"$(TOOLCHAIN_DIR)/usr/lib/swift-5.0/$(PLATFORM_NAME)\"",
-					"\"$(inherited)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;

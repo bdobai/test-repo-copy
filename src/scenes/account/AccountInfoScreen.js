@@ -26,6 +26,7 @@ import dayjs from "dayjs";
 import CheckBox from "_atoms/CheckBox";
 import RightChevron from '_assets/images/right-chevron.svg';
 import ErrorIcon from "_assets/images/alerts/error.svg";
+import { visilabsApi } from "_utils/analytics";
 
 const costCard = require('_assets/images/account/costa-card.png');
 const creditCard = require('_assets/images/account/credit-card.png');
@@ -44,6 +45,10 @@ const AccountInfoScreen = observer((props) => {
             newsletter: authStore.user.contact_consent === 3
         }
     });
+
+    useEffect(() => {
+        visilabsApi.customEvent('Account-Info');
+    },[])
 
     const [loading, setLoading] = useState(false);
 

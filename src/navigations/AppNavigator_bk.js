@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AuthNavigator from '_navigations/AuthNavigator'
 import HomeNavigator from '_navigations/HomeNavigator'
@@ -24,6 +24,9 @@ import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
 import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
 import EditPhoneNumber from "_scenes/auth/EditPhoneNumber";
 import BackButton from "_atoms/BackButton";
+import { euroMessageApi, visilabsApi } from "_utils/analytics";
+import {addEventListener} from "react-native-related-digital";
+import useNotifications from "_utils/notifications-hook";
 
 export const isReadyRef = React.createRef();
 
@@ -95,7 +98,18 @@ const ValidationNavigator = () => (
 
 const AppNavigator = observer(() => {
     const authStore = React.useContext(AuthStoreContext)
-    console.log('authstore', authStore.userValidated);
+
+    useEffect(() =>{
+        addEventListener('register', async (token) => {
+            visilabsApi.register(token, () => {});
+            euroMessageApi.subscribe(token)
+        }, (notificationPayload) => {
+            console.log('notification payload', notificationPayload)
+        }, euroMessageApi, visilabsApi)
+    },[])
+
+    useNotifications();
+
     if (!authStore.userLoaded) {
         return <Spinner visible={true}/>
     }

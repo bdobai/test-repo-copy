@@ -9,6 +9,7 @@ import { AuthStoreContext } from '_stores'
 import TextField from "_atoms/TextField";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { requiredValidation } from "_utils/validators";
+import { visilabsApi } from "_utils/analytics";
 
 const EditPhoneNumber = (props) => {
     const { control, handleSubmit, formState } = useForm({mode: 'onChange'});
@@ -17,22 +18,26 @@ const EditPhoneNumber = (props) => {
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
 
+    useEffect(() => {
+        visilabsApi.customEvent('Edit-Phone-Number');
+    },[])
+
     const onSubmit = (data) => {
-        // request(`/user/activate/sms.json`, {
-        //     method: 'GET',
-        //     data: {
-        //         'phone': data.phone_number
-        //     },
-        //     success: function () {
+        request(`/user/activate/sms.json`, {
+            method: 'GET',
+            data: {
+                'phone': data.phone_number
+            },
+            success: function () {
                 authStore.setUser({user: {...authStore.user, phone_number: data.phone_number}})
                 props.navigation.goBack();
                 setLoading(false)
-            // },
-            // error: (error) => {
-            //     console.log('error', error);
-            //     setLoading(false)
-            // }
-        // })
+            },
+            error: (error) => {
+                console.log('error', error);
+                setLoading(false)
+            }
+        })
     }
 
     return <View style={{ flex: 1 }}>

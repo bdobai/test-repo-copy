@@ -24,10 +24,12 @@ import SuccessIcon from '_assets/images/alerts/success.svg'
 import ErrorIcon from '_assets/images/alerts/error.svg'
 import { request } from "_utils/request";
 import { isIphone } from "_utils/helpers";
+import { visilabsApi } from "_utils/analytics";
 
 const RegisterScreen = (props) => {
 
     useEffect(() => {
+        visilabsApi.customEvent('Register-1');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){

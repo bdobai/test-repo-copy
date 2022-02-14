@@ -8,8 +8,12 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.visilabs.Visilabs;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import euromsg.com.euromobileandroid.EuroMobileManager;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -45,7 +49,37 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    initEuroMessage();
   }
+
+    private void initEuroMessage() {
+        String appAlias = "demo-alias";
+        String huaweiAppAlias = "demo-alias-huawei";
+        String organizationId = "OID";
+        String siteId = "SID";
+        String datasource = "datasource";
+        String channel = "Android";
+        String segmentUrl = "http://lgr.visilabs.net";
+        String realtimeUrl = "http://rt.visilabs.net";
+        String targetUrl = "http://s.visilabs.net/json";
+        String actionUrl = "http://s.visilabs.net/actjson";
+        String geofenceUrl = "http://s.visilabs.net/geojson";
+
+        Visilabs.CreateAPI(organizationId, siteId, segmentUrl,
+                datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, true);
+
+        EuroMobileManager euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this);
+
+        // optional
+        euroMobileManager.setPushIntent("com.pushsdk.MainActivity", this);
+        euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher, this);
+        euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher, this);
+        euroMobileManager.useNotificationLargeIcon(true);
+        euroMobileManager.setNotificationLargeIcon(R.drawable.ic_launcher, this);
+        euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher, this);
+        euroMobileManager.setNotificationColor("#d1dbbd");
+        euroMobileManager.setChannelName("Channel", this);
+    }
 
   /**
    * Loads Flipper in React Native templates. Call this in the onCreate method with something like

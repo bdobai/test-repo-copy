@@ -24,6 +24,7 @@ import { isIphone } from "_utils/helpers";
 import FeedbackSection from "_atoms/FeedbackSection";
 import Modal from "react-native-modal";
 import CloseIcon from "_assets/images/close.svg";
+import { visilabsApi } from "_utils/analytics";
 
 const HistoryScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -39,6 +40,7 @@ const HistoryScreen = (props) => {
     const actionSheetRef = useRef();
 
     useEffect(() => {
+        visilabsApi.customEvent('Order-History');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){

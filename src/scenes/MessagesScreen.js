@@ -13,12 +13,14 @@ import Spinner from "_atoms/Spinner";
 import { dateFormat, isIphone } from "_utils/helpers";
 import { WebView } from 'react-native-webview';
 import RightChevron from "_assets/images/right-chevron.svg";
+import { visilabsApi } from "_utils/analytics";
 
 const MessagesScreen = (props) => {
     const [data, setData] = React.useState([])
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        visilabsApi.customEvent('Messages');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             getMessages()
             StatusBar.setBarStyle('light-content')

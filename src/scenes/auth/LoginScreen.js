@@ -21,9 +21,9 @@ import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { isIphone } from "_utils/helpers";
+import { visilabsApi } from "_utils/analytics";
 
 const LoginScreen = (props) => {
-
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
@@ -53,12 +53,16 @@ const LoginScreen = (props) => {
                 "password": data.password,
               },
             withToken: false,
-            success: function (response) {
-                console.log(response)
+            success: async function(response) {
                 AsyncStorage.setItem('online_order_token', response.online_order_token)
                 AsyncStorage.setItem('session_key', response.session_identifier)
+                authStore.getUser();
                 setLoading(false)
-                authStore.getUser()
+                let userData = {
+                    "OM.exVisitorID": response?.user_vendor?.user?.id || '1',
+                    "OM.b_login": "1"
+                };
+                visilabsApi.customEvent("Login", userData);
             },
             error: (e) => {
                 setLoading(false)

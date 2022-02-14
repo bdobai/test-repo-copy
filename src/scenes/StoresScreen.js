@@ -29,6 +29,7 @@ import currentLocationIcon from '_assets/images/stores/current-location.png';
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Spinner from "_atoms/Spinner";
 import StoresFilters from "_atoms/StoresFilters";
+import { visilabsApi } from "_utils/analytics";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
@@ -45,6 +46,7 @@ const StoresScreen = (props) => {
     const mapRef = useRef();
 
     useEffect(() => {
+        visilabsApi.customEvent('Stores');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){

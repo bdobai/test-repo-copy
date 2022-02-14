@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     KeyboardAvoidingView,
     Platform,
@@ -17,6 +17,7 @@ import { scaleSize } from "_styles/mixins";
 import { passwordValidators } from "_utils/constants";
 import { PasswordValidationMessage } from "_atoms/PasswordValidationMessage";
 import SectionTitle from "_atoms/SectionTitle";
+import { visilabsApi } from "_utils/analytics";
 
 const NewPasswordScreen = (props) => {
     const [password, setPassword] = useState('');
@@ -24,6 +25,10 @@ const NewPasswordScreen = (props) => {
     const [showValidation, setShowValidation] = useState(false);
 
     const { control, handleSubmit, setFocus, formState, getValues } = useForm({mode: "onChange"});
+
+    useEffect(() => {
+        visilabsApi.customEvent('New-Password');
+    },[])
 
     const onSubmit = data => {
         const confirmPassword = getValues('repeat_password');

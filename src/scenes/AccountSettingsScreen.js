@@ -12,6 +12,7 @@ import { isIphone } from "_utils/helpers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseurl } from "_base/config/settings";
 import Spinner from "_atoms/Spinner";
+import { visilabsApi } from "_utils/analytics";
 
 
 const AccountSettingsScreen = (props) => {
@@ -19,6 +20,7 @@ const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
 
     useEffect(() => {
+        visilabsApi.customEvent('Account-Settings');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('light-content')
             if(!isIphone()){

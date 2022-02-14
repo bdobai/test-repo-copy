@@ -9,10 +9,15 @@ import { HEADER_SPACE } from '_styles/spacing'
 import Logo from '_assets/images/logo_small_white.svg'
 import { scaleSize } from '../../styles/mixins'
 import HTMLView from '_components/atoms/HTMLView';
+import { visilabsApi } from "_utils/analytics";
 
 const FaqScreen = (props) => {
     const [data, setData] = React.useState([])
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        visilabsApi.customEvent('FAQ');
+    },[])
 
     const getFaq = () => {
         setLoading(true);
