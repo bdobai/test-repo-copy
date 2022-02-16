@@ -45,16 +45,36 @@ const OrdersListItem = (props) => {
         )
     }
 
+    const getTitle = () => {
+        const reward = props.item.rewards[0];
+        if(reward && reward?.earned!==0){
+            return { title: "Purchase", price: props.item.total.toFixed(2)}
+        }else if(reward && reward?.spent!==0){
+            return { title: "Redeemed Beans", price: `-${reward?.spent}` }
+        }else if(props.item.quickpay.loaded!==0)  {
+            return { title: "Reload", price: `+AED${props.item.quickpay.loaded.toFixed(2)}` }
+        }else if(props.item.quickpay.used!==0) {
+            return {title: 'Spent', price: `AED${props.item.quickpay.balance.toFixed(2)}`}
+        }
+    }
+
     const renderTitle = () => {
-        if(props.item.total === 0) return;
-        return <Text style={styles.title}>{`AED${props.item.total.toFixed(2)} purchase at ${props.item.name}`}</Text>
+        console.debug('props.item', props.item);
+        // if(props.item.total === 0) return;
+        return <View style={[styles.row, {paddingVertical: scaleSize(10)}]}>
+            <View>
+                <Text style={styles.title}>{getTitle().title}</Text>
+                <Text style={styles.name}>{`${props.item.name}`}</Text>
+            </View>
+            <Text style={styles.title}>{getTitle().price}</Text>
+        </View>
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [AT] HH:mm')}</Text>
+            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [(]ddd[)] [AT] HH:mm')}</Text>
             {renderTitle()}
-            <OrderInfo item={props.item}/>
+            <OrderInfo item={props.item} hideDetails={true}/>
             {renderMore()}
         </View>
     )
@@ -68,7 +88,6 @@ const styles = StyleSheet.create({
     date: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
-        textTransform: 'uppercase',
         color: '#909090',
         paddingBottom: scaleSize(10)
     },
@@ -80,7 +99,10 @@ const styles = StyleSheet.create({
     title: {
         fontSize: Typography.FONT_SIZE_16,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
-        paddingVertical: scaleSize(10)
+    },
+    name: {
+        fontSize: Typography.FONT_SIZE_14,
+        fontFamily: Typography.FONT_PRIMARY_BOLD,
     },
     text:{
         fontFamily: Typography.FONT_PRIMARY_REGULAR,

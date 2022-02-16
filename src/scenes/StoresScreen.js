@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Alert,
-    Image,
+    Image, Keyboard,
     Linking,
     PermissionsAndroid,
     Platform,
@@ -34,9 +34,11 @@ import { ScrollView } from "react-native-gesture-handler";
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
     const [stores, setStores] = useState([]);
+    const [search, setSearch] = useState('');
     const [filteredStores, setFilteredStores] = useState([]);
     const [currentStore, setCurrentStore] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [searchFocused, setSearchFocused] = useState(false);
     const [availability, setAvailability] = useState(false)
     const [onlineOrdering, setOnlineOrdering] = useState(false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
@@ -45,6 +47,7 @@ const StoresScreen = (props) => {
     const actionSheetRef = useRef();
     const filtersActionSheetRef = useRef();
     const mapRef = useRef();
+    const inputRef = useRef();
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -146,9 +149,25 @@ const StoresScreen = (props) => {
         )
     }
 
-    const onStoreBasic = (store) => {
-        setCurrentStore(store);
-        actionSheetRef.current.setModalVisible(true);
+    const onStoreBasic = (item) => {
+        setSearch('');
+        inputRef.current.blur()
+        Keyboard.dismiss();
+        mapRef.current.animateToRegion({
+            latitude: +item.latitude,
+            longitude: +item.longitude,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+        })
+        setSearchedStores([]);
+        setCurrentStore(item);
+        if(searchFocused){
+            setTimeout(() =>{
+                actionSheetRef.current.setModalVisible(true);
+            },500)
+        }else {
+            actionSheetRef.current.setModalVisible(true);
+        }
     }
 
     const onStoreDetails = () => {
@@ -254,6 +273,7 @@ const StoresScreen = (props) => {
     }
 
     const onChangeSearch = (value) => {
+        setSearch(value);
         if(!value) return;
         const search = stores.filter((item) => {
             return item.address_line_1?.toLowerCase()?.includes(value.toLowerCase()) ||
@@ -265,25 +285,13 @@ const StoresScreen = (props) => {
         setSearchedStores([...search]);
     }
 
-    const onPressSearchedItem = (item) => {
-        mapRef.current.animateToRegion({
-            latitude: +item.latitude,
-            longitude: +item.longitude,
-            latitudeDelta: 0.001,
-            longitudeDelta: 0.001,
-        })
-        setSearchedStores([]);
-        setCurrentStore(item);
-        actionSheetRef.current.setModalVisible(true);
-    }
-
     const renderSearched = () => {
         if(!searchedStores?.length) return;
         return (
             <View style={styles.floating}>
                 <ScrollView keyboardShouldPersistTaps={'always'}>
                     {searchedStores.map((item, index) => {
-                        return <Pressable onPress={() => onPressSearchedItem(item)} key={index}><Text style={styles.searchedName}>{item.name}</Text></Pressable>
+                        return <Pressable onPress={() => onStoreBasic(item)} key={index}><Text style={styles.searchedName}>{item.name}</Text></Pressable>
                     })}
                 </ScrollView>
             </View>
@@ -299,7 +307,16 @@ const StoresScreen = (props) => {
                     </View>
                 </Pressable>
                 <View style={{flex:1}}>
-                    <TextInput onChangeText={onChangeSearch} style={styles.textInput} placeholder={'Search by street, city etc'} placeholderTextColor={Colors.BLUE_GRAY}/>
+                    <TextInput
+                        ref={inputRef}
+                        value={search}
+                        onChangeText={onChangeSearch}
+                        style={styles.textInput}
+                        placeholder={'Search by street, city etc'}
+                        placeholderTextColor={Colors.BLUE_GRAY}
+                        onFocus={() => setSearchFocused(true)}
+                        onBlur={() => setSearchFocused(false)}
+                    />
                     {renderSearched()}
                 </View>
                 {renderSearchButton()}
@@ -323,7 +340,10 @@ const StoresScreen = (props) => {
                 {/*/>*/}
             </View>
             <MapView
-                onPress={() => setSearchedStores([])}
+                onPress={() => {
+                    Keyboard.dismiss();
+                    setSearchedStores([])
+                }}
                 ref={mapRef}
                 showsUserLocation={true}
                 showsMyLocationButton={false}
@@ -473,7 +493,8 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.WHITE,
     },
     searchedName: {
-        paddingVertical: Spacing.SPACING_2
+        paddingVertical: Spacing.SPACING_2,
+        paddingLeft: Spacing.SPACING_1,
     }
 })
 

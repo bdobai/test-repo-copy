@@ -48,6 +48,8 @@ const Tabs = () => (
                       headerShown: true,
                       tabBarLabel: 'Home',
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
+                      // headerStyle: navigationStyles.primaryHeader,
+                      // headerTitle:'',
                       header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>,
                   })}
       />

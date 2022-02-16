@@ -79,7 +79,8 @@ const styles = StyleSheet.create({
         color: Colors.SECONDARY,
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
-        paddingTop: Spacing.SPACING_2
+        paddingTop: Spacing.SPACING_2,
+        alignSelf: 'center',
     },
     row: {
         flexDirection:'row',
