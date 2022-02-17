@@ -117,6 +117,14 @@ const AccountSettingsScreen = (props) => {
         })
     }
 
+    const renderPassbookText = () => {
+        // Add QR to Apple/Google Wallet
+        if(isIphone()){
+            return 'Add QR to Apple Wallet'
+        }
+        return 'Add QR to Google Pay'
+    }
+
     return <SafeAreaView style={{ flex: 1 }}>
         <StatusBar barStyle={'light-content'}/>
         <ScrollView
@@ -139,7 +147,7 @@ const AccountSettingsScreen = (props) => {
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook}>
                     <View style={[styles.listItem, styles.passbookWrapper]}>
-                        <Text style={styles.listItemText}>Add QR to Apple/Google Wallet</Text>
+                        <Text style={styles.listItemText}>{renderPassbookText()}</Text>
                         {loadingPassbook && <Spinner size={'small'} color={Colors.BLUE_GRAY}/>}
                     </View>
                 </TouchableHighlight>

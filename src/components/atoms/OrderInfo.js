@@ -25,25 +25,31 @@ const OrderInfo = (props) => {
         )
     } else if(props.item.quickpay.loaded!==0){
         return (
-            <View style={styles.row}>
-                <View>
+            <View>
+                <View style={styles.row}>
                     <Text style={styles.text}>Account reload</Text>
-                    <Text style={[styles.text, styles.balance]}>{`AED${props.item.quickpay.balance.toFixed(2)} Balance remaining`}</Text>
+                    <View style={styles.earnedBox}>
+                        <Text style={[styles.text, styles.earnedText]}>{`+AED${props.item.quickpay.loaded.toFixed(2)}`}</Text>
+                    </View>
                 </View>
-                <View style={styles.earnedBox}>
-                    <Text style={[styles.text, styles.earnedText]}>{`+AED${props.item.quickpay.loaded.toFixed(2)}`}</Text>
+                <View style={[styles.row, {paddingTop:0}]}>
+                    <Text style={[styles.text, styles.balance]}>{`Balance remaining`}</Text>
+                    <Text style={[styles.text, styles.balance]}>{`AED${props.item.quickpay.balance.toFixed(2)}`}</Text>
                 </View>
             </View>
         )
     } else if (props.item.quickpay.used!==0) {
         return (
-            <View style={styles.row}>
-                <View>
+            <View>
+                <View style={styles.row}>
                     <Text style={styles.text}>Account balance spent</Text>
-                    <Text style={[styles.text, styles.balance]}>{`AED${props.item.quickpay.balance.toFixed(2)} Balance remaining`}</Text>
+                    <View style={styles.redeemedBox}>
+                        <Text style={[styles.text, styles.redeemedText]}>{`-AED${props.item.quickpay.used.toFixed(2)}`}</Text>
+                    </View>
                 </View>
-                <View style={styles.redeemedBox}>
-                    <Text style={[styles.text, styles.redeemedText]}>{`-AED${props.item.quickpay.used.toFixed(2)}`}</Text>
+                <View style={[styles.row, {paddingTop:0}]}>
+                    <Text style={[styles.text, styles.balance]}>{`Balance remaining`}</Text>
+                    <Text style={[styles.text, styles.balance]}>{`AED${props.item.quickpay.balance.toFixed(2)}`}</Text>
                 </View>
             </View>
         )
@@ -55,7 +61,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems:'flex-start',
+        alignItems:'center',
         paddingTop: Spacing.SPACING_2,
         paddingBottom: Spacing.SPACING_2
     },

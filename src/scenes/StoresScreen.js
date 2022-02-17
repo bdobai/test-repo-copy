@@ -1,5 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Image, Linking, PermissionsAndroid, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+    Alert,
+    Image,
+    Linking,
+    PermissionsAndroid,
+    Platform,
+    Pressable,
+    SafeAreaView, StatusBar,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
 import { scaleSize, SCREEN_HEIGHT, SCREEN_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
@@ -32,6 +43,17 @@ const StoresScreen = (props) => {
     const actionSheetRef = useRef();
     const filtersActionSheetRef = useRef();
     const mapRef = useRef();
+
+    useEffect(() => {
+        const unsubscribe = props.navigation.addListener('focus', (e) => {
+            StatusBar.setBarStyle('dark-content')
+            if(!isIphone()){
+                StatusBar.setTranslucent(true);
+                StatusBar.setBackgroundColor('transparent');
+            }
+        });
+        return unsubscribe;
+    }, [props.navigation]);
 
     const showMandatoryAlert = () => {
         requestData('25.2048','55.2708');
@@ -266,8 +288,8 @@ const StoresScreen = (props) => {
                 initialRegion={{
                     latitude: 25.2048,
                     longitude: 55.2708,
-                    latitudeDelta: 10,
-                    longitudeDelta: 10,
+                    latitudeDelta: 2.2,
+                    longitudeDelta: 2.2,
                 }}>
                 {renderMarkers()}
             </MapView>
@@ -355,7 +377,7 @@ const styles = StyleSheet.create({
     },
     inputWrapper: {
         top: scaleSize(60),
-        paddingHorizontal: Spacing.SPACING_4,
+        marginHorizontal: Spacing.SPACING_4,
         zIndex:20,
         left:0,
         right:0,

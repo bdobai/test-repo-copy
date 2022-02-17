@@ -6,6 +6,7 @@ import halfCup from '_assets/images/home/cup-half.png';
 import emptyCup from '_assets/images/home/cup-empty.png';
 import { scaleSize } from "_styles/mixins";
 import ProgressBar from "_atoms/ProgressBar";
+import beanIcon from '_assets/images/home/bean-icon.png';
 
 const BeansCard = (props) => {
 
@@ -22,7 +23,10 @@ const BeansCard = (props) => {
         <View style={styles.card}>
             <Image key={props.balance} source={props.balance >= 2000 ? fullCup : (props.balance > 0 ? halfCup : emptyCup)} style={styles.image} resizeMode={'contain'}/>
             <View style={styles.contentWrapper}>
-                <Text style={styles.beans}>{props.balance}</Text>
+                <View style={styles.row}>
+                    <Text style={styles.beans}>{props.balance}</Text>
+                    <Image source={beanIcon} style={styles.icon} resizeMode={'contain'}/>
+                </View>
                 <ProgressBar color={Colors.SECONDARY} percent={percent > 100 ? 100 : percent}/>
                 <Text style={styles.description}>2000 beans gets you a <Text style={{fontWeight: 'bold', fontFamily: Typography.FONT_PRIMARY_BOLD}}>free coffee</Text></Text>
                 {renderTier()}
@@ -51,6 +55,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         alignSelf: 'center'
     },
+    icon:{
+        width: scaleSize(24),
+        height: scaleSize(24),
+        marginLeft: Spacing.SPACING_2,
+    },
     description: {
         color: Colors.PRIMARY,
         fontSize: Typography.FONT_SIZE_12,
@@ -71,5 +80,10 @@ const styles = StyleSheet.create({
         fontFamily: Typography.FONT_PRIMARY_BOLD,
         fontSize: Typography.FONT_SIZE_16,
         paddingTop: Spacing.SPACING_2
+    },
+    row: {
+        flexDirection:'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
