@@ -26,7 +26,6 @@ import { createGoogleMapsUrl, isIphone } from "_utils/helpers";
 import StoreListItemNew from "_atoms/StoreListItemNew";
 import StoreDetailsNew from "_atoms/StoreDetailsNew";
 import currentLocationIcon from '_assets/images/stores/current-location.png';
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Spinner from "_atoms/Spinner";
 import StoresFilters from "_atoms/StoresFilters";
 import { ScrollView } from "react-native-gesture-handler";
@@ -131,8 +130,6 @@ const StoresScreen = (props) => {
             showMandatoryAlert()
         }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000});
     }
-
-    // https://maps.googleapis.com/maps/api/js?key=AIzaSyAyXQO4HBR9IxE6I-AtVLAi7VCb9KTUsC8&libraries=places,geometry
 
     const renderMarkers = () => {
         return (
@@ -320,24 +317,6 @@ const StoresScreen = (props) => {
                     {renderSearched()}
                 </View>
                 {renderSearchButton()}
-                {/*<GooglePlacesAutocomplete*/}
-                {/*    placeholder='Search by street, city etc'*/}
-                {/*    fetchDetails={true}*/}
-                {/*    textInputProps={{*/}
-                {/*        placeholderTextColor: Colors.BLUE_GRAY,*/}
-                {/*    }}*/}
-                {/*    renderRightButton={renderSearchButton}*/}
-                {/*    onPress={(data, details = null) => {*/}
-                {/*        goToLocation(details)*/}
-                {/*    }}*/}
-                {/*    query={{*/}
-                {/*        key: 'AIzaSyAyXQO4HBR9IxE6I-AtVLAi7VCb9KTUsC8',*/}
-                {/*        language: 'en',*/}
-                {/*    }}*/}
-                {/*    styles={{*/}
-                {/*        textInput: styles.textInput*/}
-                {/*    }}*/}
-                {/*/>*/}
             </View>
             <MapView
                 onPress={() => {
