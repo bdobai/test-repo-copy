@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
     KeyboardAvoidingView,
     Platform,
@@ -21,6 +21,7 @@ import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { isIphone } from "_utils/helpers";
+import { useFocusEffect } from "@react-navigation/native";
 
 const LoginScreen = (props) => {
 
@@ -36,13 +37,21 @@ const LoginScreen = (props) => {
         return unsubscribe;
     }, [props.navigation]);
 
-    const { control, handleSubmit, setFocus, formState } = useForm({ mode: "onChange" });
+    const { control, handleSubmit, setFocus, formState, getValues, setValue } = useForm({ mode: "onChange" });
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     const authStore = React.useContext(AuthStoreContext);
+
+    useFocusEffect(
+        useCallback(() => {
+            if(props.route.params?.email) {
+                setValue('email', props.route.params.email);
+            }
+        }, [props.navigation])
+    );
 
     const onSubmit = data => {
         setLoading(true)
@@ -78,6 +87,11 @@ const LoginScreen = (props) => {
         </Pressable>
     }
 
+    const onForgotPassword = () => {
+        const email = getValues('email')
+        props.navigation.navigate('Recover', {email})
+    }
+
     return <View style={{ flex: 1, backgroundColor: Colors.WHITE }}>
         <SafeAreaView style={{ flex: 1}}>
             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={{ flex: 1 }}>
@@ -91,10 +105,12 @@ const LoginScreen = (props) => {
                                 <TextField
                                   placeholder={'Email'}
                                   autoCorrect={false}
+                                  autoComplete={'email'}
                                   autoCapitalize={'none'}
                                   onBlur={onBlur}
                                   onChangeText={value => onChange(value)}
                                   value={value}
+                                  textContentType={'emailAddress'}
                                   keyboardType={'email-address'}
                                   onSubmitEditing={() => setFocus('password')}
                                   error={formState?.errors?.email?.message}
@@ -111,8 +127,10 @@ const LoginScreen = (props) => {
                                 <TextField
                                   placeholder={'Password'}
                                   autoCorrect={false}
+                                  autoComplete={'password'}
                                   autoCapitalize={'none'}
                                   onBlur={onBlur}
+                                  textContentType={'password'}
                                   onChangeText={value => onChange(value)}
                                   value={value}
                                   secureTextEntry={secureTextEntry}
@@ -133,7 +151,7 @@ const LoginScreen = (props) => {
                             />
                             <View style={styles.forgot}>
                                 <Text style={styles.forgotText}>Forgot your password ?</Text>
-                                <Pressable onPress={() => props.navigation.navigate('Recover')}><Text style={[styles.forgotText, {textDecorationLine:'underline'}]}> Click here to reset it</Text></Pressable>
+                                <Pressable onPress={onForgotPassword}><Text style={[styles.forgotText, {textDecorationLine:'underline'}]}> Click here to reset it</Text></Pressable>
                             </View>
                             {renderError()}
                             <View style={styles.footer}>

@@ -41,7 +41,7 @@ const RecoverScreen = (props) => {
             withToken: false,
             withoutJson: true,
             success: function (response) {
-                props.navigation.navigate('Login')
+                props.navigation.navigate('Login', {email: data.email})
                 setLoading(false)
             },
             error: (e) => {
@@ -71,7 +71,7 @@ const RecoverScreen = (props) => {
                             )}
                             name="email"
                             rules={{ required: 'Email is required', pattern: emailValidator}}
-                            defaultValue={''}
+                            defaultValue={props.route.params?.email}
                         />
                         <Button disabled={!formState.isValid} textStyle={styles.buttonTitle} bodyStyle={styles.button} loading={loading} onPress={handleSubmit(onSubmit)} block={true} type={'primary'} text={'RESET PASSWORD'}/>
                     </View>
