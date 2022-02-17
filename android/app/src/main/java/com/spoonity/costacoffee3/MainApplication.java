@@ -53,11 +53,11 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
     private void initEuroMessage() {
-        String appAlias = "demo-alias";
+        String appAlias = "costacoffee";
         String huaweiAppAlias = "demo-alias-huawei";
-        String organizationId = "OID";
-        String siteId = "SID";
-        String datasource = "datasource";
+        String organizationId = "6B557846654856304732773D";
+        String siteId = "4874496233646A4F5469493D";
+        String datasource = "costacoffee";
         String channel = "Android";
         String segmentUrl = "http://lgr.visilabs.net";
         String realtimeUrl = "http://rt.visilabs.net";

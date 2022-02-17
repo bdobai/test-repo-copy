@@ -100,6 +100,10 @@ const HomeScreen = observer((props) => {
     }
 
     const onMenu = () => {
+        let data = {
+            "OM.seeMenu": 'See menu'
+        };
+        visilabsApi.customEvent("Press see menu from Home screen", data);
         Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
     }
 

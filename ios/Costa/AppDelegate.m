@@ -83,11 +83,11 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-  
+
   [RNBootSplash initWithStoryboard:@"LaunchScreen" rootView:rootView];
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
-  [RelatedDigitalPushModule initRelatedDigital:@"organization_id" profileId:@"profile_id" dataSource:@"datasource" appAlias:@"app_alias" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+  [RelatedDigitalPushModule initRelatedDigital:@"6B557846654856304732773D" profileId:@"4874496233646A4F5469493D" dataSource:@"costacoffee" appAlias:@"costacoffee" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
   return YES;
 }
 

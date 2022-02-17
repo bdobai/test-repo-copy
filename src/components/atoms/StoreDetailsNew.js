@@ -9,6 +9,7 @@ import markerIcon from "_assets/images/stores/marker-new.png";
 import clockIcon from "_assets/images/stores/clock-orange.png";
 import messageIcon from "_assets/images/stores/message.png";
 import pinIcon from "_assets/images/stores/pin-orange.png";
+import { visilabsApi } from "_utils/analytics";
 
 const StoreDetailsNew = (props) => {
     const { store } = props;
@@ -36,9 +37,17 @@ const StoreDetailsNew = (props) => {
         })
     }
 
+    const onPressOrderOnline = (store) => {
+        let data = {
+            "OM.orderOnline": 'Order online'
+        };
+        visilabsApi.customEvent("Press order online", data);
+        Linking.openURL(store.vendor_attribute[0].link)
+    }
+
     const renderButton = () => {
         if(!store.vendor_attribute.length || !store.vendor_attribute[0].link) return;
-        return <Button type={'outlinePrimary'} square={true} text={store.vendor_attribute[0]?.label} onPress={() => Linking.openURL(store.vendor_attribute[0].link)}/>
+        return <Button type={'outlinePrimary'} square={true} text={store.vendor_attribute[0]?.label} onPress={() => onPressOrderOnline(store)}/>
     }
 
     const renderIsOpen = () => {
