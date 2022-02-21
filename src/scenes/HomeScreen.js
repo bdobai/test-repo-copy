@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     },
     campaign: {
         height: scaleSize(170),
-        paddingHorizontal: Spacing.SPACING_4,
+        paddingHorizontal: Spacing.SPACING_5,
         marginTop: Spacing.SPACING_1,
         flexDirection: 'row',
         borderRadius: scaleSize(5),
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     },
     messageCard: {
         height: scaleSize(180),
-        marginHorizontal: Spacing.SPACING_4,
+        marginHorizontal: Spacing.SPACING_5,
         padding: Spacing.SPACING_4,
         backgroundColor: '#F4F4F4',
         borderRadius: scaleSize(5)

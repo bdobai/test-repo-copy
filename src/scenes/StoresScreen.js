@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     Alert,
-    Image,
+    Image, Keyboard,
     Linking,
     PermissionsAndroid,
     Platform,
     Pressable,
     SafeAreaView, StatusBar,
     StyleSheet,
-    Text,
+    Text, TextInput,
     View,
 } from "react-native";
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from "react-native-maps";
@@ -26,23 +26,27 @@ import { createGoogleMapsUrl, isIphone } from "_utils/helpers";
 import StoreListItemNew from "_atoms/StoreListItemNew";
 import StoreDetailsNew from "_atoms/StoreDetailsNew";
 import currentLocationIcon from '_assets/images/stores/current-location.png';
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Spinner from "_atoms/Spinner";
 import StoresFilters from "_atoms/StoresFilters";
+import { ScrollView } from "react-native-gesture-handler";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
     const [stores, setStores] = useState([]);
+    const [search, setSearch] = useState('');
     const [filteredStores, setFilteredStores] = useState([]);
     const [currentStore, setCurrentStore] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
+    const [searchFocused, setSearchFocused] = useState(false);
     const [availability, setAvailability] = useState(false)
     const [onlineOrdering, setOnlineOrdering] = useState(false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
+    const [searchedStores, setSearchedStores] = useState([]);
 
     const actionSheetRef = useRef();
     const filtersActionSheetRef = useRef();
     const mapRef = useRef();
+    const inputRef = useRef();
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -127,8 +131,6 @@ const StoresScreen = (props) => {
         }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000});
     }
 
-    // https://maps.googleapis.com/maps/api/js?key=AIzaSyAyXQO4HBR9IxE6I-AtVLAi7VCb9KTUsC8&libraries=places,geometry
-
     const renderMarkers = () => {
         return (
             filteredStores.map((item, index) => <Marker
@@ -144,9 +146,25 @@ const StoresScreen = (props) => {
         )
     }
 
-    const onStoreBasic = (store) => {
-        setCurrentStore(store);
-        actionSheetRef.current.setModalVisible(true);
+    const onStoreBasic = (item) => {
+        setSearch('');
+        inputRef.current.blur()
+        Keyboard.dismiss();
+        mapRef.current.animateToRegion({
+            latitude: +item.latitude,
+            longitude: +item.longitude,
+            latitudeDelta: 0.001,
+            longitudeDelta: 0.001,
+        })
+        setSearchedStores([]);
+        setCurrentStore(item);
+        if(searchFocused){
+            setTimeout(() =>{
+                actionSheetRef.current.setModalVisible(true);
+            },500)
+        }else {
+            actionSheetRef.current.setModalVisible(true);
+        }
     }
 
     const onStoreDetails = () => {
@@ -251,6 +269,32 @@ const StoresScreen = (props) => {
         filtersActionSheetRef.current.setModalVisible(false)
     }
 
+    const onChangeSearch = (value) => {
+        setSearch(value);
+        if(!value) return;
+        const search = stores.filter((item) => {
+            return item.address_line_1?.toLowerCase()?.includes(value.toLowerCase()) ||
+                item.address_line_2?.toLowerCase()?.includes(value.toLowerCase()) ||
+                item.address_line_3?.toLowerCase()?.includes(value.toLowerCase()) ||
+                item.city?.toLowerCase()?.includes(value.toLowerCase()) ||
+                item.name?.toLowerCase()?.includes(value.toLowerCase())
+        })
+        setSearchedStores([...search]);
+    }
+
+    const renderSearched = () => {
+        if(!searchedStores?.length) return;
+        return (
+            <View style={styles.floating}>
+                <ScrollView keyboardShouldPersistTaps={'always'}>
+                    {searchedStores.map((item, index) => {
+                        return <Pressable onPress={() => onStoreBasic(item)} key={index}><Text style={styles.searchedName}>{item.name}</Text></Pressable>
+                    })}
+                </ScrollView>
+            </View>
+        )
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.inputWrapper}>
@@ -259,26 +303,26 @@ const StoresScreen = (props) => {
                         <Image source={filterIcon} style={styles.search} resizeMode={'contain'}/>
                     </View>
                 </Pressable>
-                <GooglePlacesAutocomplete
-                    placeholder='Search by street, city etc'
-                    fetchDetails={true}
-                    textInputProps={{
-                        placeholderTextColor: Colors.BLUE_GRAY,
-                    }}
-                    renderRightButton={renderSearchButton}
-                    onPress={(data, details = null) => {
-                        goToLocation(details)
-                    }}
-                    query={{
-                        key: 'AIzaSyAyXQO4HBR9IxE6I-AtVLAi7VCb9KTUsC8',
-                        language: 'en',
-                    }}
-                    styles={{
-                        textInput: styles.textInput
-                    }}
-                />
+                <View style={{flex:1}}>
+                    <TextInput
+                        ref={inputRef}
+                        value={search}
+                        onChangeText={onChangeSearch}
+                        style={styles.textInput}
+                        placeholder={'Search by street, city etc'}
+                        placeholderTextColor={Colors.BLUE_GRAY}
+                        onFocus={() => setSearchFocused(true)}
+                        onBlur={() => setSearchFocused(false)}
+                    />
+                    {renderSearched()}
+                </View>
+                {renderSearchButton()}
             </View>
             <MapView
+                onPress={() => {
+                    Keyboard.dismiss();
+                    setSearchedStores([])
+                }}
                 ref={mapRef}
                 showsUserLocation={true}
                 showsMyLocationButton={false}
@@ -417,8 +461,20 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: scaleSize(22),
         borderBottomRightRadius: 0,
         borderTopRightRadius: 0,
-        height: scaleSize(44)
+        height: scaleSize(44),
+        flex:1,
+        backgroundColor: Colors.WHITE,
+        paddingLeft: Spacing.SPACING_4,
     },
+    floating: {
+        minHeight: 40,
+        maxHeight: 200,
+        backgroundColor: Colors.WHITE,
+    },
+    searchedName: {
+        paddingVertical: Spacing.SPACING_2,
+        paddingLeft: Spacing.SPACING_1,
+    }
 })
 
 export default StoresScreen

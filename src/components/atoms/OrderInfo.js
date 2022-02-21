@@ -8,22 +8,22 @@ const OrderInfo = (props) => {
     if(reward && reward?.earned!==0) {
         return (
             <View style={styles.row}>
-                <Text style={styles.text}>{`${reward.earned} Beans earned`}</Text>
+                <Text style={styles.text}>{`Beans earned`}</Text>
                 <View style={styles.earnedBox}>
                     <Text style={[styles.text, styles.earnedText]}>{`+${reward?.earned}`}</Text>
                 </View>
             </View>
         )
-    } else if(reward && reward?.spent!==0){
+    } else if(reward && reward?.spent!==0 && !props.hideDetails){
         return (
             <View style={styles.row}>
-                <Text style={styles.text}>{`${reward.spent} Beans redeemed`}</Text>
+                <Text style={styles.text}>{`Beans redeemed`}</Text>
                 <View style={styles.redeemedBox}>
                     <Text style={[styles.text, styles.redeemedText]}>{`-${reward?.spent}`}</Text>
                 </View>
             </View>
         )
-    } else if(props.item.quickpay.loaded!==0){
+    } else if(props.item.quickpay.loaded!==0 && !props.hideDetails){
         return (
             <View>
                 <View style={styles.row}>
@@ -38,7 +38,7 @@ const OrderInfo = (props) => {
                 </View>
             </View>
         )
-    } else if (props.item.quickpay.used!==0) {
+    } else if (props.item.quickpay.used!==0 && !props.hideDetails) {
         return (
             <View>
                 <View style={styles.row}>
