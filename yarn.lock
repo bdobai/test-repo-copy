@@ -6746,6 +6746,11 @@ query-string@^7.0.0:
     split-on-first "^1.0.0"
     strict-uri-encode "^2.0.0"
 
+querystring@^0.2.0:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.1.tgz#40d77615bb09d16902a85c3e38aa8b5ed761c2dd"
+  integrity sha512-wkvS7mL/JMugcup3/rMitHmd9ecIGd2lhFhK9N3UUQ450h66d1r3Y9nvXzQAW1Lq+wyx61k/1pfKS5KuKiyEbg==
+
 ramda@^0.27.1:
   version "0.27.1"
   resolved "https://registry.npmjs.org/ramda/-/ramda-0.27.1.tgz"
@@ -6884,6 +6889,13 @@ react-native-picker-select@^8.0.4:
   dependencies:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
+
+react-native-related-digital@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/react-native-related-digital/-/react-native-related-digital-0.1.6.tgz#3b890e6a67a1589de679c5440ac15df7e6e6c5c5"
+  integrity sha512-8c1rkRuxZ7Zaqeu1GHEERWM6zc2Kw201azM3Y8j/WCLnLUe/SR79NsoE4UcNlR4J1eX2pw7zCh1pRw5rkfeb+Q==
+  dependencies:
+    querystring "^0.2.0"
 
 react-native-render-html@^6.1.0:
   version "6.1.0"

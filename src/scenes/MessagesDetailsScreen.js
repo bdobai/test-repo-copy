@@ -7,8 +7,10 @@ import { scaleSize } from "_styles/mixins";
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import { useState } from "react";
+import { visilabsApi } from "_utils/analytics";
 
 const MessagesDetailsScreen = (props) => {
+    visilabsApi.customEvent('Message-Details');
     const {item} = props.route.params;
     const [loading, setLoading] = useState(false);
 

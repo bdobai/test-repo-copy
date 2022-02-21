@@ -11,12 +11,17 @@ import TextField from "_atoms/TextField";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { requiredValidation } from "_utils/validators";
 import { observer } from "mobx-react-lite";
+import { visilabsApi } from "_utils/analytics";
 
 const ConfirmSmsScreen = observer((props) => {
     const { control, handleSubmit, formState } = useForm({mode: 'onChange'});
 
     const [loading, setLoading] = useState(false);
     const authStore = React.useContext(AuthStoreContext);
+
+    useEffect(() => {
+        visilabsApi.customEvent('Confirm-SMS');
+    },[])
 
     useEffect(() => {
         props.navigation.setOptions({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
     StyleSheet,
     ImageBackground, View, ScrollView, SafeAreaView, Text,
@@ -13,6 +13,7 @@ import Button from "_atoms/Button";
 import { FONT_PRIMARY_REGULAR } from "_styles/typography";
 import { passwordValidators } from "_utils/constants";
 import { AuthStoreContext } from "_stores";
+import { visilabsApi } from "_utils/analytics";
 
 const OldPasswordScreen = (props) => {
     const { control, handleSubmit, formState } = useForm({mode:'onChange'});
@@ -20,6 +21,10 @@ const OldPasswordScreen = (props) => {
     const [loading, setLoading] = useState(false);
 
     const authStore = React.useContext(AuthStoreContext);
+
+    useEffect(() => {
+        visilabsApi.customEvent('Old-Password');
+    },[])
 
     const renderError = () => {
         if(!error) return;

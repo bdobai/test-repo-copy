@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     KeyboardAvoidingView,
     Platform,
@@ -17,9 +17,14 @@ import { request } from '_utils/request'
 import SectionTitle from '_atoms/SectionTitle';
 import TextField from "_atoms/TextField";
 import { scaleSize } from "_styles/mixins";
+import { visilabsApi } from "_utils/analytics";
 
 const AddCreditCardScreen = (props) => {
     const { control, handleSubmit, formState, setFocus } = useForm({ mode: 'onChange'});
+
+    useEffect(() => {
+        visilabsApi.customEvent('Add-Credit-Card');
+    },[])
 
     const [loading, setLoading] = useState(false);
 

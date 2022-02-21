@@ -11,6 +11,7 @@ import menuImage from '_assets/images/home/menu-image.png'
 import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
+import { visilabsApi } from "_utils/analytics";
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
@@ -23,6 +24,7 @@ const HomeScreen = observer((props) => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
+        visilabsApi.customEvent('Home');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('light-content')
             if(!isIphone()){
@@ -98,6 +100,10 @@ const HomeScreen = observer((props) => {
     }
 
     const onMenu = () => {
+        let data = {
+            "OM.seeMenu": 'See menu'
+        };
+        visilabsApi.customEvent("Press see menu from Home screen", data);
         Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
     }
 

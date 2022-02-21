@@ -12,10 +12,15 @@ import { request } from "_utils/request";
 import Button from "_atoms/Button";
 import Spinner from "_atoms/Spinner";
 import { isIphone } from "_utils/helpers";
+import { visilabsApi } from "_utils/analytics";
 
 const GiftCardsScreen = (props) => {
     const [loading, setLoading] = useState(false);
     const [balance, setBalance] = useState(null);
+
+    useEffect(() => {
+        visilabsApi.customEvent('Gift-Card-Balance');
+    },[])
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {

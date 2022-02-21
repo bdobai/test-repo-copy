@@ -28,6 +28,7 @@ import StoreDetailsNew from "_atoms/StoreDetailsNew";
 import currentLocationIcon from '_assets/images/stores/current-location.png';
 import Spinner from "_atoms/Spinner";
 import StoresFilters from "_atoms/StoresFilters";
+import { visilabsApi } from "_utils/analytics";
 import { ScrollView } from "react-native-gesture-handler";
 
 const StoresScreen = (props) => {
@@ -49,6 +50,7 @@ const StoresScreen = (props) => {
     const inputRef = useRef();
 
     useEffect(() => {
+        visilabsApi.customEvent('Stores');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){

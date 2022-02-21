@@ -1,17 +1,22 @@
 import * as React from 'react';
 import { View, StyleSheet, Text, FlatList, Alert } from "react-native";
 import { request } from "_utils/request";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CreditCardListItem from "_atoms/CreditCardListItem";
 import Radio from "_atoms/Radio";
 import { Colors, Spacing, Typography } from "_styles";
 import Spinner from "_atoms/Spinner";
 import { useFocusEffect } from "@react-navigation/native";
+import { visilabsApi } from "_utils/analytics";
 
 const CreditCardsScreen = (props) => {
     const [refreshing, setRefreshing] = useState(false)
     const [loading, setLoading] = React.useState(false)
     const [creditCards, setCreditCards] = React.useState([])
+
+    useEffect(() => {
+        visilabsApi.customEvent('Credit-Cards');
+    },[])
 
     useFocusEffect(
         useCallback(() => {
