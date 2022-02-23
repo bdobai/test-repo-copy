@@ -24,8 +24,8 @@ const HomeScreen = observer((props) => {
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
-        visilabsApi.customEvent('Home');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
+            visilabsApi.customEvent('Home');
             StatusBar.setBarStyle('light-content')
             if(!isIphone()){
                 StatusBar.setTranslucent(true);

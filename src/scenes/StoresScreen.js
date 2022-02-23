@@ -50,8 +50,8 @@ const StoresScreen = (props) => {
     const inputRef = useRef();
 
     useEffect(() => {
-        visilabsApi.customEvent('Stores');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
+            visilabsApi.customEvent('Stores');
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){
                 StatusBar.setTranslucent(true);

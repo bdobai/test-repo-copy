@@ -40,8 +40,8 @@ const HistoryScreen = (props) => {
     const actionSheetRef = useRef();
 
     useEffect(() => {
-        visilabsApi.customEvent('Order-History');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
+            visilabsApi.customEvent('Order-History');
             StatusBar.setBarStyle('dark-content')
             if(!isIphone()){
                 StatusBar.setTranslucent(false);
