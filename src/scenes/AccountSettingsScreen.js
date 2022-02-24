@@ -20,8 +20,8 @@ const AccountSettingsScreen = (props) => {
     const authStore = React.useContext(AuthStoreContext);
 
     useEffect(() => {
-        visilabsApi.customEvent('Account-Settings');
         const unsubscribe = props.navigation.addListener('focus', (e) => {
+            visilabsApi.customEvent('Account-Settings');
             StatusBar.setBarStyle('light-content')
             if(!isIphone()){
                 StatusBar.setTranslucent(true);
