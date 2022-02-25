@@ -53,7 +53,7 @@ public class MainApplication extends Application implements ReactApplication {
   }
 
     private void initEuroMessage() {
-        String appAlias = "costacoffee";
+        String appAlias = "costacoffeeandroid";
         String huaweiAppAlias = "demo-alias-huawei";
         String organizationId = "6B557846654856304732773D";
         String siteId = "4874496233646A4F5469493D";
