@@ -109,8 +109,7 @@ const AppNavigator = observer(() => {
             console.log('notification payload', notificationPayload)
         }, euroMessageApi, visilabsApi)
     },[])
-
-    useNotifications(authStore?.user?.email_address);
+    useNotifications(authStore?.user?.id);
 
     if (!authStore.userLoaded) {
         return <Spinner visible={true}/>
