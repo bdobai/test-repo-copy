@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { logToConsole, addEventListener, removeEventListener, requestPermissions } from "react-native-related-digital";
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 
-const useNotifications = (id) => {
+const useNotifications = (email, id) => {
     useEffect(() => {
         requestPermissions(false).then(() => {
         logToConsole(true)
@@ -12,7 +12,7 @@ const useNotifications = (id) => {
         })
 
         return () => removeListeners()
-    }, [])
+    }, [email, id])
 
     const addListeners = () => {
         addEventListener('register', async (token) => {
@@ -44,8 +44,8 @@ const useNotifications = (id) => {
         await euroMessageApi.setUserProperty("pushPermit","Y");  // Y= active, N=passive
         await euroMessageApi.setUserProperty("gsmPermit","Y");   // Y= active, N=passive
         await euroMessageApi.setUserProperty("emailPermit","Y"); // Y= active, N=passive
-        await euroMessageApi.setUserProperty('Email', id)
-        await euroMessageApi.setUserProperty('user_id', id)
+        await euroMessageApi.setUserProperty('Email', email)
+        await euroMessageApi.setUserProperty('keyid', id)
     }
 }
 
