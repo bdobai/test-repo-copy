@@ -12,6 +12,7 @@ import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
 import { visilabsApi } from "_utils/analytics";
+import banner from '_assets/images/home/banner.jpg';
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
@@ -156,8 +157,9 @@ const HomeScreen = observer((props) => {
                 {messages.map((item) => (<Pressable key={item.message.title} style={styles.messageCard} onPress={() => onPressMessage(item)}>
                     <Text style={styles.messageTitle}>{item.message.title}</Text>
                     <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
-                    {/*{item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }*/}
-                    <Image source={{ uri: 'https://pbs.twimg.com/media/E4TqORmUUAEr7Fk?format=jpg&name=4096x4096' }} style={{width: '100%', height: scaleSize(100)}}/>
+                    {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
+                    {!item.message?.banner && <Image source={banner}
+                            style={{ width: "100%", height: scaleSize(100), resizeMode:'stretch' }} />}
                 </Pressable>))}
             </Swiper>
         )
