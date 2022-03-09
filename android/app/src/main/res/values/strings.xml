@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Costa</string>
+    <string name="facebook_app_id">285866770341023</string>
+    <string name="facebook_client_token">87225462de2c2fa30c83edf6e16db291</string>
 </resources>

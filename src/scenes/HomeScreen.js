@@ -11,8 +11,11 @@ import menuImage from '_assets/images/home/menu-image.png'
 import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
-import { visilabsApi } from "_utils/analytics";
+import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import banner from '_assets/images/home/banner.jpg';
+import useNotifications from "_utils/notifications-hook";
+import { AuthStoreContext } from "_stores";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
@@ -23,6 +26,28 @@ const HomeScreen = observer((props) => {
     const [rewards, setRewards] = useState(null);
     const [messages, setMessages] = useState(null);
     const [index, setIndex] = useState(0);
+    const authStore = React.useContext(AuthStoreContext);
+
+    useNotifications(authStore?.user?.email_address, authStore?.user?.id);
+
+    const addExtra = async () => {
+        return await euroMessageApi.setUserProperties({
+            "pushPermit": "Y",
+            "gsmPermit": "Y",
+            "emailPermit": "Y",
+            "Email": authStore?.user?.email_address,
+            "Keyid": authStore?.user?.id,
+        })
+    }
+
+    // useEffect(() => {
+    //     AsyncStorage.getItem('rd-token').then((res) => {
+    //         console.debug('rdtoken', res)
+    //         addExtra().then(() => {
+    //             euroMessageApi.subscribe(res);
+    //         })
+    //     })
+    // },[])
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -139,6 +164,24 @@ const HomeScreen = observer((props) => {
         props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{item}})
     }
 
+    const renderMessage = (item) => {
+        // ToDo Change height -> ratio from screen width
+        if(!item.message?.banner) {
+            return (
+                <Pressable key={item.message.title} style={[styles.messageCard, { padding: 0 }]} onPress={() => onPressMessage(item)}>
+                    <Image source={banner} style={{ width:'100%', height: scaleSize(180), resizeMode:'contain' }} />
+                </Pressable>
+            )
+        }
+        return (
+            <Pressable key={item.message.title} style={styles.messageCard} onPress={() => onPressMessage(item)}>
+                <Text style={styles.messageTitle}>{item.message.title}</Text>
+                <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
+                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
+            </Pressable>
+        )
+    }
+
     const renderMessages = () => {
         if(loadingMessages || !messages?.length) return;
         return (
@@ -154,13 +197,7 @@ const HomeScreen = observer((props) => {
                 // onIndexChanged={(value) =>setIndex(value)}
                 // index={index}
             >
-                {messages.map((item) => (<Pressable key={item.message.title} style={styles.messageCard} onPress={() => onPressMessage(item)}>
-                    <Text style={styles.messageTitle}>{item.message.title}</Text>
-                    <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
-                    {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
-                    {!item.message?.banner && <Image source={banner}
-                            style={{ width: "100%", height: scaleSize(100), resizeMode:'stretch' }} />}
-                </Pressable>))}
+                {messages.map((item) => renderMessage(item))}
             </Swiper>
         )
     }

@@ -22,7 +22,7 @@ import { scaleSize } from "_styles/mixins";
 import { AuthHeaderText } from "_atoms/AuthHeaderText";
 import { isIphone } from "_utils/helpers";
 import { useFocusEffect } from "@react-navigation/native";
-import { visilabsApi } from "_utils/analytics";
+import { euroMessageApi, visilabsApi } from "_utils/analytics";
 
 const LoginScreen = (props) => {
     useEffect(() => {
@@ -53,6 +53,16 @@ const LoginScreen = (props) => {
         }, [props.navigation])
     );
 
+    const addExtra = async (email, id) => {
+        return await euroMessageApi.setUserProperties({
+            "pushPermit": "Y",
+            "gsmPermit": "Y",
+            "emailPermit": "Y",
+            "Email": email,
+            "Keyid": id,
+        })
+    }
+
     const onSubmit = data => {
         setLoading(true)
         request('/user/authenticate.json', {
@@ -71,7 +81,9 @@ const LoginScreen = (props) => {
                     "OM.exVisitorID": response?.user_vendor?.user?.id || '1',
                     "OM.b_login": "1"
                 };
+                // addExtra(data.email, response?.user_vendor?.user?.id).then(()=> euroMessageApi.subscribe(token))
                 visilabsApi.customEvent("Login", userData);
+
             },
             error: (e) => {
                 setLoading(false)

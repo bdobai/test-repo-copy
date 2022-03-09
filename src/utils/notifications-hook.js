@@ -5,19 +5,18 @@ import { euroMessageApi, visilabsApi } from "_utils/analytics";
 
 const useNotifications = (email, id) => {
     useEffect(() => {
-        requestPermissions(false).then(() => {
-        logToConsole(true)
-            addExtra()
-            addListeners()
-        })
-
+        requestPermissions(false).then(() => logToConsole(true))
+        addExtra()
+        addListeners()
         return () => removeListeners()
     }, [email, id])
 
     const addListeners = () => {
         addEventListener('register', async (token) => {
-            setToken(token);
-            addExtra().then((res) => euroMessageApi.subscribe(token));
+            addExtra().then((res) => {
+                visilabsApi.register(token);
+                euroMessageApi.subscribe(token)
+            })
             visilabsApi.register(token, (result) => {
                 console.log('visilabsApi result', result)
             })
@@ -41,11 +40,13 @@ const useNotifications = (email, id) => {
     }
 
     const addExtra = async () => {
-        await euroMessageApi.setUserProperty("pushPermit","Y");  // Y= active, N=passive
-        await euroMessageApi.setUserProperty("gsmPermit","Y");   // Y= active, N=passive
-        await euroMessageApi.setUserProperty("emailPermit","Y"); // Y= active, N=passive
-        await euroMessageApi.setUserProperty('Email', email)
-        await euroMessageApi.setUserProperty('keyid', id)
+        return await euroMessageApi.setUserProperties({
+            "pushPermit": "Y",
+            "gsmPermit": "Y",
+            "emailPermit": "Y",
+            "Email": email,
+            "Keyid": id,
+        })
     }
 }
 
