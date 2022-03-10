@@ -6,7 +6,7 @@ import {
     View,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
-import balanceBackground from '_assets/images/home/balance-background.png';
+import balanceBackground from '_assets/images/home/balance-background.jpg';
 import { scaleSize } from "_styles/mixins";
 import { request } from "_utils/request";
 import Button from "_atoms/Button";

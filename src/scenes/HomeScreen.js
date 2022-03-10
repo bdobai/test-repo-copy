@@ -7,7 +7,7 @@ import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import BarcodeCard from "_atoms/BarcodeCard";
 import { scaleSize } from "_styles/mixins";
-import menuImage from '_assets/images/home/menu-image.png'
+import menuImage from '_assets/images/home/menu-image.jpg'
 import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
