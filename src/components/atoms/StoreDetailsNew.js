@@ -42,7 +42,10 @@ const StoreDetailsNew = (props) => {
             "OM.orderOnline": 'Order online'
         };
         visilabsApi.customEvent("Press order online", data);
-        Linking.openURL(store.vendor_attribute[0].link)
+        console.debug('store', store);
+        const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${store.id}`
+        Linking.openURL(url);
+        // Linking.openURL(store.vendor_attribute[0].link)
     }
 
     const renderButton = () => {

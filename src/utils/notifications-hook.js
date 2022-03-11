@@ -4,6 +4,7 @@ import { logToConsole, addEventListener, removeEventListener, requestPermissions
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 
 const useNotifications = (email, id) => {
+    console.debug('email12345', email, id)
     useEffect(() => {
         requestPermissions(false).then(() => logToConsole(true))
         addExtra()

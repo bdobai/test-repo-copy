@@ -6,7 +6,7 @@ import BeansCard from "_atoms/BeansCard";
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import BarcodeCard from "_atoms/BarcodeCard";
-import { scaleSize } from "_styles/mixins";
+import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import menuImage from '_assets/images/home/menu-image.png'
 import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
@@ -39,15 +39,6 @@ const HomeScreen = observer((props) => {
             "Keyid": authStore?.user?.id,
         })
     }
-
-    // useEffect(() => {
-    //     AsyncStorage.getItem('rd-token').then((res) => {
-    //         console.debug('rdtoken', res)
-    //         addExtra().then(() => {
-    //             euroMessageApi.subscribe(res);
-    //         })
-    //     })
-    // },[])
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -165,19 +156,19 @@ const HomeScreen = observer((props) => {
     }
 
     const renderMessage = (item) => {
-        // ToDo Change height -> ratio from screen width
         if(!item.message?.banner) {
             return (
-                <Pressable key={item.message.title} style={[styles.messageCard, { padding: 0 }]} onPress={() => onPressMessage(item)}>
-                    <Image source={banner} style={{ width:'100%', height: scaleSize(180), resizeMode:'contain' }} />
+                <Pressable key={item.message.title} style={[styles.messageCard, { padding: 0, paddingVertical:0 }]} onPress={() => onPressMessage(item)}>
+                    <Image source={banner} style={{ width:'100%', height: '100%' }} />
                 </Pressable>
             )
         }
+        console.debug('banner', item.message.banner);
         return (
-            <Pressable key={item.message.title} style={styles.messageCard} onPress={() => onPressMessage(item)}>
+            <Pressable key={item.message.title} style={[styles.messageCard, {overflow:'hidden'}]} onPress={() => onPressMessage(item)}>
                 <Text style={styles.messageTitle}>{item.message.title}</Text>
                 <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
-                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
+                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height:'70%', resizeMode:'cover'}} /> }
             </Pressable>
         )
     }
@@ -191,8 +182,8 @@ const HomeScreen = observer((props) => {
                 autoplay={true}
                 autoplayTimeout={2.5}
                 loop={true}
-                dotStyle={{bottom:-10}}
-                activeDotStyle={{bottom:-10, backgroundColor: Colors.PRIMARY}}
+                dotStyle={{bottom:-5}}
+                activeDotStyle={{bottom:-5, backgroundColor: Colors.PRIMARY}}
                 horizontal={true}
                 // onIndexChanged={(value) =>setIndex(value)}
                 // index={index}
@@ -309,9 +300,10 @@ const styles = StyleSheet.create({
         paddingBottom: Spacing.SPACING_2,
     },
     messageCard: {
-        height: scaleSize(180),
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.25,
         marginHorizontal: Spacing.SPACING_5,
         padding: Spacing.SPACING_4,
+        paddingVertical: Spacing.SPACING_2,
         backgroundColor: '#F4F4F4',
         borderRadius: scaleSize(5)
     },
@@ -321,7 +313,7 @@ const styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_3
     },
     swiper:{
-        height: scaleSize(200),
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.25 + scaleSize(25),
         marginBottom: Spacing.SPACING_4,
         marginTop: Spacing.SPACING_4
     }
