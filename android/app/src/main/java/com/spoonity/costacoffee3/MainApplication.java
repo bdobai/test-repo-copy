@@ -72,12 +72,12 @@ public class MainApplication extends Application implements ReactApplication {
 
         // optional
         euroMobileManager.setPushIntent("com.pushsdk.MainActivity", this);
-        euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher, this);
-        euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher, this);
+        euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher_foreground, this);
+        euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher_foreground, this);
         euroMobileManager.useNotificationLargeIcon(true);
-        euroMobileManager.setNotificationLargeIcon(R.drawable.ic_launcher, this);
-        euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher, this);
-        euroMobileManager.setNotificationColor("#d1dbbd");
+        euroMobileManager.setNotificationLargeIcon(R.drawable.ic_launcher_foreground, this);
+        euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher_foreground, this);
+        euroMobileManager.setNotificationColor("#6D1F37");
         euroMobileManager.setChannelName("Channel", this);
     }
 

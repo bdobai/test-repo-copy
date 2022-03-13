@@ -11,8 +11,6 @@ import { reaction } from 'mobx'
 import RNBootSplash from "react-native-bootsplash";
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import OfflineNotice from '_atoms/OfflineNotice'
-// import analytics from '@react-native-firebase/analytics';
-import { parse_query_string } from '_utils/helpers'
 
 Number.prototype.clampPercentBar = function() {
     return this < 100 ? this : 100;

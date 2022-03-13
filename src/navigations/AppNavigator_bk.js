@@ -27,6 +27,8 @@ import BackButton from "_atoms/BackButton";
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import {addEventListener} from "react-native-related-digital";
 import useNotifications from "_utils/notifications-hook";
+import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const isReadyRef = React.createRef();
 
@@ -101,15 +103,16 @@ const ValidationNavigator = () => (
 const AppNavigator = observer(() => {
     const authStore = React.useContext(AuthStoreContext)
 
-    useEffect(() =>{
-        addEventListener('register', async (token) => {
-            visilabsApi.register(token, () => {});
-            euroMessageApi.subscribe(token)
-        }, (notificationPayload) => {
-            console.log('notification payload', notificationPayload)
-        }, euroMessageApi, visilabsApi)
-    },[])
-    useNotifications(authStore?.user?.email_address, authStore?.user?.id);
+    // useEffect(() =>{
+    //     addEventListener('register', async (token) => {
+    //         Alert.alert('here 123');
+    //         // console.debug('first token', token);
+    //         // AsyncStorage.setItem('rd-token', token);
+    //         visilabsApi.register(token, () => {});
+    //     }, (notificationPayload) => {
+    //         console.log('notification payload', notificationPayload)
+    //     }, euroMessageApi, visilabsApi)
+    // },[])
 
     if (!authStore.userLoaded) {
         return <Spinner visible={true}/>

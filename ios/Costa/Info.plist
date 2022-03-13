@@ -2,6 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>285866770341023</string>
+    </array>
+    </dict>
+  </array>
+  <key>FacebookAppID</key>
+  <string>285866770341023</string>
+  <key>FacebookClientToken</key>
+  <string>87225462de2c2fa30c83edf6e16db291</string>
+  <key>FacebookDisplayName</key>
+  <string>Costa Coffee</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>NSUserTrackingUsageDescription</key>

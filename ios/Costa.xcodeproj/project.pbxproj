@@ -22,6 +22,7 @@
 		BF16431BA8FA4011B81A58FD /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */; };
 		C940353427B929F10051F55F /* VisilabsMiniNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */; };
 		C940353627B92A1C0051F55F /* VisilabsFullNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */; };
+		C9A9901E27D6B4340057B7CF /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = C9A9901D27D6B4340057B7CF /* FacebookCore */; };
 		C9B5BC5427B9282D00DA4EFA /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5BC5327B9282D00DA4EFA /* Empty.swift */; };
 		CDEAA69E98544773A71961B2 /* BrandonGrotesque-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 53142B7F46494387A15E311B /* BrandonGrotesque-Regular.otf */; };
 		D85422F8041A4C4C9B6B00B6 /* ManusTrial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */; };
@@ -91,6 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE0254449B0F156BF30F9949 /* libPods-Costa.a in Frameworks */,
+				C9A9901E27D6B4340057B7CF /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +251,9 @@
 			dependencies = (
 			);
 			name = Costa;
+			packageProductDependencies = (
+				C9A9901D27D6B4340057B7CF /* FacebookCore */,
+			);
 			productName = Costa;
 			productReference = 13B07F961A680F5B00A75B9A /* Costa.app */;
 			productType = "com.apple.product-type.application";
@@ -279,6 +284,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				C9A9901C27D6B4340057B7CF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -769,6 +777,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C9A9901C27D6B4340057B7CF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C9A9901D27D6B4340057B7CF /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C9A9901C27D6B4340057B7CF /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }

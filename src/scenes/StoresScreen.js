@@ -80,6 +80,10 @@ const StoresScreen = (props) => {
     }
 
     useEffect(() => {
+        requestData('25.2048','55.2708')
+    },[])
+
+    useEffect(() => {
         if(isIphone()) {
             Geolocation.requestAuthorization('whenInUse')
                 .then(() => getData())

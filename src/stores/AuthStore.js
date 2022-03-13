@@ -60,6 +60,7 @@ export default class AuthStore {
             this.user.status = user.status;
             this.user.birthdate = user.birthdate;
             this.user.contact_consent = response.contact_consent
+            this.user.online_order_token = response.online_order_token
 
             // analytics().setUserId((user.id).toString());
         }
