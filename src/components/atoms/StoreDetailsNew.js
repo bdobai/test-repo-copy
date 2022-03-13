@@ -12,7 +12,7 @@ import pinIcon from "_assets/images/stores/pin-orange.png";
 import { visilabsApi } from "_utils/analytics";
 
 const StoreDetailsNew = (props) => {
-    const { store } = props;
+    const { store, user } = props;
 
     const renderDaySchedule = (item) => {
         if(item.start_time === 0 && item.end_time === 0)
@@ -43,7 +43,13 @@ const StoreDetailsNew = (props) => {
         };
         visilabsApi.customEvent("Press order online", data);
         console.debug('store', store);
-        const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${store.id}`
+        const restaurant_uid = store.vendor_attribute[0].link.split('restaurant_uid=').pop();
+        console.log('restaurantUid', restaurant_uid)
+        const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${restaurant_uid}`;
+        console.log('user', user.online_order_token)
+        if(user?.online_order_token){
+            url.concat(`&user_token=spoonity_${user.online_order_token}&user_token=spoonityloyality_${user.online_order_token}&user_token=spoonitycredit_${user.online_order_token}`)
+        }
         Linking.openURL(url);
         // Linking.openURL(store.vendor_attribute[0].link)
     }
