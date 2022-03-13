@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
         paddingBottom: Spacing.SPACING_2,
     },
     messageCard: {
-        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.25,
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.6,
         marginHorizontal: Spacing.SPACING_5,
         padding: Spacing.SPACING_4,
         paddingVertical: Spacing.SPACING_2,
@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
         paddingLeft: Spacing.SPACING_3
     },
     swiper:{
-        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.25 + scaleSize(25),
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.6 + scaleSize(25),
         marginBottom: Spacing.SPACING_4,
         marginTop: Spacing.SPACING_4
     }

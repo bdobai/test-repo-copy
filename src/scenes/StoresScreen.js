@@ -30,6 +30,7 @@ import Spinner from "_atoms/Spinner";
 import StoresFilters from "_atoms/StoresFilters";
 import { visilabsApi } from "_utils/analytics";
 import { ScrollView } from "react-native-gesture-handler";
+import { AuthStoreContext } from "_stores";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
@@ -48,6 +49,8 @@ const StoresScreen = (props) => {
     const filtersActionSheetRef = useRef();
     const mapRef = useRef();
     const inputRef = useRef();
+
+    const authStore = React.useContext(AuthStoreContext);
 
     useEffect(() => {
         const unsubscribe = props.navigation.addListener('focus', (e) => {
@@ -367,7 +370,7 @@ const StoresScreen = (props) => {
             >
                 <View>
                     <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
-                    <StoreDetailsNew store={currentStore} onDirections={onDirections}/>
+                    <StoreDetailsNew store={currentStore} onDirections={onDirections} user={authStore?.user}/>
                 </View>
             </ActionSheet>
             <ActionSheet containerStyle={styles.actionSheet} ref={filtersActionSheetRef} safeAreaInnerHeight={0}>
