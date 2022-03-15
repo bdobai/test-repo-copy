@@ -31,6 +31,7 @@ import StoresFilters from "_atoms/StoresFilters";
 import { visilabsApi } from "_utils/analytics";
 import { ScrollView } from "react-native-gesture-handler";
 import { AuthStoreContext } from "_stores";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
@@ -84,6 +85,12 @@ const StoresScreen = (props) => {
 
     useEffect(() => {
         requestData('25.2048','55.2708')
+        AsyncStorage.getItem('stores').then((res) => {
+            if(!res?.length) return;
+            setStores(JSON.parse(res))
+            setFilteredStores(JSON.parse(res));
+            setLoading(false);
+        })
     },[])
 
     useEffect(() => {
@@ -120,6 +127,7 @@ const StoresScreen = (props) => {
             },
             success: function(response) {
                 setStores(response.data);
+                AsyncStorage.setItem('stores', JSON.stringify(response.data))
                 setFilteredStores(response.data);
                 setLoading(false);
             },
@@ -207,7 +215,7 @@ const StoresScreen = (props) => {
     }
 
     const renderLoader = () => {
-        if(!loading) return;
+        if(!loading || stores?.length) return;
         return (
             <View style={styles.overlay}>
                 <Spinner color={Colors.WHITE}/>
