@@ -47,12 +47,12 @@ PODS:
     - FirebaseCoreDiagnostics (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
-  - FirebaseCoreDiagnostics (8.11.0):
+  - FirebaseCoreDiagnostics (8.13.0):
     - GoogleDataTransport (~> 9.1)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
-  - FirebaseInstallations (8.11.0):
+  - FirebaseInstallations (8.13.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/UserDefaults (~> 7.7)
@@ -412,10 +412,10 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.2):
     - React-Core
-  - react-native-related-digital (0.1.6):
+  - react-native-related-digital (0.2.1):
     - Euromsg (= 2.5.4)
     - React
-    - VisilabsIOS (= 3.4.3)
+    - VisilabsIOS (= 3.5.2)
   - react-native-safe-area-context (3.3.2):
     - React-Core
   - react-native-webview (11.16.0):
@@ -517,7 +517,7 @@ PODS:
     - React-RCTImage
   - RNSVG (12.1.1):
     - React
-  - VisilabsIOS (3.4.3)
+  - VisilabsIOS (3.5.2)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -747,8 +747,8 @@ SPEC CHECKSUMS:
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
   FirebaseAnalytics: 4e4b13031034e6561ed3bd1d47b6fdabbd6487c6
   FirebaseCore: 2f4f85b453cc8fea4bb2b37e370007d2bcafe3f0
-  FirebaseCoreDiagnostics: 64d9709d804a6c25bd77841371c1fcfd909d5601
-  FirebaseInstallations: 044eede8a049bce71c4541ee68d6e4364fcbe774
+  FirebaseCoreDiagnostics: c2836d254a8f0bbb4121ff18f2c2ea39d118fd08
+  FirebaseInstallations: 60edbf7e11d91ae4c751d26c200dfd037099abe0
   FirebaseMessaging: 02e248e8997f71fa8cc9d78e9d49ec1a701ba14a
   Flipper: b1fddf9a17c32097b2b4c806ad158b2f36bb2692
   Flipper-Boost-iOSX: fd1e2b8cbef7e662a122412d7ac5f5bea715403c
@@ -787,7 +787,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 17432eb7412df3c65d7c7c52ede085d0f5624f77
   react-native-maps: d752b0dd0e1951d815b1336332835aab6b4a836f
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
-  react-native-related-digital: d58a5308142d485be25260ec5ebff9ceb1799b70
+  react-native-related-digital: 0f0487d2ae82ead43bde35cdc50d8e3ec429e687
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-webview: 28a8636d97ee641f2ee8f20492d7a6c269c1d703
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
@@ -814,7 +814,7 @@ SPEC CHECKSUMS:
   RNNotifee: f1ba270897bd7491f889a1a257d0c038a43376f7
   RNScreens: 0591543e343c7444ea1756b6265d81a4295922c9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  VisilabsIOS: 90ccaa4669e0ffc9361968ca7bbe24cdf0c2d12c
+  VisilabsIOS: 59c5198c6033790040a033ea652bd7981eccc168
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

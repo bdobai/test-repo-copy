@@ -42,11 +42,8 @@ const StoreDetailsNew = (props) => {
             "OM.orderOnline": 'Order online'
         };
         visilabsApi.customEvent("Press order online", data);
-        console.debug('store', store);
         const restaurant_uid = store.vendor_attribute[0].link.split('restaurant_uid=').pop();
-        console.log('restaurantUid', restaurant_uid)
         const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${restaurant_uid}`;
-        console.log('user', user.online_order_token)
         if(user?.online_order_token){
             url.concat(`&user_token=spoonity_${user.online_order_token}&user_token=spoonityloyality_${user.online_order_token}&user_token=spoonitycredit_${user.online_order_token}`)
         }

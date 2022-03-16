@@ -13,6 +13,7 @@ import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import banner from '_assets/images/home/banner.jpg';
+import banner2 from '_assets/images/home/banner_2.jpg';
 import useNotifications from "_utils/notifications-hook";
 import { AuthStoreContext } from "_stores";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -163,7 +164,7 @@ const HomeScreen = observer((props) => {
                 </Pressable>
             )
         }
-        console.debug('banner', item.message.banner);
+
         return (
             <Pressable key={item.message.title} style={[styles.messageCard, {overflow:'hidden'}]} onPress={() => onPressMessage(item)}>
                 <Text style={styles.messageTitle}>{item.message.title}</Text>
@@ -174,7 +175,27 @@ const HomeScreen = observer((props) => {
     }
 
     const renderMessages = () => {
-        if(loadingMessages || !messages?.length) return;
+        if(loadingMessages) return;
+        if(!messages?.length){
+            return (
+                <Swiper
+                    style={styles.swiper}
+                    autoplay={true}
+                    autoplayTimeout={2.5}
+                    loop={true}
+                    dotStyle={{bottom:-5}}
+                    activeDotStyle={{bottom:-5, backgroundColor: Colors.PRIMARY}}
+                    horizontal={true}
+                >
+                    <View style={[styles.messageCard, { padding: 0, paddingVertical:0 }]}>
+                        <Image source={banner} style={{ width:'100%', height: '100%' }} />
+                    </View>
+                    <View style={[styles.messageCard, { padding: 0, paddingVertical:0 }]}>
+                        <Image source={banner2} style={{ width:'100%', height: '100%' }} />
+                    </View>
+                </Swiper>
+            )
+        }
         return (
             <Swiper
                 key={messages.length}
