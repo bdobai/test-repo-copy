@@ -10,6 +10,7 @@ import clockIcon from "_assets/images/stores/clock-orange.png";
 import messageIcon from "_assets/images/stores/message.png";
 import pinIcon from "_assets/images/stores/pin-orange.png";
 import { visilabsApi } from "_utils/analytics";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const StoreDetailsNew = (props) => {
     const { store, user } = props;
@@ -37,16 +38,16 @@ const StoreDetailsNew = (props) => {
         })
     }
 
-    const onPressOrderOnline = (store) => {
+    const onPressOrderOnline = async (store) => {
         let data = {
             "OM.orderOnline": 'Order online'
         };
         visilabsApi.customEvent("Press order online", data);
         const restaurant_uid = store.vendor_attribute[0].link.split('restaurant_uid=').pop();
         const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${restaurant_uid}`;
-        if(user?.online_order_token){
-            url.concat(`&user_token=spoonity_${user.online_order_token}&user_token=spoonityloyality_${user.online_order_token}&user_token=spoonitycredit_${user.online_order_token}`)
-        }
+        const online_order_token = await AsyncStorage.getItem('online_order_token')
+        url.concat(`&user_token=spoonity_${online_order_token}&user_token=spoonityloyality_${online_order_token}&user_token=spoonitycredit_${online_order_token}`)
+        console.debug('url', url);
         Linking.openURL(url);
         // Linking.openURL(store.vendor_attribute[0].link)
     }
