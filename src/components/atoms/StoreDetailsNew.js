@@ -45,10 +45,12 @@ const StoreDetailsNew = (props) => {
         visilabsApi.customEvent("Press order online", data);
         const restaurant_uid = store.vendor_attribute[0].link.split('restaurant_uid=').pop();
         const url = `https://www.spoonityorder.com/ordering/restaurant/menu?restaurant_uid=${restaurant_uid}`;
-        const online_order_token = await AsyncStorage.getItem('online_order_token')
-        url.concat(`&user_token=spoonity_${online_order_token}&user_token=spoonityloyality_${online_order_token}&user_token=spoonitycredit_${online_order_token}`)
-        console.debug('url', url);
-        Linking.openURL(url);
+        AsyncStorage.getItem('online_order_token').then((online_order_token) =>{
+            console.debug('online order', online_order_token)
+        const userUrl = url.concat(`&user_token=spoonity_${online_order_token}&user_token=spoonityloyality_${online_order_token}&user_token=spoonitycredit_${online_order_token}`)
+            console.debug('user urk', userUrl);
+        Linking.openURL(userUrl);
+        }).catch((e) => Linking.openURL(url));
         // Linking.openURL(store.vendor_attribute[0].link)
     }
 
