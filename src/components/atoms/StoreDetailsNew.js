@@ -1,14 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Pressable, Linking, ScrollView } from "react-native";
-import TimeIcon from '_assets/images/stores/time.png';
+import { View, Text, StyleSheet, Image, Linking, ScrollView } from "react-native";
 import { scaleSize } from "_styles/mixins";
 import { Colors, Spacing, Typography } from "_styles";
 import Button from "_atoms/Button";
-import { dayStringFromNumber, formatTimeUTC, getNextOpen, getOpenUntil } from "_utils/helpers";
-import markerIcon from "_assets/images/stores/marker-new.png";
+import { dayStringFromNumber, formatTimeUTC} from "_utils/helpers";
 import clockIcon from "_assets/images/stores/clock-orange.png";
-import messageIcon from "_assets/images/stores/message.png";
-import pinIcon from "_assets/images/stores/pin-orange.png";
 import { visilabsApi } from "_utils/analytics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

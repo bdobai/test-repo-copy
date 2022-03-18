@@ -2,14 +2,19 @@ import * as React from 'react';
 import { useEffect } from "react";
 import { logToConsole, addEventListener, removeEventListener, requestPermissions } from "react-native-related-digital";
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useNotifications = (email, id) => {
-    console.debug('email12345', email, id)
     useEffect(() => {
-        requestPermissions(false).then(() => logToConsole(true))
-        addExtra()
-        addListeners()
-        return () => removeListeners()
+        AsyncStorage.getItem('firstTime').then((res) => {
+            if(res){
+                requestPermissions(false).then(() => logToConsole(true))
+                addExtra()
+                addListeners()
+                return () => removeListeners()
+            }
+        })
+        AsyncStorage.setItem('firstTime', 'true');
     }, [email, id])
 
     const addListeners = () => {
