@@ -62,7 +62,7 @@ const OrdersListItem = (props) => {
         console.debug('props.item', props.item);
         // if(props.item.total === 0) return;
         return <View style={[styles.row, {paddingVertical: scaleSize(10)}]}>
-            <View>
+            <View style={{flex:1}}>
                 <Text style={styles.title}>{getTitle().title}</Text>
                 <Text style={styles.name}>{`${props.item.name}`}</Text>
             </View>
@@ -72,7 +72,7 @@ const OrdersListItem = (props) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [(]ddd[)] [AT] HH:mm')}</Text>
+            <Text style={styles.date}>{dateFormat(props.item.date, 'MMMM DD [(]ddd[)] [-] HH:mm')}</Text>
             {renderTitle()}
             <OrderInfo item={props.item} hideDetails={true}/>
             {renderMore()}

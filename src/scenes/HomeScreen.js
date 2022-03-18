@@ -166,10 +166,8 @@ const HomeScreen = observer((props) => {
         }
 
         return (
-            <Pressable key={item.message.title} style={[styles.messageCard, {overflow:'hidden'}]} onPress={() => onPressMessage(item)}>
-                <Text style={styles.messageTitle}>{item.message.title}</Text>
-                <Text style={styles.messageDescription}>{item.message.subtitle}</Text>
-                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height:'70%', resizeMode:'cover'}} /> }
+            <Pressable key={item.message.title} style={[styles.messageCard, { padding: 0, paddingVertical:0 }]} onPress={() => onPressMessage(item)}>
+                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{ width:'100%', height: '100%' }} /> }
             </Pressable>
         )
     }

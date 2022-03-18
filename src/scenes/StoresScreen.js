@@ -65,23 +65,23 @@ const StoresScreen = (props) => {
         return unsubscribe;
     }, [props.navigation]);
 
-    const showMandatoryAlert = () => {
-        requestData('25.2048','55.2708');
-        Alert.alert('Location required', 'Location is needed in order to show the shops near you', [
-            {
-                text: 'Ok',
-                onPress: async () => {
-                    try {
-                        await Linking.openSettings();
-                    } catch (e) {}
-                },
-            },
-            {
-                text: 'Cancel',
-                style: 'cancel',
-            },
-        ]);
-    }
+    // const showMandatoryAlert = () => {
+    //     requestData('25.2048','55.2708');
+    //     Alert.alert('Location required', 'Location is needed in order to show the shops near you', [
+    //         {
+    //             text: 'Ok',
+    //             onPress: async () => {
+    //                 try {
+    //                     await Linking.openSettings();
+    //                 } catch (e) {}
+    //             },
+    //         },
+    //         {
+    //             text: 'Cancel',
+    //             style: 'cancel',
+    //         },
+    //     ]);
+    // }
 
     useEffect(() => {
         requestData('25.2048','55.2708')
@@ -99,7 +99,6 @@ const StoresScreen = (props) => {
                 .then(() => getData())
                 .catch(() => {
                         setLoading(false)
-                        showMandatoryAlert()
                     })
         }else{
             PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION).then((granted)=>{
@@ -107,7 +106,6 @@ const StoresScreen = (props) => {
                     getData()
                 }else{
                     setLoading(false);
-                    showMandatoryAlert()
                 }
             })
         }
@@ -141,10 +139,15 @@ const StoresScreen = (props) => {
         Geolocation.getCurrentPosition(info => {
             setLoading(true);
             setCoords({latitude: info.coords.latitude, longitude: info.coords.longitude})
+            mapRef.current.animateToRegion({
+                latitude: +info.coords.latitude,
+                longitude: +info.coords.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+            })
             requestData(info.coords.latitude.toString(), info.coords.longitude.toString())
         }, error => {
             setLoading(false)
-            showMandatoryAlert()
         }, {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000});
     }
 

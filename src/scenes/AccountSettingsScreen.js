@@ -13,6 +13,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { baseurl } from "_base/config/settings";
 import Spinner from "_atoms/Spinner";
 import { visilabsApi } from "_utils/analytics";
+import DeviceInfo from 'react-native-device-info';
 
 
 const AccountSettingsScreen = (props) => {
@@ -161,6 +162,12 @@ const AccountSettingsScreen = (props) => {
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={onFAQ} style={styles.listItem}>
                     <Text style={styles.listItemText}>FAQ</Text>
                 </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => Linking.openSettings()} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Location</Text>
+                </TouchableHighlight>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => Linking.openSettings()} style={styles.listItem}>
+                    <Text style={styles.listItemText}>Notifications</Text>
+                </TouchableHighlight>
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={onTerms} style={styles.listItem}>
                     <Text style={styles.listItemText}>Terms of Service</Text>
                 </TouchableHighlight>
@@ -169,6 +176,7 @@ const AccountSettingsScreen = (props) => {
                 </TouchableHighlight>
                 <View style={styles.footer}>
                     <Button textStyle={styles.buttonTitle} bodyStyle={styles.button} onPress={onLogout} block={true} type={'primary'} text={'LOGOUT'}/>
+                    <Text style={styles.version}>{`Version ${DeviceInfo.getVersion()}`}</Text>
                 </View>
             </Container>
         </ScrollView>
@@ -198,7 +206,6 @@ const styles = StyleSheet.create({
         paddingBottom: Spacing.SPACING_5,
     },
     footer: {
-        flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
         margin: Spacing.SPACING_5
@@ -226,6 +233,10 @@ const styles = StyleSheet.create({
     passbookWrapper: {
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    version: {
+        color: Colors.BLUE_GRAY,
+        paddingTop: Spacing.SPACING_1
     }
 })
 

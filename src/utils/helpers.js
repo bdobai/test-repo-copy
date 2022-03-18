@@ -210,13 +210,18 @@ export const getNextOpen = (item) => {
     if(day === 0){
         day = 7;
     }
+    const hours = dayjs().get('hours')
+    const minutes = dayjs().get('minutes')
+    const seconds = hours*3600+minutes*60;
     const currentDayIndex = item?.store_hours?.data?.findIndex((item) => item.day_of_week === day)
     let next = null;
     let previous = null;
     item?.store_hours?.data.forEach((item, index) => {
-        if(!next && !!item.start_time && index > currentDayIndex){
-            next = item
-        } else if(!previous && !!item.start_time && index < currentDayIndex){
+        if(!next && !!item.start_time && index >= currentDayIndex){
+            if((currentDayIndex === index && item.start_time > seconds) || currentDayIndex!==index) {
+                next=item
+            }
+        } else if(!previous && !!item.start_time && index <= currentDayIndex){
             previous = item
         }
     })

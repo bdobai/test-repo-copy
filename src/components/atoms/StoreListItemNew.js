@@ -4,8 +4,19 @@ import { Colors, Spacing, Typography } from "_styles";
 import { scaleSize } from "_styles/mixins";
 import { dayStringFromNumber, formatTimeUTC, getNextOpen, getOpenUntil } from "_utils/helpers";
 import markerIcon from "_assets/images/stores/marker-new.png";
+import dayjs from "dayjs";
 
 const StoreListItemNew = (props) => {
+
+
+    const isSameDay = () => {
+        let day = dayjs().day();
+        if(day === 0){
+            day = 7;
+        }
+        return getNextOpen(props.item).day_of_week === day
+    }
+
     const renderIsOpen = () => {
         if(props.item.store_hours.is_open){
             return <View style={styles.openContainer}>
@@ -15,7 +26,7 @@ const StoreListItemNew = (props) => {
         }
         return <View style={styles.openContainer}>
             <Text style={styles.closedText}>CLOSED: Opens</Text>
-            <Text style={styles.until}>{`${dayStringFromNumber(getNextOpen(props.item)?.day_of_week)} ${formatTimeUTC(getNextOpen(props.item)?.start_time)}`}</Text>
+            <Text style={styles.until}>{`${ !isSameDay() ? dayStringFromNumber(getNextOpen(props.item)?.day_of_week) : ''} ${formatTimeUTC(getNextOpen(props.item)?.start_time)}`}</Text>
         </View>
     }
 

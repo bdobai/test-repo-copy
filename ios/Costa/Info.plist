@@ -2,25 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CFBundleURLTypes</key>
-  <array>
-    <dict>
-    <key>CFBundleURLSchemes</key>
-    <array>
-      <string>285866770341023</string>
-    </array>
-    </dict>
-  </array>
-  <key>FacebookAppID</key>
-  <string>285866770341023</string>
-  <key>FacebookClientToken</key>
-  <string>87225462de2c2fa30c83edf6e16db291</string>
-  <key>FacebookDisplayName</key>
-  <string>Costa Coffee</string>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>For analytics</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -39,8 +20,25 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb285866770341023</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>FacebookAppID</key>
+	<string>fb285866770341023</string>
+	<key>FacebookClientToken</key>
+	<string>87225462de2c2fa30c83edf6e16db291</string>
+	<key>FacebookDisplayName</key>
+	<string>Costa Coffee</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -58,6 +56,8 @@
 	<string>We need acces to your location so we can find the closest shops</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need acces to your location so we can find the closest shops</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>For analytics</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Gotham-Light.otf</string>
@@ -77,7 +77,7 @@
 	<array>
 		<string>fetch</string>
 		<string>remote-notification</string>
-    <string>location</string>
+		<string>location</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
