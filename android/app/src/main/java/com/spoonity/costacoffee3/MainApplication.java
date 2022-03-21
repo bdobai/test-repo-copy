@@ -71,7 +71,7 @@ public class MainApplication extends Application implements ReactApplication {
         EuroMobileManager euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this);
 
         // optional
-        euroMobileManager.setPushIntent("com.pushsdk.MainActivity", this);
+        euroMobileManager.setPushIntent("com.spoonity.costacoffee3.MainActivity", this);
         euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher_foreground, this);
         euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher_foreground, this);
         euroMobileManager.useNotificationLargeIcon(true);
