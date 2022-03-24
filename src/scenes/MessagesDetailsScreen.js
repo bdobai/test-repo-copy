@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Image, Alert } from "react-native";
 import { dateFormat } from "_utils/helpers";
 import { Colors, Spacing, Typography } from "_styles";
 import { WebView } from "react-native-webview";
-import { scaleSize } from "_styles/mixins";
+import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import Button from "_atoms/Button";
 import { request } from "_utils/request";
 import { useState } from "react";
@@ -55,7 +55,7 @@ const MessagesDetailsScreen = (props) => {
                     <Text style={styles.title}>{item.message.title}</Text>
                     <Text style={styles.date}>{dateFormat(item.message.publish_date, 'MMM-DD')}</Text>
                 </View>
-                {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
+                {item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
                 <View style={{paddingHorizontal: Spacing.SPACING_4, flex:1}}>
                     <WebView
                         startInLoadingState={true}
@@ -100,6 +100,9 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.SPACING_8,
         paddingBottom: Spacing.SPACING_5,
         borderRadius: scaleSize(5)
+    },
+    imageWrapper: {
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.6,
     },
     title: {
         fontSize: Typography.FONT_SIZE_16,

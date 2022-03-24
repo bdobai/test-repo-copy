@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import { request } from '_utils/request'
-import { scaleSize } from "_styles/mixins";
+import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import Spinner from "_atoms/Spinner";
 import { dateFormat, isIphone } from "_utils/helpers";
 import { WebView } from 'react-native-webview';
@@ -91,7 +91,7 @@ const MessagesScreen = (props) => {
                 <Text style={styles.title}>{item.message.title}</Text>
                 <Text style={styles.date}>{dateFormat(item.message.publish_date, 'MMM-DD')}</Text>
             </View>
-            {item.message.banner && <Image source={{ uri: item.message.banner }} style={{width: '100%', height: scaleSize(120)}}/> }
+            {item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
             <View style={{paddingHorizontal: Spacing.SPACING_4, height: scaleSize(120)}}>
                 <WebView startInLoadingState={true} source={{ html: item.message.body }} originWhitelist={['*']} scrollEnabled={false} scalesPageToFit={false} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}/>
             </View>
@@ -144,6 +144,9 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.SPACING_8,
         paddingBottom: Spacing.SPACING_5,
         borderRadius: scaleSize(5)
+    },
+    imageWrapper: {
+        height: (WINDOW_WIDTH-Spacing.SPACING_4*2)/2.6,
     },
     title: {
         fontSize: Typography.FONT_SIZE_16,
