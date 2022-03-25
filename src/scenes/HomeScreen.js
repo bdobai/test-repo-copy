@@ -225,7 +225,7 @@ const HomeScreen = observer((props) => {
         {barcode && <BarcodeCard barcode={barcode} loading={loadingBarcode}/>}
         <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>
-        <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Order Online'} bodyStyle={styles.smallButton} onPress={onOrderOnline}/>
+        <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Click & Collect'} bodyStyle={styles.smallButton} onPress={onOrderOnline}/>
         <View style={styles.divider}/>
         {renderMessages()}
         <View style={styles.campaign}>
