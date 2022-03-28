@@ -154,7 +154,7 @@ const base_styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_18,
         lineHeight: Typography.LINE_HEIGHT_20,
         fontWeight: '700',
-        fontFamily: Typography.FONT_SECONDARY_BOLD
+        fontFamily: Typography.FONT_PRIMARY_BOLD
     },
     defaultBody: {
         flexDirection: 'row',

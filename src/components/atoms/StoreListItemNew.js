@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
       marginRight: Spacing.SPACING_2,
     },
     title: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
         color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_14,
     },

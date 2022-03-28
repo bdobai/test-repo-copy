@@ -48,18 +48,26 @@ const MessagesDetailsScreen = (props) => {
         ])
     }
 
+    const getMessageBody = () => {
+        if (item.message.body.indexOf('name="viewport"') > -1) {
+            return item.message.body;
+        }
+        return item.message.body.replace('<head>', '<head><meta name="viewport" content="width=device-width, initial-scale=1">')
+
+    }
+
     return (
         <View style={styles.container}>
             <View onPress={() => onPress(item)} style={styles.card}>
+                {item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
                 <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{item.message.title}</Text>
                     <Text style={styles.date}>{dateFormat(item.message.publish_date, 'MMM-DD')}</Text>
                 </View>
-                {item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
                 <View style={{paddingHorizontal: Spacing.SPACING_4, flex:1}}>
                     <WebView
                         startInLoadingState={true}
-                        source={{ html: item.message.body }}
+                        source={{ html: getMessageBody() }}
                         originWhitelist={['*']}
                         scrollEnabled={true}
                         scalesPageToFit={false}

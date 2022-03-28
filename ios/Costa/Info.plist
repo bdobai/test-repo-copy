@@ -60,18 +60,16 @@
 	<string>For analytics</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Gotham-Light.otf</string>
-		<string>GothamBold.ttf</string>
-		<string>GothamBook.ttf</string>
-		<string>GothamMedium.ttf</string>
-		<string>Gotham-Bold.ttf</string>
-		<string>Gotham-Book.ttf</string>
-		<string>Gotham-Medium.ttf</string>
 		<string>BrandonGrotesque-Bold.otf</string>
 		<string>BrandonGrotesque-Medium.otf</string>
 		<string>BrandonGrotesque-Regular.otf</string>
-		<string>Gotham-Light.ttf</string>
 		<string>ManusTrial.ttf</string>
+		<string>CostaText-Bold.ttf</string>
+		<string>CostaText-Regular.ttf</string>
+		<string>CostaText-Light.ttf</string>
+		<string>CostaDisplayWave-Bold.ttf</string>
+		<string>CostaDisplayWave-Light.ttf</string>
+		<string>CostaDisplayWave-Regular.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     contentWrapper: {
-        paddingHorizontal: Spacing.SPACING_5,
+        paddingLeft: Spacing.SPACING_1,
+        paddingRight: Spacing.SPACING_5,
         paddingBottom: Spacing.SPACING_1,
         paddingTop: Spacing.SPACING_1,
         flexDirection: 'row',
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     name:{
         color: Colors.WHITE,
         fontFamily: Typography.FONT_SECONDARY_BOLD,
-        fontSize: Typography.FONT_SIZE_26,
+        fontSize: Typography.FONT_SIZE_22,
         flex: 0.9
     },
 })

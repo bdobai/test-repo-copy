@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
     },
     title: {
-        fontFamily: Typography.FONT_PRIMARY_BOLD,
+        fontFamily: Typography.FONT_SECONDARY_BOLD,
         color: Colors.BLACK,
         fontSize: Typography.FONT_SIZE_16,
         marginBottom: Spacing.SPACING_3,

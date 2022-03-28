@@ -1,12 +1,12 @@
 import { scaleFont } from './mixins'
 
 // FONT FAMILY
-export const FONT_PRIMARY_LIGHT = 'Gotham-Light'
-export const FONT_PRIMARY_REGULAR = 'Gotham-Book'
-export const FONT_PRIMARY_BOLD = 'Gotham-Bold'
-export const FONT_PRIMARY_MEDIUM = 'Gotham-Medium'
-export const FONT_SECONDARY_REGULAR = 'BrandonGrotesque-Regular'
-export const FONT_SECONDARY_BOLD = 'BrandonGrotesque-Bold'
+export const FONT_PRIMARY_LIGHT = 'CostaText-Light'
+export const FONT_PRIMARY_REGULAR = 'CostaText-Regular'
+export const FONT_PRIMARY_BOLD = 'CostaText-Bold'
+export const FONT_PRIMARY_MEDIUM = 'CostaText-Regular'
+export const FONT_SECONDARY_REGULAR = 'CostaDisplayWave-Regular'
+export const FONT_SECONDARY_BOLD = 'CostaDisplayWave-Bold'
 
 // FONT SIZE
 export const FONT_SIZE_72 = scaleFont(72)

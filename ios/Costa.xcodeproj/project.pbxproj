@@ -12,20 +12,26 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		13CD75EC26FA1C2B00387D15 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13CD75EB26FA1C2B00387D15 /* GoogleService-Info.plist */; };
+		19AA25507A094D7A96EA2F0B /* CostaDisplayWave-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B7259BB8002E480FB0FF8296 /* CostaDisplayWave-Regular.ttf */; };
+		2448D2384A62444488F9B81F /* CostaDisplayWave-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67C6D1E64D3B45A78721B15A /* CostaDisplayWave-Bold.ttf */; };
 		4045A8AFCC705A927B3D1551 /* libPods-Costa-CostaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA3F8D214DCC95CCF6190B6 /* libPods-Costa-CostaTests.a */; };
 		54BFDF1EAB9E4C8AAE328B2D /* Gotham-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C763F0D764434278B5F8C267 /* Gotham-Medium.ttf */; };
+		61A1CA7070A941F1924BBC6D /* CostaText-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95EB021CE28840BA98E71CBF /* CostaText-Bold.ttf */; };
 		699F1772FBA34712B90695A7 /* Gotham-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 25B4A06797DF4D84B9DB95AB /* Gotham-Book.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		886FF0F1C9654A2FBB2D9C01 /* BrandonGrotesque-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 591BD9917B184B61BEDAD257 /* BrandonGrotesque-Bold.otf */; };
 		BE0254449B0F156BF30F9949 /* libPods-Costa.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6299144175D47D133C34D802 /* libPods-Costa.a */; };
 		BE12B4C7587D4966AE08C08C /* BrandonGrotesque-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1C2DE34BDB3B44D5BAE746C2 /* BrandonGrotesque-Medium.otf */; };
 		BF16431BA8FA4011B81A58FD /* Gotham-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */; };
+		C20CA66F5A1748068C82A03F /* CostaDisplayWave-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E0F2834691674714B3AFDB64 /* CostaDisplayWave-Light.ttf */; };
 		C940353427B929F10051F55F /* VisilabsMiniNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */; };
 		C940353627B92A1C0051F55F /* VisilabsFullNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */; };
 		C9A9901E27D6B4340057B7CF /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = C9A9901D27D6B4340057B7CF /* FacebookCore */; };
 		C9B5BC5427B9282D00DA4EFA /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9B5BC5327B9282D00DA4EFA /* Empty.swift */; };
 		CDEAA69E98544773A71961B2 /* BrandonGrotesque-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 53142B7F46494387A15E311B /* BrandonGrotesque-Regular.otf */; };
 		D85422F8041A4C4C9B6B00B6 /* ManusTrial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */; };
+		F2051FE640D54DD684B676C7 /* CostaText-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FAE28D475EA42A5818FAC1D /* CostaText-Light.ttf */; };
+		F4DD2B6F04534D80BFFCACB1 /* CostaText-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1B68D822A1F49CDB299E5E1 /* CostaText-Regular.ttf */; };
 		F5156A3A51134359A1945AE0 /* Gotham-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E920932223E8491C95F5FC3D /* Gotham-Light.ttf */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +49,7 @@
 		00E356EE1AD99517003FC87E /* CostaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CostaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* CostaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CostaTests.m; sourceTree = "<group>"; };
+		0FAE28D475EA42A5818FAC1D /* CostaText-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaText-Light.ttf"; path = "../src/assets/fonts/CostaText-Light.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Costa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Costa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Costa/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = Costa/AppDelegate.m; sourceTree = "<group>"; };
@@ -60,13 +67,16 @@
 		5A795FDF71A64E49B1103344 /* GothamBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamBold.ttf; path = ../src/assets/fonts/GothamBold.ttf; sourceTree = "<group>"; };
 		6266430FA8484D9F83D5C08E /* GothamMedium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamMedium.ttf; path = ../src/assets/fonts/GothamMedium.ttf; sourceTree = "<group>"; };
 		6299144175D47D133C34D802 /* libPods-Costa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Costa.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		67C6D1E64D3B45A78721B15A /* CostaDisplayWave-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaDisplayWave-Bold.ttf"; path = "../src/assets/fonts/CostaDisplayWave-Bold.ttf"; sourceTree = "<group>"; };
 		7094C5569DB147A6BD92EE2D /* Gotham-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Light.otf"; path = "../src/assets/fonts/Gotham-Light.otf"; sourceTree = "<group>"; };
 		78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = ManusTrial.ttf; path = ../src/assets/fonts/ManusTrial.ttf; sourceTree = "<group>"; };
 		7D29F19131F94B1AA3C98FD5 /* GothamBook.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = GothamBook.ttf; path = ../src/assets/fonts/GothamBook.ttf; sourceTree = "<group>"; };
 		7EA3F8D214DCC95CCF6190B6 /* libPods-Costa-CostaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Costa-CostaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Costa/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		95EB021CE28840BA98E71CBF /* CostaText-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaText-Bold.ttf"; path = "../src/assets/fonts/CostaText-Bold.ttf"; sourceTree = "<group>"; };
 		A92E4AB1E839750FA60AB389 /* Pods-Costa.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Costa.release.xcconfig"; path = "Target Support Files/Pods-Costa/Pods-Costa.release.xcconfig"; sourceTree = "<group>"; };
 		ACF9F6F2FB43427781EA232A /* Gotham-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Bold.ttf"; path = "../src/assets/fonts/Gotham-Bold.ttf"; sourceTree = "<group>"; };
+		B7259BB8002E480FB0FF8296 /* CostaDisplayWave-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaDisplayWave-Regular.ttf"; path = "../src/assets/fonts/CostaDisplayWave-Regular.ttf"; sourceTree = "<group>"; };
 		C763F0D764434278B5F8C267 /* Gotham-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Medium.ttf"; path = "../src/assets/fonts/Gotham-Medium.ttf"; sourceTree = "<group>"; };
 		C940353327B929F10051F55F /* VisilabsMiniNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsMiniNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsMiniNotificationViewController.xib; sourceTree = "<group>"; };
 		C940353527B92A1C0051F55F /* VisilabsFullNotificationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = VisilabsFullNotificationViewController.xib; path = Pods/VisilabsIOS/Sources/TargetingAction/InAppNotification/Views/VisilabsFullNotificationViewController.xib; sourceTree = "<group>"; };
@@ -74,8 +84,10 @@
 		C9531AAB27A8519C0095D4C8 /* CostaRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = CostaRelease.entitlements; path = Costa/CostaRelease.entitlements; sourceTree = "<group>"; };
 		C9B5BC5227B9282D00DA4EFA /* Costa-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Costa-Bridging-Header.h"; sourceTree = "<group>"; };
 		C9B5BC5327B9282D00DA4EFA /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
+		E0F2834691674714B3AFDB64 /* CostaDisplayWave-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaDisplayWave-Light.ttf"; path = "../src/assets/fonts/CostaDisplayWave-Light.ttf"; sourceTree = "<group>"; };
 		E920932223E8491C95F5FC3D /* Gotham-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Gotham-Light.ttf"; path = "../src/assets/fonts/Gotham-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F1B68D822A1F49CDB299E5E1 /* CostaText-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "CostaText-Regular.ttf"; path = "../src/assets/fonts/CostaText-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,6 +216,12 @@
 				53142B7F46494387A15E311B /* BrandonGrotesque-Regular.otf */,
 				E920932223E8491C95F5FC3D /* Gotham-Light.ttf */,
 				78C006B9F64840D2B4AB0C2F /* ManusTrial.ttf */,
+				95EB021CE28840BA98E71CBF /* CostaText-Bold.ttf */,
+				0FAE28D475EA42A5818FAC1D /* CostaText-Light.ttf */,
+				F1B68D822A1F49CDB299E5E1 /* CostaText-Regular.ttf */,
+				67C6D1E64D3B45A78721B15A /* CostaDisplayWave-Bold.ttf */,
+				E0F2834691674714B3AFDB64 /* CostaDisplayWave-Light.ttf */,
+				B7259BB8002E480FB0FF8296 /* CostaDisplayWave-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -322,6 +340,12 @@
 				BE12B4C7587D4966AE08C08C /* BrandonGrotesque-Medium.otf in Resources */,
 				CDEAA69E98544773A71961B2 /* BrandonGrotesque-Regular.otf in Resources */,
 				D85422F8041A4C4C9B6B00B6 /* ManusTrial.ttf in Resources */,
+				61A1CA7070A941F1924BBC6D /* CostaText-Bold.ttf in Resources */,
+				F2051FE640D54DD684B676C7 /* CostaText-Light.ttf in Resources */,
+				F4DD2B6F04534D80BFFCACB1 /* CostaText-Regular.ttf in Resources */,
+				2448D2384A62444488F9B81F /* CostaDisplayWave-Bold.ttf in Resources */,
+				C20CA66F5A1748068C82A03F /* CostaDisplayWave-Light.ttf in Resources */,
+				19AA25507A094D7A96EA2F0B /* CostaDisplayWave-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,7 +602,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Costa/Costa.entitlements;
-				CURRENT_PROJECT_VERSION = 407;
+				CURRENT_PROJECT_VERSION = 409;
 				DEVELOPMENT_TEAM = GCWVWKFA74;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Costa/Info.plist;
@@ -608,7 +632,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Costa/CostaRelease.entitlements;
-				CURRENT_PROJECT_VERSION = 407;
+				CURRENT_PROJECT_VERSION = 409;
 				DEVELOPMENT_TEAM = GCWVWKFA74;
 				INFOPLIST_FILE = Costa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -662,7 +686,7 @@
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -723,7 +747,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "arm64 ";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
