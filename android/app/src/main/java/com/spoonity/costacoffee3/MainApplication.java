@@ -66,14 +66,14 @@ public class MainApplication extends Application implements ReactApplication {
         String geofenceUrl = "http://s.visilabs.net/geojson";
 
         Visilabs.CreateAPI(organizationId, siteId, segmentUrl,
-                datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, true);
+                datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, false);
 
         EuroMobileManager euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this);
 
         // optional
         euroMobileManager.setPushIntent("com.spoonity.costacoffee3.MainActivity", this);
-        euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher_foreground, this);
-        euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher_foreground, this);
+        euroMobileManager.setNotificationTransparentSmallIcon(R.drawable.ic_launcher_small, this);
+        euroMobileManager.setNotificationTransparentSmallIconDarkMode(R.drawable.ic_launcher_small, this);
         euroMobileManager.useNotificationLargeIcon(true);
         euroMobileManager.setNotificationLargeIcon(R.drawable.ic_launcher_foreground, this);
         euroMobileManager.setNotificationLargeIconDarkMode(R.drawable.ic_launcher_foreground, this);
