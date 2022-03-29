@@ -65,7 +65,7 @@ const AccountSettingsScreen = (props) => {
         );
     }
 
-    const email = 'support_cc@cc.com';
+    const email = 'support@costacoffeeclubuae.ae';
     const sendEmail = () => {
         Linking.openURL('mailto:'+{email})
     }
@@ -145,8 +145,8 @@ const AccountSettingsScreen = (props) => {
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})} style={styles.listItem}>
                     <Text style={styles.listItemText}>Add or Manage Gift Cards</Text>
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.CreditCards'})} style={styles.listItem}>
-                    <Text style={styles.listItemText}>Manage Payment Methods</Text>
+                <TouchableHighlight underlayColor="#DDDDDD" onPress={() => Alert.alert('Coming soon')} style={styles.listItem}>
+                    <Text style={[styles.listItemText, {color: Colors.BLUE_GRAY}]}>Manage Payment Methods</Text>
                 </TouchableHighlight>
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook}>
                     <View style={[styles.listItem, styles.passbookWrapper]}>

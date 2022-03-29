@@ -59,7 +59,6 @@ const OrdersListItem = (props) => {
     }
 
     const renderTitle = () => {
-        console.debug('props.item', props.item);
         // if(props.item.total === 0) return;
         return <View style={[styles.row, {paddingVertical: scaleSize(10)}]}>
             <View style={{flex:1}}>

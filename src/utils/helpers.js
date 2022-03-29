@@ -42,6 +42,11 @@ export let dateFormat = function (value, format) {
     return dayjs.unix(value).format(format)
 }
 
+export let toUnix = function (value) {
+    if(!value) return '-'
+    return dayjs(value).add(12, 'hour').unix();
+}
+
 export let dateFormatLocal = function (value, format) {
     if (!value) {
         return '-'

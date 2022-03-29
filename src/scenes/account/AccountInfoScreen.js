@@ -9,14 +9,14 @@ import {
     Pressable,
     Text,
     Keyboard,
-    TextInput,
+    TextInput, Alert,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
 import Button from '_components/atoms/Button'
 import { Controller, useForm } from 'react-hook-form'
 import { AuthStoreContext } from '_stores'
-import { emailValidator, phoneValidator, requiredValidation } from "_utils/validators";
+import { birthdateValidator, emailValidator, phoneValidator, requiredValidation } from "_utils/validators";
 import { request } from '_utils/request'
 import { observer } from 'mobx-react-lite'
 import SectionTitle from '_atoms/SectionTitle';
@@ -27,6 +27,7 @@ import CheckBox from "_atoms/CheckBox";
 import RightChevron from '_assets/images/right-chevron.svg';
 import ErrorIcon from "_assets/images/alerts/error.svg";
 import { visilabsApi } from "_utils/analytics";
+import { dateFormat, toUnix } from "_utils/helpers";
 
 const costCard = require('_assets/images/account/costa-card.png');
 const creditCard = require('_assets/images/account/credit-card.png');
@@ -35,7 +36,7 @@ const creditCard = require('_assets/images/account/credit-card.png');
 const AccountInfoScreen = observer((props) => {
     const authStore = React.useContext(AuthStoreContext);
     const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
-        mode: 'onSubmit',
+        mode: 'onChange',
         defaultValues: {
             first_name: authStore.user.first_name,
             last_name: authStore.user.last_name,
@@ -54,6 +55,8 @@ const AccountInfoScreen = observer((props) => {
 
     // ToDo Ask if extra validation is required for email and phone number
     const onSubmit = data => {
+        const birthdate = data.birthdate.split('-');
+        const invertedBirthdate = `${birthdate[2]}-${birthdate[1]}-${birthdate[0]}`;
         setLoading(true)
         Keyboard.dismiss();
         request('/user/profile.json', {
@@ -61,13 +64,14 @@ const AccountInfoScreen = observer((props) => {
             data: {
                 "first_name": data.first_name,
                 "last_name": data.last_name,
+                birthdate: toUnix(invertedBirthdate),
                 // "email_address": data.email_address,
                 // "phone_number": `971${data.phone_number}`,
                 "contact_consent": data.newsletter ? 3 : 2,
             },
             withToken: true,
             withoutJson: true,
-            success: function () {
+            success: function (res) {
                 authStore.getUser()
                 setLoading(false)
             },
@@ -205,14 +209,14 @@ const AccountInfoScreen = observer((props) => {
                         onBlur={onBlur}
                         onChangeText={value => onChange(value)}
                         value={value}
+                        onChange={onChange}
                         ref={ref}
-                        disabled={true}
-                        editable={false}
                         inputStyle={{color:Colors.GRAY_DARK2}}
                         error={errors.birthdate?.message}
                         label='Birthday'/>
                     )}
                     name="birthdate"
+                    rules={{ required: 'Date format should be: DD-MM-YYYY', pattern: birthdateValidator}}
                 />
                 <View style={styles.absoluteDivider}/>
                 <SectionTitle textStyle={styles.title}>Contact Preferences</SectionTitle>
@@ -243,10 +247,10 @@ const AccountInfoScreen = observer((props) => {
                     <RightChevron width={scaleSize(16)} height={scaleSize(16)} fill={'black'}/>
                 </Pressable>
                 <View style={styles.divider}/>
-                <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.cardRow}>
+                <Pressable onPress={() => Alert.alert('Coming soon')} style={styles.cardRow}>
                     <View style={styles.namesWrapper}>
                         <Image style={styles.cardIcon} source={creditCard}/>
-                        <Text style={styles.cardText}>Credit Cards</Text>
+                        <Text style={[styles.cardText, {color: Colors.BLUE_GRAY}]}>Credit Cards</Text>
                     </View>
                     <RightChevron width={scaleSize(16)} height={scaleSize(16)} fill={'black'}/>
                 </Pressable>
