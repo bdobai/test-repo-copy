@@ -91,7 +91,7 @@ const MessagesScreen = (props) => {
                 <Text style={styles.title}>{item.message.title}</Text>
                 <Text style={styles.date}>{dateFormat(item.message.publish_date, 'MMM-DD')}</Text>
             </View>
-            {item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
+            {!!item.message.banner && <View style={styles.imageWrapper}><Image source={{ uri: item.message.banner }} style={{width: '100%', height: '100%'}}/></View> }
             <View style={{paddingHorizontal: Spacing.SPACING_4, height: scaleSize(120)}}>
                 <WebView startInLoadingState={true} source={{ html: item.message.body }} originWhitelist={['*']} scrollEnabled={false} scalesPageToFit={false} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}/>
             </View>

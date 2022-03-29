@@ -43,6 +43,11 @@ export const phoneNumberValidator = {
     message: "Invalid phone number format"
 };
 
+export const birthdateValidator = {
+    value: /^(0[1-9]|[12][0-9]|3[01])[-](0[1-9]|1[012])[-](19|20|21)\d\d$/,
+    message: "Date format should be: DD-MM-YYYY"
+};
+
 export const requiredValidation = {
     value: true,
     message: "required"

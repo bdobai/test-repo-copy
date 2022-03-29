@@ -65,7 +65,7 @@ const AccountSettingsScreen = (props) => {
         );
     }
 
-    const email = 'support_cc@cc.com';
+    const email = 'support@costacoffeeclubuae.ae';
     const sendEmail = () => {
         Linking.openURL('mailto:'+{email})
     }

@@ -14,7 +14,7 @@ const StoreListItemNew = (props) => {
         if(day === 0){
             day = 7;
         }
-        return getNextOpen(props.item).day_of_week === day
+        return getNextOpen(props.item)?.day_of_week === day
     }
 
     const renderIsOpen = () => {
@@ -54,7 +54,7 @@ const StoreListItemNew = (props) => {
                         <Image resizeMode={'contain'} source={markerIcon} style={styles.pinIcon}/>
                         <Text style={styles.title}>{props.item.name}</Text>
                     </View>
-                    <Text numberOfLines={1} style={styles.text}>{getAddress()}</Text>
+                    <Text style={styles.text}>{getAddress()}</Text>
                     <View style={styles.titleWrapper}>
                         <Text style={styles.title}>{`${props.item.distance?.toFixed(2)} km | `}</Text>
                         {renderIsOpen()}
