@@ -9,7 +9,7 @@ import {
     Pressable,
     Text,
     Keyboard,
-    TextInput,
+    TextInput, Alert,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import Container from '_components/atoms/Container'
@@ -247,10 +247,10 @@ const AccountInfoScreen = observer((props) => {
                     <RightChevron width={scaleSize(16)} height={scaleSize(16)} fill={'black'}/>
                 </Pressable>
                 <View style={styles.divider}/>
-                <Pressable onPress={() => props.navigation.navigate('AccountSettings.GiftCards')} style={styles.cardRow}>
+                <Pressable onPress={() => Alert.alert('Coming soon')} style={styles.cardRow}>
                     <View style={styles.namesWrapper}>
                         <Image style={styles.cardIcon} source={creditCard}/>
-                        <Text style={styles.cardText}>Credit Cards</Text>
+                        <Text style={[styles.cardText, {color: Colors.BLUE_GRAY}]}>Credit Cards</Text>
                     </View>
                     <RightChevron width={scaleSize(16)} height={scaleSize(16)} fill={'black'}/>
                 </Pressable>
