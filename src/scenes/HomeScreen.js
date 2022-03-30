@@ -12,8 +12,8 @@ import giftHand from '_assets/images/home/gift-hand.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
-import banner from '_assets/images/home/banner.jpg';
-import banner2 from '_assets/images/home/banner_2.jpg';
+import banner from '_assets/images/home/banner.png';
+import banner2 from '_assets/images/home/banner_2.png';
 import useNotifications from "_utils/notifications-hook";
 import { AuthStoreContext } from "_stores";
 import AsyncStorage from "@react-native-async-storage/async-storage";
