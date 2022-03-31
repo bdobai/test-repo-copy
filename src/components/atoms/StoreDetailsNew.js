@@ -104,6 +104,7 @@ const StoreDetailsNew = (props) => {
 const styles = StyleSheet.create({
     wrapper: {
         paddingTop: Spacing.SPACING_4,
+        height: 500,
     },
     name: {
         fontSize: Typography.FONT_SIZE_18,

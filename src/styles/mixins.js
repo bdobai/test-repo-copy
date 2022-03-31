@@ -7,6 +7,7 @@ export const SCREEN_WIDTH = Dimensions.get('screen').width
 const guidelineBaseWidth = 414
 
 export const scaleSize = size => (WINDOW_WIDTH / guidelineBaseWidth) * size
+export const scaleVerticalSize = size => (WINDOW_HEIGHT / 1170) * size
 
 export const scaleFont = size => Math.ceil(size * (WINDOW_WIDTH / guidelineBaseWidth))
 // export const scaleFont = size => size * PixelRatio.getFontScale()
