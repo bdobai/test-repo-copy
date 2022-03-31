@@ -98,10 +98,14 @@ const AccountInfoScreen = observer((props) => {
             withToken: true,
             withoutJson: true,
             success: function (res) {
-                Alert.alert('An email has been sent to your adress.')
+                Alert.alert('You will receive an email to confirm the account deletion','', [  {
+                    text: 'Ok',
+                    onPress: () => {
+                        authStore.logout()
+                    }
+                }])
             },
             error: (e) => {
-                console.debug('swalalla', e);
                 setLoading(false)
             }
         });
