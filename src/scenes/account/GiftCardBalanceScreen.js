@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+    Alert,
     Image, StatusBar,
     StyleSheet,
     Text,
@@ -7,12 +8,13 @@ import {
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
 import balanceBackground from '_assets/images/home/balance-background.jpg';
-import { scaleSize } from "_styles/mixins";
+import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import Button from "_atoms/Button";
 import Spinner from "_atoms/Spinner";
 import { isIphone } from "_utils/helpers";
 import { visilabsApi } from "_utils/analytics";
+import giftCard from '_assets/images/gift_cards/gift_card.png';
 
 const GiftCardsScreen = (props) => {
     const [loading, setLoading] = useState(false);
@@ -54,13 +56,21 @@ const GiftCardsScreen = (props) => {
         props.navigation.navigate('AccountNavigator', {screen: 'AccountSettings.GiftCards'})
     }
 
+    const onReloadGiftCard = () => Alert.alert('Coming soon');
+
     return (
         <View style={ styles.giftCardScreen}>
            <View style={[styles.contentWrapper, loading ? {justifyContent: 'center'} : {justifyContent: 'flex-start'}]}>
+               <View style={styles.cardContainer}>
+                   <View style={styles.cardShadow}>
+                        <Image source={giftCard} style={styles.card} resizeMode={'stretch'}/>
+                   </View>
+               </View>
                {loading ? <Spinner size={'small'} color={Colors.PRIMARY}/> : <>
                    <Text style={ styles.title }>{`BALANCE: AED${balance?.amount.toFixed(2)}`}</Text>
                    <Text style={ styles.description }>Last updated: just now</Text>
-                   <Button type={'primary'} square={true} size={'sm'} text={'Add or Manage Gift Cards'} bodyStyle={styles.smallButton} onPress={onManage}/>
+                   <Button type={'primary'} square={true} size={'sm'} text={'Manage Gift Cards'} bodyStyle={styles.smallButton} onPress={onManage}/>
+                   <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Add Balance'} bodyStyle={[styles.smallButton, { marginTop: Spacing.SPACING_4 }]} onPress={onReloadGiftCard}/>
                </>
                }
             </View>
@@ -84,7 +94,7 @@ const styles = StyleSheet.create({
         fontSize: Typography.FONT_SIZE_24,
         fontFamily: Typography.FONT_PRIMARY_MEDIUM,
         marginBottom: Spacing.SPACING_5,
-        marginTop: scaleSize(100),
+        marginTop: Spacing.SPACING_6,
     },
     description: {
         fontSize: Typography.FONT_SIZE_16,
@@ -101,6 +111,29 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center'
+    },
+    cardContainer: {
+      width:'100%',
+      paddingHorizontal: Spacing.SPACING_6,
+      paddingTop: Spacing.SPACING_6,
+      backgroundColor: Colors.WHITE,
+    },
+    card: {
+        width:'100%',
+        height: (WINDOW_WIDTH-2*Spacing.SPACING_6)/1.53,
+        backgroundColor: Colors.WHITE,
+    },
+    cardShadow:{
+        backgroundColor:Colors.WHITE,
+        borderRadius: scaleSize(36),
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
     }
 })
 
