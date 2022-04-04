@@ -41,6 +41,7 @@ const RegisterScreen = (props) => {
         return unsubscribe;
     }, [props.navigation]);
 
+    const [differentEmails, setDifferentEmails] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -112,11 +113,31 @@ const RegisterScreen = (props) => {
         )
     }
 
+    const renderDifferentEmailsError = () => {
+        if(!differentEmails) return ;
+        return (
+            <View style={styles.emailErrorWrapper}>
+                <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR} style={{marginRight: Spacing.SPACING_2}}/>
+                <Text style={styles.emailError}>
+                    Emails do not match
+                </Text>
+            </View>
+        )
+    }
+
     const renderRightAccessory = () => {
         if(loading) return <ActivityIndicator />
         if(!emailStatus) return;
         if(emailStatus==='success') return <SuccessIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.WHITE} style={{backgroundColor:Colors.WHITE}} />
             return <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR}/>
+    }
+
+    const verifyConfirmEmail = () => {
+        if(!!getValues('confirmEmail') && getValues('email') !== getValues('confirmEmail')){
+            setDifferentEmails(true)
+        }else {
+            setDifferentEmails(false)
+        }
     }
 
     return <View style={{ flex: 1 }}>
@@ -179,6 +200,7 @@ const RegisterScreen = (props) => {
                                         onBlur={() => {
                                             onBlur();
                                             verifyEmail();
+                                            verifyConfirmEmail()
                                         }}
                                         placeholder={'Email'}
                                         onChangeText={value => onChange(value)}
@@ -201,9 +223,14 @@ const RegisterScreen = (props) => {
                                     <TextField
                                         autoCorrect={false}
                                         autoCapitalize={'none'}
-                                        onBlur={onBlur}
+                                        onBlur={() => {
+                                            onBlur()
+                                            verifyConfirmEmail()
+                                        }}
                                         placeholder={'Confirm email'}
-                                        onChangeText={value => onChange(value)}
+                                        onChangeText={value => {
+                                            onChange(value)
+                                        }}
                                         value={value}
                                         keyboardType={'email-address'}
                                         onSubmitEditing={() => setFocus('password')}
@@ -214,6 +241,7 @@ const RegisterScreen = (props) => {
                                 name="confirmEmail"
                                 defaultValue={''}
                             />
+                            {renderDifferentEmailsError()}
                             <Controller
                               control={control}
                               render={({ field: { ref, onChange, onBlur, value } }) => (
@@ -250,7 +278,7 @@ const RegisterScreen = (props) => {
                             />
                             <View style={styles.footer}>
                                 <Button
-                                    disabled={!formState.isValid}
+                                    disabled={!formState.isValid || differentEmails}
                                     bodyStyle={styles.button}
                                     onPress={handleSubmit(onSubmit)}
                                     block={true}

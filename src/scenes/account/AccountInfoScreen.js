@@ -28,6 +28,7 @@ import RightChevron from '_assets/images/right-chevron.svg';
 import ErrorIcon from "_assets/images/alerts/error.svg";
 import { visilabsApi } from "_utils/analytics";
 import { dateFormat, toUnix } from "_utils/helpers";
+import { vendor } from "_base/config/settings";
 
 const costCard = require('_assets/images/account/costa-card.png');
 const creditCard = require('_assets/images/account/credit-card.png');
@@ -87,6 +88,27 @@ const AccountInfoScreen = observer((props) => {
             <Image resizeMode={'contain'} style={styles.flagIcon} source={{uri: 'https://s3.amazonaws.com/spoonity-flags/ae.png'}}/>
             <TextInput editable={false} value={`(+971)`} allowFontScaling={false} style={styles.prefix}/>
         </View>
+    }
+
+    const onDeleteAccount = () => {
+
+        request(`/vendor/${vendor}/customers/${authStore.user.id}/submit`, {
+            method: 'DELETE',
+            data: {},
+            withToken: true,
+            withoutJson: true,
+            success: function (res) {
+                Alert.alert('You will receive an email to confirm the account deletion','', [  {
+                    text: 'Ok',
+                    onPress: () => {
+                        authStore.logout()
+                    }
+                }])
+            },
+            error: (e) => {
+                setLoading(false)
+            }
+        });
     }
 
 
@@ -255,10 +277,10 @@ const AccountInfoScreen = observer((props) => {
                     <RightChevron width={scaleSize(16)} height={scaleSize(16)} fill={'black'}/>
                 </Pressable>
                 <View style={styles.absoluteDivider}/>
-                <View style={styles.deleteContainer}>
+                <Pressable style={styles.deleteContainer} onPress={onDeleteAccount}>
                     <ErrorIcon width={scaleSize(20)} height={scaleSize(20)} fill={Colors.ERROR} style={{marginRight: Spacing.SPACING_2}}/>
                     <Text style={styles.delete}>Delete Account</Text>
-                </View>
+                </Pressable>
                 <View style={styles.absoluteDivider}/>
             </Container>
         </ScrollView>
@@ -365,7 +387,7 @@ const styles = StyleSheet.create({
         marginBottom: Spacing.SPACING_5,
         marginTop: Spacing.SPACING_1,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     }
 })
 

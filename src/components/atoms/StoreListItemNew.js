@@ -54,7 +54,7 @@ const StoreListItemNew = (props) => {
                         <Image resizeMode={'contain'} source={markerIcon} style={styles.pinIcon}/>
                         <Text style={styles.title}>{props.item.name}</Text>
                     </View>
-                    <Text style={styles.text}>{getAddress()}</Text>
+                        <Text style={styles.text}>{getAddress()}</Text>
                     <View style={styles.titleWrapper}>
                         <Text style={styles.title}>{`${props.item.distance?.toFixed(2)} km | `}</Text>
                         {renderIsOpen()}
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     container: {
         paddingTop: Spacing.SPACING_3,
         paddingHorizontal: Spacing.SPACING_4,
+        height: 120,
     },
     contentWrapper: {
         flexDirection: 'row',

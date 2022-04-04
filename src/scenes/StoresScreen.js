@@ -45,6 +45,7 @@ const StoresScreen = (props) => {
     const [onlineOrdering, setOnlineOrdering] = useState(false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
     const [searchedStores, setSearchedStores] = useState([]);
+    const [textSize, setTextSize] = useState(0);
 
     const actionSheetRef = useRef();
     const filtersActionSheetRef = useRef();
@@ -377,10 +378,11 @@ const StoresScreen = (props) => {
                 safeAreaInnerHeight={0}
                 gestureEnabled={true}
                 indicatorColor={'#404042'}
-                initialOffsetFromBottom={isIphone() ? 0.19 : 0.15}
+                // initialOffsetFromBottom={isIphone() ? textSize > 20 ? 0.1945 : 0.19 : textSize > 20 ? 0.152 : 0.15}
+                initialOffsetFromBottom={isIphone() ? 0.195 : 0.152 }
             >
                 <View>
-                    <StoreListItemNew item={currentStore} onPress={onStoreDetails}/>
+                    <StoreListItemNew item={currentStore} onPress={onStoreDetails} onTextSizeCalculated={setTextSize}/>
                     <StoreDetailsNew store={currentStore} onDirections={onDirections} user={authStore?.user}/>
                 </View>
             </ActionSheet>

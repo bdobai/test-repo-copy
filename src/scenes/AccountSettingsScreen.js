@@ -102,6 +102,7 @@ const AccountSettingsScreen = (props) => {
                 return;
             })
                 .catch(()=> setLoadingPassbook(false))
+            return;
         }
         request(`/vendor/107430/googlepaypass/1/export/${authStore.user.id}`, {
             method: 'GET',
