@@ -27,9 +27,23 @@ const HomeScreen = observer((props) => {
     const [rewards, setRewards] = useState(null);
     const [messages, setMessages] = useState(null);
     const [index, setIndex] = useState(0);
+    const [balance, setBalance] = useState(null);
     const authStore = React.useContext(AuthStoreContext);
 
     useNotifications(authStore?.user?.email_address, authStore?.user?.id);
+
+    useEffect(() => {
+        request('/user/quick-pay/balance.json', {
+            method: 'GET',
+            withToken: true,
+            data:{},
+            success: (response) => {
+                setBalance(response);
+            },
+            error: () => {
+            },
+        });
+    },[])
 
     const addExtra = async () => {
         return await euroMessageApi.setUserProperties({
@@ -223,7 +237,7 @@ const HomeScreen = observer((props) => {
         <BeansCard balance={getBalance()} tier={rewards?.tier?.current?.name}/>
         {renderReward()}
         {barcode && <BarcodeCard barcode={barcode} loading={loadingBarcode}/>}
-        <Button type={'primary'} square={true} size={'sm'} text={'Gift Card Balance'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
+        <Button type={'primary'} square={true} size={'sm'} text={balance ? `Gift Card-AED${balance?.amount?.toFixed(0)}` : 'Gift Card'} bodyStyle={styles.smallButton} onPress={onGiftCardBalance}/>
         <View style={styles.divider}/>
         <Button type={'outlinePrimary'} square={true} size={'sm'} text={'Click & Collect'} bodyStyle={styles.smallButton} onPress={onOrderOnline}/>
         <View style={styles.divider}/>
