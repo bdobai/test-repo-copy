@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
+    ActionSheetIOS,
     Alert,
     Image, Keyboard,
     Linking,
@@ -42,7 +43,7 @@ const StoresScreen = (props) => {
     const [showDetails, setShowDetails] = useState(false);
     const [searchFocused, setSearchFocused] = useState(false);
     const [availability, setAvailability] = useState(false)
-    const [onlineOrdering, setOnlineOrdering] = useState(false)
+    const [onlineOrdering, setOnlineOrdering] = useState(props.route.params?.clickAndCollect || false)
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
     const [searchedStores, setSearchedStores] = useState([]);
     const [textSize, setTextSize] = useState(0);
@@ -89,7 +90,7 @@ const StoresScreen = (props) => {
         AsyncStorage.getItem('stores').then((res) => {
             if(!res?.length) return;
             setStores(JSON.parse(res))
-            setFilteredStores(JSON.parse(res));
+            getOnlineOrderData(JSON.parse(res));
             setLoading(false);
         })
     },[])
@@ -127,13 +128,21 @@ const StoresScreen = (props) => {
             success: function(response) {
                 setStores(response.data);
                 AsyncStorage.setItem('stores', JSON.stringify(response.data))
-                setFilteredStores(response.data);
+                getOnlineOrderData(response.data);
                 setLoading(false);
             },
             error: () => {
                 setLoading(false);
             }
         });
+    }
+
+    const getOnlineOrderData = (data) => {
+        let filteredStores = data;
+        if(onlineOrdering === true) {
+            filteredStores = filteredStores.filter((item) => !!item.vendor_attribute?.length && !!item.vendor_attribute[0].link)
+        }
+        setFilteredStores([...filteredStores]);
     }
 
     const getData = () => {
@@ -192,25 +201,48 @@ const StoresScreen = (props) => {
         setShowDetails(true);
     }
 
-    const onDirections = async () => {
-        const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
-        const latLng = `${currentStore.latitude},${currentStore.longitude}`;
-        const label = currentStore.name;
-        const url = Platform.select({
-            ios: `${scheme}${label}@${latLng}`,
-            android: `${scheme}${latLng}(${label})`
-        });
-        try{
-            await Linking.openURL(url);
-        }catch (e){
-            await Linking.openURL(
-                createGoogleMapsUrl(
-                    currentStore.latitude,
-                    currentStore.longitude,
-                ),
-            );
+    const onIOSDirections = (options, index) => {
+        switch (options[index]){
+            case 'Maps':
+                return Linking.openURL(`maps://app?daddr=${currentStore.latitude}+${currentStore.longitude}`)
+            case 'Google Maps':
+                return Linking.openURL(`http://maps.google.com/?daddr=${currentStore.latitude},${currentStore.longitude}&directionsmode=driving`)
+            case 'Waze':
+                return Linking.openURL(`https://www.waze.com/ul?ll=${currentStore.latitude}%2C${currentStore.longitude}&navigate=yes&zoom=17`)
+            default:
+                return
         }
+    }
 
+    const onDirections = async () => {
+        if(!isIphone()) {
+            try {
+                await Linking.openURL(`geo:0,0?q=${currentStore.latitude},${currentStore.longitude}(${currentStore.name})`);
+            } catch (e) {
+                await Linking.openURL(
+                    createGoogleMapsUrl(
+                        currentStore.latitude,
+                        currentStore.longitude,
+                    ),
+                );
+            }
+            return;
+        }
+        const canOpenGoogleMaps = await Linking.canOpenURL('comgooglemaps://?center=40.765819,-73.975866&zoom=14&views=traffic')
+        const canOpenWaze= await Linking.canOpenURL('waze://ul?ll=47.0465,21.9189&navigate=yes')
+        const options = ['Maps']
+        canOpenGoogleMaps && options.push('Google Maps');
+        canOpenWaze && options.push('Waze');
+        options.push('Cancel');
+        ActionSheetIOS.showActionSheetWithOptions(
+            {
+                options: options,
+                destructiveButtonIndex: options?.length,
+                userInterfaceStyle: 'dark'
+            },
+            buttonIndex => {
+                onIOSDirections(options, buttonIndex)
+            })
     }
 
     const onCloseActionSheet = () => {

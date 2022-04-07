@@ -18,6 +18,12 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>waze</string>
+    <string>googlechromes</string>
+    <string>comgooglemaps</string>
+  </array>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>

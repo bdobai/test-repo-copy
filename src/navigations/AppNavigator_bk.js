@@ -60,6 +60,7 @@ const Tabs = () => (
       />
       <Tab.Screen name="Stores" component={StoresScreen}
                   options={{
+                      unmountOnBlur:true,
                       tabBarLabel: 'Stores',
                       tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Stores'} icon={<StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
                   }}

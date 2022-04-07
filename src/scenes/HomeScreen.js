@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Linking, Pressable, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    Alert,
+    Image,
+    Linking,
+    Pressable,
+    RefreshControl,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import { observer } from 'mobx-react-lite'
 import { Colors, Spacing, Typography } from "_styles";
 import BeansCard from "_atoms/BeansCard";
@@ -30,7 +41,19 @@ const HomeScreen = observer((props) => {
     const [balance, setBalance] = useState(null);
     const authStore = React.useContext(AuthStoreContext);
 
-    useNotifications(authStore?.user?.email_address, authStore?.user?.id);
+    const onSuccess = (data, id) => {
+        if(!data.length  || !id) return;
+        const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
+        if(index===-1) return;
+        props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
+
+    }
+
+    const onNotification = (id) => {
+        getMessages((data) => onSuccess(data, id))
+    }
+
+    useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
 
     useEffect(() => {
         request('/user/quick-pay/balance.json', {
@@ -114,7 +137,7 @@ const HomeScreen = observer((props) => {
         });
     }
 
-    const getMessages = () => {
+    const getMessages = (onSuccess) => {
         setLoadingMessages(true);
         request('/user/message/list.json', {
             method: 'GET',
@@ -123,6 +146,7 @@ const HomeScreen = observer((props) => {
             success: function (response) {
                 setMessages(response);
                 setLoadingMessages(false);
+                onSuccess && onSuccess(response)
             },
             error: (error) => {
                 console.log('error', error.error)
@@ -146,7 +170,7 @@ const HomeScreen = observer((props) => {
     }
 
     const onOrderOnline = () => {
-        return props.navigation.navigate('App', {screen:'Stores'})
+        return props.navigation.navigate('App', {screen:'Stores', params:{clickAndCollect:true}})
     }
 
     const onGiftCardBalance = () => {
