@@ -103,7 +103,21 @@ const ValidationNavigator = () => (
 
 const AppNavigator = observer(() => {
     const authStore = React.useContext(AuthStoreContext)
-
+    // const importData = async () => {
+    //     Alert.alert('a');
+    //     try {
+    //         const keys = await AsyncStorage.getAllKeys();
+    //         console.debug('result keys', keys);
+    //         const result = await AsyncStorage.multiGet(keys);
+    //         console.debug('result', result);
+    //     } catch (error) {
+    //         console.debug(error)
+    //     }
+    // }
+    //
+    // useEffect(() => {
+    //     importData()
+    // },[])
     // useEffect(() =>{
     //     addEventListener('register', async (token) => {
     //         Alert.alert('here 123');

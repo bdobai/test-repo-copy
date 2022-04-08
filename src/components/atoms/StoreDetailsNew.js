@@ -52,7 +52,7 @@ const StoreDetailsNew = (props) => {
 
     const renderButton = () => {
         if(!store.vendor_attribute.length || !store.vendor_attribute[0].link) return;
-        return <Button type={'outlinePrimary'} square={true} text={store.vendor_attribute[0]?.label} onPress={() => onPressOrderOnline(store)}/>
+        return <Button type={'outlinePrimary'} square={true} text={'Click & Collect'} onPress={() => onPressOrderOnline(store)}/>
     }
 
     const renderIsOpen = () => {

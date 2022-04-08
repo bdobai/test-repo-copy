@@ -4,7 +4,7 @@ import { logToConsole, addEventListener, removeEventListener, requestPermissions
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const useNotifications = (email, id, onNotifcation) => {
+const useNotifications = (email, id, onNotification) => {
     useEffect(() => {
         AsyncStorage.getItem('firstTime').then((res) => {
             if(res){
@@ -27,7 +27,7 @@ const useNotifications = (email, id, onNotifcation) => {
                 console.log('visilabsApi result', result)
             })
         }, (notificationPayload) => {
-            onNotifcation(notificationPayload.url)
+            onNotification(notificationPayload?.url)
             console.log('notification payload', notificationPayload)
         }, euroMessageApi, visilabsApi)
 
