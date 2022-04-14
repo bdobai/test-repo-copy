@@ -1,10 +1,20 @@
 import * as React from 'react';
 import { useEffect } from "react";
-import { logToConsole, addEventListener, removeEventListener, requestPermissions } from "react-native-related-digital";
+import {
+    logToConsole,
+    addEventListener,
+    removeEventListener,
+    requestPermissions,
+    setApplicationIconBadgeNumber,
+} from "react-native-related-digital";
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useNotifications = (email, id, onNotification) => {
+    useEffect(() => {
+        setApplicationIconBadgeNumber(0)
+    },[])
+
     useEffect(() => {
         AsyncStorage.getItem('firstTime').then((res) => {
             if(res){
