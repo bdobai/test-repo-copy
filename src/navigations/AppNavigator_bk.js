@@ -24,11 +24,9 @@ import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
 import ConfirmSmsScreen from "_scenes/auth/ConfirmSmsScreen";
 import EditPhoneNumber from "_scenes/auth/EditPhoneNumber";
 import BackButton from "_atoms/BackButton";
-import { euroMessageApi, visilabsApi } from "_utils/analytics";
-import {addEventListener} from "react-native-related-digital";
-import useNotifications from "_utils/notifications-hook";
-import { Alert } from "react-native";
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 export const isReadyRef = React.createRef();
 
@@ -103,31 +101,30 @@ const ValidationNavigator = () => (
 
 const AppNavigator = observer(() => {
     const authStore = React.useContext(AuthStoreContext)
-    // const importData = async () => {
-    //     Alert.alert('a');
-    //     try {
-    //         const keys = await AsyncStorage.getAllKeys();
-    //         console.debug('result keys', keys);
-    //         const result = await AsyncStorage.multiGet(keys);
-    //         console.debug('result', result);
-    //     } catch (error) {
-    //         console.debug(error)
-    //     }
-    // }
-    //
-    // useEffect(() => {
-    //     importData()
-    // },[])
-    // useEffect(() =>{
-    //     addEventListener('register', async (token) => {
-    //         Alert.alert('here 123');
-    //         // console.debug('first token', token);
-    //         // AsyncStorage.setItem('rd-token', token);
-    //         visilabsApi.register(token, () => {});
-    //     }, (notificationPayload) => {
-    //         console.log('notification payload', notificationPayload)
-    //     }, euroMessageApi, visilabsApi)
-    // },[])
+
+    const handleDynamicLink = (link) => {
+        if(!link) return;
+        let sessionKey = link.url?.split('session_key=').pop();
+        sessionKey = sessionKey.split('&')[0]
+        AsyncStorage.setItem('session_key', sessionKey).then(() => {
+            authStore.getUser();
+        })
+    }
+
+    useEffect(() => {
+        dynamicLinks()
+            .getInitialLink()
+            .then(link => {
+                handleDynamicLink(link)
+            });
+    }, []);
+
+    useEffect(() => {
+        dynamicLinks().onLink((link) => {
+            handleDynamicLink(link)
+        })
+    })
+
 
     if (!authStore.userLoaded) {
         return <Spinner visible={true}/>

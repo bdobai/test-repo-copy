@@ -47,8 +47,36 @@ const HomeScreen = observer((props) => {
 
     }
 
+    const handleRouting = (value) => {
+        switch (value) {
+            case 'giftCards':
+                return props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
+            case 'balance':
+                return props.navigation.navigate('Modal', {screen:'Gift Cards'})
+            case 'stores':
+                return props.navigation.navigate('Stores')
+            case 'storesClickAndCollect':
+                return props.navigation.navigate('Stores', {clickAndCollect:true})
+            case 'history':
+                return props.navigation.navigate('History')
+            case 'account':
+                return props.navigation.navigate('Account')
+            case 'personalInfo':
+                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
+            case 'faq':
+                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
+            case 'menu':
+                return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
+        }
+    }
+
     const onNotification = (id) => {
         if(!id) return;
+        const type = id?.toString().split('type:').pop()
+        if(type){
+            handleRouting(type);
+            return
+        }
         getMessages((data) => onSuccess(data, id))
     }
 

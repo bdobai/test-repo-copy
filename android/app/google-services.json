@@ -31,10 +31,11 @@
               "client_type": 3
             },
             {
-              "client_id": "885571467822-jaq2l5m5n17v9vj1jsklh5rktjs27pvm.apps.googleusercontent.com",
+              "client_id": "885571467822-98q719am5a7jd589ddltas5p5goisico.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.spoonity.costacoffee2"
+                "bundle_id": "com.spoonity.costacoffee2",
+                "app_store_id": "1503181406"
               }
             }
           ]
