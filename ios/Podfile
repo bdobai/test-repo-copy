@@ -3,6 +3,21 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '11.0'
 
+target 'RelatedDigitalNotificationService' do
+  pod 'react-native-related-digital', :path => '../node_modules/react-native-related-digital'
+
+  use_native_modules!
+end
+
+# Post Install processing for RelatedDigitalNotificationService causing errors
+def notification_service_post_install(installer)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'NO'
+    end
+  end
+end
+
 target 'Costa' do
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
@@ -26,6 +41,7 @@ target 'Costa' do
   use_flipper!()
 
   post_install do |installer|
+    notification_service_post_install(installer)
     react_native_post_install(installer)
   end
 end
