@@ -26,6 +26,10 @@ import EditPhoneNumber from "_scenes/auth/EditPhoneNumber";
 import BackButton from "_atoms/BackButton";
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import useNotifications from "_utils/notifications-hook";
+import { useNavigation } from "@react-navigation/native";
+import { Linking } from "react-native";
+import { request } from "_utils/request";
 
 
 export const isReadyRef = React.createRef();
@@ -37,52 +41,112 @@ const Tab = createBottomTabNavigator()
 const RootStack = createStackNavigator()
 const Stack = createStackNavigator()
 
-const Tabs = () => (
-  <Tab.Navigator sceneContainerStyle={navigationStyles.whiteCardStyle}
-                 initialRouteName={'Home'}
-                 tabBar={props => <TabBar {...props} />}
-                 screenOptions={{
-                     headerShown: false,
-                     tabBarActiveTintColor: Colors.PRIMARY,
-                 }}
-  >
-      <Tab.Screen name={'Home'} component={HomeNavigator}
-                  options={({navigation}) => ({
-                      headerShown: true,
-                      tabBarLabel: 'Home',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
-                      // headerStyle: navigationStyles.primaryHeader,
-                      // headerTitle:'',
-                      header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>,
-                  })}
-      />
-      <Tab.Screen name="Stores" component={StoresScreen}
-                  options={{
-                      unmountOnBlur:true,
-                      tabBarLabel: 'Stores',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Stores'} icon={<StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
-                  }}
-      />
-      <Tab.Screen name="History" component={HistoryScreen}
-                  options={{
-                      tabBarLabel: 'History',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'History'} icon={<HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
-                  }}
-      />
-      <Tab.Screen name="Account" component={AccountSettingsScreen}
-                  options={{
-                      headerTitleAlign: 'center',
-                      tabBarLabel: 'Account',
-                      tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<UserIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
-                      headerShown: true,
-                      cardStyle: navigationStyles.cardStyle,
-                      headerTitleStyle: navigationStyles.accountHeader,
-                      headerStyle: navigationStyles.primaryHeader,
-                      headerTitle: 'How Can We Help?',
-                  }}
-      />
-  </Tab.Navigator>
-)
+const Tabs = observer(() => {
+    const authStore = React.useContext(AuthStoreContext)
+    const navigation = useNavigation()
+
+    const handleRouting = (value) => {
+        switch (value) {
+            case 'giftCards':
+                return navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
+            case 'balance':
+                return navigation.navigate('Modal', {screen:'Gift Cards'})
+            case 'stores':
+                return navigation.navigate('Stores')
+            case 'storesClickAndCollect':
+                return navigation.navigate('Stores', {clickAndCollect:true})
+            case 'history':
+                return navigation.navigate('History')
+            case 'account':
+                return navigation.navigate('Account')
+            case 'personalInfo':
+                return navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
+            case 'faq':
+                return navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
+            case 'menu':
+                return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
+        }
+    }
+
+    const onSuccess = (data, id) => {
+        if(!data.length  || !id) return;
+        const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
+        if(index===-1) return;
+        navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
+
+    }
+
+    const getMessages = (onSuccess) => {
+        request('/user/message/list.json', {
+            method: 'GET',
+            withToken: true,
+            data:{},
+            success: function (response) {
+                onSuccess && onSuccess(response)
+            },
+            error: (error) => {
+            }
+        });
+    }
+
+    const onNotification = (id) => {
+        if(!id) return;
+        const type = id?.toString().split('type:').pop()
+        if(type && id.includes('type')){
+            handleRouting(type);
+            return
+        }
+        getMessages((data) => onSuccess(data, id))
+    }
+
+    useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
+    return (
+        <Tab.Navigator sceneContainerStyle={navigationStyles.whiteCardStyle}
+                       initialRouteName={'Home'}
+                       tabBar={props => <TabBar {...props} />}
+                       screenOptions={{
+                           headerShown: false,
+                           tabBarActiveTintColor: Colors.PRIMARY,
+                       }}
+        >
+            <Tab.Screen name={'Home'} component={HomeNavigator}
+                        options={({navigation}) => ({
+                            headerShown: true,
+                            tabBarLabel: 'Home',
+                            tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
+                            // headerStyle: navigationStyles.primaryHeader,
+                            // headerTitle:'',
+                            header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>,
+                        })}
+            />
+            <Tab.Screen name="Stores" component={StoresScreen}
+                        options={{
+                            unmountOnBlur:true,
+                            tabBarLabel: 'Stores',
+                            tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Stores'} icon={<StoresIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
+                        }}
+            />
+            <Tab.Screen name="History" component={HistoryScreen}
+                        options={{
+                            tabBarLabel: 'History',
+                            tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'History'} icon={<HistoryIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>
+                        }}
+            />
+            <Tab.Screen name="Account" component={AccountSettingsScreen}
+                        options={{
+                            headerTitleAlign: 'center',
+                            tabBarLabel: 'Account',
+                            tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Settings'} icon={<UserIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
+                            headerShown: true,
+                            cardStyle: navigationStyles.cardStyle,
+                            headerTitleStyle: navigationStyles.accountHeader,
+                            headerStyle: navigationStyles.primaryHeader,
+                            headerTitle: 'How Can We Help?',
+                        }}
+            />
+        </Tab.Navigator>
+    )
+})
 
 const ValidationNavigator = () => (
     <Stack.Navigator screenOptions={{

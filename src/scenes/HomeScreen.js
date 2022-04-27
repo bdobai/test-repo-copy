@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 import {
     Image,
     Linking,
@@ -39,48 +39,48 @@ const HomeScreen = observer((props) => {
     const [balance, setBalance] = useState(null);
     const authStore = React.useContext(AuthStoreContext);
 
-    const onSuccess = (data, id) => {
-        if(!data.length  || !id) return;
-        const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
-        if(index===-1) return;
-        props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
-
-    }
-
-    const handleRouting = (value) => {
-        switch (value) {
-            case 'giftCards':
-                return props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
-            case 'balance':
-                return props.navigation.navigate('Modal', {screen:'Gift Cards'})
-            case 'stores':
-                return props.navigation.navigate('Stores')
-            case 'storesClickAndCollect':
-                return props.navigation.navigate('Stores', {clickAndCollect:true})
-            case 'history':
-                return props.navigation.navigate('History')
-            case 'account':
-                return props.navigation.navigate('Account')
-            case 'personalInfo':
-                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
-            case 'faq':
-                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
-            case 'menu':
-                return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
-        }
-    }
-
-    const onNotification = (id) => {
-        if(!id) return;
-        const type = id?.toString().split('type:').pop()
-        if(type){
-            handleRouting(type);
-            return
-        }
-        getMessages((data) => onSuccess(data, id))
-    }
-
-    useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
+    // const onSuccess = (data, id) => {
+    //     if(!data.length  || !id) return;
+    //     const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
+    //     if(index===-1) return;
+    //     props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
+    //
+    // }
+    //
+    // const handleRouting = (value) => {
+    //     switch (value) {
+    //         case 'giftCards':
+    //             return props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
+    //         case 'balance':
+    //             return props.navigation.navigate('Modal', {screen:'Gift Cards'})
+    //         case 'stores':
+    //             return props.navigation.navigate('Stores')
+    //         case 'storesClickAndCollect':
+    //             return props.navigation.navigate('Stores', {clickAndCollect:true})
+    //         case 'history':
+    //             return props.navigation.navigate('History')
+    //         case 'account':
+    //             return props.navigation.navigate('Account')
+    //         case 'personalInfo':
+    //             return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
+    //         case 'faq':
+    //             return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
+    //         case 'menu':
+    //             return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
+    //     }
+    // }
+    //
+    // const onNotification = (id) => {
+    //     if(!id) return;
+    //     const type = id?.toString().split('type:').pop()
+    //     if(type && id.includes('type')){
+    //         handleRouting(type);
+    //         return
+    //     }
+    //     getMessages((data) => onSuccess(data, id))
+    // }
+    //
+    // useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
 
     useEffect(() => {
         request('/user/quick-pay/balance.json', {
