@@ -1,11 +1,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/bg"
-          android:gravity="fill"
+    <item android:drawable="@drawable/bg_2ave"
+        android:name="android:background"
     />
     <item
-        android:height="95dp"
-        android:width="250dp"
+        android:height="300dp"
+        android:width="300dp"
         android:gravity="center"
-        android:drawable="@drawable/logo"
+        android:drawable="@drawable/logo_2"
         />
 </layer-list>

@@ -162,6 +162,7 @@ export function cardFormat(value){
 export const isIphone = () => Platform.OS === 'ios'
 
 export const formatTimeUTC = (value) => {
+    if(value === 0) return dayjs.unix(12).utc().format('h:mm A')
     if(!value) return '';
     return dayjs.unix(value).utc().format('h:mm A')
 }

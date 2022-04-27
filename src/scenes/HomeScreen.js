@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { Image, Linking, Pressable, RefreshControl, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import {
+    Image,
+    Linking,
+    Pressable,
+    RefreshControl,
+    ScrollView,
+    StatusBar,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
 import { observer } from 'mobx-react-lite'
 import { Colors, Spacing, Typography } from "_styles";
 import BeansCard from "_atoms/BeansCard";
@@ -8,7 +18,7 @@ import { request } from "_utils/request";
 import BarcodeCard from "_atoms/BarcodeCard";
 import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import menuImage from '_assets/images/home/menu-image.jpg'
-import giftHand from '_assets/images/home/gift-hand.png'
+import freeDrink from '_assets/images/home/free_drink.png'
 import { isIphone } from "_utils/helpers";
 import Swiper from 'react-native-swiper'
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
@@ -16,7 +26,6 @@ import banner from '_assets/images/home/banner.jpg';
 import banner2 from '_assets/images/home/banner_2.jpg';
 import useNotifications from "_utils/notifications-hook";
 import { AuthStoreContext } from "_stores";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
@@ -30,7 +39,48 @@ const HomeScreen = observer((props) => {
     const [balance, setBalance] = useState(null);
     const authStore = React.useContext(AuthStoreContext);
 
-    useNotifications(authStore?.user?.email_address, authStore?.user?.id);
+    const onSuccess = (data, id) => {
+        if(!data.length  || !id) return;
+        const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
+        if(index===-1) return;
+        props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
+
+    }
+
+    const handleRouting = (value) => {
+        switch (value) {
+            case 'giftCards':
+                return props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
+            case 'balance':
+                return props.navigation.navigate('Modal', {screen:'Gift Cards'})
+            case 'stores':
+                return props.navigation.navigate('Stores')
+            case 'storesClickAndCollect':
+                return props.navigation.navigate('Stores', {clickAndCollect:true})
+            case 'history':
+                return props.navigation.navigate('History')
+            case 'account':
+                return props.navigation.navigate('Account')
+            case 'personalInfo':
+                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
+            case 'faq':
+                return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
+            case 'menu':
+                return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
+        }
+    }
+
+    const onNotification = (id) => {
+        if(!id) return;
+        const type = id?.toString().split('type:').pop()
+        if(type){
+            handleRouting(type);
+            return
+        }
+        getMessages((data) => onSuccess(data, id))
+    }
+
+    useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
 
     useEffect(() => {
         request('/user/quick-pay/balance.json', {
@@ -114,7 +164,7 @@ const HomeScreen = observer((props) => {
         });
     }
 
-    const getMessages = () => {
+    const getMessages = (onSuccess) => {
         setLoadingMessages(true);
         request('/user/message/list.json', {
             method: 'GET',
@@ -123,6 +173,7 @@ const HomeScreen = observer((props) => {
             success: function (response) {
                 setMessages(response);
                 setLoadingMessages(false);
+                onSuccess && onSuccess(response)
             },
             error: (error) => {
                 console.log('error', error.error)
@@ -146,7 +197,7 @@ const HomeScreen = observer((props) => {
     }
 
     const onOrderOnline = () => {
-        return props.navigation.navigate('App', {screen:'Stores'})
+        return props.navigation.navigate('App', {screen:'Stores', params:{clickAndCollect:true}})
     }
 
     const onGiftCardBalance = () => {
@@ -157,10 +208,9 @@ const HomeScreen = observer((props) => {
         if(!rewards?.data[0]?.available) return;
         return (
             <View style={styles.card}>
-                <Image source={giftHand} style={styles.hand}/>
+                <Image source={freeDrink} style={styles.hand}/>
                 <View style={styles.rewardWrapper}>
-                    <Text style={styles.timeFor}>Time for</Text>
-                    <Text style={styles.reward}>{rewards?.data[0]?.available} x {rewards?.data[0]?.name}!</Text>
+                    <Text style={styles.reward}>{`You have ${rewards?.data[0]?.available} x ${rewards?.data[0]?.name}!`}</Text>
                 </View>
             </View>
         )
@@ -303,21 +353,23 @@ const styles = StyleSheet.create({
     },
     reward: {
         fontFamily: Typography.FONT_PRIMARY_BOLD,
-        fontSize: Typography.FONT_SIZE_20,
+        fontSize: Typography.FONT_SIZE_16,
         fontWeight: "bold",
         color: Colors.PRIMARY
     },
     hand: {
-        height: scaleSize(70),
-        width: scaleSize(110),
+        height: scaleSize(40),
+        width: scaleSize(40),
         resizeMode: 'contain'
     },
     card: {
-        backgroundColor: '#F4F4F4',
-        borderRadius: scaleSize(5),
+        height: scaleSize(56),
+        borderRadius: scaleSize(28),
+        backgroundColor: 'rgb(228,215,228)',
         flexDirection: 'row',
+        alignItems:'center',
         paddingRight: Spacing.SPACING_4,
-        paddingLeft: Spacing.SPACING_1,
+        paddingLeft: Spacing.SPACING_4,
         marginHorizontal: Spacing.SPACING_5,
         marginBottom: Spacing.SPACING_4,
     },

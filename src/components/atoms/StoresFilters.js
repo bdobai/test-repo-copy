@@ -54,7 +54,7 @@ const StoresFilters = forwardRef((props, ref) => {
             <CheckBox
                 checked={onlineOrdering}
                 type={'square'}
-                label={'Accepting online order'}
+                label={'Click&Collect'}
                 style={{borderColor: Colors.BLACK}}
                 labelStyle={styles.checkBoxLabel}
                 onPress={onPressOnline}

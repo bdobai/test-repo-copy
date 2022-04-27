@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#f4f3ef',
         paddingHorizontal: Spacing.SPACING_4,
         marginHorizontal: Spacing.SPACING_5,
-        borderRadius: scaleSize(5),
+        borderRadius: scaleSize(28),
         paddingTop: Spacing.SPACING_2,
         paddingBottom: Spacing.SPACING_2,
         flexDirection: 'row',
