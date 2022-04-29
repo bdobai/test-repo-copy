@@ -131,8 +131,8 @@ android {
         applicationId "com.spoonity.costacoffee3"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 30603
+        versionName "4.0.0"
         multiDexEnabled true
     }
     splits {
@@ -145,14 +145,14 @@ android {
     }
     signingConfigs {
         debug {
-            storeFile file('debug.keystore')
-            storePassword 'android'
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-//            storeFile file(STORE_FILE)
-//            storePassword STORE_PASS
-//            keyAlias KEY_ALLIAS
-//            keyPassword KEY_PASS
+//            storeFile file('debug.keystore')
+//            storePassword 'android'
+//            keyAlias 'androiddebugkey'
+//            keyPassword 'android'
+            storeFile file(STORE_FILE)
+            storePassword STORE_PASS
+            keyAlias KEY_ALLIAS
+            keyPassword KEY_PASS
         }
         release {
             storeFile file(STORE_FILE)
@@ -169,7 +169,7 @@ android {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
 //            signingConfig signingConfigs.release
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
