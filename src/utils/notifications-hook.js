@@ -9,6 +9,8 @@ import {
 } from "react-native-related-digital";
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Alert, Linking} from "react-native";
+import messaging from "@react-native-firebase/messaging";
 
 const useNotifications = (email, id, onNotification) => {
     useEffect(() => {
@@ -33,12 +35,10 @@ const useNotifications = (email, id, onNotification) => {
                 visilabsApi.register(token);
                 euroMessageApi.subscribe(token)
             })
-            visilabsApi.register(token, (result) => {
-                console.log('visilabsApi result', result)
-            })
+            visilabsApi.register(token, (result) => {})
         }, (notificationPayload) => {
+            console.log(notificationPayload);
             onNotification(notificationPayload?.url)
-            console.log('notification payload', notificationPayload)
         }, euroMessageApi, visilabsApi)
 
         addEventListener('registrationError', async (registrationError) => {

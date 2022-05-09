@@ -66,7 +66,7 @@ public class MainApplication extends Application implements ReactApplication {
         String geofenceUrl = "http://s.visilabs.net/geojson";
 
         Visilabs.CreateAPI(organizationId, siteId, segmentUrl,
-                datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, false);
+                datasource, realtimeUrl, channel, this, targetUrl, actionUrl, 30000, geofenceUrl, true);
 
         EuroMobileManager euroMobileManager = EuroMobileManager.init(appAlias, huaweiAppAlias, this);
 

@@ -7,7 +7,6 @@ import {
     View,
 } from "react-native";
 import { Colors, Spacing, Typography } from '_styles'
-import balanceBackground from '_assets/images/home/balance-background.jpg';
 import { scaleSize, WINDOW_WIDTH } from "_styles/mixins";
 import { request } from "_utils/request";
 import Button from "_atoms/Button";
@@ -74,7 +73,6 @@ const GiftCardsScreen = (props) => {
                </>
                }
             </View>
-            <Image source={balanceBackground} style={styles.backgroundImage}/>
     </View>
     )
 }

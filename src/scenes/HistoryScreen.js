@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
     FlatList,
-    Image,
+    Image, Keyboard,
     Pressable,
     SafeAreaView,
     StatusBar,
@@ -197,8 +197,9 @@ const HistoryScreen = (props) => {
                 onBackdropPress={() => setModalVisible(false)}
                 backdropColor={Colors.BLACK}
                 backdropOpacity={0.2}
+                avoidKeyboard={true}
             >
-                <Pressable style={styles.centeredView}>
+                <Pressable style={styles.centeredView} onPress={Keyboard.dismiss}>
                     <View style={styles.modalView}>
                         <Pressable onPress={() => setModalVisible(false)} style={styles.modalClose} hitSlop={{top: scaleSize(10), bottom: scaleSize(10), left:scaleSize(10), right: scaleSize(10)}}>
                             <CloseIcon width={scaleSize(12)} height={scaleSize(12)} fill={Colors.BLACK}/>

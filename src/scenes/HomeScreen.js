@@ -201,7 +201,8 @@ const HomeScreen = observer((props) => {
     }
 
     const onGiftCardBalance = () => {
-        return props.navigation.navigate('Modal',  {screen: 'Balance'})
+        // return props.navigation.navigate('Modal',{screen:'Balance'})
+        return props.navigation.navigate('Gift Cards')
     }
 
     const renderReward = () => {

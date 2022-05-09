@@ -83,12 +83,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
+ 
   [RNBootSplash initWithStoryboard:@"LaunchScreen" rootView:rootView];
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
+  [RelatedDigitalPushModule initRelatedDigital:@"6B557846654856304732773D" profileId:@"4874496233646A4F5469493D" dataSource:@"costacoffee" appAlias:@"costacoffeeios" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:true askLocationPermmissionAtStart:false maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
 
-  [RelatedDigitalPushModule initRelatedDigital:@"6B557846654856304732773D" profileId:@"4874496233646A4F5469493D" dataSource:@"costacoffee" appAlias:@"costacoffeeios" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:false maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
+//  [RelatedDigitalPushModule initRelatedDigital:@"6B557846654856304732773D" profileId:@"4874496233646A4F5469493D" dataSource:@"costacoffee" appAlias:@"costacoffeeios" inAppNotificationsEnabled:true requestTimeoutSeconds:30 geofenceEnabled:false maxGeofenceCount:20 isIDFAEnabled:true loggingEnabled:true];
   return YES;
 }
 

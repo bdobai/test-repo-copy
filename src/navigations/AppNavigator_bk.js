@@ -111,12 +111,11 @@ const Tabs = observer(() => {
         >
             <Tab.Screen name={'Home'} component={HomeNavigator}
                         options={({navigation}) => ({
-                            headerShown: true,
+                            headerShown: false,
                             tabBarLabel: 'Home',
                             tabBarIcon: ({ focused }) => <TabIcon focused={focused} label={'Home'} icon={<HomeIcon width={scaleSize(24)} height={scaleSize(24)} fill={focused ? Colors.PRIMARY : Colors.GRAY_DARK2}/>}/>,
                             // headerStyle: navigationStyles.primaryHeader,
                             // headerTitle:'',
-                            header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>,
                         })}
             />
             <Tab.Screen name="Stores" component={StoresScreen}
@@ -170,6 +169,7 @@ const AppNavigator = observer(() => {
         if(!link) return;
         let sessionKey = link.url?.split('session_key=').pop();
         sessionKey = sessionKey.split('&')[0]
+        if(!sessionKey) return;
         AsyncStorage.setItem('session_key', sessionKey).then(() => {
             authStore.getUser();
         })

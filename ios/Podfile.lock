@@ -417,10 +417,10 @@ PODS:
     - React-Core
   - react-native-netinfo (6.0.2):
     - React-Core
-  - react-native-related-digital (0.2.1):
+  - react-native-related-digital (0.2.4):
     - Euromsg (= 2.5.4)
     - React
-    - VisilabsIOS (= 3.5.2)
+    - VisilabsIOS (= 3.6.2)
   - react-native-safe-area-context (3.3.2):
     - React-Core
   - react-native-webview (11.16.0):
@@ -527,7 +527,7 @@ PODS:
     - React-RCTImage
   - RNSVG (12.1.1):
     - React
-  - VisilabsIOS (3.5.2)
+  - VisilabsIOS (3.6.2)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -802,7 +802,7 @@ SPEC CHECKSUMS:
   react-native-google-maps: 17432eb7412df3c65d7c7c52ede085d0f5624f77
   react-native-maps: d752b0dd0e1951d815b1336332835aab6b4a836f
   react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
-  react-native-related-digital: 0f0487d2ae82ead43bde35cdc50d8e3ec429e687
+  react-native-related-digital: 3e24638a46efbb0edd1a61f91730fd403f523ec0
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   react-native-webview: 28a8636d97ee641f2ee8f20492d7a6c269c1d703
   React-perflogger: fd28ee1f2b5b150b00043f0301d96bd417fdc339
@@ -830,10 +830,10 @@ SPEC CHECKSUMS:
   RNNotifee: f1ba270897bd7491f889a1a257d0c038a43376f7
   RNScreens: 0591543e343c7444ea1756b6265d81a4295922c9
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
-  VisilabsIOS: 59c5198c6033790040a033ea652bd7981eccc168
+  VisilabsIOS: a353901d34dea794d73cb5c577f345d93e96c546
   Yoga: aa0cb45287ebe1004c02a13f279c55a95f1572f4
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 5ae0e06361e3f438b30cc15131d9661f1d3ca5a7
+PODFILE CHECKSUM: 692d7f035c9dd69a13cb8dc16e1700a4e132b129
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

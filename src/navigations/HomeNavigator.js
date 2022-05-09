@@ -1,10 +1,15 @@
 import * as React from 'react'
-import { createStackNavigator } from '@react-navigation/stack'
+import {CardStyleInterpolators, createStackNavigator} from '@react-navigation/stack'
 import HomeScreen from '_scenes/HomeScreen'
 import { useEffect } from "react";
 import messaging from '@react-native-firebase/messaging'
 import { isIphone } from "_utils/helpers";
 import notifee from '@notifee/react-native';
+import GiftCardBalanceScreen from "_scenes/account/GiftCardBalanceScreen";
+import HomeHeaderTitle from "_atoms/HomeHeaderTitle";
+import LeftChevron from "_assets/images/left-chevron.svg";
+import {scaleSize} from "_styles/mixins";
+import {navigationStyles} from "_styles/navigation";
 
 const Stack = createStackNavigator()
 function HomeNavigator () {
@@ -44,8 +49,21 @@ function HomeNavigator () {
     })
 
     return (
-      <Stack.Navigator initialRouteName="Home.Dashboard">
-          <Stack.Screen name="Home.Dashboard" component={HomeScreen} options={{headerShown: false}}/>
+      <Stack.Navigator initialRouteName="Home.Dashboard" screenOptions={{
+          headerMode: 'float',
+          headerBackImage: () => <LeftChevron fill={'#ffffff'} height={scaleSize(18)} width={scaleSize(52)}/>,
+          headerBackTitleVisible: false,
+          headerTitleStyle: navigationStyles.accountHeader,
+          headerStyle: navigationStyles.primaryHeader,
+          headerBackTitleStyle: navigationStyles.headerBackTitleStyle,
+          cardStyle: navigationStyles.cardStyle,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          headerTitleAlign: 'center',
+      }}>
+          <Stack.Screen name="Home.Dashboard" component={HomeScreen} options={({navigation}) => ({
+              header: () => <HomeHeaderTitle onInbox={() => navigation.navigate('Modal', {screen: 'Messages'})}/>
+          })}/>
+          <Stack.Screen name="Gift Cards" component={GiftCardBalanceScreen}/>
       </Stack.Navigator>
     )
 }

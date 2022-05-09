@@ -6895,10 +6895,10 @@ react-native-picker-select@^8.0.4:
     "@react-native-picker/picker" "^1.8.3"
     lodash.isequal "^4.5.0"
 
-react-native-related-digital@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-related-digital/-/react-native-related-digital-0.2.1.tgz#9f08f8d1731e9bc743515f6dd7e31141bae25d5f"
-  integrity sha512-OfEps3W38/87oNPRwmAGjQZobqxZd/UN3uJe+jXcLIZX1oSlyJAK0A1d1dalasQKB4LybohH9SHqu4QRE1lpWg==
+react-native-related-digital@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-related-digital/-/react-native-related-digital-0.2.4.tgz#6862d35621536c73df0ddd87216de5c6210eb8ca"
+  integrity sha512-94odKyyjb+n7z4vFRNMyA8WeI8lJyphhFgEHZlyISSXoUrSHZF2w4y8dv460bacKbjz7ATsabCle3A6AioEgcw==
   dependencies:
     querystring "^0.2.0"
 

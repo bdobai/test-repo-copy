@@ -21,15 +21,15 @@ const FaqScreen = (props) => {
 
     const getFaq = () => {
         setLoading(true);
-        request('/vendor/content/help-topics.json', {
+        request('/vendor/content/faq-content.json', {
             method: 'GET',
             data: {
                 "vendor": 107430,
-                "limit" : 1000
             },
             withToken: false,
             success: function (response) {
-                setData(response.data);
+                console.debug('response',response)
+                setData(response);
                 setLoading(false);
             },
             error: (error) => {
@@ -46,7 +46,7 @@ const FaqScreen = (props) => {
     return <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} enabled style={ styles.faqScreen}>
         <ScrollView style={{ flex: 1 }} bounces={false} showsVerticalScrollIndicator={false} contentContainerStyle={{paddingTop: HEADER_SPACE}}>
             <SafeAreaView keyboardShouldPersistTaps='handled' style={{ flex: 1 }}>
-            {data.map(function(d, id) {
+            {data?.map(function(d, id) {
                 return (
                 <Container style={ styles.container }>
                     <Text style={styles.faqTitle}>{d.title}</Text>

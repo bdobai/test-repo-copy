@@ -33,6 +33,7 @@ import { visilabsApi } from "_utils/analytics";
 import { ScrollView } from "react-native-gesture-handler";
 import { AuthStoreContext } from "_stores";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {requestLocationPermission} from "react-native-related-digital";
 
 const StoresScreen = (props) => {
     const [loading, setLoading] = useState(true)
@@ -47,6 +48,10 @@ const StoresScreen = (props) => {
     const [coords, setCoords] = useState({latitude:'25.2048', longitude:'55.2708'});
     const [searchedStores, setSearchedStores] = useState([]);
     const [textSize, setTextSize] = useState(0);
+
+    useEffect(() => {
+        requestLocationPermission()
+    },[])
 
     const actionSheetRef = useRef();
     const filtersActionSheetRef = useRef();
