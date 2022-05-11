@@ -149,12 +149,12 @@ const AccountSettingsScreen = (props) => {
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={() => Alert.alert('Coming soon')} style={styles.listItem}>
                     <Text style={[styles.listItemText, {color: Colors.BLUE_GRAY}]}>Manage Payment Methods</Text>
                 </TouchableHighlight>
-                <TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook}>
-                    <View style={[styles.listItem, styles.passbookWrapper]}>
-                        <Text style={styles.listItemText}>{renderPassbookText()}</Text>
-                        {loadingPassbook && <Spinner size={'small'} color={Colors.BLUE_GRAY}/>}
-                    </View>
-                </TouchableHighlight>
+                {/*<TouchableHighlight underlayColor="#DDDDDD" onPress={onDownloadPassbook}>*/}
+                {/*    <View style={[styles.listItem, styles.passbookWrapper]}>*/}
+                {/*        <Text style={styles.listItemText}>{renderPassbookText()}</Text>*/}
+                {/*        {loadingPassbook && <Spinner size={'small'} color={Colors.BLUE_GRAY}/>}*/}
+                {/*    </View>*/}
+                {/*</TouchableHighlight>*/}
 
                 <SectionTitle>SUPPORT</SectionTitle>
                 <TouchableHighlight underlayColor="#DDDDDD" onPress={() => sendEmail()} style={styles.listItem}>

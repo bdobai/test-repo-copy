@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {
     Image,
     Linking,
@@ -24,8 +24,8 @@ import Swiper from 'react-native-swiper'
 import { euroMessageApi, visilabsApi } from "_utils/analytics";
 import banner from '_assets/images/home/banner.jpg';
 import banner2 from '_assets/images/home/banner_2.jpg';
-import useNotifications from "_utils/notifications-hook";
 import { AuthStoreContext } from "_stores";
+import {useFocusEffect} from "@react-navigation/native";
 
 const HomeScreen = observer((props) => {
     const [refreshing, setRefreshing] = useState(false)
@@ -39,48 +39,11 @@ const HomeScreen = observer((props) => {
     const [balance, setBalance] = useState(null);
     const authStore = React.useContext(AuthStoreContext);
 
-    // const onSuccess = (data, id) => {
-    //     if(!data.length  || !id) return;
-    //     const index = data.findIndex((item) => (item.message?.message_id == id || item.user_message_id == id))
-    //     if(index===-1) return;
-    //     props.navigation.navigate('Modal', {screen: 'Messages.Details', params:{'item': data[index]}})
-    //
-    // }
-    //
-    // const handleRouting = (value) => {
-    //     switch (value) {
-    //         case 'giftCards':
-    //             return props.navigation.navigate('AccountNavigator', {screen:'AccountSettings.GiftCards'})
-    //         case 'balance':
-    //             return props.navigation.navigate('Modal', {screen:'Gift Cards'})
-    //         case 'stores':
-    //             return props.navigation.navigate('Stores')
-    //         case 'storesClickAndCollect':
-    //             return props.navigation.navigate('Stores', {clickAndCollect:true})
-    //         case 'history':
-    //             return props.navigation.navigate('History')
-    //         case 'account':
-    //             return props.navigation.navigate('Account')
-    //         case 'personalInfo':
-    //             return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.Info'})
-    //         case 'faq':
-    //             return props.navigation.navigate('AccountNavigator',  {screen:'AccountSettings.FAQ'})
-    //         case 'menu':
-    //             return Linking.openURL('https://docs.google.com/gview?embedded=true&url=https://www.costacoffee.ae/docs/costadeliverymenu.pdf');
-    //     }
-    // }
-    //
-    // const onNotification = (id) => {
-    //     if(!id) return;
-    //     const type = id?.toString().split('type:').pop()
-    //     if(type && id.includes('type')){
-    //         handleRouting(type);
-    //         return
-    //     }
-    //     getMessages((data) => onSuccess(data, id))
-    // }
-    //
-    // useNotifications(authStore?.user?.email_address, authStore?.user?.id, onNotification);
+    useFocusEffect(
+        useCallback(() => {
+            getMessages()
+        }, [props.navigation])
+    );
 
     useEffect(() => {
         request('/user/quick-pay/balance.json', {
@@ -231,9 +194,12 @@ const HomeScreen = observer((props) => {
         }
 
         return (
+            <>
+                <Text selectable={true} style={{alignSelf:'center'}}>{item.message.banner}</Text>
             <Pressable key={item.message.title} style={[styles.messageCard, { padding: 0, paddingVertical:0 }]} onPress={() => onPressMessage(item)}>
                 {item.message.banner && <Image source={{ uri: item.message.banner }} style={{ width:'100%', height: '100%' }} /> }
             </Pressable>
+            </>
         )
     }
 

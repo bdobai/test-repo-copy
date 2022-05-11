@@ -26,7 +26,7 @@ const MessagesDetailsScreen = (props) => {
             },
             success: function () {
                 setLoading(false);
-                props.navigation.navigate('Messages', {id:47})
+                props.navigation.navigate('Messages')
             },
             error: (error) => {
                 console.log('error', error.error.errors)
