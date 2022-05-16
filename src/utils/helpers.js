@@ -235,3 +235,24 @@ export const getNextOpen = (item) => {
     if(previous) return previous
     return null
 }
+
+export const getIsOpen = (schedule) => {
+    let day = dayjs().day();
+    if(day === 0){
+        day = 7;
+    }
+    let startHour = schedule[day].start_time
+    let endHour = schedule[day].end_time
+    if(startHour == endHour){
+        return true;
+    }
+    const hours = dayjs().get('hours')
+    const minutes = dayjs().get('minutes')
+    const seconds = hours*3600+minutes*60;
+    if(startHour < endHour) {
+        return (startHour < seconds) && (seconds < endHour)
+    }else {
+        endHour = endHour + 86400 // add one day
+        return (startHour < seconds) && (seconds< endHour)
+    }
+}

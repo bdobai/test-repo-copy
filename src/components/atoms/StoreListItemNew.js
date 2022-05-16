@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { Colors, Spacing, Typography } from "_styles";
 import { scaleSize } from "_styles/mixins";
-import { dayStringFromNumber, formatTimeUTC, getNextOpen, getOpenUntil } from "_utils/helpers";
+import {dayStringFromNumber, formatTimeUTC, getIsOpen, getNextOpen, getOpenUntil} from "_utils/helpers";
 import markerIcon from "_assets/images/stores/marker-new.png";
 import dayjs from "dayjs";
 
@@ -18,7 +18,8 @@ const StoreListItemNew = (props) => {
     }
 
     const renderIsOpen = () => {
-        if(props.item.store_hours.is_open){
+        const isOpen = getIsOpen(props.item.store_hours.data);
+        if(isOpen){
             return <View style={styles.openContainer}>
                 <Text style={styles.openText}>OPEN</Text>
                 <Text style={styles.until}>{getOpenUntil(props.item)}</Text>

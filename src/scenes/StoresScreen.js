@@ -23,7 +23,7 @@ import filterIcon from '_assets/images/stores/filter.png';
 import Geolocation from "react-native-geolocation-service";
 import { Colors, Spacing, Typography } from "_styles";
 import ActionSheet from "react-native-actions-sheet";
-import { createGoogleMapsUrl, isIphone } from "_utils/helpers";
+import {createGoogleMapsUrl, getIsOpen, isIphone} from "_utils/helpers";
 import StoreListItemNew from "_atoms/StoreListItemNew";
 import StoreDetailsNew from "_atoms/StoreDetailsNew";
 import currentLocationIcon from '_assets/images/stores/current-location.png';
@@ -309,7 +309,7 @@ const StoresScreen = (props) => {
     const onSaveFilters = (availability, onlineOrdering) => {
         let filteredStores = [...stores];
         if(availability === true){
-            filteredStores = filteredStores.filter((item) => item.store_hours.is_open === true)
+            filteredStores = filteredStores.filter((item) => getIsOpen(item.store_hours?.data) === true)
         }
         if(onlineOrdering === true) {
             filteredStores = filteredStores.filter((item) => !!item.vendor_attribute?.length && !!item.vendor_attribute[0].link)
